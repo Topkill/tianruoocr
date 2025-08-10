@@ -347,49 +347,45 @@ namespace TrOCR.Helper
         /// <param name="item">参数对象</param>
         private void SetProxy(HttpItem item)
         {
-            var isIeProxy = false;
-            if (!string.IsNullOrWhiteSpace(item.ProxyIp))
+            if (item.WebProxy != null)
             {
-                isIeProxy = item.ProxyIp.ToLower().Contains("ieproxy");
+                request.Proxy = item.WebProxy;
+                return;
             }
-            if (!string.IsNullOrWhiteSpace(item.ProxyIp) && !isIeProxy)
+
+            string proxyIpLower = item.ProxyIp?.ToLower();
+
+            if (string.IsNullOrWhiteSpace(proxyIpLower) || proxyIpLower.Contains("ieproxy"))
             {
-                //设置代理服务器
-                if (item.ProxyIp.Contains(":"))
-                {
-                    var plist = item.ProxyIp.Split(':');
-                    var myProxy = new WebProxy(plist[0].Trim(), Convert.ToInt32(plist[1].Trim()))
-                    {
-                        Credentials = new NetworkCredential(item.ProxyUserName, item.ProxyPwd)
-                    };
-                    //建议连接
-                    //给当前请求对象
-                    request.Proxy = myProxy;
-                }
-                else
-                {
-                    var myProxy = new WebProxy(item.ProxyIp, false)
-                    {
-                        Credentials = new NetworkCredential(item.ProxyUserName, item.ProxyPwd)
-                    };
-                    //建议连接
-                    //给当前请求对象
-                    request.Proxy = myProxy;
-                }
+                // System Proxy
+                request.Proxy = WebRequest.GetSystemWebProxy();
             }
-            else if (isIeProxy)
+            else if (proxyIpLower.Contains("noproxy"))
             {
-                //设置为IE代理
+                // No Proxy
+                request.Proxy = null;
             }
             else
             {
-                if (item.WebProxy != null)
+                // Custom Proxy
+                if (item.ProxyIp.Contains(":"))
                 {
-                    request.Proxy = item.WebProxy;
+                    var plist = item.ProxyIp.Split(':');
+                    var myProxy = new WebProxy(plist[0].Trim(), Convert.ToInt32(plist[1].Trim()));
+                    if (!string.IsNullOrWhiteSpace(item.ProxyUserName))
+                    {
+                        myProxy.Credentials = new NetworkCredential(item.ProxyUserName, item.ProxyPwd);
+                    }
+                    request.Proxy = myProxy;
                 }
                 else
                 {
-                    request.Proxy = WebRequest.GetSystemWebProxy();
+                    var myProxy = new WebProxy(item.ProxyIp, false);
+                    if (!string.IsNullOrWhiteSpace(item.ProxyUserName))
+                    {
+                        myProxy.Credentials = new NetworkCredential(item.ProxyUserName, item.ProxyPwd);
+                    }
+                    request.Proxy = myProxy;
                 }
             }
         }
