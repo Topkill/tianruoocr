@@ -204,6 +204,7 @@ namespace TrOCR.Helper
                 //设置本地的出口ip和端口
                 request.ServicePoint.BindIPEndPointDelegate = BindIPEndPointCallback;
             }
+            request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
             //设置Header参数
             if (item.Header != null && item.Header.Count > 0) foreach (var key in item.Header.AllKeys)
                 {

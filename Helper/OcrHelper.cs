@@ -43,7 +43,7 @@ namespace TrOCR.Helper
             var t = CommonHelper.GetTimeSpan(true);
             var sign = CommonHelper.Md5($"sogou_ocr_just_for_deepibasicOpenOcr{t}{imageData.Substring(0, Math.Min(1024, imageData.Length))}7f42cedccd1b3917c87aeb59e08b40ad");
             var data =
-                $"image={HttpUtility.UrlEncode(imageData)}&lang=zh-Chs&pid=sogou_ocr_just_for_deepi&salt={t}&service=basicOpenOcr&sign={sign}";
+                $"image={HttpUtility.UrlEncode(imageData).Replace("+", "%2B")}&lang=zh-Chs&pid=sogou_ocr_just_for_deepi&salt={t}&service=basicOpenOcr&sign={sign}";
             return CommonHelper.PostStrData(url, data, "", referer);
         }
 
