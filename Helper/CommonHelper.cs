@@ -123,7 +123,7 @@ namespace TrOCR.Helper
             switch (contentType)
             {
                 case 0:
-                    httpItem.ContentType = "application/x-www-form-urlencoded;charset=utf-8 ";
+                    httpItem.ContentType = "application/x-www-form-urlencoded;charset=utf-8";
                     break;
                 case 1:
                     httpItem.ContentType = "application/json;charset=utf-8";
