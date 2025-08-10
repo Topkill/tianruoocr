@@ -383,7 +383,14 @@ namespace TrOCR.Helper
             }
             else
             {
-                request.Proxy = item.WebProxy;
+                if (item.WebProxy != null)
+                {
+                    request.Proxy = item.WebProxy;
+                }
+                else
+                {
+                    request.Proxy = WebRequest.GetSystemWebProxy();
+                }
             }
         }
 
