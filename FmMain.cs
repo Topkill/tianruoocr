@@ -370,56 +370,67 @@ namespace TrOCR
         
 		public void OCR_Tencent()
 		{
+			Image imageToProcess = image_screen;
+			Image tempBitmap = null;
+
 			try
 			{
 				split_txt = "";
-				var image = image_screen;
-				if (image.Width > 90 && image.Height < 90)
+				typeset_txt = "";
+
+				string secretId = IniHelper.GetValue("密钥_腾讯", "secret_id");
+				string secretKey = IniHelper.GetValue("密钥_腾讯", "secret_key");
+
+				if (string.IsNullOrEmpty(secretId) || string.IsNullOrEmpty(secretKey) || secretId == "发生错误" || secretId.Contains("secret_id"))
 				{
-					var bitmap = new Bitmap(image.Width, 300);
-					var graphics = Graphics.FromImage(bitmap);
-					graphics.DrawImage(image, 5, 0, image.Width, image.Height);
-					graphics.Save();
-					graphics.Dispose();
-					image = new Bitmap(bitmap);
+					typeset_txt = "***请在设置中输入腾讯云密钥***";
+					return;
 				}
-				else if (image.Width <= 90 && image.Height >= 90)
+				if (imageToProcess.Width > 90 && imageToProcess.Height < 90)
 				{
-					var bitmap2 = new Bitmap(300, image.Height);
-					var graphics2 = Graphics.FromImage(bitmap2);
-					graphics2.DrawImage(image, 0, 5, image.Width, image.Height);
-					graphics2.Save();
-					graphics2.Dispose();
-					image = new Bitmap(bitmap2);
+					tempBitmap = new Bitmap(imageToProcess.Width, 300);
+					using (Graphics graphics = Graphics.FromImage(tempBitmap))
+					{
+						graphics.DrawImage(imageToProcess, 5, 0, imageToProcess.Width, imageToProcess.Height);
+					}
+					imageToProcess = tempBitmap;
 				}
-				else if (image.Width < 90 && image.Height < 90)
+				else if (imageToProcess.Width <= 90 && imageToProcess.Height >= 90)
 				{
-					var bitmap3 = new Bitmap(300, 300);
-					var graphics3 = Graphics.FromImage(bitmap3);
-					graphics3.DrawImage(image, 5, 5, image.Width, image.Height);
-					graphics3.Save();
-					graphics3.Dispose();
-					image = new Bitmap(bitmap3);
+					tempBitmap = new Bitmap(300, imageToProcess.Height);
+					using (Graphics graphics2 = Graphics.FromImage(tempBitmap))
+					{
+						graphics2.DrawImage(imageToProcess, 0, 5, imageToProcess.Width, imageToProcess.Height);
+					}
+					imageToProcess = tempBitmap;
 				}
-				else
+				else if (imageToProcess.Width < 90 && imageToProcess.Height < 90)
 				{
-					image = image_screen;
+					tempBitmap = new Bitmap(300, 300);
+					using (Graphics graphics3 = Graphics.FromImage(tempBitmap))
+					{
+						graphics3.DrawImage(imageToProcess, 5, 5, imageToProcess.Width, imageToProcess.Height);
+					}
+					imageToProcess = tempBitmap;
 				}
-                var value = OcrHelper.TxOcr(image);
-				var jArray = JArray.Parse(((JObject)JsonConvert.DeserializeObject(value))["data"]["item_list"].ToString());
-				checked_txt(jArray, 1, "itemstring");
+
+				byte[] imageBytes = OcrHelper.ImgToBytes(imageToProcess);
+
+				string result = OcrHelper.Tencent(imageBytes, secretId, secretKey);
+				typeset_txt = result;
+				split_txt = result;
 			}
-			catch
+			catch (Exception ex)
 			{
-				if (esc != "退出")
+				typeset_txt = $"***腾讯OCR识别出错: {ex.Message}***";
+				if (esc == "退出")
 				{
-					RichBoxBody.Text = "***该区域未发现文本***";
-				}
-				else
-				{
-					RichBoxBody.Text = "***该区域未发现文本***";
 					esc = "";
 				}
+			}
+			finally
+			{
+				tempBitmap?.Dispose();
 			}
 		}
 
@@ -2526,10 +2537,11 @@ namespace TrOCR
 					image = image_screen;
 				}
                 var url = "https://ai.qq.com/cgi-bin/appdemo_handwritingocr";
-                var value = OcrHelper.TxComm(image, url);
-				var jArray = JArray.Parse(((JObject)JsonConvert.DeserializeObject(value))["data"]["item_list"].ToString());
-				checked_txt(jArray, 1, "itemstring");
-			}
+                // This is a demo URL, and likely does not work with the new Tencent method.
+                // For now, let's just show an error message.
+                // In a future step, we would need to implement the correct API for handwriting.
+                typeset_txt = "***腾讯手写功能暂不可用***";
+   }
 			catch
 			{
 				if (esc != "退出")

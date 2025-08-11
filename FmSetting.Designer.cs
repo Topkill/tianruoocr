@@ -39,6 +39,11 @@
             this.text_baiduaccount = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.inPage腾讯接口 = new System.Windows.Forms.TabPage();
+            this.BoxTencentKey = new System.Windows.Forms.TextBox();
+            this.BoxTencentId = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
             this.Page_快捷键 = new System.Windows.Forms.TabPage();
             this.快捷键Button = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
@@ -105,6 +110,7 @@
             this.Page_密钥.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.inPage_百度接口.SuspendLayout();
+            this.inPage腾讯接口.SuspendLayout();
             this.Page_快捷键.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.page_常规.SuspendLayout();
@@ -322,6 +328,7 @@
             // tabControl2
             // 
             this.tabControl2.Controls.Add(this.inPage_百度接口);
+            this.tabControl2.Controls.Add(this.inPage腾讯接口);
             this.tabControl2.Location = new System.Drawing.Point(6, 6);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
@@ -378,6 +385,54 @@
             this.label9.TabIndex = 0;
             this.label9.Text = "账号：";
             // 
+            // inPage腾讯接口
+            // 
+            this.inPage腾讯接口.BackColor = System.Drawing.Color.White;
+            this.inPage腾讯接口.Controls.Add(this.BoxTencentKey);
+            this.inPage腾讯接口.Controls.Add(this.BoxTencentId);
+            this.inPage腾讯接口.Controls.Add(this.label17);
+            this.inPage腾讯接口.Controls.Add(this.label22);
+            this.inPage腾讯接口.Location = new System.Drawing.Point(4, 22);
+            this.inPage腾讯接口.Name = "inPage腾讯接口";
+            this.inPage腾讯接口.Padding = new System.Windows.Forms.Padding(3);
+            this.inPage腾讯接口.Size = new System.Drawing.Size(370, 98);
+            this.inPage腾讯接口.TabIndex = 1;
+            this.inPage腾讯接口.Text = "腾讯识别接口";
+            // 
+            // BoxTencentKey
+            // 
+            this.BoxTencentKey.BackColor = System.Drawing.Color.White;
+            this.BoxTencentKey.Location = new System.Drawing.Point(70, 55);
+            this.BoxTencentKey.Name = "BoxTencentKey";
+            this.BoxTencentKey.Size = new System.Drawing.Size(260, 21);
+            this.BoxTencentKey.TabIndex = 7;
+            // 
+            // BoxTencentId
+            // 
+            this.BoxTencentId.BackColor = System.Drawing.Color.White;
+            this.BoxTencentId.Location = new System.Drawing.Point(70, 20);
+            this.BoxTencentId.Name = "BoxTencentId";
+            this.BoxTencentId.Size = new System.Drawing.Size(260, 21);
+            this.BoxTencentId.TabIndex = 6;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(6, 58);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(65, 12);
+            this.label17.TabIndex = 5;
+            this.label17.Text = "SecretKey:";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(6, 23);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(59, 12);
+            this.label22.TabIndex = 4;
+            this.label22.Text = "SecretId:";
+            //
             // Page_快捷键
             // 
             this.Page_快捷键.BackColor = System.Drawing.Color.White;
@@ -1065,6 +1120,8 @@
             this.tabControl2.ResumeLayout(false);
             this.inPage_百度接口.ResumeLayout(false);
             this.inPage_百度接口.PerformLayout();
+            this.inPage腾讯接口.ResumeLayout(false);
+            this.inPage腾讯接口.PerformLayout();
             this.Page_快捷键.ResumeLayout(false);
             this.Page_快捷键.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -1097,155 +1154,80 @@
 		}
 
 		private global::System.ComponentModel.IContainer components;
-
 		private global::System.Windows.Forms.TabPage Page_代理;
-
 		private global::System.Windows.Forms.TabPage Page_密钥;
-
 		private global::System.Windows.Forms.TabPage Page_快捷键;
-
 		private global::System.Windows.Forms.TabPage page_常规;
-
 		private global::System.Windows.Forms.PictureBox pic_help;
-
 		private global::System.Windows.Forms.Button 常规Button;
-
 		private global::System.Windows.Forms.GroupBox groupBox2;
-
 		private global::System.Windows.Forms.NumericUpDown numbox_记录;
-
 		private global::System.Windows.Forms.Label label3;
-
 		private global::System.Windows.Forms.ComboBox cobBox_动画;
-
 		private global::System.Windows.Forms.Label label2;
-
 		private global::System.Windows.Forms.GroupBox groupBox1;
-
 		private global::System.Windows.Forms.CheckBox cbBox_开机;
-
 		private global::System.Windows.Forms.TabControl tab_标签;
-
 		private global::System.Windows.Forms.TabPage Page_更新;
-
 		private global::System.Windows.Forms.GroupBox groupBox3;
-
 		private global::System.Windows.Forms.PictureBox pictureBox_翻译文本;
-
 		private global::System.Windows.Forms.PictureBox pictureBox_文字识别;
-
 		private global::System.Windows.Forms.TextBox txtBox_识别界面;
-
 		private global::System.Windows.Forms.TextBox txtBox_记录界面;
-
 		private global::System.Windows.Forms.TextBox txtBox_翻译文本;
-
 		private global::System.Windows.Forms.TextBox txtBox_文字识别;
-
 		private global::System.Windows.Forms.Label label7;
-
 		private global::System.Windows.Forms.Label label6;
-
 		private global::System.Windows.Forms.Label label5;
-
 		private global::System.Windows.Forms.Label label4;
-
 		private global::System.Windows.Forms.PictureBox pictureBox_识别界面;
-
 		private global::System.Windows.Forms.PictureBox pictureBox_记录界面;
-
 		private global::System.Windows.Forms.Label label8;
-
 		private global::System.Windows.Forms.CheckBox cbBox_翻译;
-
 		private global::System.Windows.Forms.TabControl tabControl2;
-
 		private global::System.Windows.Forms.TabPage inPage_百度接口;
-
 		private global::System.Windows.Forms.TextBox text_baidupassword;
-
 		private global::System.Windows.Forms.TextBox text_baiduaccount;
-
 		private global::System.Windows.Forms.Label label10;
-
 		private global::System.Windows.Forms.Label label9;
-
 		private global::System.Windows.Forms.Button 快捷键Button;
-
 		private global::System.Windows.Forms.Button 密钥Button_apply;
-
 		private global::System.Windows.Forms.Button 密钥Button;
-
 		private global::System.Windows.Forms.GroupBox groupBox4;
-
 		private global::System.Windows.Forms.ComboBox combox_代理;
-
 		private global::System.Windows.Forms.Label label11;
-
 		private global::System.Windows.Forms.Button 代理Button;
-
 		private global::System.Windows.Forms.CheckBox chbox_代理服务器;
-
 		private global::System.Windows.Forms.TextBox text_密码;
-
 		private global::System.Windows.Forms.TextBox text_端口;
-
 		private global::System.Windows.Forms.Label label15;
-
 		private global::System.Windows.Forms.TextBox text_账号;
-
 		private global::System.Windows.Forms.TextBox text_服务器;
-
 		private global::System.Windows.Forms.Label label14;
-
 		private global::System.Windows.Forms.Label label13;
-
 		private global::System.Windows.Forms.Label label12;
-
 		private global::System.Windows.Forms.Button 更新Button_check;
-
 		private global::System.Windows.Forms.Button 更新Button;
-
 		private global::System.Windows.Forms.GroupBox groupBox5;
-
 		private global::System.Windows.Forms.Label label16;
-
 		private global::System.Windows.Forms.NumericUpDown numbox_间隔时间;
-
 		private global::System.Windows.Forms.CheckBox checkBox_更新间隔;
-
 		private global::System.Windows.Forms.CheckBox check_检查更新;
-
 		private global::System.Windows.Forms.CheckBox cbBox_弹窗;
-
 		private global::System.Windows.Forms.GroupBox groupBox6;
-
 		private global::System.Windows.Forms.TextBox textBox_path;
-
 		private global::System.Windows.Forms.Label label1;
-
 		private global::System.Windows.Forms.CheckBox cbBox_保存;
-
 		private global::System.Windows.Forms.Button btn_浏览;
-
 		private global::System.Windows.Forms.Button 百度_btn;
-
 		private global::System.Windows.Forms.GroupBox groupBox10;
-
 		private global::System.Windows.Forms.Button btn_音效;
-
 		private global::System.Windows.Forms.TextBox text_音效path;
-
 		private global::System.Windows.Forms.Label label18;
-
 		private global::System.Windows.Forms.CheckBox chbox_save;
-
 		private global::System.Windows.Forms.CheckBox chbox_copy;
-
 		private global::System.Windows.Forms.Label label20;
-
 		private global::System.Windows.Forms.Button btn_音效路径;
-
 		private global::System.Windows.Forms.CheckBox chbox_取色;
         private System.Windows.Forms.TabPage Page_反馈;
         private System.Windows.Forms.Label label21;
@@ -1257,5 +1239,10 @@
         private System.Windows.Forms.Label label_更新日期;
         private System.Windows.Forms.PictureBox pictureBox6;
         private System.Windows.Forms.TextBox txt_更新说明;
+        private System.Windows.Forms.TabPage inPage腾讯接口;
+        private System.Windows.Forms.TextBox BoxTencentKey;
+        private System.Windows.Forms.TextBox BoxTencentId;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label22;
     }
 }
