@@ -2290,7 +2290,7 @@ namespace TrOCR
 				{
 					text = text + jobject[words].ToString().Trim() + "\r\n";
 				}
-				else if (contain_ch(array[array.Length - lastlength].ToString()) && IsNum(array2[0].ToString()) && length3 - length2 < 4 && array2[1].ToString() == ".")
+				else if (array2.Length > 1 && contain_ch(array[array.Length - lastlength].ToString()) && IsNum(array2[0].ToString()) && length3 - length2 < 4 && array2[1].ToString() == ".")
 				{
 					text = text + jobject[words].ToString().Trim() + "\r\n";
 				}
@@ -3507,7 +3507,7 @@ namespace TrOCR
 				{
 					text = text.Trim() + "\r\n" + jobject4[words].ToString().Trim();
 				}
-				else if (IsNum(array[0].ToString()) && !contain_ch(array[1].ToString()) && flag)
+				else if (array.Length > 1 && IsNum(array[0].ToString()) && !contain_ch(array[1].ToString()) && flag)
 				{
 					text = text.Trim() + "\r\n" + jobject4[words].ToString().Trim() + "\r\n";
 				}
