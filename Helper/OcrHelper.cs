@@ -8,11 +8,20 @@ using System.Text;
 using System.Web;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
+using WeChatOcr;
 
 namespace TrOCR.Helper
 {
     public class OcrHelper
     {
+        private static ImageOcr ocr;
+
+        public static void Dispose()
+        {
+            ocr?.Dispose();
+        }
+
         public static string Tencent(byte[] image, string secretId, string secretKey)
         {
             try
@@ -267,6 +276,53 @@ namespace TrOCR.Helper
             {
                 return hmac.ComputeHash(msg);
             }
+        }
+        public static async Task<string> WeChat(byte[] imageBytes)
+        {
+            var tcs = new TaskCompletionSource<string>();
+            try
+            {
+                if (ocr == null)
+                {
+                    var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "wco_data");
+                    ocr = new ImageOcr(path);
+                }
+                ocr.Run(imageBytes, (path, result) =>
+                {
+                    try
+                    {
+                        if (result == null || result.OcrResult == null)
+                        {
+                            tcs.TrySetResult("WeChatOCR returned null result.");
+                            return;
+                        }
+                        var list = result.OcrResult.SingleResult;
+                        if (list == null)
+                        {
+                            tcs.TrySetResult("WeChatOCR get result is null");
+                            return;
+                        }
+                        var sb = new StringBuilder();
+                        foreach (var item in list)
+                        {
+                            if (item != null && !string.IsNullOrEmpty(item.SingleStrUtf8))
+                            {
+                                sb.AppendLine(item.SingleStrUtf8);
+                            }
+                        }
+                        tcs.TrySetResult(sb.ToString());
+                    }
+                    catch (Exception ex)
+                    {
+                        tcs.TrySetException(ex);
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                tcs.TrySetException(ex);
+            }
+            return await tcs.Task;
         }
     }
 }
