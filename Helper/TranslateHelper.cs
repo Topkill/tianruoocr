@@ -1,4 +1,6 @@
-﻿using System.Web;
+﻿using GTranslate.Translators;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace TrOCR.Helper
 {
@@ -29,6 +31,48 @@ namespace TrOCR.Helper
                 $"https://fanyi-app.baidu.com/transapp/agent.php?text={query}&os_lang=zh&imei=865166029384834&syslan=zh&type=trans_{lang}&version=9999&timestamp={t}&product=transapp&plat=android&netterm=WIFI&spd={speed}&req=tts&channel=bdguanwang&sign=";
             var sign = GetBdSign("", t, "", "", "tts", text, "");
             return url + sign;
+        }
+    }
+
+    public class GTranslateHelper
+    {
+        private static readonly GoogleTranslator _googleTranslator = new GoogleTranslator();
+        private static readonly BingTranslator _bingTranslator = new BingTranslator();
+        private static readonly MicrosoftTranslator _microsoftTranslator = new MicrosoftTranslator();
+        private static readonly YandexTranslator _yandexTranslator = new YandexTranslator();
+
+        public static async Task<string> TranslateAsync(string text, string toLanguage, string service)
+        {
+            try
+            {
+                ITranslator translator;
+                switch (service.ToLower())
+                {
+                    case "google":
+                        translator = _googleTranslator;
+                        break;
+                    case "bing":
+                        translator = _bingTranslator;
+                        break;
+                    case "microsoft":
+                        translator = _microsoftTranslator;
+                        break;
+                    case "yandex":
+                        translator = _yandexTranslator;
+                        break;
+                    default:
+                        // Fallback to Google by default
+                        translator = _googleTranslator;
+                        break;
+                }
+
+                var result = await translator.TranslateAsync(text, toLanguage);
+                return result.Translation;
+            }
+            catch (System.Exception e)
+            {
+                return $"Translation failed: {e.Message}";
+            }
         }
     }
 }

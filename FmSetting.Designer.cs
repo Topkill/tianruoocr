@@ -15,6 +15,13 @@
 
 		private void InitializeComponent()
 		{
+            this.groupBox_翻译接口 = new System.Windows.Forms.GroupBox();
+            this.radio_trans_yandex = new System.Windows.Forms.RadioButton();
+            this.radio_trans_microsoft = new System.Windows.Forms.RadioButton();
+            this.radio_trans_bing = new System.Windows.Forms.RadioButton();
+            this.radio_trans_tencent = new System.Windows.Forms.RadioButton();
+            this.radio_trans_baidu = new System.Windows.Forms.RadioButton();
+            this.radio_trans_google = new System.Windows.Forms.RadioButton();
             this.Page_代理 = new System.Windows.Forms.TabPage();
             this.代理Button = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -114,6 +121,7 @@
             this.Page_快捷键.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.page_常规.SuspendLayout();
+            this.groupBox_翻译接口.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -571,6 +579,7 @@
             // page_常规
             // 
             this.page_常规.BackColor = System.Drawing.Color.White;
+            this.page_常规.Controls.Add(this.groupBox_翻译接口);
             this.page_常规.Controls.Add(this.groupBox10);
             this.page_常规.Controls.Add(this.groupBox6);
             this.page_常规.Controls.Add(this.pic_help);
@@ -662,7 +671,88 @@
             this.label18.Size = new System.Drawing.Size(41, 12);
             this.label18.TabIndex = 3;
             this.label18.Text = "文件：";
-            // 
+            //
+            // groupBox_翻译接口
+            //
+            this.groupBox_翻译接口.Controls.Add(this.radio_trans_yandex);
+            this.groupBox_翻译接口.Controls.Add(this.radio_trans_microsoft);
+            this.groupBox_翻译接口.Controls.Add(this.radio_trans_bing);
+            this.groupBox_翻译接口.Controls.Add(this.radio_trans_tencent);
+            this.groupBox_翻译接口.Controls.Add(this.radio_trans_baidu);
+            this.groupBox_翻译接口.Controls.Add(this.radio_trans_google);
+            this.groupBox_翻译接口.Location = new System.Drawing.Point(6, 296);
+            this.groupBox_翻译接口.Name = "groupBox_翻译接口";
+            this.groupBox_翻译接口.Size = new System.Drawing.Size(378, 70);
+            this.groupBox_翻译接口.TabIndex = 9;
+            this.groupBox_翻译接口.TabStop = false;
+            this.groupBox_翻译接口.Text = "翻译接口";
+            //
+            // radio_trans_yandex
+            //
+            this.radio_trans_yandex.AutoSize = true;
+            this.radio_trans_yandex.Location = new System.Drawing.Point(280, 42);
+            this.radio_trans_yandex.Name = "radio_trans_yandex";
+            this.radio_trans_yandex.Size = new System.Drawing.Size(59, 16);
+            this.radio_trans_yandex.TabIndex = 5;
+            this.radio_trans_yandex.TabStop = true;
+            this.radio_trans_yandex.Text = "Yandex";
+            this.radio_trans_yandex.UseVisualStyleBackColor = true;
+            //
+            // radio_trans_microsoft
+            //
+            this.radio_trans_microsoft.AutoSize = true;
+            this.radio_trans_microsoft.Location = new System.Drawing.Point(180, 42);
+            this.radio_trans_microsoft.Name = "radio_trans_microsoft";
+            this.radio_trans_microsoft.Size = new System.Drawing.Size(77, 16);
+            this.radio_trans_microsoft.TabIndex = 4;
+            this.radio_trans_microsoft.TabStop = true;
+            this.radio_trans_microsoft.Text = "Microsoft";
+            this.radio_trans_microsoft.UseVisualStyleBackColor = true;
+            //
+            // radio_trans_bing
+            //
+            this.radio_trans_bing.AutoSize = true;
+            this.radio_trans_bing.Location = new System.Drawing.Point(90, 42);
+            this.radio_trans_bing.Name = "radio_trans_bing";
+            this.radio_trans_bing.Size = new System.Drawing.Size(47, 16);
+            this.radio_trans_bing.TabIndex = 3;
+            this.radio_trans_bing.TabStop = true;
+            this.radio_trans_bing.Text = "Bing";
+            this.radio_trans_bing.UseVisualStyleBackColor = true;
+            //
+            // radio_trans_tencent
+            //
+            this.radio_trans_tencent.AutoSize = true;
+            this.radio_trans_tencent.Location = new System.Drawing.Point(280, 20);
+            this.radio_trans_tencent.Name = "radio_trans_tencent";
+            this.radio_trans_tencent.Size = new System.Drawing.Size(65, 16);
+            this.radio_trans_tencent.TabIndex = 2;
+            this.radio_trans_tencent.TabStop = true;
+            this.radio_trans_tencent.Text = "Tencent";
+            this.radio_trans_tencent.UseVisualStyleBackColor = true;
+            //
+            // radio_trans_baidu
+            //
+            this.radio_trans_baidu.AutoSize = true;
+            this.radio_trans_baidu.Location = new System.Drawing.Point(180, 20);
+            this.radio_trans_baidu.Name = "radio_trans_baidu";
+            this.radio_trans_baidu.Size = new System.Drawing.Size(53, 16);
+            this.radio_trans_baidu.TabIndex = 1;
+            this.radio_trans_baidu.TabStop = true;
+            this.radio_trans_baidu.Text = "Baidu";
+            this.radio_trans_baidu.UseVisualStyleBackColor = true;
+            //
+            // radio_trans_google
+            //
+            this.radio_trans_google.AutoSize = true;
+            this.radio_trans_google.Location = new System.Drawing.Point(90, 20);
+            this.radio_trans_google.Name = "radio_trans_google";
+            this.radio_trans_google.Size = new System.Drawing.Size(59, 16);
+            this.radio_trans_google.TabIndex = 0;
+            this.radio_trans_google.TabStop = true;
+            this.radio_trans_google.Text = "Google";
+            this.radio_trans_google.UseVisualStyleBackColor = true;
+            //
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.btn_浏览);
@@ -719,7 +809,7 @@
             // 常规Button
             // 
             this.常规Button.BackColor = System.Drawing.Color.White;
-            this.常规Button.Location = new System.Drawing.Point(310, 297);
+            this.常规Button.Location = new System.Drawing.Point(309, 297);
             this.常规Button.Name = "常规Button";
             this.常规Button.Size = new System.Drawing.Size(75, 23);
             this.常规Button.TabIndex = 6;
@@ -849,7 +939,7 @@
             this.tab_标签.Location = new System.Drawing.Point(10, 2);
             this.tab_标签.Name = "tab_标签";
             this.tab_标签.SelectedIndex = 0;
-            this.tab_标签.Size = new System.Drawing.Size(398, 355);
+            this.tab_标签.Size = new System.Drawing.Size(398, 435);
             this.tab_标签.TabIndex = 0;
             this.tab_标签.SelectedIndexChanged += new System.EventHandler(this.tab_标签_SelectedIndexChanged);
             // 
@@ -954,7 +1044,7 @@
             // pic_help
             // 
             this.pic_help.Image = global::TrOCR.Properties.Resources.帮助;
-            this.pic_help.Location = new System.Drawing.Point(7, 296);
+            this.pic_help.Location = new System.Drawing.Point(7, 378);
             this.pic_help.Name = "pic_help";
             this.pic_help.Size = new System.Drawing.Size(27, 23);
             this.pic_help.TabIndex = 7;
@@ -1103,7 +1193,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(417, 368);
+            this.ClientSize = new System.Drawing.Size(417, 448);
             this.Controls.Add(this.tab_标签);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -1126,7 +1216,6 @@
             this.Page_快捷键.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.page_常规.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.groupBox6.ResumeLayout(false);
@@ -1136,6 +1225,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numbox_记录)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox_翻译接口.ResumeLayout(false);
+            this.groupBox_翻译接口.PerformLayout();
+            this.page_常规.ResumeLayout(false);
             this.tab_标签.ResumeLayout(false);
             this.Page_更新.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
@@ -1244,5 +1336,12 @@
         private System.Windows.Forms.TextBox BoxTencentId;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label22;
+        private global::System.Windows.Forms.GroupBox groupBox_翻译接口;
+        private global::System.Windows.Forms.RadioButton radio_trans_yandex;
+        private global::System.Windows.Forms.RadioButton radio_trans_microsoft;
+        private global::System.Windows.Forms.RadioButton radio_trans_bing;
+        private global::System.Windows.Forms.RadioButton radio_trans_tencent;
+        private global::System.Windows.Forms.RadioButton radio_trans_baidu;
+        private global::System.Windows.Forms.RadioButton radio_trans_google;
     }
 }

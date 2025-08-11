@@ -321,6 +321,38 @@ namespace TrOCR
 			{
 				chbox_取色.Checked = true;
 			}
+			var transService = IniHelper.GetValue("配置", "翻译接口");
+			if (transService == "发生错误")
+			{
+				radio_trans_google.Checked = true;
+			}
+			else
+			{
+				switch (transService)
+				{
+					case "Google":
+						radio_trans_google.Checked = true;
+						break;
+					case "Baidu":
+						radio_trans_baidu.Checked = true;
+						break;
+					case "Tencent":
+						radio_trans_tencent.Checked = true;
+						break;
+					case "Bing":
+						radio_trans_bing.Checked = true;
+						break;
+					case "Microsoft":
+						radio_trans_microsoft.Checked = true;
+						break;
+					case "Yandex":
+						radio_trans_yandex.Checked = true;
+						break;
+					default:
+						radio_trans_google.Checked = true;
+						break;
+				}
+			}
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -400,7 +432,7 @@ namespace TrOCR
 		{
 			if (tab_标签.SelectedTab == page_常规)
 			{
-				tab_标签.Height = (int)(350.0 * Program.Factor);
+				tab_标签.Height = (int)(400.0 * Program.Factor);
 				Height = tab_标签.Height + 50;
 			}
 			if (tab_标签.SelectedTab == Page_快捷键)
@@ -844,6 +876,28 @@ namespace TrOCR
 			{
 				IniHelper.SetValue("取色器", "类型", "HEX");
 			}
+			string transService = "Google";
+			if (radio_trans_baidu.Checked)
+			{
+				transService = "Baidu";
+			}
+			else if (radio_trans_tencent.Checked)
+			{
+				transService = "Tencent";
+			}
+			else if (radio_trans_bing.Checked)
+			{
+				transService = "Bing";
+			}
+			else if (radio_trans_microsoft.Checked)
+			{
+				transService = "Microsoft";
+			}
+			else if (radio_trans_yandex.Checked)
+			{
+				transService = "Yandex";
+			}
+			IniHelper.SetValue("配置", "翻译接口", transService);
 			DialogResult = DialogResult.OK;
 		}
 

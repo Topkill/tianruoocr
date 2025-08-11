@@ -25,6 +25,9 @@
 			this.trans_google = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.trans_baidu = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.trans_tencent = new global::System.Windows.Forms.ToolStripMenuItem();
+			this.trans_bing = new global::System.Windows.Forms.ToolStripMenuItem();
+			this.trans_microsoft = new global::System.Windows.Forms.ToolStripMenuItem();
+			this.trans_yandex = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.baidu_table = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.ali_table = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.ocr_table = new global::System.Windows.Forms.ToolStripMenuItem();
@@ -65,8 +68,6 @@
 			this.tencent_v = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.baidu_s = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.baidu_v = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.tencent = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.baidu = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.youdao = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.wechat = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.Chinese = new global::System.Windows.Forms.ToolStripMenuItem();
@@ -114,6 +115,12 @@
 			this.trans_baidu.Click += new global::System.EventHandler(this.Trans_baidu_Click);
 			this.trans_tencent.Text = "腾讯";
 			this.trans_tencent.Click += new global::System.EventHandler(this.Trans_tencent_Click);
+			this.trans_bing.Text = "Bing";
+			this.trans_bing.Click += new global::System.EventHandler(this.Trans_bing_Click);
+			this.trans_microsoft.Text = "Microsoft";
+			this.trans_microsoft.Click += new global::System.EventHandler(this.Trans_microsoft_Click);
+			this.trans_yandex.Text = "Yandex";
+			this.trans_yandex.Click += new global::System.EventHandler(this.Trans_yandex_Click);
 			this.menu_copy.Items.AddRange(new global::System.Windows.Forms.ToolStripItem[]
 			{
 				this.Trans_copy,
@@ -127,7 +134,10 @@
 			{
 				this.trans_google,
 				this.trans_baidu,
-				this.trans_tencent
+				this.trans_tencent,
+				this.trans_bing,
+				this.trans_microsoft,
+				this.trans_yandex
 			});
 			this.menu_copy.Font = new global::System.Drawing.Font("微软雅黑", 9f / global::TrOCR.Helper.StaticValue.DpiFactor, global::System.Drawing.FontStyle.Regular);
 			this.Main_copy.Text = "复制";
@@ -392,6 +402,9 @@
 		private global::System.Windows.Forms.ToolStripMenuItem trans_baidu;
 
 		private global::System.Windows.Forms.ToolStripMenuItem trans_tencent;
+		private global::System.Windows.Forms.ToolStripMenuItem trans_bing;
+		private global::System.Windows.Forms.ToolStripMenuItem trans_microsoft;
+		private global::System.Windows.Forms.ToolStripMenuItem trans_yandex;
 
 		private global::System.Windows.Forms.ToolStripMenuItem ocr_table;
 

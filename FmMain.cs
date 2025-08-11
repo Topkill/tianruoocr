@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
 using Emgu.CV;
@@ -864,7 +865,7 @@ namespace TrOCR
 			MinimumSize = new Size((int)font_base.Width * 23 * 2, (int)font_base.Height * 24);
 			Size = new Size((int)font_base.Width * 23 * 2, (int)font_base.Height * 24);
 			CheckForIllegalCrossThreadCalls = false;
-			new Thread(trans_Calculate).Start();
+			trans_Calculate();
 		}
 
 		private void Form_Resize(object sender, EventArgs e)
@@ -895,52 +896,81 @@ namespace TrOCR
 			RichBoxBody_T.richTextBox1.SelectAll();
 		}
 
-		public void trans_Calculate()
+		public async void trans_Calculate()
 		{
 			if (pinyin_flag)
 			{
 				googleTranslate_txt = HanToPinyin.GetFullPinyin(typeset_txt);
 			}
-			else if (typeset_txt == "")
+			else if (string.IsNullOrWhiteSpace(typeset_txt))
 			{
 				googleTranslate_txt = "";
 			}
 			else
 			{
-				if (interface_flag == "韩语")
+				string toLang = "en"; // Default target language
+				if (StaticValue.ZH2EN)
 				{
-					StaticValue.ZH2EN = false;
-					StaticValue.ZH2JP = false;
-					StaticValue.ZH2KO = true;
-					RichBoxBody_T.set_language = "韩语";
+					if (ch_count(typeset_txt.Trim()) > en_count(typeset_txt.Trim()) || (en_count(typeset_txt.Trim()) == 1 && ch_count(typeset_txt.Trim()) == 1))
+					{
+						toLang = "en";
+					}
+					else
+					{
+						toLang = "zh-CN";
+					}
 				}
-				if (interface_flag == "日语")
+				else if (StaticValue.ZH2JP)
 				{
-					StaticValue.ZH2EN = false;
-					StaticValue.ZH2JP = true;
-					StaticValue.ZH2KO = false;
-					RichBoxBody_T.set_language = "日语";
+					if (contain_jap(replaceStr(Del_ch(typeset_txt.Trim()))))
+					{
+						toLang = "zh-CN";
+					}
+					else
+					{
+						toLang = "ja";
+					}
 				}
-				if (interface_flag == "中英")
+				else if (StaticValue.ZH2KO)
 				{
-					StaticValue.ZH2EN = true;
-					StaticValue.ZH2JP = false;
-					StaticValue.ZH2KO = false;
-					RichBoxBody_T.set_language = "中英";
+					if (contain_kor(typeset_txt.Trim()))
+					{
+						toLang = "zh-CN";
+					}
+					else
+					{
+						toLang = "ko";
+					}
 				}
-				if (IniHelper.GetValue("配置", "翻译接口") == "谷歌")
+
+				string transService = IniHelper.GetValue("配置", "翻译接口");
+
+				switch (transService)
 				{
-					googleTranslate_txt = Translate_Google(typeset_txt);
-				}
-				if (IniHelper.GetValue("配置", "翻译接口") == "百度")
-				{
-					googleTranslate_txt = TranslateBaidu(typeset_txt);
-				}
-				if (IniHelper.GetValue("配置", "翻译接口") == "腾讯")
-				{
-					googleTranslate_txt = Translate_Tencent(typeset_txt);
+					case "谷歌":
+						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, toLang, "google");
+						break;
+					case "Bing":
+						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, toLang, "bing");
+						break;
+					case "Microsoft":
+						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, toLang, "microsoft");
+						break;
+					case "Yandex":
+						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, toLang, "yandex");
+						break;
+					case "百度":
+						googleTranslate_txt = TranslateBaidu(typeset_txt);
+						break;
+					case "腾讯":
+						googleTranslate_txt = Translate_Tencent(typeset_txt);
+						break;
+					default:
+						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, toLang, "google");
+						break;
 				}
 			}
+
 			PictureBox1.Visible = false;
 			PictureBox1.SendToBack();
 			Invoke(new Translate(translate_child));
@@ -1104,69 +1134,6 @@ namespace TrOCR
 			}
 		}
 
-		public string Translate_Google(string text)
-		{
-			var text2 = "";
-			try
-			{
-				var text3 = "zh-CN";
-				var text4 = "en";
-				if (StaticValue.ZH2EN)
-				{
-					if (ch_count(text.Trim()) > en_count(text.Trim()) || (en_count(text.Trim()) == 1 && ch_count(text.Trim()) == 1))
-					{
-						text3 = "zh-CN";
-						text4 = "en";
-					}
-					else
-					{
-						text3 = "en";
-						text4 = "zh-CN";
-					}
-				}
-				if (StaticValue.ZH2JP)
-				{
-					if (contain_jap(replaceStr(Del_ch(text.Trim()))))
-					{
-						text3 = "ja";
-						text4 = "zh-CN";
-					}
-					else
-					{
-						text3 = "zh-CN";
-						text4 = "ja";
-					}
-				}
-				if (StaticValue.ZH2KO)
-				{
-					if (contain_kor(text.Trim()))
-					{
-						text3 = "ko";
-						text4 = "zh-CN";
-					}
-					else
-					{
-						text3 = "zh-CN";
-						text4 = "ko";
-					}
-				}
-                var data = string.Concat("client=gtx&sl=", text3, "&tl=", text4, "&dt=t&q=",
-                    HttpUtility.UrlEncode(text)?.Replace("+", "%20"));
-                var html = CommonHelper.PostStrData("https://translate.google.cn/translate_a/single", data);
-
-				var jArray = (JArray)JsonConvert.DeserializeObject(html);
-				var count = ((JArray)jArray[0]).Count;
-				for (var i = 0; i < count; i++)
-				{
-					text2 += jArray[0][i][0].ToString();
-				}
-			}
-			catch (Exception)
-			{
-				text2 = "[谷歌接口报错]：\r\n1.网络错误或者文本过长。\r\n2.谷歌接口可能对于某些网络不能用，具体不清楚。可以尝试挂VPN试试。\r\n3.这个问题我没办法修复，请右键菜单更换百度、腾讯翻译接口。";
-			}
-			return text2;
-		}
 
 		public static string CookieCollectionToStrCookie(CookieCollection cookie)
 		{
@@ -3236,7 +3203,7 @@ namespace TrOCR
 			return new Bitmap(bitmap2);
 		}
 
-		public void 翻译文本()
+		public async void 翻译文本()
 		{
 			if (IniHelper.GetValue("配置", "快速翻译") == "True")
 			{
@@ -3244,17 +3211,31 @@ namespace TrOCR
 				try
 				{
 					trans_hotkey = GetTextFromClipboard();
-					if (IniHelper.GetValue("配置", "翻译接口") == "谷歌")
+		                  string transService = IniHelper.GetValue("配置", "翻译接口");
+		                  string toLang = "en"; // Simplified logic for hotkey, can be enhanced later
+					switch (transService)
 					{
-						data = Translate_Google(trans_hotkey);
-					}
-					if (IniHelper.GetValue("配置", "翻译接口") == "百度")
-					{
-						data = TranslateBaidu(trans_hotkey);
-					}
-					if (IniHelper.GetValue("配置", "翻译接口") == "腾讯")
-					{
-						data = Translate_Tencent(trans_hotkey);
+						case "谷歌":
+							data = await GTranslateHelper.TranslateAsync(trans_hotkey, toLang, "google");
+							break;
+						case "Bing":
+							data = await GTranslateHelper.TranslateAsync(trans_hotkey, toLang, "bing");
+							break;
+						case "Microsoft":
+							data = await GTranslateHelper.TranslateAsync(trans_hotkey, toLang, "microsoft");
+							break;
+						case "Yandex":
+							data = await GTranslateHelper.TranslateAsync(trans_hotkey, toLang, "yandex");
+							break;
+						case "百度":
+							data = TranslateBaidu(trans_hotkey);
+							break;
+						case "腾讯":
+							data = Translate_Tencent(trans_hotkey);
+							break;
+						default:
+							data = await GTranslateHelper.TranslateAsync(trans_hotkey, toLang, "google");
+							break;
 					}
 					Clipboard.SetData(DataFormats.UnicodeText, data);
 					SendKeys.SendWait("^v");
@@ -3274,7 +3255,7 @@ namespace TrOCR
 			FormBorderStyle = FormBorderStyle.Sizable;
 			Visible = true;
 			HelpWin32.SetForegroundWindow(StaticValue.mainHandle);
-            Show();
+		          Show();
 			WindowState = FormWindowState.Normal;
 			if (IniHelper.GetValue("工具栏", "顶置") == "True")
 			{
@@ -3610,30 +3591,67 @@ namespace TrOCR
 			Trans_foreach("百度");
 		}
 
+		      public void Trans_tencent_Click(object sender, EventArgs e)
+		      {
+		          Trans_foreach("腾讯");
+		      }
+
+		      public void Trans_bing_Click(object sender, EventArgs e)
+		      {
+		          Trans_foreach("Bing");
+		      }
+
+		      public void Trans_microsoft_Click(object sender, EventArgs e)
+		      {
+		          Trans_foreach("Microsoft");
+		      }
+
+		      public void Trans_yandex_Click(object sender, EventArgs e)
+		      {
+		          Trans_foreach("Yandex");
+		      }
+
 		private void Trans_foreach(string name)
 		{
+		          trans_baidu.Text = "百度";
+		          trans_google.Text = "谷歌";
+		          trans_tencent.Text = "腾讯";
+		          trans_bing.Text = "Bing";
+		          trans_microsoft.Text = "Microsoft";
+		          trans_yandex.Text = "Yandex";
+
 			if (name == "百度")
 			{
 				trans_baidu.Text = "百度√";
-				trans_google.Text = "谷歌";
-				trans_tencent.Text = "腾讯";
-				IniHelper.SetValue("配置", "翻译接口", "百度");
 			}
 			if (name == "谷歌")
 			{
-				trans_baidu.Text = "百度";
 				trans_google.Text = "谷歌√";
-				trans_tencent.Text = "腾讯";
-				IniHelper.SetValue("配置", "翻译接口", "谷歌");
 			}
 			if (name == "腾讯")
 			{
-				trans_google.Text = "谷歌";
-				trans_baidu.Text = "百度";
 				trans_tencent.Text = "腾讯√";
-				IniHelper.SetValue("配置", "翻译接口", "腾讯");
 			}
-		}
+		          if (name == "Bing")
+		          {
+		              trans_bing.Text = "Bing√";
+		          }
+		          if (name == "Microsoft")
+		          {
+		              trans_microsoft.Text = "Microsoft√";
+		          }
+		          if (name == "Yandex")
+		          {
+		              trans_yandex.Text = "Yandex√";
+		          }
+		          IniHelper.SetValue("配置", "翻译接口", name);
+		          if (transtalate_fla == "开启")
+		          {
+		              PictureBox1.Visible = true;
+		              PictureBox1.BringToFront();
+		              trans_Calculate();
+		          }
+		      }
 
 		private string TranslateBaidu(string content)
 		{
@@ -3699,10 +3717,6 @@ namespace TrOCR
 			return text;
 		}
 
-		public void Trans_tencent_Click(object sender, EventArgs e)
-		{
-			Trans_foreach("腾讯");
-		}
 
 		public string Content_Length(string text, string from, string to)
 		{
