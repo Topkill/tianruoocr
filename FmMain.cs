@@ -347,6 +347,7 @@ namespace TrOCR
 		{
 			minico.Dispose();
 			saveIniFile();
+			         OcrHelper.Dispose();
 			Process.GetCurrentProcess().Kill();
 		}
 
@@ -431,6 +432,27 @@ namespace TrOCR
 			finally
 			{
 				tempBitmap?.Dispose();
+			}
+		}
+
+		public void OCR_WeChat()
+		{
+			try
+			{
+				split_txt = "";
+				typeset_txt = "";
+				byte[] imageBytes = OcrHelper.ImgToBytes(image_screen);
+				string result = OcrHelper.WeChat(imageBytes).GetAwaiter().GetResult();
+				typeset_txt = result;
+				split_txt = result;
+			}
+			catch (Exception ex)
+			{
+				typeset_txt = $"***微信OCR识别出错: {ex.Message}***";
+				if (esc == "退出")
+				{
+					esc = "";
+				}
 			}
 		}
 
@@ -609,6 +631,11 @@ namespace TrOCR
 		public void OCR_youdao_Click(object sender, EventArgs e)
 		{
 			OCR_foreach("有道");
+		}
+
+		public void OCR_wechat_Click(object sender, EventArgs e)
+		{
+			OCR_foreach("微信");
 		}
 
 		public void change_Chinese_Click(object sender, EventArgs e)
@@ -1729,6 +1756,13 @@ namespace TrOCR
 				Invoke(new OcrThread(Main_OCR_Thread_last));
 				return;
 			}
+			if (interface_flag == "微信")
+			{
+				OCR_WeChat();
+				fmloading.FmlClose = "窗体已关闭";
+				Invoke(new OcrThread(Main_OCR_Thread_last));
+				return;
+			}
 			if (interface_flag == "公式")
 			{
 				OCR_Math();
@@ -2386,7 +2420,12 @@ namespace TrOCR
                     Refresh();
                     youdao.Text = "有道√";
                     break;
-                case "公式":
+                   case "微信":
+                    interface_flag = "微信";
+                    Refresh();
+                    wechat.Text = "微信√";
+                    break;
+                   case "公式":
                     interface_flag = "公式";
                     Refresh();
                     Mathfuntion.Text = "公式√";
@@ -4019,6 +4058,7 @@ namespace TrOCR
 			tencent.Text = "腾讯";
 			baidu.Text = "百度";
 			youdao.Text = "有道";
+			wechat.Text = "微信";
 			shupai.Text = "竖排";
 			ocr_table.Text = "表格";
 			ch_en.Text = "中英";

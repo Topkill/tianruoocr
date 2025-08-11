@@ -18,33 +18,54 @@ namespace TrOCR
         [STAThread]
         public static void Main(string[] args)
         {
-            var programStarted = new EventWaitHandle(false, EventResetMode.AutoReset, "天若OCR文字识别", out var needNew);
-            if (!needNew)
-            {
-                programStarted.Set();
-                CommonHelper.ShowHelpMsg("软件已经运行");
-                return;
-            }
-            InitConfig();
-            DealErrorConfig();
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            var version = Environment.OSVersion.Version;
-            var value = new Version("6.1");
-            Factor = CommonHelper.GetDpiFactor();
-            if (version.CompareTo(value) >= 0)
-            {
-                CommonHelper.SetProcessDPIAware();
-            }
-            if (args.Length != 0 && args[0] == "更新")
-            {
-                new FmSetting
-                {
-                    Start_set = ""
-                }.ShowDialog();
-            }
-            Task.Factory.StartNew(CheckUpdate);
-            Application.Run(new FmMain());
+        	try
+        	{
+        		Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+        		Application.ThreadException += Application_ThreadException;
+        		AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+      
+        		var programStarted = new EventWaitHandle(false, EventResetMode.AutoReset, "天若OCR文字识别", out var needNew);
+        		if (!needNew)
+        		{
+        			programStarted.Set();
+        			CommonHelper.ShowHelpMsg("软件已经运行");
+        			return;
+        		}
+        		InitConfig();
+        		DealErrorConfig();
+        		Application.EnableVisualStyles();
+        		Application.SetCompatibleTextRenderingDefault(false);
+        		var version = Environment.OSVersion.Version;
+        		var value = new Version("6.1");
+        		Factor = CommonHelper.GetDpiFactor();
+        		if (version.CompareTo(value) >= 0)
+        		{
+        			CommonHelper.SetProcessDPIAware();
+        		}
+        		if (args.Length != 0 && args[0] == "更新")
+        		{
+        			new FmSetting
+        			{
+        				Start_set = ""
+        			}.ShowDialog();
+        		}
+        		Task.Factory.StartNew(CheckUpdate);
+        		Application.Run(new FmMain());
+        	}
+        	catch (Exception ex)
+        	{
+        		MessageBox.Show("捕获到未处理异常: " + ex.ToString(), "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        	}
+        }
+      
+        private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
+        {
+        	MessageBox.Show("捕获到线程异常: " + e.Exception.ToString(), "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+      
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+        	MessageBox.Show("捕获到未经处理的异常: " + e.ExceptionObject.ToString(), "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         
