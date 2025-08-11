@@ -2175,11 +2175,11 @@ namespace TrOCR
 				var jArray = JArray.Parse(((JObject)JsonConvert.DeserializeObject(value))["result"].ToString());
 				if (IniHelper.GetValue("工具栏", "分段") == "True")
 				{
-					checked_location_sougou(jArray, 2, "content", "frame");
+					checked_location_sougou(jArray, 1, "content", "frame");
 				}
 				else
 				{
-					checked_txt(jArray, 2, "content");
+					checked_txt(jArray, 1, "content");
 				}
 				image.Dispose();
 			}
