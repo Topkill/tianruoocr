@@ -431,7 +431,7 @@ namespace TrOCR
 
         public void toolStripButtonSplit_Click(object sender, EventArgs e)
         {
-            this.richTextBox1.Text = StaticValue.v_Split;
+            this.Text = StaticValue.v_Split;
             Application.DoEvents();
             HelpWin32.SetForegroundWindow(StaticValue.mainHandle);
         }
@@ -458,7 +458,7 @@ namespace TrOCR
 
         public void toolStripButtonMerge_Click(object sender, EventArgs e)
         {
-            string text = this.richTextBox1.Text.TrimEnd(new char[]
+            string text = this.Text.TrimEnd(new char[]
             {
                 '\n'
             }).TrimEnd(new char[]
@@ -495,7 +495,7 @@ namespace TrOCR
                 {
                     text2 += array[array.Length - 1];
                 }
-                this.richTextBox1.Text = text2;
+                this.Text = text2;
             }
             Application.DoEvents();
             HelpWin32.SetForegroundWindow(StaticValue.mainHandle);
