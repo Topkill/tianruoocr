@@ -353,9 +353,17 @@ namespace TrOCR
             }
             set
             {
-                this.richTextBox1.Font = new Font("Times New Roman", 16f * Program.Factor, GraphicsUnit.Pixel);
+                this.richTextBox1.BeginUpdate();
                 this.richTextBox1.Text = value;
-                this.richTextBox1.Font = new Font("Times New Roman", 16f * Program.Factor, GraphicsUnit.Pixel);
+                this.richTextBox1.SelectAll();
+                this.richTextBox1.SelectionFont = new Font("Times New Roman", 16f * Program.Factor, GraphicsUnit.Pixel);
+                this.richTextBox1.SelectionAlignment = HelpRepaint.TextAlign.Justify;
+                this.indent_two(1);
+                this.richTextBox1.SetLine = "行高";
+                this.richTextBox1.Select(0, 0);
+                this.richTextBox1.EndUpdate();
+                this.richTextBox1.ScrollBars = RichTextBoxScrollBars.None;
+                this.richTextBox1.ScrollBars = RichTextBoxScrollBars.Vertical;
             }
         }
 
