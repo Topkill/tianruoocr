@@ -385,6 +385,7 @@ namespace TrOCR
 				if (string.IsNullOrEmpty(secretId) || string.IsNullOrEmpty(secretKey) || secretId == "发生错误" || secretId.Contains("secret_id"))
 				{
 					typeset_txt = "***请在设置中输入腾讯云密钥***";
+					split_txt = typeset_txt;
 					return;
 				}
 				if (imageToProcess.Width > 90 && imageToProcess.Height < 90)
@@ -424,6 +425,7 @@ namespace TrOCR
 			catch (Exception ex)
 			{
 				typeset_txt = $"***腾讯OCR识别出错: {ex.Message}***";
+				split_txt = typeset_txt;
 				if (esc == "退出")
 				{
 					esc = "";
@@ -2384,6 +2386,7 @@ namespace TrOCR
 
 		private void OCR_foreach(string name)
 		{
+			OcrHelper.Dispose();
 			var filePath = AppDomain.CurrentDomain.BaseDirectory + "Data\\config.ini";
 			switch (name)
             {

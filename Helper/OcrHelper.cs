@@ -19,7 +19,11 @@ namespace TrOCR.Helper
 
         public static void Dispose()
         {
-            ocr?.Dispose();
+            if (ocr != null)
+            {
+                ocr.Dispose();
+                ocr = null;
+            }
         }
 
         public static string Tencent(byte[] image, string secretId, string secretKey)
