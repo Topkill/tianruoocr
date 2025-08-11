@@ -307,13 +307,50 @@ namespace TrOCR.Helper
                             return;
                         }
                         var sb = new StringBuilder();
+                        var items = new System.Collections.Generic.List<dynamic>();
+
                         foreach (var item in list)
                         {
-                            if (item != null && !string.IsNullOrEmpty(item.SingleStrUtf8))
+                            if (item == null || string.IsNullOrEmpty(item.SingleStrUtf8)) continue;
+                            items.Add(new { Text = item.SingleStrUtf8, Left = item.Left, Top = item.Top, Right = item.Right, Bottom = item.Bottom });
+                        }
+
+                        if (items.Count > 0)
+                        {
+                            items.Sort((a, b) => a.Top.CompareTo(b.Top));
+                            var groupedLines = new System.Collections.Generic.List<System.Collections.Generic.List<dynamic>>();
+                            if (items.Count > 0)
                             {
-                                sb.AppendLine(item.SingleStrUtf8);
+                                var currentLine = new System.Collections.Generic.List<dynamic> { items[0] };
+                                groupedLines.Add(currentLine);
+
+                                for (int i = 1; i < items.Count; i++)
+                                {
+                                    var item = items[i];
+                                    var lastItem = items[i - 1];
+                                    float itemCenterY = (item.Top + item.Bottom) / 2;
+                                    float lastItemCenterY = (lastItem.Top + lastItem.Bottom) / 2;
+                                    float avgHeight = ((item.Bottom - item.Top) + (lastItem.Bottom - lastItem.Top)) / 2;
+
+                                    if (System.Math.Abs(itemCenterY - lastItemCenterY) < avgHeight / 2)
+                                    {
+                                        currentLine.Add(item);
+                                    }
+                                    else
+                                    {
+                                        currentLine = new System.Collections.Generic.List<dynamic> { item };
+                                        groupedLines.Add(currentLine);
+                                    }
+                                }
+                            }
+
+                            foreach (var line in groupedLines)
+                            {
+                                line.Sort((a, b) => a.Left.CompareTo(b.Left));
+                                sb.AppendLine(string.Join("   ", line.ConvertAll(item => (string)item.Text)));
                             }
                         }
+
                         tcs.TrySetResult(sb.ToString());
                     }
                     catch (Exception ex)
