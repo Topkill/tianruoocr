@@ -107,7 +107,7 @@ namespace TrOCR
             this.toolStripButtonParagraph.ImageTransparentColor = Color.Magenta;
             this.toolStripButtonParagraph.Name = "toolStripButtonParagraph";
             this.toolStripButtonParagraph.Size = new Size(23, 22);
-            this.toolStripButtonParagraph.Text = "依据位置自动分段\r\n仅支持搜狗接口\r\n适合段落识别\r\n图片越清晰越准确\r\n准确度 98% 以上";
+            this.toolStripButtonParagraph.Text = "依据位置自动分段\r\n仅支持搜狗接口\r\n适合段落识别\r\n图片越清晰越准确\r\n准确度98%以上";
             this.toolStripButtonParagraph.Click += this.toolStripButtonParagraph_Click;
             this.toolStripButtonParagraph.MouseDown += this.toolStripButtonParagraph_keydown;
             this.toolStripButtonFind.DisplayStyle = ToolStripItemDisplayStyle.Image;
@@ -353,21 +353,9 @@ namespace TrOCR
             }
             set
             {
-                this.richTextBox1.TextChanged -= this.richeditbox_TextChanged;
-                this.richTextBox1.BeginUpdate();
+                this.richTextBox1.Font = new Font("Times New Roman", 16f * Program.Factor, GraphicsUnit.Pixel);
                 this.richTextBox1.Text = value;
-                this.richTextBox1.SelectAll();
-                this.richTextBox1.SelectionFont = new Font("Times New Roman", 16f * Program.Factor, GraphicsUnit.Pixel);
-                this.richTextBox1.SelectionAlignment = HelpRepaint.TextAlign.Justify;
-                this.indent_two(1);
-                this.richTextBox1.SetLine = "行高";
-                this.richTextBox1.Select(0, 0);
-                this.richTextBox1.EndUpdate();
-                this.richTextBox1.ScrollBars = RichTextBoxScrollBars.None;
-                this.richTextBox1.ScrollBars = RichTextBoxScrollBars.Vertical;
-                this.c = new AdvRichTextBox.cmd(50);
-                this.c.execute(this.richTextBox1.Rtf);
-                this.richTextBox1.TextChanged += this.richeditbox_TextChanged;
+                this.richTextBox1.Font = new Font("Times New Roman", 16f * Program.Factor, GraphicsUnit.Pixel);
             }
         }
 
@@ -418,7 +406,7 @@ namespace TrOCR
         {
             if (!File.Exists("cvextern.dll"))
             {
-                MessageBox.Show("请从蓝奏网盘中下载 cvextern.dll 大小约 25m，点击确定自动弹出网页。\r\n将下载后的文件与 天若 OCR 文字识别.exe 这个文件放在一起。");
+                MessageBox.Show("请从蓝奏网盘中下载cvextern.dll大小约25m，点击确定自动弹出网页。\r\n将下载后的文件与 天若OCR文字识别.exe 这个文件放在一起。");
                 Process.Start("https://www.lanzous.com/i1ab3vg");
                 return;
             }
@@ -435,7 +423,7 @@ namespace TrOCR
 
         public void toolStripButtonSplit_Click(object sender, EventArgs e)
         {
-            this.Text = StaticValue.v_Split;
+            this.richTextBox1.Text = StaticValue.v_Split;
             Application.DoEvents();
             HelpWin32.SetForegroundWindow(StaticValue.mainHandle);
         }
@@ -462,7 +450,7 @@ namespace TrOCR
 
         public void toolStripButtonMerge_Click(object sender, EventArgs e)
         {
-            string text = this.Text.TrimEnd(new char[]
+            string text = this.richTextBox1.Text.TrimEnd(new char[]
             {
                 '\n'
             }).TrimEnd(new char[]
@@ -499,7 +487,7 @@ namespace TrOCR
                 {
                     text2 += array[array.Length - 1];
                 }
-                this.Text = text2;
+                this.richTextBox1.Text = text2;
             }
             Application.DoEvents();
             HelpWin32.SetForegroundWindow(StaticValue.mainHandle);
@@ -740,7 +728,7 @@ namespace TrOCR
 
         private void richeditbox_TextChanged(object sender, EventArgs e)
         {
-            this.c.execute(this.richTextBox1.Rtf);
+            this.c.execute(this.richTextBox1.Text);
         }
 
         private void richTextBox1_LinkClicked(object sender, LinkClickedEventArgs e)
@@ -767,12 +755,12 @@ namespace TrOCR
             if (e.Control && e.KeyCode == Keys.Z)
             {
                 this.c.undo();
-                this.richTextBox1.Rtf = this.c.Record;
+                this.richTextBox1.Text = this.c.Record;
             }
             if (e.Control && e.KeyCode == Keys.Y)
             {
                 this.c.redo();
-                this.richTextBox1.Rtf = this.c.Record;
+                this.richTextBox1.Text = this.c.Record;
             }
             if (e.Control && e.KeyCode == Keys.F)
             {
@@ -1180,7 +1168,7 @@ namespace TrOCR
         {
             if (!File.Exists("cvextern.dll"))
             {
-                MessageBox.Show("请从蓝奏网盘中下载 cvextern.dll 大小约 25m，点击确定自动弹出网页。\r\n将下载后的文件与 天若 OCR 文字识别.exe 这个文件放在一起。");
+                MessageBox.Show("请从蓝奏网盘中下载cvextern.dll大小约25m，点击确定自动弹出网页。\r\n将下载后的文件与 天若OCR文字识别.exe 这个文件放在一起。");
                 Process.Start("https://www.lanzous.com/i1ab3vg");
                 return;
             }

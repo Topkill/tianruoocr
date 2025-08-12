@@ -12,8 +12,10 @@ namespace TrOCR.Helper
     public static class BingTranslator
     {
         private static readonly Uri TranslatorPageUri = new Uri("https://www.bing.com/translator");
+        private const string NewlinePlaceholder = "\uE001";
         private static readonly HttpClient HttpClient;
         private static BingCredentials _credentials;
+        private static Uri _translatorApiBaseUri = new Uri("https://www.bing.com/");
 
         static BingTranslator()
         {
@@ -51,84 +53,111 @@ namespace TrOCR.Helper
 
             try
             {
-                // Use a unique GUID wrapped in brackets as a placeholder. This is more robust as it signals
-                // to the translation engine that this is a self-contained token that should not be translated
-                // or merged with adjacent words.
-                var newlinePlaceholder = $"[{Guid.NewGuid()}]";
-                var textToTranslate = text.Replace("\r\n", newlinePlaceholder).Replace("\n", newlinePlaceholder);
+                var textWithPlaceholders = text.Replace("\r\n", NewlinePlaceholder).Replace("\n", NewlinePlaceholder);
 
-                var credentials = await GetOrUpdateCredentialsAsync().ConfigureAwait(false);
-                var fromLang = "auto-detect";
-                var targetLang = toLanguage == "zh-CN" ? "zh-Hans" : toLanguage;
+                var chunks = SplitText(textWithPlaceholders, 1000, NewlinePlaceholder);
+                var translationTasks = new List<Task<string>>();
 
-                var body = new Dictionary<string, string>
+                foreach (var chunk in chunks)
                 {
-                    { "fromLang", fromLang },
-                    { "text", textToTranslate },
-                    { "to", targetLang },
-                    { "tryFetchingGenderDebiasedTranslations", "true" },
-                    { "token", credentials.Token },
-                    { "key", credentials.Key }
-                };
-
-                var requestUri = new Uri($"https://www.bing.com/ttranslatev3?isVertical=1&IG={credentials.ImpressionGuid}&IID=translator.5028.1");
-
-                using (var content = new FormUrlEncodedContent(body))
-                {
-                    using (var response = await HttpClient.PostAsync(requestUri, content).ConfigureAwait(false))
-                    {
-                        string translatedText = "";
-                        var statusCode = (int)response.StatusCode;
-                        if (statusCode == 301 || statusCode == 302 || statusCode == 303 || statusCode == 307 || statusCode == 308)
-                        {
-                            var redirectUri = response.Headers.Location;
-                            if (redirectUri == null)
-                            {
-                                return "Translation failed: Redirect location not found.";
-                            }
-
-                            // Post again to the new location with the same content
-                            using (var redirectedResponse = await HttpClient.PostAsync(redirectUri, content).ConfigureAwait(false))
-                            {
-                                redirectedResponse.EnsureSuccessStatusCode();
-                                var responseString = await redirectedResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                                var jsonResponse = JArray.Parse(responseString);
-
-                                if (jsonResponse.Count > 0 && jsonResponse[0]["translations"] is JArray translations && translations.Count > 0)
-                                {
-                                    translatedText = translations[0]["text"]?.ToString() ?? string.Empty;
-                                }
-                                else
-                                {
-                                    return "Translation failed: Invalid response format after redirect.";
-                                }
-                            }
-                        }
-                        else
-                        {
-                            response.EnsureSuccessStatusCode();
-                            var originalResponseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            var originalJsonResponse = JArray.Parse(originalResponseString);
-
-                            if (originalJsonResponse.Count > 0 && originalJsonResponse[0]["translations"] is JArray translationsOnOriginal && translationsOnOriginal.Count > 0)
-                            {
-                                translatedText = translationsOnOriginal[0]["text"]?.ToString() ?? string.Empty;
-                            }
-                            else
-                            {
-                                return "Translation failed: Invalid response format.";
-                            }
-                        }
-
-                        // Replace the unique placeholder back to a newline character.
-                        return translatedText.Replace(newlinePlaceholder, "\n");
-                    }
+                    translationTasks.Add(TranslateChunkAsync(chunk, toLanguage));
                 }
+
+                var translatedChunks = await Task.WhenAll(translationTasks).ConfigureAwait(false);
+                var combined = string.Join("", translatedChunks);
+
+                return combined.Replace(NewlinePlaceholder, "\n");
             }
             catch (Exception e)
             {
                 return $"Translation failed: {e.Message}";
             }
+        }
+
+        private static IEnumerable<string> SplitText(string text, int maxLength, string separator)
+        {
+            var lines = text.Split(new[] { separator }, StringSplitOptions.None);
+            var currentChunk = "";
+
+            foreach (var line in lines)
+            {
+                if (currentChunk.Length + line.Length + separator.Length > maxLength)
+                {
+                    if (currentChunk.Length > 0)
+                    {
+                        yield return currentChunk;
+                        currentChunk = "";
+                    }
+
+                    if (line.Length > maxLength)
+                    {
+                        // if a single line is too long, split it by length
+                        for (int i = 0; i < line.Length; i += maxLength)
+                        {
+                            yield return line.Substring(i, Math.Min(maxLength, line.Length - i));
+                        }
+                        continue;
+                    }
+                }
+                currentChunk += (currentChunk.Length > 0 ? separator : "") + line;
+            }
+
+            if (currentChunk.Length > 0)
+            {
+                yield return currentChunk;
+            }
+        }
+
+        private static async Task<string> TranslateChunkAsync(string text, string toLanguage)
+        {
+            var credentials = await GetOrUpdateCredentialsAsync().ConfigureAwait(false);
+            var fromLang = "auto-detect";
+            var targetLang = toLanguage == "zh-CN" ? "zh-Hans" : toLanguage;
+
+            var body = new Dictionary<string, string>
+            {
+                { "fromLang", fromLang },
+                { "text", text },
+                { "to", targetLang },
+                { "tryFetchingGenderDebiasedTranslations", "true" },
+                { "token", credentials.Token },
+                { "key", credentials.Key }
+            };
+            
+            var requestUri = new Uri(_translatorApiBaseUri, $"ttranslatev3?isVertical=1&IG={credentials.ImpressionGuid}&IID=translator.5028.1");
+
+            using (var content = new FormUrlEncodedContent(body))
+            {
+                using (var response = await HttpClient.PostAsync(requestUri, content).ConfigureAwait(false))
+                {
+                    // The POST request can also be redirected
+                    if ((int)response.StatusCode >= 300 && (int)response.StatusCode < 400 && response.Headers.Location != null)
+                    {
+                        var redirectUri = response.Headers.Location;
+                        using (var redirectedContent = new FormUrlEncodedContent(body))
+                        using (var redirectedResponse = await HttpClient.PostAsync(redirectUri, redirectedContent).ConfigureAwait(false))
+                        {
+                            redirectedResponse.EnsureSuccessStatusCode();
+                            var responseString = await redirectedResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            return ParseTranslationResponse(responseString);
+                        }
+                    }
+
+                    response.EnsureSuccessStatusCode();
+                    var originalResponseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    return ParseTranslationResponse(originalResponseString);
+                }
+            }
+        }
+
+        private static string ParseTranslationResponse(string responseString)
+        {
+            var jsonResponse = JArray.Parse(responseString);
+            if (jsonResponse.Count > 0 && jsonResponse[0]["translations"] is JArray translations && translations.Count > 0)
+            {
+                return translations[0]["text"]?.ToString() ?? string.Empty;
+            }
+            return string.Empty;
         }
 
         private static async Task<BingCredentials> GetOrUpdateCredentialsAsync()
@@ -149,22 +178,44 @@ namespace TrOCR.Helper
 
                 using (var response = await HttpClient.GetAsync(TranslatorPageUri).ConfigureAwait(false))
                 {
-                    response.EnsureSuccessStatusCode();
-                    var html = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    HttpResponseMessage finalResponse = response;
+                    HttpResponseMessage redirectedResponse = null;
+                    try
+                    {
+                        // Manually handle redirection to get credentials from the correct regional domain (e.g., cn.bing.com)
+                        if ((int)response.StatusCode >= 300 && (int)response.StatusCode < 400 && response.Headers.Location != null)
+                        {
+                            var redirectUri = response.Headers.Location;
+                            if (!redirectUri.IsAbsoluteUri)
+                            {
+                                redirectUri = new Uri(response.RequestMessage.RequestUri, redirectUri);
+                            }
+                            _translatorApiBaseUri = new Uri(redirectUri.GetLeftPart(UriPartial.Authority));
+                            redirectedResponse = await HttpClient.GetAsync(redirectUri).ConfigureAwait(false);
+                            finalResponse = redirectedResponse;
+                        }
 
-                    var igMatch = Regex.Match(html, @"IG:""([a-fA-F0-9]{32})""");
-                    if (!igMatch.Success) throw new Exception("Unable to find Bing IG value.");
+                        finalResponse.EnsureSuccessStatusCode();
+                        var html = await finalResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                    var paramsMatch = Regex.Match(html, @"var params_AbusePreventionHelper\s*=\s*\[(\d+),""([^""]+)"",(\d+)\];");
-                    if (!paramsMatch.Success) throw new Exception("Unable to find Bing credentials (key/token/expiration).");
+                        var igMatch = Regex.Match(html, @"IG:""([a-fA-F0-9]{32})""");
+                        if (!igMatch.Success) throw new Exception("Unable to find Bing IG value.");
 
-                    var key = paramsMatch.Groups[1].Value;
-                    var token = paramsMatch.Groups[2].Value;
-                    var expirationMs = double.Parse(paramsMatch.Groups[3].Value);
+                        var paramsMatch = Regex.Match(html, @"var params_AbusePreventionHelper\s*=\s*\[(\d+),""([^""]+)"",(\d+)\];");
+                        if (!paramsMatch.Success) throw new Exception("Unable to find Bing credentials (key/token/expiration).");
 
-                    _credentials = new BingCredentials(token, key, igMatch.Groups[1].Value);
-                    _credentialsExpiration = DateTime.UtcNow.AddMilliseconds(expirationMs);
-                    return _credentials;
+                        var key = paramsMatch.Groups[1].Value;
+                        var token = paramsMatch.Groups[2].Value;
+                        var expirationMs = double.Parse(paramsMatch.Groups[3].Value);
+
+                        _credentials = new BingCredentials(token, key, igMatch.Groups[1].Value);
+                        _credentialsExpiration = DateTime.UtcNow.AddMilliseconds(expirationMs);
+                        return _credentials;
+                    }
+                    finally
+                    {
+                        redirectedResponse?.Dispose();
+                    }
                 }
             }
             finally
