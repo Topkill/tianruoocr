@@ -22,6 +22,9 @@
             this.radio_trans_tencent = new System.Windows.Forms.RadioButton();
             this.radio_trans_baidu = new System.Windows.Forms.RadioButton();
             this.radio_trans_google = new System.Windows.Forms.RadioButton();
+            this.Page_About = new System.Windows.Forms.TabPage();
+            this.label_VersionInfo = new System.Windows.Forms.Label();
+            this.label_AuthorInfo = new System.Windows.Forms.Label();
             this.Page_代理 = new System.Windows.Forms.TabPage();
             this.代理Button = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -138,6 +141,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_文字识别)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             this.Page_反馈.SuspendLayout();
+            this.Page_About.SuspendLayout();
             this.SuspendLayout();
             // 
             // Page_代理
@@ -936,6 +940,7 @@
             this.tab_标签.Controls.Add(this.Page_代理);
             this.tab_标签.Controls.Add(this.Page_更新);
             this.tab_标签.Controls.Add(this.Page_反馈);
+            this.tab_标签.Controls.Add(this.Page_About);
             this.tab_标签.Location = new System.Drawing.Point(10, 2);
             this.tab_标签.Name = "tab_标签";
             this.tab_标签.SelectedIndex = 0;
@@ -1187,9 +1192,38 @@
             this.Page_反馈.Size = new System.Drawing.Size(390, 329);
             this.Page_反馈.TabIndex = 8;
             this.Page_反馈.Text = "反馈";
-            // 
+            //
+            // Page_About
+            //
+            this.Page_About.BackColor = System.Drawing.Color.White;
+            this.Page_About.Controls.Add(this.label_AuthorInfo);
+            this.Page_About.Controls.Add(this.label_VersionInfo);
+            this.Page_About.Location = new System.Drawing.Point(4, 22);
+            this.Page_About.Name = "Page_About";
+            this.Page_About.Size = new System.Drawing.Size(390, 329);
+            this.Page_About.TabIndex = 9;
+            this.Page_About.Text = "关于";
+            //
+            // label_VersionInfo
+            //
+            this.label_VersionInfo.AutoSize = true;
+            this.label_VersionInfo.Location = new System.Drawing.Point(20, 20);
+            this.label_VersionInfo.Name = "label_VersionInfo";
+            this.label_VersionInfo.Size = new System.Drawing.Size(53, 12);
+            this.label_VersionInfo.TabIndex = 0;
+            this.label_VersionInfo.Text = "版本号：";
+            //
+            // label_AuthorInfo
+            //
+            this.label_AuthorInfo.AutoSize = true;
+            this.label_AuthorInfo.Location = new System.Drawing.Point(20, 50);
+            this.label_AuthorInfo.Name = "label_AuthorInfo";
+            this.label_AuthorInfo.Size = new System.Drawing.Size(41, 12);
+            this.label_AuthorInfo.TabIndex = 1;
+            this.label_AuthorInfo.Text = "作者：";
+            //
             // FmSetting
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
@@ -1241,6 +1275,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             this.Page_反馈.ResumeLayout(false);
             this.Page_反馈.PerformLayout();
+            this.Page_About.ResumeLayout(false);
+            this.Page_About.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -1322,6 +1358,9 @@
 		private global::System.Windows.Forms.Button btn_音效路径;
 		private global::System.Windows.Forms.CheckBox chbox_取色;
         private System.Windows.Forms.TabPage Page_反馈;
+        private System.Windows.Forms.TabPage Page_About;
+        private System.Windows.Forms.Label label_VersionInfo;
+        private System.Windows.Forms.Label label_AuthorInfo;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Button 反馈Button;
         private System.Windows.Forms.TextBox txt_问题反馈;

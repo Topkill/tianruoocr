@@ -24,7 +24,8 @@ namespace TrOCR
         		Application.ThreadException += Application_ThreadException;
         		AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
       
-        		var programStarted = new EventWaitHandle(false, EventResetMode.AutoReset, "天若OCR文字识别", out var needNew);
+        		var eventName = "TianruoOcrInstance_" + Application.ExecutablePath.Replace(Path.DirectorySeparatorChar, '_');
+        		var programStarted = new EventWaitHandle(false, EventResetMode.AutoReset, eventName, out var needNew);
         		if (!needNew)
         		{
         			programStarted.Set();

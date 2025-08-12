@@ -295,17 +295,12 @@ namespace TrOCR.Helper
                 {
                     try
                     {
-                        if (result == null || result.OcrResult == null)
+                        if (result == null || result.OcrResult == null || result.OcrResult.SingleResult == null || result.OcrResult.SingleResult.Count == 0)
                         {
-                            tcs.TrySetResult("WeChatOCR returned null result.");
+                            tcs.TrySetResult("***该区域未发现文本***");
                             return;
                         }
                         var list = result.OcrResult.SingleResult;
-                        if (list == null)
-                        {
-                            tcs.TrySetResult("WeChatOCR get result is null");
-                            return;
-                        }
                         var sb = new StringBuilder();
                         var items = new System.Collections.Generic.List<dynamic>();
 
@@ -351,6 +346,12 @@ namespace TrOCR.Helper
                             }
                         }
 
+                        if (sb.Length == 0)
+                        {
+                            tcs.TrySetResult("***该区域未发现文本***");
+                            return;
+                        }
+
                         tcs.TrySetResult(sb.ToString());
                     }
                     catch (Exception ex)
@@ -363,7 +364,13 @@ namespace TrOCR.Helper
             {
                 tcs.TrySetException(ex);
             }
-            return await tcs.Task;
+
+            var finishedTask = await Task.WhenAny(tcs.Task, Task.Delay(20000));
+            if (finishedTask == tcs.Task)
+            {
+                return await tcs.Task;
+            }
+            return "微信OCR识别超时(20秒)";
         }
     }
 }
