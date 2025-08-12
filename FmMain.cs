@@ -857,7 +857,6 @@ namespace TrOCR
 				RichBoxBody_T.Name = "rich_trans";
 				RichBoxBody_T.TabIndex = 1;
 				RichBoxBody_T.Text_flag = "我是翻译文本框";
-				RichBoxBody_T.ImeMode = ImeMode.On;
 			}
 			num_ok++;
 			PictureBox1.Visible = true;

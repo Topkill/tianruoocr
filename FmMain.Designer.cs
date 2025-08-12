@@ -93,10 +93,10 @@
 			this.RichBoxBody.BorderStyle = global::System.Windows.Forms.BorderStyle.Fixed3D;
 			this.RichBoxBody.Location = new global::System.Drawing.Point(0, 0);
 			this.RichBoxBody.Name = "htmlTextBoxBody";
-			this.RichBoxBody.ImeMode = global::System.Windows.Forms.ImeMode.HangulFull;
+			this.RichBoxBody.ImeMode = global::System.Windows.Forms.ImeMode.Inherit;
 			this.RichBoxBody.TabIndex = 200;
 			this.RichBoxBody.Text_flag = "天若幽心";
-			this.RichBoxBody_T.ImeMode = global::System.Windows.Forms.ImeMode.HangulFull;
+			this.RichBoxBody_T.ImeMode = global::System.Windows.Forms.ImeMode.Inherit;
 			this.Trans_copy.Text = "复制";
 			this.Trans_copy.Click += new global::System.EventHandler(this.Trans_copy_Click);
 			this.Trans_paste.Text = "粘贴";
