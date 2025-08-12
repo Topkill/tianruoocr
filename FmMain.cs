@@ -691,6 +691,12 @@ namespace TrOCR
 			{
 				OCR_foreach(interface_flag);
 			}
+			string transService = IniHelper.GetValue("配置", "翻译接口");
+			if (transService == "发生错误")
+			{
+				transService = "谷歌";
+			}
+			Trans_foreach(transService);
 			var filePath = AppDomain.CurrentDomain.BaseDirectory + "Data\\config.ini";
 			if (IniHelper.GetValue("快捷键", "文字识别") != "请按下快捷键")
 			{
@@ -950,7 +956,7 @@ namespace TrOCR
 						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, toLang, "google");
 						break;
 					case "Bing":
-						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, toLang, "bing");
+						googleTranslate_txt = await BingTranslator.TranslateAsync(typeset_txt, toLang);
 						break;
 					case "Microsoft":
 						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, toLang, "microsoft");
@@ -3218,7 +3224,7 @@ namespace TrOCR
 							data = await GTranslateHelper.TranslateAsync(trans_hotkey, toLang, "google");
 							break;
 						case "Bing":
-							data = await GTranslateHelper.TranslateAsync(trans_hotkey, toLang, "bing");
+							data = await BingTranslator.TranslateAsync(trans_hotkey, toLang);
 							break;
 						case "Microsoft":
 							data = await GTranslateHelper.TranslateAsync(trans_hotkey, toLang, "microsoft");

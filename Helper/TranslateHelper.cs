@@ -37,7 +37,6 @@ namespace TrOCR.Helper
     public class GTranslateHelper
     {
         private static readonly GoogleTranslator _googleTranslator = new GoogleTranslator();
-        private static readonly BingTranslator _bingTranslator = new BingTranslator();
         private static readonly MicrosoftTranslator _microsoftTranslator = new MicrosoftTranslator();
         private static readonly YandexTranslator _yandexTranslator = new YandexTranslator();
 
@@ -45,14 +44,16 @@ namespace TrOCR.Helper
         {
             try
             {
+                if (service.ToLower() == "bing")
+                {
+                    return await BingTranslator.TranslateAsync(text, toLanguage);
+                }
+
                 ITranslator translator;
                 switch (service.ToLower())
                 {
                     case "google":
                         translator = _googleTranslator;
-                        break;
-                    case "bing":
-                        translator = _bingTranslator;
                         break;
                     case "microsoft":
                         translator = _microsoftTranslator;
