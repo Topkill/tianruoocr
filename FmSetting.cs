@@ -386,6 +386,8 @@ namespace TrOCR
 			tab_标签.Height = (int)(350.0 * Program.Factor);
 			Height = tab_标签.Height + 50;
 			readIniFile();
+			label_VersionInfo.Text = "版本号：" + StaticValue.CurrentVersion;
+			label_AuthorInfo.Text = "作者：topkill";
 			chbox_代理服务器.CheckedChanged += chbox_代理服务器_CheckedChanged;
 			更新Button_check.Click += 更新Button_check_Click;
 		}
@@ -451,6 +453,11 @@ namespace TrOCR
 				Height = tab_标签.Height + 50;
 			}
 			if (tab_标签.SelectedTab == Page_更新)
+			{
+				tab_标签.Height = (int)(135.0 * Program.Factor);
+				Height = tab_标签.Height + 50;
+			}
+			if (tab_标签.SelectedTab == Page_About)
 			{
 				tab_标签.Height = (int)(135.0 * Program.Factor);
 				Height = tab_标签.Height + 50;

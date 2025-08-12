@@ -84,7 +84,7 @@ namespace TrOCR.Helper
 			set_记录 = false;
 			set_截图 = false;
 			DpiFactor = 1f;
-			CurrentVersion = "5.0.1";
+			CurrentVersion = "6.6.6";
 			ReleaseDate = "2019-02-27";
 		}
 
