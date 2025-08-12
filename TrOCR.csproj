@@ -203,6 +203,7 @@
     <Compile Include="Helper\IniHelper.cs" />
     <Compile Include="Helper\OcrHelper.cs" />
     <Compile Include="Helper\TranslateHelper.cs" />
+    <Compile Include="Helper\BingTranslator.cs" />
     <Compile Include="Messageload.cs">
       <SubType>Form</SubType>
     </Compile>
