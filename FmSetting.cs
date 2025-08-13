@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web;
 using System.Windows.Forms;
+using System.Linq;
 using Microsoft.Win32;
 using TrOCR.Helper;
 using TrOCR.Properties;
@@ -321,38 +322,43 @@ namespace TrOCR
 			{
 				chbox_取色.Checked = true;
 			}
-			var transService = IniHelper.GetValue("配置", "翻译接口");
-			if (transService == "发生错误")
-			{
-				radio_trans_google.Checked = true;
-			}
-			else
-			{
-				switch (transService)
-				{
-					case "Google":
-						radio_trans_google.Checked = true;
-						break;
-					case "Baidu":
-						radio_trans_baidu.Checked = true;
-						break;
-					case "Tencent":
-						radio_trans_tencent.Checked = true;
-						break;
-					case "Bing":
-						radio_trans_bing.Checked = true;
-						break;
-					case "Microsoft":
-						radio_trans_microsoft.Checked = true;
-						break;
-					case "Yandex":
-						radio_trans_yandex.Checked = true;
-						break;
-					default:
-						radio_trans_google.Checked = true;
-						break;
-				}
-			}
+			var googleSource = IniHelper.GetValue("Translate_Google", "Source");
+			         textBox_Google_Source.Text = (googleSource == "发生错误") ? "auto" : googleSource;
+			         var googleTarget = IniHelper.GetValue("Translate_Google", "Target");
+			         textBox_Google_Target.Text = (googleTarget == "发生错误") ? "自动判断" : googleTarget;
+
+			         var baiduSource = IniHelper.GetValue("Translate_Baidu", "Source");
+			         textBox_Baidu_Source.Text = (baiduSource == "发生错误") ? "auto" : baiduSource;
+			         var baiduTarget = IniHelper.GetValue("Translate_Baidu", "Target");
+			         textBox_Baidu_Target.Text = (baiduTarget == "发生错误") ? "自动判断" : baiduTarget;
+			         var baiduAK = IniHelper.GetValue("Translate_Baidu", "ak");
+			         textBox_Baidu_AK.Text = (baiduAK == "发生错误") ? "" : baiduAK;
+			         var baiduSK = IniHelper.GetValue("Translate_Baidu", "sk");
+			         textBox_Baidu_SK.Text = (baiduSK == "发生错误") ? "" : baiduSK;
+
+			         var tencentSource = IniHelper.GetValue("Translate_Tencent", "Source");
+			         textBox_Tencent_Source.Text = (tencentSource == "发生错误") ? "auto" : tencentSource;
+			         var tencentTarget = IniHelper.GetValue("Translate_Tencent", "Target");
+			         textBox_Tencent_Target.Text = (tencentTarget == "发生错误") ? "自动判断" : tencentTarget;
+			         var tencentAK = IniHelper.GetValue("Translate_Tencent", "ak");
+			         textBox_Tencent_AK.Text = (tencentAK == "发生错误") ? "" : tencentAK;
+			         var tencentSK = IniHelper.GetValue("Translate_Tencent", "sk");
+			         textBox_Tencent_SK.Text = (tencentSK == "发生错误") ? "" : tencentSK;
+
+			         var bingSource = IniHelper.GetValue("Translate_Bing", "Source");
+			         textBox_Bing_Source.Text = (bingSource == "发生错误") ? "auto" : bingSource;
+			         var bingTarget = IniHelper.GetValue("Translate_Bing", "Target");
+			         textBox_Bing_Target.Text = (bingTarget == "发生错误") ? "自动判断" : bingTarget;
+
+			         var microsoftSource = IniHelper.GetValue("Translate_Microsoft", "Source");
+			         textBox_Microsoft_Source.Text = (microsoftSource == "发生错误") ? "auto" : microsoftSource;
+			         var microsoftTarget = IniHelper.GetValue("Translate_Microsoft", "Target");
+			         textBox_Microsoft_Target.Text = (microsoftTarget == "发生错误") ? "自动判断" : microsoftTarget;
+
+			         var yandexSource = IniHelper.GetValue("Translate_Yandex", "Source");
+			         textBox_Yandex_Source.Text = (yandexSource == "发生错误") ? "auto" : yandexSource;
+			         var yandexTarget = IniHelper.GetValue("Translate_Yandex", "Target");
+			         textBox_Yandex_Target.Text = (yandexTarget == "发生错误") ? "自动判断" : yandexTarget;
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -445,6 +451,11 @@ namespace TrOCR
 			if (tab_标签.SelectedTab == Page_密钥)
 			{
 				tab_标签.Height = (int)(190.0 * Program.Factor);
+				Height = tab_标签.Height + 50;
+			}
+			if (tab_标签.SelectedTab == Page_翻译接口)
+			{
+				tab_标签.Height = (int)(280.0 * Program.Factor);
 				Height = tab_标签.Height + 50;
 			}
 			if (tab_标签.SelectedTab == Page_代理)
@@ -883,28 +894,28 @@ namespace TrOCR
 			{
 				IniHelper.SetValue("取色器", "类型", "HEX");
 			}
-			string transService = "Google";
-			if (radio_trans_baidu.Checked)
-			{
-				transService = "Baidu";
-			}
-			else if (radio_trans_tencent.Checked)
-			{
-				transService = "Tencent";
-			}
-			else if (radio_trans_bing.Checked)
-			{
-				transService = "Bing";
-			}
-			else if (radio_trans_microsoft.Checked)
-			{
-				transService = "Microsoft";
-			}
-			else if (radio_trans_yandex.Checked)
-			{
-				transService = "Yandex";
-			}
-			IniHelper.SetValue("配置", "翻译接口", transService);
+			         IniHelper.SetValue("Translate_Google", "Source", textBox_Google_Source.Text);
+			         IniHelper.SetValue("Translate_Google", "Target", textBox_Google_Target.Text);
+			         
+			         IniHelper.SetValue("Translate_Baidu", "Source", textBox_Baidu_Source.Text);
+			         IniHelper.SetValue("Translate_Baidu", "Target", textBox_Baidu_Target.Text);
+			         IniHelper.SetValue("Translate_Baidu", "ak", textBox_Baidu_AK.Text);
+			         IniHelper.SetValue("Translate_Baidu", "sk", textBox_Baidu_SK.Text);
+
+			         IniHelper.SetValue("Translate_Tencent", "Source", textBox_Tencent_Source.Text);
+			         IniHelper.SetValue("Translate_Tencent", "Target", textBox_Tencent_Target.Text);
+			         IniHelper.SetValue("Translate_Tencent", "ak", textBox_Tencent_AK.Text);
+			         IniHelper.SetValue("Translate_Tencent", "sk", textBox_Tencent_SK.Text);
+
+			         IniHelper.SetValue("Translate_Bing", "Source", textBox_Bing_Source.Text);
+			         IniHelper.SetValue("Translate_Bing", "Target", textBox_Bing_Target.Text);
+
+			         IniHelper.SetValue("Translate_Microsoft", "Source", textBox_Microsoft_Source.Text);
+			         IniHelper.SetValue("Translate_Microsoft", "Target", textBox_Microsoft_Target.Text);
+
+			         IniHelper.SetValue("Translate_Yandex", "Source", textBox_Yandex_Source.Text);
+			         IniHelper.SetValue("Translate_Yandex", "Target", textBox_Yandex_Target.Text);
+
 			DialogResult = DialogResult.OK;
 		}
 
@@ -985,6 +996,45 @@ namespace TrOCR
 		{
 		}
 
+private void btn_Reset_Source_Click(object sender, EventArgs e)
+		{
+			var button = sender as Button;
+			if (button == null) return;
+
+			// 从按钮名称 "btn_Reset_Google_Source" 中提取 "Google"
+			string serviceName = button.Name.Split('_')[2];
+    
+			// 构建目标TextBox的名称 "textBox_Google_Source"
+			string textBoxName = $"textBox_{serviceName}_Source";
+
+			// 在窗体中递归查找该TextBox控件
+			var textBox = this.Controls.Find(textBoxName, true).FirstOrDefault() as TextBox;
+
+			if (textBox != null)
+			{
+				textBox.Text = "auto";
+			}
+		}
+
+		private void btn_Reset_Target_Click(object sender, EventArgs e)
+		{
+			var button = sender as Button;
+			if (button == null) return;
+
+			// 从按钮名称 "btn_Reset_Google_Target" 中提取 "Google"
+			string serviceName = button.Name.Split('_')[2];
+    
+			// 构建目标TextBox的名称 "textBox_Google_Target"
+			string textBoxName = $"textBox_{serviceName}_Target";
+
+			// 在窗体中递归查找该TextBox控件
+			var textBox = this.Controls.Find(textBoxName, true).FirstOrDefault() as TextBox;
+
+			if (textBox != null)
+			{
+				textBox.Text = "自动判断";
+			}
+		}
 		public string Start_set
 		{
 			set

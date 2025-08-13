@@ -15,14 +15,69 @@
 
 		private void InitializeComponent()
 		{
-            this.groupBox_翻译接口 = new System.Windows.Forms.GroupBox();
-            this.radio_trans_yandex = new System.Windows.Forms.RadioButton();
-            this.radio_trans_microsoft = new System.Windows.Forms.RadioButton();
-            this.radio_trans_bing = new System.Windows.Forms.RadioButton();
-            this.radio_trans_tencent = new System.Windows.Forms.RadioButton();
-            this.radio_trans_baidu = new System.Windows.Forms.RadioButton();
-            this.radio_trans_google = new System.Windows.Forms.RadioButton();
+            this.tabControl_Trans = new System.Windows.Forms.TabControl();
+            this.tabPage_Google = new System.Windows.Forms.TabPage();
+            this.groupBox_Google_Key = new System.Windows.Forms.GroupBox();
+            this.label_Google_Key = new System.Windows.Forms.Label();
+            this.groupBox_Google_Target = new System.Windows.Forms.GroupBox();
+            this.textBox_Google_Target = new System.Windows.Forms.TextBox();
+            this.groupBox_Google_Source = new System.Windows.Forms.GroupBox();
+            this.textBox_Google_Source = new System.Windows.Forms.TextBox();
+            this.tabPage_Baidu = new System.Windows.Forms.TabPage();
+            this.groupBox_Baidu_Key = new System.Windows.Forms.GroupBox();
+            this.textBox_Baidu_SK = new System.Windows.Forms.TextBox();
+            this.label_Baidu_SK = new System.Windows.Forms.Label();
+            this.textBox_Baidu_AK = new System.Windows.Forms.TextBox();
+            this.label_Baidu_AK = new System.Windows.Forms.Label();
+            this.groupBox_Baidu_Target = new System.Windows.Forms.GroupBox();
+            this.textBox_Baidu_Target = new System.Windows.Forms.TextBox();
+            this.groupBox_Baidu_Source = new System.Windows.Forms.GroupBox();
+            this.textBox_Baidu_Source = new System.Windows.Forms.TextBox();
+            this.tabPage_Tencent = new System.Windows.Forms.TabPage();
+            this.groupBox_Tencent_Key = new System.Windows.Forms.GroupBox();
+            this.textBox_Tencent_SK = new System.Windows.Forms.TextBox();
+            this.label_Tencent_SK = new System.Windows.Forms.Label();
+            this.textBox_Tencent_AK = new System.Windows.Forms.TextBox();
+            this.label_Tencent_AK = new System.Windows.Forms.Label();
+            this.groupBox_Tencent_Target = new System.Windows.Forms.GroupBox();
+            this.textBox_Tencent_Target = new System.Windows.Forms.TextBox();
+            this.groupBox_Tencent_Source = new System.Windows.Forms.GroupBox();
+            this.textBox_Tencent_Source = new System.Windows.Forms.TextBox();
+            this.tabPage_Bing = new System.Windows.Forms.TabPage();
+            this.groupBox_Bing_Key = new System.Windows.Forms.GroupBox();
+            this.label_Bing_Key = new System.Windows.Forms.Label();
+            this.groupBox_Bing_Target = new System.Windows.Forms.GroupBox();
+            this.textBox_Bing_Target = new System.Windows.Forms.TextBox();
+            this.groupBox_Bing_Source = new System.Windows.Forms.GroupBox();
+            this.textBox_Bing_Source = new System.Windows.Forms.TextBox();
+            this.tabPage_Microsoft = new System.Windows.Forms.TabPage();
+            this.groupBox_Microsoft_Key = new System.Windows.Forms.GroupBox();
+            this.label_Microsoft_Key = new System.Windows.Forms.Label();
+            this.groupBox_Microsoft_Target = new System.Windows.Forms.GroupBox();
+            this.textBox_Microsoft_Target = new System.Windows.Forms.TextBox();
+            this.groupBox_Microsoft_Source = new System.Windows.Forms.GroupBox();
+            this.textBox_Microsoft_Source = new System.Windows.Forms.TextBox();
+            this.tabPage_Yandex = new System.Windows.Forms.TabPage();
+            this.groupBox_Yandex_Key = new System.Windows.Forms.GroupBox();
+            this.label_Yandex_Key = new System.Windows.Forms.Label();
+            this.groupBox_Yandex_Target = new System.Windows.Forms.GroupBox();
+            this.textBox_Yandex_Target = new System.Windows.Forms.TextBox();
+            this.groupBox_Yandex_Source = new System.Windows.Forms.GroupBox();
+            this.textBox_Yandex_Source = new System.Windows.Forms.TextBox();
+this.btn_Reset_Google_Source = new System.Windows.Forms.Button();
+            this.btn_Reset_Google_Target = new System.Windows.Forms.Button();
+            this.btn_Reset_Baidu_Source = new System.Windows.Forms.Button();
+            this.btn_Reset_Baidu_Target = new System.Windows.Forms.Button();
+            this.btn_Reset_Tencent_Source = new System.Windows.Forms.Button();
+            this.btn_Reset_Tencent_Target = new System.Windows.Forms.Button();
+            this.btn_Reset_Bing_Source = new System.Windows.Forms.Button();
+            this.btn_Reset_Bing_Target = new System.Windows.Forms.Button();
+            this.btn_Reset_Microsoft_Source = new System.Windows.Forms.Button();
+            this.btn_Reset_Microsoft_Target = new System.Windows.Forms.Button();
+            this.btn_Reset_Yandex_Source = new System.Windows.Forms.Button();
+            this.btn_Reset_Yandex_Target = new System.Windows.Forms.Button();
             this.Page_About = new System.Windows.Forms.TabPage();
+            this.Page_翻译接口 = new System.Windows.Forms.TabPage();
             this.label_VersionInfo = new System.Windows.Forms.Label();
             this.label_AuthorInfo = new System.Windows.Forms.Label();
             this.Page_代理 = new System.Windows.Forms.TabPage();
@@ -124,7 +179,32 @@
             this.Page_快捷键.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.page_常规.SuspendLayout();
-            this.groupBox_翻译接口.SuspendLayout();
+            this.Page_翻译接口.SuspendLayout();
+            this.tabControl_Trans.SuspendLayout();
+            this.tabPage_Google.SuspendLayout();
+            this.groupBox_Google_Key.SuspendLayout();
+            this.groupBox_Google_Target.SuspendLayout();
+            this.groupBox_Google_Source.SuspendLayout();
+            this.tabPage_Baidu.SuspendLayout();
+            this.groupBox_Baidu_Key.SuspendLayout();
+            this.groupBox_Baidu_Target.SuspendLayout();
+            this.groupBox_Baidu_Source.SuspendLayout();
+            this.tabPage_Tencent.SuspendLayout();
+            this.groupBox_Tencent_Key.SuspendLayout();
+            this.groupBox_Tencent_Target.SuspendLayout();
+            this.groupBox_Tencent_Source.SuspendLayout();
+            this.tabPage_Bing.SuspendLayout();
+            this.groupBox_Bing_Key.SuspendLayout();
+            this.groupBox_Bing_Target.SuspendLayout();
+            this.groupBox_Bing_Source.SuspendLayout();
+            this.tabPage_Microsoft.SuspendLayout();
+            this.groupBox_Microsoft_Key.SuspendLayout();
+            this.groupBox_Microsoft_Target.SuspendLayout();
+            this.groupBox_Microsoft_Source.SuspendLayout();
+            this.tabPage_Yandex.SuspendLayout();
+            this.groupBox_Yandex_Key.SuspendLayout();
+            this.groupBox_Yandex_Target.SuspendLayout();
+            this.groupBox_Yandex_Source.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -583,7 +663,6 @@
             // page_常规
             // 
             this.page_常规.BackColor = System.Drawing.Color.White;
-            this.page_常规.Controls.Add(this.groupBox_翻译接口);
             this.page_常规.Controls.Add(this.groupBox10);
             this.page_常规.Controls.Add(this.groupBox6);
             this.page_常规.Controls.Add(this.pic_help);
@@ -676,86 +755,596 @@
             this.label18.TabIndex = 3;
             this.label18.Text = "文件：";
             //
-            // groupBox_翻译接口
+            // tabControl_Trans
             //
-            this.groupBox_翻译接口.Controls.Add(this.radio_trans_yandex);
-            this.groupBox_翻译接口.Controls.Add(this.radio_trans_microsoft);
-            this.groupBox_翻译接口.Controls.Add(this.radio_trans_bing);
-            this.groupBox_翻译接口.Controls.Add(this.radio_trans_tencent);
-            this.groupBox_翻译接口.Controls.Add(this.radio_trans_baidu);
-            this.groupBox_翻译接口.Controls.Add(this.radio_trans_google);
-            this.groupBox_翻译接口.Location = new System.Drawing.Point(6, 296);
-            this.groupBox_翻译接口.Name = "groupBox_翻译接口";
-            this.groupBox_翻译接口.Size = new System.Drawing.Size(378, 70);
-            this.groupBox_翻译接口.TabIndex = 9;
-            this.groupBox_翻译接口.TabStop = false;
-            this.groupBox_翻译接口.Text = "翻译接口";
+            this.tabControl_Trans.Controls.Add(this.tabPage_Google);
+            this.tabControl_Trans.Controls.Add(this.tabPage_Baidu);
+            this.tabControl_Trans.Controls.Add(this.tabPage_Tencent);
+            this.tabControl_Trans.Controls.Add(this.tabPage_Bing);
+            this.tabControl_Trans.Controls.Add(this.tabPage_Microsoft);
+            this.tabControl_Trans.Controls.Add(this.tabPage_Yandex);
+            this.tabControl_Trans.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl_Trans.Location = new System.Drawing.Point(0, 0);
+            this.tabControl_Trans.Name = "tabControl_Trans";
+            this.tabControl_Trans.SelectedIndex = 0;
+            this.tabControl_Trans.Size = new System.Drawing.Size(390, 329);
+            this.tabControl_Trans.TabIndex = 0;
             //
-            // radio_trans_yandex
+            // tabPage_Google
             //
-            this.radio_trans_yandex.AutoSize = true;
-            this.radio_trans_yandex.Location = new System.Drawing.Point(280, 42);
-            this.radio_trans_yandex.Name = "radio_trans_yandex";
-            this.radio_trans_yandex.Size = new System.Drawing.Size(59, 16);
-            this.radio_trans_yandex.TabIndex = 5;
-            this.radio_trans_yandex.TabStop = true;
-            this.radio_trans_yandex.Text = "Yandex";
-            this.radio_trans_yandex.UseVisualStyleBackColor = true;
+            this.tabPage_Google.Controls.Add(this.groupBox_Google_Key);
+            this.tabPage_Google.Controls.Add(this.groupBox_Google_Target);
+            this.tabPage_Google.Controls.Add(this.groupBox_Google_Source);
+            this.tabPage_Google.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Google.Name = "tabPage_Google";
+            this.tabPage_Google.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Google.Size = new System.Drawing.Size(382, 303);
+            this.tabPage_Google.TabIndex = 0;
+            this.tabPage_Google.Text = "Google";
+            this.tabPage_Google.UseVisualStyleBackColor = true;
             //
-            // radio_trans_microsoft
+            // groupBox_Google_Key
             //
-            this.radio_trans_microsoft.AutoSize = true;
-            this.radio_trans_microsoft.Location = new System.Drawing.Point(180, 42);
-            this.radio_trans_microsoft.Name = "radio_trans_microsoft";
-            this.radio_trans_microsoft.Size = new System.Drawing.Size(77, 16);
-            this.radio_trans_microsoft.TabIndex = 4;
-            this.radio_trans_microsoft.TabStop = true;
-            this.radio_trans_microsoft.Text = "Microsoft";
-            this.radio_trans_microsoft.UseVisualStyleBackColor = true;
+            this.groupBox_Google_Key.Controls.Add(this.label_Google_Key);
+            this.groupBox_Google_Key.Location = new System.Drawing.Point(6, 128);
+            this.groupBox_Google_Key.Name = "groupBox_Google_Key";
+            this.groupBox_Google_Key.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Google_Key.TabIndex = 2;
+            this.groupBox_Google_Key.TabStop = false;
+            this.groupBox_Google_Key.Text = "密钥";
             //
-            // radio_trans_bing
+            // label_Google_Key
             //
-            this.radio_trans_bing.AutoSize = true;
-            this.radio_trans_bing.Location = new System.Drawing.Point(90, 42);
-            this.radio_trans_bing.Name = "radio_trans_bing";
-            this.radio_trans_bing.Size = new System.Drawing.Size(47, 16);
-            this.radio_trans_bing.TabIndex = 3;
-            this.radio_trans_bing.TabStop = true;
-            this.radio_trans_bing.Text = "Bing";
-            this.radio_trans_bing.UseVisualStyleBackColor = true;
+            this.label_Google_Key.AutoSize = true;
+            this.label_Google_Key.Location = new System.Drawing.Point(150, 25);
+            this.label_Google_Key.Name = "label_Google_Key";
+            this.label_Google_Key.Size = new System.Drawing.Size(53, 12);
+            this.label_Google_Key.TabIndex = 0;
+            this.label_Google_Key.Text = "无需密钥";
             //
-            // radio_trans_tencent
+            // groupBox_Google_Target
             //
-            this.radio_trans_tencent.AutoSize = true;
-            this.radio_trans_tencent.Location = new System.Drawing.Point(280, 20);
-            this.radio_trans_tencent.Name = "radio_trans_tencent";
-            this.radio_trans_tencent.Size = new System.Drawing.Size(65, 16);
-            this.radio_trans_tencent.TabIndex = 2;
-            this.radio_trans_tencent.TabStop = true;
-            this.radio_trans_tencent.Text = "Tencent";
-            this.radio_trans_tencent.UseVisualStyleBackColor = true;
+            this.groupBox_Google_Target.Controls.Add(this.btn_Reset_Google_Target);
+            this.groupBox_Google_Target.Controls.Add(this.textBox_Google_Target);
+            this.groupBox_Google_Target.Location = new System.Drawing.Point(6, 67);
+            this.groupBox_Google_Target.Name = "groupBox_Google_Target";
+            this.groupBox_Google_Target.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Google_Target.TabIndex = 1;
+            this.groupBox_Google_Target.TabStop = false;
+            this.groupBox_Google_Target.Text = "目标语言";
             //
-            // radio_trans_baidu
+            // btn_Reset_Google_Target
             //
-            this.radio_trans_baidu.AutoSize = true;
-            this.radio_trans_baidu.Location = new System.Drawing.Point(180, 20);
-            this.radio_trans_baidu.Name = "radio_trans_baidu";
-            this.radio_trans_baidu.Size = new System.Drawing.Size(53, 16);
-            this.radio_trans_baidu.TabIndex = 1;
-            this.radio_trans_baidu.TabStop = true;
-            this.radio_trans_baidu.Text = "Baidu";
-            this.radio_trans_baidu.UseVisualStyleBackColor = true;
+            this.btn_Reset_Google_Target.Location = new System.Drawing.Point(314, 19);
+            this.btn_Reset_Google_Target.Name = "btn_Reset_Google_Target";
+            this.btn_Reset_Google_Target.Size = new System.Drawing.Size(50, 23);
+            this.btn_Reset_Google_Target.TabIndex = 1;
+            this.btn_Reset_Google_Target.Text = "重置";
+            this.btn_Reset_Google_Target.UseVisualStyleBackColor = true;
+            this.btn_Reset_Google_Target.Click += new System.EventHandler(this.btn_Reset_Target_Click);
             //
-            // radio_trans_google
+            // textBox_Google_Target
             //
-            this.radio_trans_google.AutoSize = true;
-            this.radio_trans_google.Location = new System.Drawing.Point(90, 20);
-            this.radio_trans_google.Name = "radio_trans_google";
-            this.radio_trans_google.Size = new System.Drawing.Size(59, 16);
-            this.radio_trans_google.TabIndex = 0;
-            this.radio_trans_google.TabStop = true;
-            this.radio_trans_google.Text = "Google";
-            this.radio_trans_google.UseVisualStyleBackColor = true;
+            this.textBox_Google_Target.Location = new System.Drawing.Point(6, 20);
+            this.textBox_Google_Target.Name = "textBox_Google_Target";
+            this.textBox_Google_Target.Size = new System.Drawing.Size(302, 21);
+            this.textBox_Google_Target.TabIndex = 0;
+            //
+            // groupBox_Google_Source
+            //
+            this.groupBox_Google_Source.Controls.Add(this.btn_Reset_Google_Source);
+            this.groupBox_Google_Source.Controls.Add(this.textBox_Google_Source);
+            this.groupBox_Google_Source.Location = new System.Drawing.Point(6, 6);
+            this.groupBox_Google_Source.Name = "groupBox_Google_Source";
+            this.groupBox_Google_Source.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Google_Source.TabIndex = 0;
+            this.groupBox_Google_Source.TabStop = false;
+            this.groupBox_Google_Source.Text = "源语言";
+            //
+            // btn_Reset_Google_Source
+            //
+            this.btn_Reset_Google_Source.Location = new System.Drawing.Point(314, 19);
+            this.btn_Reset_Google_Source.Name = "btn_Reset_Google_Source";
+            this.btn_Reset_Google_Source.Size = new System.Drawing.Size(50, 23);
+            this.btn_Reset_Google_Source.TabIndex = 1;
+            this.btn_Reset_Google_Source.Text = "重置";
+            this.btn_Reset_Google_Source.UseVisualStyleBackColor = true;
+            this.btn_Reset_Google_Source.Click += new System.EventHandler(this.btn_Reset_Source_Click);
+            //
+            // textBox_Google_Source
+            //
+            this.textBox_Google_Source.Location = new System.Drawing.Point(6, 20);
+            this.textBox_Google_Source.Name = "textBox_Google_Source";
+            this.textBox_Google_Source.Size = new System.Drawing.Size(302, 21);
+            this.textBox_Google_Source.TabIndex = 0;
+            //
+            // tabPage_Baidu
+            //
+            this.tabPage_Baidu.Controls.Add(this.groupBox_Baidu_Key);
+            this.tabPage_Baidu.Controls.Add(this.groupBox_Baidu_Target);
+            this.tabPage_Baidu.Controls.Add(this.groupBox_Baidu_Source);
+            this.tabPage_Baidu.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Baidu.Name = "tabPage_Baidu";
+            this.tabPage_Baidu.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Baidu.Size = new System.Drawing.Size(382, 303);
+            this.tabPage_Baidu.TabIndex = 1;
+            this.tabPage_Baidu.Text = "Baidu";
+            this.tabPage_Baidu.UseVisualStyleBackColor = true;
+            //
+            // groupBox_Baidu_Key
+            //
+            this.groupBox_Baidu_Key.Controls.Add(this.textBox_Baidu_SK);
+            this.groupBox_Baidu_Key.Controls.Add(this.label_Baidu_SK);
+            this.groupBox_Baidu_Key.Controls.Add(this.textBox_Baidu_AK);
+            this.groupBox_Baidu_Key.Controls.Add(this.label_Baidu_AK);
+            this.groupBox_Baidu_Key.Location = new System.Drawing.Point(6, 128);
+            this.groupBox_Baidu_Key.Name = "groupBox_Baidu_Key";
+            this.groupBox_Baidu_Key.Size = new System.Drawing.Size(370, 80);
+            this.groupBox_Baidu_Key.TabIndex = 5;
+            this.groupBox_Baidu_Key.TabStop = false;
+            this.groupBox_Baidu_Key.Text = "密钥";
+            //
+            // textBox_Baidu_SK
+            //
+            this.textBox_Baidu_SK.Location = new System.Drawing.Point(40, 47);
+            this.textBox_Baidu_SK.Name = "textBox_Baidu_SK";
+            this.textBox_Baidu_SK.Size = new System.Drawing.Size(324, 21);
+            this.textBox_Baidu_SK.TabIndex = 3;
+            //
+            // label_Baidu_SK
+            //
+            this.label_Baidu_SK.AutoSize = true;
+            this.label_Baidu_SK.Location = new System.Drawing.Point(7, 50);
+            this.label_Baidu_SK.Name = "label_Baidu_SK";
+            this.label_Baidu_SK.Size = new System.Drawing.Size(23, 12);
+            this.label_Baidu_SK.TabIndex = 2;
+            this.label_Baidu_SK.Text = "sk:";
+            //
+            // textBox_Baidu_AK
+            //
+            this.textBox_Baidu_AK.Location = new System.Drawing.Point(40, 20);
+            this.textBox_Baidu_AK.Name = "textBox_Baidu_AK";
+            this.textBox_Baidu_AK.Size = new System.Drawing.Size(324, 21);
+            this.textBox_Baidu_AK.TabIndex = 1;
+            //
+            // label_Baidu_AK
+            //
+            this.label_Baidu_AK.AutoSize = true;
+            this.label_Baidu_AK.Location = new System.Drawing.Point(7, 23);
+            this.label_Baidu_AK.Name = "label_Baidu_AK";
+            this.label_Baidu_AK.Size = new System.Drawing.Size(23, 12);
+            this.label_Baidu_AK.TabIndex = 0;
+            this.label_Baidu_AK.Text = "ak:";
+            //
+            // groupBox_Baidu_Target
+            //
+            this.groupBox_Baidu_Target.Controls.Add(this.btn_Reset_Baidu_Target);
+            this.groupBox_Baidu_Target.Controls.Add(this.textBox_Baidu_Target);
+            this.groupBox_Baidu_Target.Location = new System.Drawing.Point(6, 67);
+            this.groupBox_Baidu_Target.Name = "groupBox_Baidu_Target";
+            this.groupBox_Baidu_Target.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Baidu_Target.TabIndex = 4;
+            this.groupBox_Baidu_Target.TabStop = false;
+            this.groupBox_Baidu_Target.Text = "目标语言";
+            //
+            // btn_Reset_Baidu_Target
+            //
+            this.btn_Reset_Baidu_Target.Location = new System.Drawing.Point(314, 19);
+            this.btn_Reset_Baidu_Target.Name = "btn_Reset_Baidu_Target";
+            this.btn_Reset_Baidu_Target.Size = new System.Drawing.Size(50, 23);
+            this.btn_Reset_Baidu_Target.TabIndex = 1;
+            this.btn_Reset_Baidu_Target.Text = "重置";
+            this.btn_Reset_Baidu_Target.UseVisualStyleBackColor = true;
+            this.btn_Reset_Baidu_Target.Click += new System.EventHandler(this.btn_Reset_Target_Click);
+            //
+            // textBox_Baidu_Target
+            //
+            this.textBox_Baidu_Target.Location = new System.Drawing.Point(6, 20);
+            this.textBox_Baidu_Target.Name = "textBox_Baidu_Target";
+            this.textBox_Baidu_Target.Size = new System.Drawing.Size(302, 21);
+            this.textBox_Baidu_Target.TabIndex = 0;
+            //
+            // groupBox_Baidu_Source
+            //
+            this.groupBox_Baidu_Source.Controls.Add(this.btn_Reset_Baidu_Source);
+            this.groupBox_Baidu_Source.Controls.Add(this.textBox_Baidu_Source);
+            this.groupBox_Baidu_Source.Location = new System.Drawing.Point(6, 6);
+            this.groupBox_Baidu_Source.Name = "groupBox_Baidu_Source";
+            this.groupBox_Baidu_Source.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Baidu_Source.TabIndex = 3;
+            this.groupBox_Baidu_Source.TabStop = false;
+            this.groupBox_Baidu_Source.Text = "源语言";
+            //
+            // btn_Reset_Baidu_Source
+            //
+            this.btn_Reset_Baidu_Source.Location = new System.Drawing.Point(314, 19);
+            this.btn_Reset_Baidu_Source.Name = "btn_Reset_Baidu_Source";
+            this.btn_Reset_Baidu_Source.Size = new System.Drawing.Size(50, 23);
+            this.btn_Reset_Baidu_Source.TabIndex = 1;
+            this.btn_Reset_Baidu_Source.Text = "重置";
+            this.btn_Reset_Baidu_Source.UseVisualStyleBackColor = true;
+            this.btn_Reset_Baidu_Source.Click += new System.EventHandler(this.btn_Reset_Source_Click);
+            //
+            // textBox_Baidu_Source
+            //
+            this.textBox_Baidu_Source.Location = new System.Drawing.Point(6, 20);
+            this.textBox_Baidu_Source.Name = "textBox_Baidu_Source";
+            this.textBox_Baidu_Source.Size = new System.Drawing.Size(302, 21);
+            this.textBox_Baidu_Source.TabIndex = 0;
+            //
+            // tabPage_Tencent
+            //
+            this.tabPage_Tencent.Controls.Add(this.groupBox_Tencent_Key);
+            this.tabPage_Tencent.Controls.Add(this.groupBox_Tencent_Target);
+            this.tabPage_Tencent.Controls.Add(this.groupBox_Tencent_Source);
+            this.tabPage_Tencent.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Tencent.Name = "tabPage_Tencent";
+            this.tabPage_Tencent.Size = new System.Drawing.Size(382, 303);
+            this.tabPage_Tencent.TabIndex = 2;
+            this.tabPage_Tencent.Text = "Tencent";
+            this.tabPage_Tencent.UseVisualStyleBackColor = true;
+            //
+            // groupBox_Tencent_Key
+            //
+            this.groupBox_Tencent_Key.Controls.Add(this.textBox_Tencent_SK);
+            this.groupBox_Tencent_Key.Controls.Add(this.label_Tencent_SK);
+            this.groupBox_Tencent_Key.Controls.Add(this.textBox_Tencent_AK);
+            this.groupBox_Tencent_Key.Controls.Add(this.label_Tencent_AK);
+            this.groupBox_Tencent_Key.Location = new System.Drawing.Point(6, 128);
+            this.groupBox_Tencent_Key.Name = "groupBox_Tencent_Key";
+            this.groupBox_Tencent_Key.Size = new System.Drawing.Size(370, 80);
+            this.groupBox_Tencent_Key.TabIndex = 5;
+            this.groupBox_Tencent_Key.TabStop = false;
+            this.groupBox_Tencent_Key.Text = "密钥";
+            //
+            // textBox_Tencent_SK
+            //
+            this.textBox_Tencent_SK.Location = new System.Drawing.Point(40, 47);
+            this.textBox_Tencent_SK.Name = "textBox_Tencent_SK";
+            this.textBox_Tencent_SK.Size = new System.Drawing.Size(324, 21);
+            this.textBox_Tencent_SK.TabIndex = 3;
+            //
+            // label_Tencent_SK
+            //
+            this.label_Tencent_SK.AutoSize = true;
+            this.label_Tencent_SK.Location = new System.Drawing.Point(7, 50);
+            this.label_Tencent_SK.Name = "label_Tencent_SK";
+            this.label_Tencent_SK.Size = new System.Drawing.Size(23, 12);
+            this.label_Tencent_SK.TabIndex = 2;
+            this.label_Tencent_SK.Text = "sk:";
+            //
+            // textBox_Tencent_AK
+            //
+            this.textBox_Tencent_AK.Location = new System.Drawing.Point(40, 20);
+            this.textBox_Tencent_AK.Name = "textBox_Tencent_AK";
+            this.textBox_Tencent_AK.Size = new System.Drawing.Size(324, 21);
+            this.textBox_Tencent_AK.TabIndex = 1;
+            //
+            // label_Tencent_AK
+            //
+            this.label_Tencent_AK.AutoSize = true;
+            this.label_Tencent_AK.Location = new System.Drawing.Point(7, 23);
+            this.label_Tencent_AK.Name = "label_Tencent_AK";
+            this.label_Tencent_AK.Size = new System.Drawing.Size(23, 12);
+            this.label_Tencent_AK.TabIndex = 0;
+            this.label_Tencent_AK.Text = "ak:";
+            //
+            // groupBox_Tencent_Target
+            //
+            this.groupBox_Tencent_Target.Controls.Add(this.btn_Reset_Tencent_Target);
+            this.groupBox_Tencent_Target.Controls.Add(this.textBox_Tencent_Target);
+            this.groupBox_Tencent_Target.Location = new System.Drawing.Point(6, 67);
+            this.groupBox_Tencent_Target.Name = "groupBox_Tencent_Target";
+            this.groupBox_Tencent_Target.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Tencent_Target.TabIndex = 4;
+            this.groupBox_Tencent_Target.TabStop = false;
+            this.groupBox_Tencent_Target.Text = "目标语言";
+            //
+            // btn_Reset_Tencent_Target
+            //
+            this.btn_Reset_Tencent_Target.Location = new System.Drawing.Point(314, 19);
+            this.btn_Reset_Tencent_Target.Name = "btn_Reset_Tencent_Target";
+            this.btn_Reset_Tencent_Target.Size = new System.Drawing.Size(50, 23);
+            this.btn_Reset_Tencent_Target.TabIndex = 1;
+            this.btn_Reset_Tencent_Target.Text = "重置";
+            this.btn_Reset_Tencent_Target.UseVisualStyleBackColor = true;
+            this.btn_Reset_Tencent_Target.Click += new System.EventHandler(this.btn_Reset_Target_Click);
+            //
+            // textBox_Tencent_Target
+            //
+            this.textBox_Tencent_Target.Location = new System.Drawing.Point(6, 20);
+            this.textBox_Tencent_Target.Name = "textBox_Tencent_Target";
+            this.textBox_Tencent_Target.Size = new System.Drawing.Size(302, 21);
+            this.textBox_Tencent_Target.TabIndex = 0;
+            //
+            // groupBox_Tencent_Source
+            //
+            this.groupBox_Tencent_Source.Controls.Add(this.btn_Reset_Tencent_Source);
+            this.groupBox_Tencent_Source.Controls.Add(this.textBox_Tencent_Source);
+            this.groupBox_Tencent_Source.Location = new System.Drawing.Point(6, 6);
+            this.groupBox_Tencent_Source.Name = "groupBox_Tencent_Source";
+            this.groupBox_Tencent_Source.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Tencent_Source.TabIndex = 3;
+            this.groupBox_Tencent_Source.TabStop = false;
+            this.groupBox_Tencent_Source.Text = "源语言";
+            //
+            // btn_Reset_Tencent_Source
+            //
+            this.btn_Reset_Tencent_Source.Location = new System.Drawing.Point(314, 19);
+            this.btn_Reset_Tencent_Source.Name = "btn_Reset_Tencent_Source";
+            this.btn_Reset_Tencent_Source.Size = new System.Drawing.Size(50, 23);
+            this.btn_Reset_Tencent_Source.TabIndex = 1;
+            this.btn_Reset_Tencent_Source.Text = "重置";
+            this.btn_Reset_Tencent_Source.UseVisualStyleBackColor = true;
+            this.btn_Reset_Tencent_Source.Click += new System.EventHandler(this.btn_Reset_Source_Click);
+            //
+            // textBox_Tencent_Source
+            //
+            this.textBox_Tencent_Source.Location = new System.Drawing.Point(6, 20);
+            this.textBox_Tencent_Source.Name = "textBox_Tencent_Source";
+            this.textBox_Tencent_Source.Size = new System.Drawing.Size(302, 21);
+            this.textBox_Tencent_Source.TabIndex = 0;
+            //
+            // tabPage_Bing
+            //
+            this.tabPage_Bing.Controls.Add(this.groupBox_Bing_Key);
+            this.tabPage_Bing.Controls.Add(this.groupBox_Bing_Target);
+            this.tabPage_Bing.Controls.Add(this.groupBox_Bing_Source);
+            this.tabPage_Bing.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Bing.Name = "tabPage_Bing";
+            this.tabPage_Bing.Size = new System.Drawing.Size(382, 303);
+            this.tabPage_Bing.TabIndex = 3;
+            this.tabPage_Bing.Text = "Bing";
+            this.tabPage_Bing.UseVisualStyleBackColor = true;
+            //
+            // groupBox_Bing_Key
+            //
+            this.groupBox_Bing_Key.Controls.Add(this.label_Bing_Key);
+            this.groupBox_Bing_Key.Location = new System.Drawing.Point(6, 128);
+            this.groupBox_Bing_Key.Name = "groupBox_Bing_Key";
+            this.groupBox_Bing_Key.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Bing_Key.TabIndex = 2;
+            this.groupBox_Bing_Key.TabStop = false;
+            this.groupBox_Bing_Key.Text = "密钥";
+            //
+            // label_Bing_Key
+            //
+            this.label_Bing_Key.AutoSize = true;
+            this.label_Bing_Key.Location = new System.Drawing.Point(150, 25);
+            this.label_Bing_Key.Name = "label_Bing_Key";
+            this.label_Bing_Key.Size = new System.Drawing.Size(53, 12);
+            this.label_Bing_Key.TabIndex = 0;
+            this.label_Bing_Key.Text = "无需密钥";
+            //
+            // groupBox_Bing_Target
+            //
+            this.groupBox_Bing_Target.Controls.Add(this.btn_Reset_Bing_Target);
+            this.groupBox_Bing_Target.Controls.Add(this.textBox_Bing_Target);
+            this.groupBox_Bing_Target.Location = new System.Drawing.Point(6, 67);
+            this.groupBox_Bing_Target.Name = "groupBox_Bing_Target";
+            this.groupBox_Bing_Target.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Bing_Target.TabIndex = 1;
+            this.groupBox_Bing_Target.TabStop = false;
+            this.groupBox_Bing_Target.Text = "目标语言";
+            //
+            // btn_Reset_Bing_Target
+            //
+            this.btn_Reset_Bing_Target.Location = new System.Drawing.Point(314, 19);
+            this.btn_Reset_Bing_Target.Name = "btn_Reset_Bing_Target";
+            this.btn_Reset_Bing_Target.Size = new System.Drawing.Size(50, 23);
+            this.btn_Reset_Bing_Target.TabIndex = 1;
+            this.btn_Reset_Bing_Target.Text = "重置";
+            this.btn_Reset_Bing_Target.UseVisualStyleBackColor = true;
+            this.btn_Reset_Bing_Target.Click += new System.EventHandler(this.btn_Reset_Target_Click);
+            //
+            // textBox_Bing_Target
+            //
+            this.textBox_Bing_Target.Location = new System.Drawing.Point(6, 20);
+            this.textBox_Bing_Target.Name = "textBox_Bing_Target";
+            this.textBox_Bing_Target.Size = new System.Drawing.Size(302, 21);
+            this.textBox_Bing_Target.TabIndex = 0;
+            //
+            // groupBox_Bing_Source
+            //
+            this.groupBox_Bing_Source.Controls.Add(this.btn_Reset_Bing_Source);
+            this.groupBox_Bing_Source.Controls.Add(this.textBox_Bing_Source);
+            this.groupBox_Bing_Source.Location = new System.Drawing.Point(6, 6);
+            this.groupBox_Bing_Source.Name = "groupBox_Bing_Source";
+            this.groupBox_Bing_Source.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Bing_Source.TabIndex = 0;
+            this.groupBox_Bing_Source.TabStop = false;
+            this.groupBox_Bing_Source.Text = "源语言";
+            //
+            // btn_Reset_Bing_Source
+            //
+            this.btn_Reset_Bing_Source.Location = new System.Drawing.Point(314, 19);
+            this.btn_Reset_Bing_Source.Name = "btn_Reset_Bing_Source";
+            this.btn_Reset_Bing_Source.Size = new System.Drawing.Size(50, 23);
+            this.btn_Reset_Bing_Source.TabIndex = 1;
+            this.btn_Reset_Bing_Source.Text = "重置";
+            this.btn_Reset_Bing_Source.UseVisualStyleBackColor = true;
+            this.btn_Reset_Bing_Source.Click += new System.EventHandler(this.btn_Reset_Source_Click);
+            //
+            // textBox_Bing_Source
+            //
+            this.textBox_Bing_Source.Location = new System.Drawing.Point(6, 20);
+            this.textBox_Bing_Source.Name = "textBox_Bing_Source";
+            this.textBox_Bing_Source.Size = new System.Drawing.Size(302, 21);
+            this.textBox_Bing_Source.TabIndex = 0;
+            //
+            // tabPage_Microsoft
+            //
+            this.tabPage_Microsoft.Controls.Add(this.groupBox_Microsoft_Key);
+            this.tabPage_Microsoft.Controls.Add(this.groupBox_Microsoft_Target);
+            this.tabPage_Microsoft.Controls.Add(this.groupBox_Microsoft_Source);
+            this.tabPage_Microsoft.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Microsoft.Name = "tabPage_Microsoft";
+            this.tabPage_Microsoft.Size = new System.Drawing.Size(382, 303);
+            this.tabPage_Microsoft.TabIndex = 4;
+            this.tabPage_Microsoft.Text = "Microsoft";
+            this.tabPage_Microsoft.UseVisualStyleBackColor = true;
+            //
+            // groupBox_Microsoft_Key
+            //
+            this.groupBox_Microsoft_Key.Controls.Add(this.label_Microsoft_Key);
+            this.groupBox_Microsoft_Key.Location = new System.Drawing.Point(6, 128);
+            this.groupBox_Microsoft_Key.Name = "groupBox_Microsoft_Key";
+            this.groupBox_Microsoft_Key.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Microsoft_Key.TabIndex = 2;
+            this.groupBox_Microsoft_Key.TabStop = false;
+            this.groupBox_Microsoft_Key.Text = "密钥";
+            //
+            // label_Microsoft_Key
+            //
+            this.label_Microsoft_Key.AutoSize = true;
+            this.label_Microsoft_Key.Location = new System.Drawing.Point(150, 25);
+            this.label_Microsoft_Key.Name = "label_Microsoft_Key";
+            this.label_Microsoft_Key.Size = new System.Drawing.Size(53, 12);
+            this.label_Microsoft_Key.TabIndex = 0;
+            this.label_Microsoft_Key.Text = "无需密钥";
+            //
+            // groupBox_Microsoft_Target
+            //
+            this.groupBox_Microsoft_Target.Controls.Add(this.btn_Reset_Microsoft_Target);
+            this.groupBox_Microsoft_Target.Controls.Add(this.textBox_Microsoft_Target);
+            this.groupBox_Microsoft_Target.Location = new System.Drawing.Point(6, 67);
+            this.groupBox_Microsoft_Target.Name = "groupBox_Microsoft_Target";
+            this.groupBox_Microsoft_Target.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Microsoft_Target.TabIndex = 1;
+            this.groupBox_Microsoft_Target.TabStop = false;
+            this.groupBox_Microsoft_Target.Text = "目标语言";
+            //
+            // btn_Reset_Microsoft_Target
+            //
+            this.btn_Reset_Microsoft_Target.Location = new System.Drawing.Point(314, 19);
+            this.btn_Reset_Microsoft_Target.Name = "btn_Reset_Microsoft_Target";
+            this.btn_Reset_Microsoft_Target.Size = new System.Drawing.Size(50, 23);
+            this.btn_Reset_Microsoft_Target.TabIndex = 1;
+            this.btn_Reset_Microsoft_Target.Text = "重置";
+            this.btn_Reset_Microsoft_Target.UseVisualStyleBackColor = true;
+            this.btn_Reset_Microsoft_Target.Click += new System.EventHandler(this.btn_Reset_Target_Click);
+            //
+            // textBox_Microsoft_Target
+            //
+            this.textBox_Microsoft_Target.Location = new System.Drawing.Point(6, 20);
+            this.textBox_Microsoft_Target.Name = "textBox_Microsoft_Target";
+            this.textBox_Microsoft_Target.Size = new System.Drawing.Size(302, 21);
+            this.textBox_Microsoft_Target.TabIndex = 0;
+            //
+            // groupBox_Microsoft_Source
+            //
+            this.groupBox_Microsoft_Source.Controls.Add(this.btn_Reset_Microsoft_Source);
+            this.groupBox_Microsoft_Source.Controls.Add(this.textBox_Microsoft_Source);
+            this.groupBox_Microsoft_Source.Location = new System.Drawing.Point(6, 6);
+            this.groupBox_Microsoft_Source.Name = "groupBox_Microsoft_Source";
+            this.groupBox_Microsoft_Source.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Microsoft_Source.TabIndex = 0;
+            this.groupBox_Microsoft_Source.TabStop = false;
+            this.groupBox_Microsoft_Source.Text = "源语言";
+            //
+            // btn_Reset_Microsoft_Source
+            //
+            this.btn_Reset_Microsoft_Source.Location = new System.Drawing.Point(314, 19);
+            this.btn_Reset_Microsoft_Source.Name = "btn_Reset_Microsoft_Source";
+            this.btn_Reset_Microsoft_Source.Size = new System.Drawing.Size(50, 23);
+            this.btn_Reset_Microsoft_Source.TabIndex = 1;
+            this.btn_Reset_Microsoft_Source.Text = "重置";
+            this.btn_Reset_Microsoft_Source.UseVisualStyleBackColor = true;
+            this.btn_Reset_Microsoft_Source.Click += new System.EventHandler(this.btn_Reset_Source_Click);
+            //
+            // textBox_Microsoft_Source
+            //
+            this.textBox_Microsoft_Source.Location = new System.Drawing.Point(6, 20);
+            this.textBox_Microsoft_Source.Name = "textBox_Microsoft_Source";
+            this.textBox_Microsoft_Source.Size = new System.Drawing.Size(302, 21);
+            this.textBox_Microsoft_Source.TabIndex = 0;
+            //
+            // tabPage_Yandex
+            //
+            this.tabPage_Yandex.Controls.Add(this.groupBox_Yandex_Key);
+            this.tabPage_Yandex.Controls.Add(this.groupBox_Yandex_Target);
+            this.tabPage_Yandex.Controls.Add(this.groupBox_Yandex_Source);
+            this.tabPage_Yandex.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Yandex.Name = "tabPage_Yandex";
+            this.tabPage_Yandex.Size = new System.Drawing.Size(382, 303);
+            this.tabPage_Yandex.TabIndex = 5;
+            this.tabPage_Yandex.Text = "Yandex";
+            this.tabPage_Yandex.UseVisualStyleBackColor = true;
+            //
+            // groupBox_Yandex_Key
+            //
+            this.groupBox_Yandex_Key.Controls.Add(this.label_Yandex_Key);
+            this.groupBox_Yandex_Key.Location = new System.Drawing.Point(6, 128);
+            this.groupBox_Yandex_Key.Name = "groupBox_Yandex_Key";
+            this.groupBox_Yandex_Key.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Yandex_Key.TabIndex = 2;
+            this.groupBox_Yandex_Key.TabStop = false;
+            this.groupBox_Yandex_Key.Text = "密钥";
+            //
+            // label_Yandex_Key
+            //
+            this.label_Yandex_Key.AutoSize = true;
+            this.label_Yandex_Key.Location = new System.Drawing.Point(150, 25);
+            this.label_Yandex_Key.Name = "label_Yandex_Key";
+            this.label_Yandex_Key.Size = new System.Drawing.Size(53, 12);
+            this.label_Yandex_Key.TabIndex = 0;
+            this.label_Yandex_Key.Text = "无需密钥";
+            //
+            // groupBox_Yandex_Target
+            //
+            this.groupBox_Yandex_Target.Controls.Add(this.btn_Reset_Yandex_Target);
+            this.groupBox_Yandex_Target.Controls.Add(this.textBox_Yandex_Target);
+            this.groupBox_Yandex_Target.Location = new System.Drawing.Point(6, 67);
+            this.groupBox_Yandex_Target.Name = "groupBox_Yandex_Target";
+            this.groupBox_Yandex_Target.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Yandex_Target.TabIndex = 1;
+            this.groupBox_Yandex_Target.TabStop = false;
+            this.groupBox_Yandex_Target.Text = "目标语言";
+            //
+            // btn_Reset_Yandex_Target
+            //
+            this.btn_Reset_Yandex_Target.Location = new System.Drawing.Point(314, 19);
+            this.btn_Reset_Yandex_Target.Name = "btn_Reset_Yandex_Target";
+            this.btn_Reset_Yandex_Target.Size = new System.Drawing.Size(50, 23);
+            this.btn_Reset_Yandex_Target.TabIndex = 1;
+            this.btn_Reset_Yandex_Target.Text = "重置";
+            this.btn_Reset_Yandex_Target.UseVisualStyleBackColor = true;
+            this.btn_Reset_Yandex_Target.Click += new System.EventHandler(this.btn_Reset_Target_Click);
+            //
+            // textBox_Yandex_Target
+            //
+            this.textBox_Yandex_Target.Location = new System.Drawing.Point(6, 20);
+            this.textBox_Yandex_Target.Name = "textBox_Yandex_Target";
+            this.textBox_Yandex_Target.Size = new System.Drawing.Size(302, 21);
+            this.textBox_Yandex_Target.TabIndex = 0;
+            //
+            // groupBox_Yandex_Source
+            //
+            this.groupBox_Yandex_Source.Controls.Add(this.btn_Reset_Yandex_Source);
+            this.groupBox_Yandex_Source.Controls.Add(this.textBox_Yandex_Source);
+            this.groupBox_Yandex_Source.Location = new System.Drawing.Point(6, 6);
+            this.groupBox_Yandex_Source.Name = "groupBox_Yandex_Source";
+            this.groupBox_Yandex_Source.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Yandex_Source.TabIndex = 0;
+            this.groupBox_Yandex_Source.TabStop = false;
+            this.groupBox_Yandex_Source.Text = "源语言";
+            //
+            // btn_Reset_Yandex_Source
+            //
+            this.btn_Reset_Yandex_Source.Location = new System.Drawing.Point(314, 19);
+            this.btn_Reset_Yandex_Source.Name = "btn_Reset_Yandex_Source";
+            this.btn_Reset_Yandex_Source.Size = new System.Drawing.Size(50, 23);
+            this.btn_Reset_Yandex_Source.TabIndex = 1;
+            this.btn_Reset_Yandex_Source.Text = "重置";
+            this.btn_Reset_Yandex_Source.UseVisualStyleBackColor = true;
+            this.btn_Reset_Yandex_Source.Click += new System.EventHandler(this.btn_Reset_Source_Click);
+            //
+            // textBox_Yandex_Source
+            //
+            this.textBox_Yandex_Source.Location = new System.Drawing.Point(6, 20);
+            this.textBox_Yandex_Source.Name = "textBox_Yandex_Source";
+            this.textBox_Yandex_Source.Size = new System.Drawing.Size(302, 21);
+            this.textBox_Yandex_Source.TabIndex = 0;
             //
             // groupBox6
             // 
@@ -937,6 +1526,7 @@
             this.tab_标签.Controls.Add(this.page_常规);
             this.tab_标签.Controls.Add(this.Page_快捷键);
             this.tab_标签.Controls.Add(this.Page_密钥);
+            this.tab_标签.Controls.Add(this.Page_翻译接口);
             this.tab_标签.Controls.Add(this.Page_代理);
             this.tab_标签.Controls.Add(this.Page_更新);
             this.tab_标签.Controls.Add(this.Page_反馈);
@@ -1193,6 +1783,16 @@
             this.Page_反馈.TabIndex = 8;
             this.Page_反馈.Text = "反馈";
             //
+            // Page_翻译接口
+            //
+            this.Page_翻译接口.BackColor = System.Drawing.Color.White;
+            this.Page_翻译接口.Controls.Add(this.tabControl_Trans);
+            this.Page_翻译接口.Location = new System.Drawing.Point(4, 22);
+            this.Page_翻译接口.Name = "Page_翻译接口";
+            this.Page_翻译接口.Size = new System.Drawing.Size(390, 329);
+            this.Page_翻译接口.TabIndex = 10;
+            this.Page_翻译接口.Text = "翻译接口";
+            //
             // Page_About
             //
             this.Page_About.BackColor = System.Drawing.Color.White;
@@ -1259,9 +1859,51 @@
             ((System.ComponentModel.ISupportInitialize)(this.numbox_记录)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox_翻译接口.ResumeLayout(false);
-            this.groupBox_翻译接口.PerformLayout();
+            this.tabControl_Trans.ResumeLayout(false);
+            this.tabPage_Google.ResumeLayout(false);
+            this.groupBox_Google_Key.ResumeLayout(false);
+            this.groupBox_Google_Key.PerformLayout();
+            this.groupBox_Google_Target.ResumeLayout(false);
+            this.groupBox_Google_Target.PerformLayout();
+            this.groupBox_Google_Source.ResumeLayout(false);
+            this.groupBox_Google_Source.PerformLayout();
+            this.tabPage_Baidu.ResumeLayout(false);
+            this.groupBox_Baidu_Key.ResumeLayout(false);
+            this.groupBox_Baidu_Key.PerformLayout();
+            this.groupBox_Baidu_Target.ResumeLayout(false);
+            this.groupBox_Baidu_Target.PerformLayout();
+            this.groupBox_Baidu_Source.ResumeLayout(false);
+            this.groupBox_Baidu_Source.PerformLayout();
+            this.tabPage_Tencent.ResumeLayout(false);
+            this.groupBox_Tencent_Key.ResumeLayout(false);
+            this.groupBox_Tencent_Key.PerformLayout();
+            this.groupBox_Tencent_Target.ResumeLayout(false);
+            this.groupBox_Tencent_Target.PerformLayout();
+            this.groupBox_Tencent_Source.ResumeLayout(false);
+            this.groupBox_Tencent_Source.PerformLayout();
+            this.tabPage_Bing.ResumeLayout(false);
+            this.groupBox_Bing_Key.ResumeLayout(false);
+            this.groupBox_Bing_Key.PerformLayout();
+            this.groupBox_Bing_Target.ResumeLayout(false);
+            this.groupBox_Bing_Target.PerformLayout();
+            this.groupBox_Bing_Source.ResumeLayout(false);
+            this.groupBox_Bing_Source.PerformLayout();
+            this.tabPage_Microsoft.ResumeLayout(false);
+            this.groupBox_Microsoft_Key.ResumeLayout(false);
+            this.groupBox_Microsoft_Key.PerformLayout();
+            this.groupBox_Microsoft_Target.ResumeLayout(false);
+            this.groupBox_Microsoft_Target.PerformLayout();
+            this.groupBox_Microsoft_Source.ResumeLayout(false);
+            this.groupBox_Microsoft_Source.PerformLayout();
+            this.tabPage_Yandex.ResumeLayout(false);
+            this.groupBox_Yandex_Key.ResumeLayout(false);
+            this.groupBox_Yandex_Key.PerformLayout();
+            this.groupBox_Yandex_Target.ResumeLayout(false);
+            this.groupBox_Yandex_Target.PerformLayout();
+            this.groupBox_Yandex_Source.ResumeLayout(false);
+            this.groupBox_Yandex_Source.PerformLayout();
             this.page_常规.ResumeLayout(false);
+            this.Page_翻译接口.ResumeLayout(false);
             this.tab_标签.ResumeLayout(false);
             this.Page_更新.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
@@ -1359,6 +2001,7 @@
 		private global::System.Windows.Forms.CheckBox chbox_取色;
         private System.Windows.Forms.TabPage Page_反馈;
         private System.Windows.Forms.TabPage Page_About;
+        private System.Windows.Forms.TabPage Page_翻译接口;
         private System.Windows.Forms.Label label_VersionInfo;
         private System.Windows.Forms.Label label_AuthorInfo;
         private System.Windows.Forms.Label label21;
@@ -1375,12 +2018,66 @@
         private System.Windows.Forms.TextBox BoxTencentId;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label22;
-        private global::System.Windows.Forms.GroupBox groupBox_翻译接口;
-        private global::System.Windows.Forms.RadioButton radio_trans_yandex;
-        private global::System.Windows.Forms.RadioButton radio_trans_microsoft;
-        private global::System.Windows.Forms.RadioButton radio_trans_bing;
-        private global::System.Windows.Forms.RadioButton radio_trans_tencent;
-        private global::System.Windows.Forms.RadioButton radio_trans_baidu;
-        private global::System.Windows.Forms.RadioButton radio_trans_google;
+        private System.Windows.Forms.TabControl tabControl_Trans;
+        private System.Windows.Forms.TabPage tabPage_Google;
+        private System.Windows.Forms.TabPage tabPage_Baidu;
+        private System.Windows.Forms.TabPage tabPage_Tencent;
+        private System.Windows.Forms.TabPage tabPage_Bing;
+        private System.Windows.Forms.TabPage tabPage_Microsoft;
+        private System.Windows.Forms.TabPage tabPage_Yandex;
+        private System.Windows.Forms.GroupBox groupBox_Google_Key;
+        private System.Windows.Forms.Label label_Google_Key;
+        private System.Windows.Forms.GroupBox groupBox_Google_Target;
+        private System.Windows.Forms.TextBox textBox_Google_Target;
+        private System.Windows.Forms.GroupBox groupBox_Google_Source;
+        private System.Windows.Forms.TextBox textBox_Google_Source;
+        private System.Windows.Forms.GroupBox groupBox_Baidu_Key;
+        private System.Windows.Forms.TextBox textBox_Baidu_SK;
+        private System.Windows.Forms.Label label_Baidu_SK;
+        private System.Windows.Forms.TextBox textBox_Baidu_AK;
+        private System.Windows.Forms.Label label_Baidu_AK;
+        private System.Windows.Forms.GroupBox groupBox_Baidu_Target;
+        private System.Windows.Forms.TextBox textBox_Baidu_Target;
+        private System.Windows.Forms.GroupBox groupBox_Baidu_Source;
+        private System.Windows.Forms.TextBox textBox_Baidu_Source;
+        private System.Windows.Forms.GroupBox groupBox_Tencent_Key;
+        private System.Windows.Forms.TextBox textBox_Tencent_SK;
+        private System.Windows.Forms.Label label_Tencent_SK;
+        private System.Windows.Forms.TextBox textBox_Tencent_AK;
+        private System.Windows.Forms.Label label_Tencent_AK;
+        private System.Windows.Forms.GroupBox groupBox_Tencent_Target;
+        private System.Windows.Forms.TextBox textBox_Tencent_Target;
+        private System.Windows.Forms.GroupBox groupBox_Tencent_Source;
+        private System.Windows.Forms.TextBox textBox_Tencent_Source;
+        private System.Windows.Forms.GroupBox groupBox_Bing_Key;
+        private System.Windows.Forms.Label label_Bing_Key;
+        private System.Windows.Forms.GroupBox groupBox_Bing_Target;
+        private System.Windows.Forms.TextBox textBox_Bing_Target;
+        private System.Windows.Forms.GroupBox groupBox_Bing_Source;
+        private System.Windows.Forms.TextBox textBox_Bing_Source;
+        private System.Windows.Forms.GroupBox groupBox_Microsoft_Key;
+        private System.Windows.Forms.Label label_Microsoft_Key;
+        private System.Windows.Forms.GroupBox groupBox_Microsoft_Target;
+        private System.Windows.Forms.TextBox textBox_Microsoft_Target;
+        private System.Windows.Forms.GroupBox groupBox_Microsoft_Source;
+        private System.Windows.Forms.TextBox textBox_Microsoft_Source;
+        private System.Windows.Forms.GroupBox groupBox_Yandex_Key;
+        private System.Windows.Forms.Label label_Yandex_Key;
+        private System.Windows.Forms.GroupBox groupBox_Yandex_Target;
+        private System.Windows.Forms.TextBox textBox_Yandex_Target;
+        private System.Windows.Forms.GroupBox groupBox_Yandex_Source;
+        private System.Windows.Forms.TextBox textBox_Yandex_Source;
+        private System.Windows.Forms.Button btn_Reset_Google_Source;
+        private System.Windows.Forms.Button btn_Reset_Google_Target;
+        private System.Windows.Forms.Button btn_Reset_Baidu_Source;
+        private System.Windows.Forms.Button btn_Reset_Baidu_Target;
+        private System.Windows.Forms.Button btn_Reset_Tencent_Source;
+        private System.Windows.Forms.Button btn_Reset_Tencent_Target;
+        private System.Windows.Forms.Button btn_Reset_Bing_Source;
+        private System.Windows.Forms.Button btn_Reset_Bing_Target;
+        private System.Windows.Forms.Button btn_Reset_Microsoft_Source;
+        private System.Windows.Forms.Button btn_Reset_Microsoft_Target;
+        private System.Windows.Forms.Button btn_Reset_Yandex_Source;
+        private System.Windows.Forms.Button btn_Reset_Yandex_Target;
     }
 }

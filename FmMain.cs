@@ -913,42 +913,67 @@ namespace TrOCR
 			}
 			else
 			{
-				string toLang = "en"; // Default target language
-				if (StaticValue.ZH2EN)
-				{
-					if (ch_count(typeset_txt.Trim()) > en_count(typeset_txt.Trim()) || (en_count(typeset_txt.Trim()) == 1 && ch_count(typeset_txt.Trim()) == 1))
-					{
-						toLang = "en";
-					}
-					else
-					{
-						toLang = "zh-CN";
-					}
-				}
-				else if (StaticValue.ZH2JP)
-				{
-					if (contain_jap(replaceStr(Del_ch(typeset_txt.Trim()))))
-					{
-						toLang = "zh-CN";
-					}
-					else
-					{
-						toLang = "ja";
-					}
-				}
-				else if (StaticValue.ZH2KO)
-				{
-					if (contain_kor(typeset_txt.Trim()))
-					{
-						toLang = "zh-CN";
-					}
-					else
-					{
-						toLang = "ko";
-					}
-				}
-
 				string transService = IniHelper.GetValue("配置", "翻译接口");
+				            string sectionName;
+				            switch (transService)
+				            {
+				                case "谷歌":
+				                    sectionName = "Google";
+				                    break;
+				                case "百度":
+				                    sectionName = "Baidu";
+				                    break;
+				                case "腾讯":
+				                    sectionName = "Tencent";
+				                    break;
+				                default:
+				                    sectionName = transService; // Handles Bing, Microsoft, Yandex
+				                    break;
+				            }
+				            string targetLangSetting = IniHelper.GetValue("Translate_" + sectionName, "Target");
+
+				            string toLang;
+				            if (targetLangSetting == "自动判断" || targetLangSetting == "发生错误")
+				            {
+				                toLang = "en"; // Default
+				                if (StaticValue.ZH2EN)
+				                {
+				                    if (ch_count(typeset_txt.Trim()) > en_count(typeset_txt.Trim()) || (en_count(typeset_txt.Trim()) == 1 && ch_count(typeset_txt.Trim()) == 1))
+				                    {
+				                        toLang = "en";
+				                    }
+				                    else
+				                    {
+				                        toLang = "zh-CN";
+				                    }
+				                }
+				                else if (StaticValue.ZH2JP)
+				                {
+				                    if (contain_jap(replaceStr(Del_ch(typeset_txt.Trim()))))
+				                    {
+				                        toLang = "zh-CN";
+				                    }
+				                    else
+				                    {
+				                        toLang = "ja";
+				                    }
+				                }
+				                else if (StaticValue.ZH2KO)
+				                {
+				                    if (contain_kor(typeset_txt.Trim()))
+				                    {
+				                        toLang = "zh-CN";
+				                    }
+				                    else
+				                    {
+				                        toLang = "ko";
+				                    }
+				                }
+				            }
+				            else
+				            {
+				                toLang = targetLangSetting;
+				            }
 
 				switch (transService)
 				{
@@ -1854,7 +1879,10 @@ namespace TrOCR
 			{
 				RichBoxBody.Text = shupai_Left_txt;
 			}
-			Clipboard.SetDataObject(RichBoxBody.Text);
+			if (IniHelper.GetValue("截图音效", "粘贴板") == "True")
+			{
+				Clipboard.SetDataObject(RichBoxBody.Text);
+			}
 			if (baidu_flags == "百度")
 			{
 				FormBorderStyle = FormBorderStyle.Sizable;
@@ -3216,8 +3244,70 @@ namespace TrOCR
 				try
 				{
 					trans_hotkey = GetTextFromClipboard();
-		                  string transService = IniHelper.GetValue("配置", "翻译接口");
-		                  string toLang = "en"; // Simplified logic for hotkey, can be enhanced later
+					               if (string.IsNullOrEmpty(trans_hotkey)) return;
+
+					               string transService = IniHelper.GetValue("配置", "翻译接口");
+					               string sectionName;
+					               switch (transService)
+					               {
+					                   case "谷歌":
+					                       sectionName = "Google";
+					                       break;
+					                   case "百度":
+					                       sectionName = "Baidu";
+					                       break;
+					                   case "腾讯":
+					                       sectionName = "Tencent";
+					                       break;
+					                   default:
+					                       sectionName = transService; // Handles Bing, Microsoft, Yandex
+					                       break;
+					               }
+					               string targetLangSetting = IniHelper.GetValue("Translate_" + sectionName, "Target");
+
+					               string toLang;
+					               if (targetLangSetting == "自动判断" || targetLangSetting == "发生错误")
+					               {
+					                   toLang = "en"; // Default
+					                   if (StaticValue.ZH2EN)
+					                   {
+					                       if (ch_count(trans_hotkey.Trim()) > en_count(trans_hotkey.Trim()) || (en_count(trans_hotkey.Trim()) == 1 && ch_count(trans_hotkey.Trim()) == 1))
+					                       {
+					                           toLang = "en";
+					                       }
+					                       else
+					                       {
+					                           toLang = "zh-CN";
+					                       }
+					                   }
+					                   else if (StaticValue.ZH2JP)
+					                   {
+					                       if (contain_jap(replaceStr(Del_ch(trans_hotkey.Trim()))))
+					                       {
+					                           toLang = "zh-CN";
+					                       }
+					                       else
+					                       {
+					                           toLang = "ja";
+					                       }
+					                   }
+					                   else if (StaticValue.ZH2KO)
+					                   {
+					                       if (contain_kor(trans_hotkey.Trim()))
+					                       {
+					                           toLang = "zh-CN";
+					                       }
+					                       else
+					                       {
+					                           toLang = "ko";
+					                       }
+					                   }
+					               }
+					               else
+					               {
+					                   toLang = targetLangSetting;
+					               }
+
 					switch (transService)
 					{
 						case "谷歌":
@@ -3652,6 +3742,7 @@ namespace TrOCR
 		          IniHelper.SetValue("配置", "翻译接口", name);
 		          if (transtalate_fla == "开启")
 		          {
+		              typeset_txt = RichBoxBody.Text;
 		              PictureBox1.Visible = true;
 		              PictureBox1.BringToFront();
 		              trans_Calculate();
@@ -3708,12 +3799,12 @@ namespace TrOCR
 //                var html = CommonHelper.PostStrData("https://fanyi.baidu.com/basetrans",
 //                    string.Concat("query=", HttpUtility.UrlEncode(Text.Trim()).Replace("+", "%20"), "&from=", text2,
 //                        "&to=", text3));
-                var html = TranslateHelper.BdTrans(content.Trim(), text2, text3);
+		              var html = TranslateHelper.BdTrans(content.Trim(), text2, text3);
 				var jArray = JArray.Parse(((JObject)JsonConvert.DeserializeObject(html))["fanyi_list"].ToString());
 				foreach (var arr in jArray)
-                {
-                    text = text + arr + "\r\n";
-                }
+		              {
+		                  text = text + arr + "\r\n";
+		              }
 			}
 			catch (Exception)
 			{
@@ -3791,10 +3882,10 @@ namespace TrOCR
 				}
 				var jArray = JArray.Parse(((JObject)JsonConvert.DeserializeObject(TencentPOST("https://fanyi.qq.com/api/translate", Content_Length(strTrans, from, to))))["translate"]["records"].ToString());
 				foreach (var t in jArray)
-                {
-                    var jObject = JObject.Parse(t.ToString());
-                    text += jObject["targetText"].ToString();
-                }
+		              {
+		                  var jObject = JObject.Parse(t.ToString());
+		                  text += jObject["targetText"].ToString();
+		              }
 			}
 			catch (Exception)
 			{
