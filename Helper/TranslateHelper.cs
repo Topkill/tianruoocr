@@ -40,13 +40,13 @@ namespace TrOCR.Helper
         private static readonly MicrosoftTranslator _microsoftTranslator = new MicrosoftTranslator();
         private static readonly YandexTranslator _yandexTranslator = new YandexTranslator();
 
-        public static async Task<string> TranslateAsync(string text, string toLanguage, string service)
+        public static async Task<string> TranslateAsync(string text, string fromLanguage, string toLanguage, string service)
         {
             try
             {
                 if (service.ToLower() == "bing")
                 {
-                    return await BingTranslator.TranslateAsync(text, toLanguage);
+                    return await BingTranslator.TranslateAsync(text, fromLanguage, toLanguage);
                 }
 
                 ITranslator translator;
@@ -67,7 +67,7 @@ namespace TrOCR.Helper
                         break;
                 }
 
-                var result = await translator.TranslateAsync(text, toLanguage);
+                var result = await translator.TranslateAsync(text, toLanguage, fromLanguage.Equals("auto", System.StringComparison.OrdinalIgnoreCase) ? null : fromLanguage);
                 return result.Translation;
             }
             catch (System.Exception e)

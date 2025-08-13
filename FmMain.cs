@@ -931,8 +931,20 @@ namespace TrOCR
 				                    break;
 				            }
 				            string targetLangSetting = IniHelper.GetValue("Translate_" + sectionName, "Target");
+				                        string sourceLangSetting = IniHelper.GetValue("Translate_" + sectionName, "Source");
 
-				            string toLang;
+				                        string toLang;
+				                        string fromLang;
+
+				                        if (sourceLangSetting == "发生错误" || string.IsNullOrEmpty(sourceLangSetting))
+				                        {
+				                            fromLang = "auto";
+				                        }
+				                        else
+				                        {
+				                            fromLang = sourceLangSetting;
+				                        }
+
 				            if (targetLangSetting == "自动判断" || targetLangSetting == "发生错误")
 				            {
 				                toLang = "en"; // Default
@@ -978,16 +990,16 @@ namespace TrOCR
 				switch (transService)
 				{
 					case "谷歌":
-						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, toLang, "google");
+						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, fromLang, toLang, "google");
 						break;
 					case "Bing":
-						googleTranslate_txt = await BingTranslator.TranslateAsync(typeset_txt, toLang);
+						googleTranslate_txt = await BingTranslator.TranslateAsync(typeset_txt, fromLang, toLang);
 						break;
 					case "Microsoft":
-						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, toLang, "microsoft");
+						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, fromLang, toLang, "microsoft");
 						break;
 					case "Yandex":
-						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, toLang, "yandex");
+						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, fromLang, toLang, "yandex");
 						break;
 					case "百度":
 						googleTranslate_txt = TranslateBaidu(typeset_txt);
@@ -996,7 +1008,7 @@ namespace TrOCR
 						googleTranslate_txt = Translate_Tencent(typeset_txt);
 						break;
 					default:
-						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, toLang, "google");
+						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, fromLang, toLang, "google");
 						break;
 				}
 			}
@@ -3243,7 +3255,25 @@ namespace TrOCR
 				var data = "";
 				try
 				{
-					trans_hotkey = GetTextFromClipboard();
+					if (ContainsFocus)
+					{
+						if (RichBoxBody.richTextBox1.Focused)
+						{
+							trans_hotkey = RichBoxBody.richTextBox1.SelectedText;
+						}
+						else if (RichBoxBody_T.richTextBox1.Focused)
+						{
+							trans_hotkey = RichBoxBody_T.richTextBox1.SelectedText;
+						}
+						else
+						{
+							trans_hotkey = GetTextFromClipboard();
+						}
+					}
+					else
+					{
+						trans_hotkey = GetTextFromClipboard();
+					}
 					               if (string.IsNullOrEmpty(trans_hotkey)) return;
 
 					               string transService = IniHelper.GetValue("配置", "翻译接口");
@@ -3264,8 +3294,20 @@ namespace TrOCR
 					                       break;
 					               }
 					               string targetLangSetting = IniHelper.GetValue("Translate_" + sectionName, "Target");
+					                              string sourceLangSetting = IniHelper.GetValue("Translate_" + sectionName, "Source");
 
-					               string toLang;
+					                              string toLang;
+					                              string fromLang;
+
+					                              if (sourceLangSetting == "发生错误" || string.IsNullOrEmpty(sourceLangSetting))
+					                              {
+					                                  fromLang = "auto";
+					                              }
+					                              else
+					                              {
+					                                  fromLang = sourceLangSetting;
+					                              }
+
 					               if (targetLangSetting == "自动判断" || targetLangSetting == "发生错误")
 					               {
 					                   toLang = "en"; // Default
@@ -3310,27 +3352,27 @@ namespace TrOCR
 
 					switch (transService)
 					{
-						case "谷歌":
-							data = await GTranslateHelper.TranslateAsync(trans_hotkey, toLang, "google");
-							break;
-						case "Bing":
-							data = await BingTranslator.TranslateAsync(trans_hotkey, toLang);
-							break;
-						case "Microsoft":
-							data = await GTranslateHelper.TranslateAsync(trans_hotkey, toLang, "microsoft");
-							break;
-						case "Yandex":
-							data = await GTranslateHelper.TranslateAsync(trans_hotkey, toLang, "yandex");
-							break;
-						case "百度":
-							data = TranslateBaidu(trans_hotkey);
-							break;
-						case "腾讯":
-							data = Translate_Tencent(trans_hotkey);
-							break;
-						default:
-							data = await GTranslateHelper.TranslateAsync(trans_hotkey, toLang, "google");
-							break;
+					 case "谷歌":
+					  data = await GTranslateHelper.TranslateAsync(trans_hotkey, fromLang, toLang, "google");
+					  break;
+					 case "Bing":
+					  data = await BingTranslator.TranslateAsync(trans_hotkey, fromLang, toLang);
+					  break;
+					 case "Microsoft":
+					  data = await GTranslateHelper.TranslateAsync(trans_hotkey, fromLang, toLang, "microsoft");
+					  break;
+					 case "Yandex":
+					  data = await GTranslateHelper.TranslateAsync(trans_hotkey, fromLang, toLang, "yandex");
+					  break;
+					 case "百度":
+					  data = TranslateBaidu(trans_hotkey);
+					  break;
+					 case "腾讯":
+					  data = Translate_Tencent(trans_hotkey);
+					  break;
+					 default:
+					  data = await GTranslateHelper.TranslateAsync(trans_hotkey, fromLang, toLang, "google");
+					  break;
 					}
 					Clipboard.SetData(DataFormats.UnicodeText, data);
 					SendKeys.SendWait("^v");
