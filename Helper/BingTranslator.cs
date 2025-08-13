@@ -46,7 +46,7 @@ namespace TrOCR.Helper
             }
         }
 
-        public static async Task<string> TranslateAsync(string text, string toLanguage)
+        public static async Task<string> TranslateAsync(string text, string fromLanguage, string toLanguage)
         {
             if (string.IsNullOrWhiteSpace(text))
                 return string.Empty;
@@ -60,7 +60,7 @@ namespace TrOCR.Helper
 
                 foreach (var chunk in chunks)
                 {
-                    translationTasks.Add(TranslateChunkAsync(chunk, toLanguage));
+                    translationTasks.Add(TranslateChunkAsync(chunk, fromLanguage, toLanguage));
                 }
 
                 var translatedChunks = await Task.WhenAll(translationTasks).ConfigureAwait(false);
@@ -108,10 +108,10 @@ namespace TrOCR.Helper
             }
         }
 
-        private static async Task<string> TranslateChunkAsync(string text, string toLanguage)
+        private static async Task<string> TranslateChunkAsync(string text, string fromLanguage, string toLanguage)
         {
             var credentials = await GetOrUpdateCredentialsAsync().ConfigureAwait(false);
-            var fromLang = "auto-detect";
+            var fromLang = fromLanguage == "auto" ? "auto-detect" : fromLanguage;
             var targetLang = toLanguage == "zh-CN" ? "zh-Hans" : toLanguage;
 
             var body = new Dictionary<string, string>
