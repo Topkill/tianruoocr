@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web;
 using System.Windows.Forms;
+using System.Linq;
 using Microsoft.Win32;
 using TrOCR.Helper;
 using TrOCR.Properties;
@@ -147,6 +148,20 @@ namespace TrOCR
 			{
 				text_baidupassword.Text = "HPRZtdOHrdnnETVsZM2Nx7vbDkMfxrkD";
 			}
+
+			var valueTencentId = IniHelper.GetValue("密钥_腾讯", "secret_id");
+			BoxTencentId.Text = valueTencentId;
+			if (valueTencentId == "发生错误")
+			{
+				BoxTencentId.Text = "";
+			}
+			var valueTencentKey = IniHelper.GetValue("密钥_腾讯", "secret_key");
+			BoxTencentKey.Text = valueTencentKey;
+			if (valueTencentKey == "发生错误")
+			{
+				BoxTencentKey.Text = "";
+			}
+
 			var value14 = IniHelper.GetValue("代理", "代理类型");
 			combox_代理.Text = value14;
 			if (value14 == "发生错误")
@@ -307,6 +322,43 @@ namespace TrOCR
 			{
 				chbox_取色.Checked = true;
 			}
+			var googleSource = IniHelper.GetValue("Translate_Google", "Source");
+			         textBox_Google_Source.Text = (googleSource == "发生错误") ? "auto" : googleSource;
+			         var googleTarget = IniHelper.GetValue("Translate_Google", "Target");
+			         textBox_Google_Target.Text = (googleTarget == "发生错误") ? "自动判断" : googleTarget;
+
+			         var baiduSource = IniHelper.GetValue("Translate_Baidu", "Source");
+			         textBox_Baidu_Source.Text = (baiduSource == "发生错误") ? "auto" : baiduSource;
+			         var baiduTarget = IniHelper.GetValue("Translate_Baidu", "Target");
+			         textBox_Baidu_Target.Text = (baiduTarget == "发生错误") ? "自动判断" : baiduTarget;
+			         var baiduAK = IniHelper.GetValue("Translate_Baidu", "APP_ID");
+			         textBox_Baidu_AK.Text = (baiduAK == "发生错误") ? "" : baiduAK;
+			         var baiduSK = IniHelper.GetValue("Translate_Baidu", "APP_KEY");
+			         textBox_Baidu_SK.Text = (baiduSK == "发生错误") ? "" : baiduSK;
+	
+			         var tencentSource = IniHelper.GetValue("Translate_Tencent", "Source");
+			         textBox_Tencent_Source.Text = (tencentSource == "发生错误") ? "auto" : tencentSource;
+			         var tencentTarget = IniHelper.GetValue("Translate_Tencent", "Target");
+			         textBox_Tencent_Target.Text = (tencentTarget == "发生错误") ? "自动判断" : tencentTarget;
+			         var tencentAK = IniHelper.GetValue("Translate_Tencent", "SecretId");
+			         textBox_Tencent_AK.Text = (tencentAK == "发生错误") ? "" : tencentAK;
+			         var tencentSK = IniHelper.GetValue("Translate_Tencent", "SecretKey");
+			         textBox_Tencent_SK.Text = (tencentSK == "发生错误") ? "" : tencentSK;
+
+			         var bingSource = IniHelper.GetValue("Translate_Bing", "Source");
+			         textBox_Bing_Source.Text = (bingSource == "发生错误") ? "auto" : bingSource;
+			         var bingTarget = IniHelper.GetValue("Translate_Bing", "Target");
+			         textBox_Bing_Target.Text = (bingTarget == "发生错误") ? "自动判断" : bingTarget;
+
+			         var microsoftSource = IniHelper.GetValue("Translate_Microsoft", "Source");
+			         textBox_Microsoft_Source.Text = (microsoftSource == "发生错误") ? "auto" : microsoftSource;
+			         var microsoftTarget = IniHelper.GetValue("Translate_Microsoft", "Target");
+			         textBox_Microsoft_Target.Text = (microsoftTarget == "发生错误") ? "自动判断" : microsoftTarget;
+
+			         var yandexSource = IniHelper.GetValue("Translate_Yandex", "Source");
+			         textBox_Yandex_Source.Text = (yandexSource == "发生错误") ? "auto" : yandexSource;
+			         var yandexTarget = IniHelper.GetValue("Translate_Yandex", "Target");
+			         textBox_Yandex_Target.Text = (yandexTarget == "发生错误") ? "自动判断" : yandexTarget;
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -340,13 +392,22 @@ namespace TrOCR
 			tab_标签.Height = (int)(350.0 * Program.Factor);
 			Height = tab_标签.Height + 50;
 			readIniFile();
+			label_VersionInfo.Text = "版本号：" + StaticValue.CurrentVersion;
+			label_AuthorInfo.Text = "作者：topkill";
 			chbox_代理服务器.CheckedChanged += chbox_代理服务器_CheckedChanged;
 			更新Button_check.Click += 更新Button_check_Click;
 		}
 
 		private void 百度申请_Click(object sender, EventArgs e)
 		{
-			Process.Start("https://console.bce.baidu.com/ai/");
+			if (tabControl2.SelectedTab == inPage腾讯接口)
+			{
+				Process.Start("https://console.cloud.tencent.com/ocr/general");
+			}
+			else
+			{
+				Process.Start("https://console.bce.baidu.com/ai/");
+			}
 		}
 
 		public static string Get_html(string url)
@@ -379,7 +440,7 @@ namespace TrOCR
 		{
 			if (tab_标签.SelectedTab == page_常规)
 			{
-				tab_标签.Height = (int)(350.0 * Program.Factor);
+				tab_标签.Height = (int)(400.0 * Program.Factor);
 				Height = tab_标签.Height + 50;
 			}
 			if (tab_标签.SelectedTab == Page_快捷键)
@@ -392,12 +453,22 @@ namespace TrOCR
 				tab_标签.Height = (int)(190.0 * Program.Factor);
 				Height = tab_标签.Height + 50;
 			}
+			if (tab_标签.SelectedTab == Page_翻译接口)
+			{
+				tab_标签.Height = (int)(280.0 * Program.Factor);
+				Height = tab_标签.Height + 50;
+			}
 			if (tab_标签.SelectedTab == Page_代理)
 			{
 				tab_标签.Height = (int)(245.0 * Program.Factor);
 				Height = tab_标签.Height + 50;
 			}
 			if (tab_标签.SelectedTab == Page_更新)
+			{
+				tab_标签.Height = (int)(135.0 * Program.Factor);
+				Height = tab_标签.Height + 50;
+			}
+			if (tab_标签.SelectedTab == Page_About)
 			{
 				tab_标签.Height = (int)(135.0 * Program.Factor);
 				Height = tab_标签.Height + 50;
@@ -457,6 +528,8 @@ namespace TrOCR
 		{
 			text_baiduaccount.Text = "YsZKG1wha34PlDOPYaIrIIKO";
 			text_baidupassword.Text = "HPRZtdOHrdnnETVsZM2Nx7vbDkMfxrkD";
+			BoxTencentId.Text = "";
+			BoxTencentKey.Text = "";
 		}
 
 		private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
@@ -572,12 +645,63 @@ namespace TrOCR
 
 		private void 百度_btn_Click(object sender, EventArgs e)
 		{
-			if (Get_html(string.Format("{0}?{1}", "https://aip.baidubce.com/oauth/2.0/token", "grant_type=client_credentials&client_id=" + text_baiduaccount.Text + "&client_secret=" + text_baidupassword.Text)) != "")
+			if (tabControl2.SelectedTab == inPage腾讯接口)
 			{
-				MessageBox.Show("密钥正确!", "提醒");
-				return;
+				string secretId = BoxTencentId.Text;
+				string secretKey = BoxTencentKey.Text;
+
+				if (string.IsNullOrEmpty(secretId) || string.IsNullOrEmpty(secretKey) || secretId.Contains("secret_id"))
+				{
+					MessageBox.Show("SecretId 和 SecretKey 不能为空!", "提醒");
+					return;
+				}
+
+				try
+				{
+					string jsonResult = OcrHelper.VerifyTencentKey(secretId, secretKey);
+					var jObject = Newtonsoft.Json.Linq.JObject.Parse(jsonResult);
+					var error = jObject?["Response"]?["Error"];
+
+					if (error == null)
+					{
+						MessageBox.Show("测试响应异常，未检测到错误信息，请重试。", "未知状态", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						return;
+					}
+
+					string code = error["Code"]?.ToString();
+					string message = error["Message"]?.ToString();
+
+					if (code.StartsWith("AuthFailure"))
+					{
+						MessageBox.Show($"密钥验证失败！请确保密钥正确无误且服务已开通。\n\n错误码: {code}\n信息: {message}", "密钥无效", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					}
+					else if (code.Contains("InvalidParameter") || code.Contains("MissingParameter"))
+					{
+						MessageBox.Show("密钥有效，接口可正常访问！", "验证成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					}
+					else
+					{
+						MessageBox.Show($"测试时发生未知API错误。\n\n错误码: {code}\n信息: {message}", "测试失败", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					}
+				}
+				catch (Newtonsoft.Json.JsonReaderException)
+				{
+					MessageBox.Show("测试失败，无法解析API返回的非JSON格式响应。请检查网络或代理设置。", "解析失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show($"测试时发生代码异常: {ex.Message}", "异常", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
-			MessageBox.Show("请确保密钥正确!", "提醒");
+			else
+			{
+				if (Get_html(string.Format("{0}?{1}", "https://aip.baidubce.com/oauth/2.0/token", "grant_type=client_credentials&client_id=" + text_baiduaccount.Text + "&client_secret=" + text_baidupassword.Text)) != "")
+				{
+					MessageBox.Show("密钥正确!", "提醒");
+					return;
+				}
+				MessageBox.Show("请确保密钥正确!", "提醒");
+			}
 		}
 
 		private void combox_代理_SelectedIndexChanged(object sender, EventArgs e)
@@ -748,6 +872,8 @@ namespace TrOCR
 			IniHelper.SetValue("快捷键", "识别界面", txtBox_识别界面.Text);
 			IniHelper.SetValue("密钥_百度", "secret_id", text_baiduaccount.Text);
 			IniHelper.SetValue("密钥_百度", "secret_key", text_baidupassword.Text);
+			IniHelper.SetValue("密钥_腾讯", "secret_id", BoxTencentId.Text);
+			IniHelper.SetValue("密钥_腾讯", "secret_key", BoxTencentKey.Text);
 			IniHelper.SetValue("代理", "代理类型", combox_代理.Text);
 			IniHelper.SetValue("代理", "服务器", text_服务器.Text);
 			IniHelper.SetValue("代理", "端口", text_端口.Text);
@@ -768,6 +894,28 @@ namespace TrOCR
 			{
 				IniHelper.SetValue("取色器", "类型", "HEX");
 			}
+			         IniHelper.SetValue("Translate_Google", "Source", textBox_Google_Source.Text);
+			         IniHelper.SetValue("Translate_Google", "Target", textBox_Google_Target.Text);
+			         
+			         IniHelper.SetValue("Translate_Baidu", "Source", textBox_Baidu_Source.Text);
+			         IniHelper.SetValue("Translate_Baidu", "Target", textBox_Baidu_Target.Text);
+			         IniHelper.SetValue("Translate_Baidu", "APP_ID", textBox_Baidu_AK.Text);
+			         IniHelper.SetValue("Translate_Baidu", "APP_KEY", textBox_Baidu_SK.Text);
+	
+			         IniHelper.SetValue("Translate_Tencent", "Source", textBox_Tencent_Source.Text);
+			         IniHelper.SetValue("Translate_Tencent", "Target", textBox_Tencent_Target.Text);
+			         IniHelper.SetValue("Translate_Tencent", "SecretId", textBox_Tencent_AK.Text);
+			         IniHelper.SetValue("Translate_Tencent", "SecretKey", textBox_Tencent_SK.Text);
+
+			         IniHelper.SetValue("Translate_Bing", "Source", textBox_Bing_Source.Text);
+			         IniHelper.SetValue("Translate_Bing", "Target", textBox_Bing_Target.Text);
+
+			         IniHelper.SetValue("Translate_Microsoft", "Source", textBox_Microsoft_Source.Text);
+			         IniHelper.SetValue("Translate_Microsoft", "Target", textBox_Microsoft_Target.Text);
+
+			         IniHelper.SetValue("Translate_Yandex", "Source", textBox_Yandex_Source.Text);
+			         IniHelper.SetValue("Translate_Yandex", "Target", textBox_Yandex_Target.Text);
+
 			DialogResult = DialogResult.OK;
 		}
 
@@ -848,6 +996,49 @@ namespace TrOCR
 		{
 		}
 
+private void btn_Reset_Source_Click(object sender, EventArgs e)
+		{
+			var button = sender as Button;
+			if (button == null) return;
+
+			// 从按钮名称 "btn_Reset_Google_Source" 中提取 "Google"
+			string serviceName = button.Name.Split('_')[2];
+    
+			// 构建目标TextBox的名称 "textBox_Google_Source"
+			string textBoxName = $"textBox_{serviceName}_Source";
+
+			// 在窗体中递归查找该TextBox控件
+			var textBox = this.Controls.Find(textBoxName, true).FirstOrDefault() as TextBox;
+
+			if (textBox != null)
+			{
+				textBox.Text = "auto";
+				string sectionName = $"Translate_{serviceName}";
+				IniHelper.SetValue(sectionName, "Source", "auto");
+			}
+		}
+
+		private void btn_Reset_Target_Click(object sender, EventArgs e)
+		{
+			var button = sender as Button;
+			if (button == null) return;
+
+			// 从按钮名称 "btn_Reset_Google_Target" 中提取 "Google"
+			string serviceName = button.Name.Split('_')[2];
+				
+			// 构建目标TextBox的名称 "textBox_Google_Target"
+			string textBoxName = $"textBox_{serviceName}_Target";
+
+			// 在窗体中递归查找该TextBox控件
+			var textBox = this.Controls.Find(textBoxName, true).FirstOrDefault() as TextBox;
+
+			if (textBox != null)
+			{
+				textBox.Text = "自动判断";
+				string sectionName = $"Translate_{serviceName}";
+				IniHelper.SetValue(sectionName, "Target", "自动判断");
+			}
+		}
 		public string Start_set
 		{
 			set
