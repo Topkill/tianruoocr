@@ -54,6 +54,7 @@ namespace TrOCR.Helper
             try
             {
                 var textWithPlaceholders = text.Replace("\r\n", NewlinePlaceholder).Replace("\n", NewlinePlaceholder);
+                // var textWithPlaceholders = text.Replace("\r\n", "\r\n" + NewlinePlaceholder).Replace("\n", "\n" + NewlinePlaceholder);
 
                 var chunks = SplitText(textWithPlaceholders, 1000, NewlinePlaceholder);
                 var translationTasks = new List<Task<string>>();
@@ -67,6 +68,7 @@ namespace TrOCR.Helper
                 var combined = string.Join("", translatedChunks);
 
                 return combined.Replace(NewlinePlaceholder, "\n");
+                // return combined.Replace("\r\n" + NewlinePlaceholder, "\n").Replace("\n" + NewlinePlaceholder,"\n").Replace(NewlinePlaceholder,"\n");
             }
             catch (Exception e)
             {

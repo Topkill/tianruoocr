@@ -64,7 +64,7 @@
             this.textBox_Yandex_Target = new System.Windows.Forms.TextBox();
             this.groupBox_Yandex_Source = new System.Windows.Forms.GroupBox();
             this.textBox_Yandex_Source = new System.Windows.Forms.TextBox();
-this.btn_Reset_Google_Source = new System.Windows.Forms.Button();
+            this.btn_Reset_Google_Source = new System.Windows.Forms.Button();
             this.btn_Reset_Google_Target = new System.Windows.Forms.Button();
             this.btn_Reset_Baidu_Source = new System.Windows.Forms.Button();
             this.btn_Reset_Baidu_Target = new System.Windows.Forms.Button();
@@ -444,38 +444,38 @@ this.btn_Reset_Google_Source = new System.Windows.Forms.Button();
             // text_baidupassword
             // 
             this.text_baidupassword.BackColor = System.Drawing.Color.White;
-            this.text_baidupassword.Location = new System.Drawing.Point(56, 55);
+            this.text_baidupassword.Location = new System.Drawing.Point(80, 55);
             this.text_baidupassword.Name = "text_baidupassword";
-            this.text_baidupassword.Size = new System.Drawing.Size(260, 21);
+            this.text_baidupassword.Size = new System.Drawing.Size(284, 21);
             this.text_baidupassword.TabIndex = 3;
             this.text_baidupassword.TextChanged += new System.EventHandler(this.text_baidupassword_TextChanged);
             // 
             // text_baiduaccount
             // 
             this.text_baiduaccount.BackColor = System.Drawing.Color.White;
-            this.text_baiduaccount.Location = new System.Drawing.Point(56, 20);
+            this.text_baiduaccount.Location = new System.Drawing.Point(80, 20);
             this.text_baiduaccount.Name = "text_baiduaccount";
-            this.text_baiduaccount.Size = new System.Drawing.Size(260, 21);
+            this.text_baiduaccount.Size = new System.Drawing.Size(284, 21);
             this.text_baiduaccount.TabIndex = 2;
             this.text_baiduaccount.TextChanged += new System.EventHandler(this.text_baiduaccount_TextChanged);
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(18, 58);
+            this.label10.Location = new System.Drawing.Point(6, 58);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(41, 12);
+            this.label10.Size = new System.Drawing.Size(71, 12);
             this.label10.TabIndex = 1;
-            this.label10.Text = "密码：";
+            this.label10.Text = "Secret Key:";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(18, 23);
+            this.label9.Location = new System.Drawing.Point(6, 23);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(41, 12);
+            this.label9.Size = new System.Drawing.Size(47, 12);
             this.label9.TabIndex = 0;
-            this.label9.Text = "账号：";
+            this.label9.Text = "API Key:";
             // 
             // inPage腾讯接口
             // 
@@ -886,9 +886,9 @@ this.btn_Reset_Google_Source = new System.Windows.Forms.Button();
             //
             // textBox_Baidu_SK
             //
-            this.textBox_Baidu_SK.Location = new System.Drawing.Point(40, 47);
+            this.textBox_Baidu_SK.Location = new System.Drawing.Point(80, 47);
             this.textBox_Baidu_SK.Name = "textBox_Baidu_SK";
-            this.textBox_Baidu_SK.Size = new System.Drawing.Size(324, 21);
+            this.textBox_Baidu_SK.Size = new System.Drawing.Size(284, 21);
             this.textBox_Baidu_SK.TabIndex = 3;
             //
             // label_Baidu_SK
@@ -896,15 +896,15 @@ this.btn_Reset_Google_Source = new System.Windows.Forms.Button();
             this.label_Baidu_SK.AutoSize = true;
             this.label_Baidu_SK.Location = new System.Drawing.Point(7, 50);
             this.label_Baidu_SK.Name = "label_Baidu_SK";
-            this.label_Baidu_SK.Size = new System.Drawing.Size(23, 12);
+            this.label_Baidu_SK.Size = new System.Drawing.Size(71, 12);
             this.label_Baidu_SK.TabIndex = 2;
-            this.label_Baidu_SK.Text = "sk:";
+            this.label_Baidu_SK.Text = "Secret Key:";
             //
             // textBox_Baidu_AK
             //
-            this.textBox_Baidu_AK.Location = new System.Drawing.Point(40, 20);
+            this.textBox_Baidu_AK.Location = new System.Drawing.Point(80, 20);
             this.textBox_Baidu_AK.Name = "textBox_Baidu_AK";
-            this.textBox_Baidu_AK.Size = new System.Drawing.Size(324, 21);
+            this.textBox_Baidu_AK.Size = new System.Drawing.Size(284, 21);
             this.textBox_Baidu_AK.TabIndex = 1;
             //
             // label_Baidu_AK
@@ -912,9 +912,9 @@ this.btn_Reset_Google_Source = new System.Windows.Forms.Button();
             this.label_Baidu_AK.AutoSize = true;
             this.label_Baidu_AK.Location = new System.Drawing.Point(7, 23);
             this.label_Baidu_AK.Name = "label_Baidu_AK";
-            this.label_Baidu_AK.Size = new System.Drawing.Size(23, 12);
+            this.label_Baidu_AK.Size = new System.Drawing.Size(47, 12);
             this.label_Baidu_AK.TabIndex = 0;
-            this.label_Baidu_AK.Text = "ak:";
+            this.label_Baidu_AK.Text = "APP ID:";
             //
             // groupBox_Baidu_Target
             //
@@ -999,9 +999,9 @@ this.btn_Reset_Google_Source = new System.Windows.Forms.Button();
             //
             // textBox_Tencent_SK
             //
-            this.textBox_Tencent_SK.Location = new System.Drawing.Point(40, 47);
+            this.textBox_Tencent_SK.Location = new System.Drawing.Point(80, 47);
             this.textBox_Tencent_SK.Name = "textBox_Tencent_SK";
-            this.textBox_Tencent_SK.Size = new System.Drawing.Size(324, 21);
+            this.textBox_Tencent_SK.Size = new System.Drawing.Size(284, 21);
             this.textBox_Tencent_SK.TabIndex = 3;
             //
             // label_Tencent_SK
@@ -1009,15 +1009,15 @@ this.btn_Reset_Google_Source = new System.Windows.Forms.Button();
             this.label_Tencent_SK.AutoSize = true;
             this.label_Tencent_SK.Location = new System.Drawing.Point(7, 50);
             this.label_Tencent_SK.Name = "label_Tencent_SK";
-            this.label_Tencent_SK.Size = new System.Drawing.Size(23, 12);
+            this.label_Tencent_SK.Size = new System.Drawing.Size(65, 12);
             this.label_Tencent_SK.TabIndex = 2;
-            this.label_Tencent_SK.Text = "sk:";
+            this.label_Tencent_SK.Text = "SecretKey:";
             //
             // textBox_Tencent_AK
             //
-            this.textBox_Tencent_AK.Location = new System.Drawing.Point(40, 20);
+            this.textBox_Tencent_AK.Location = new System.Drawing.Point(80, 20);
             this.textBox_Tencent_AK.Name = "textBox_Tencent_AK";
-            this.textBox_Tencent_AK.Size = new System.Drawing.Size(324, 21);
+            this.textBox_Tencent_AK.Size = new System.Drawing.Size(284, 21);
             this.textBox_Tencent_AK.TabIndex = 1;
             //
             // label_Tencent_AK
@@ -1025,9 +1025,9 @@ this.btn_Reset_Google_Source = new System.Windows.Forms.Button();
             this.label_Tencent_AK.AutoSize = true;
             this.label_Tencent_AK.Location = new System.Drawing.Point(7, 23);
             this.label_Tencent_AK.Name = "label_Tencent_AK";
-            this.label_Tencent_AK.Size = new System.Drawing.Size(23, 12);
+            this.label_Tencent_AK.Size = new System.Drawing.Size(59, 12);
             this.label_Tencent_AK.TabIndex = 0;
-            this.label_Tencent_AK.Text = "ak:";
+            this.label_Tencent_AK.Text = "SecretId:";
             //
             // groupBox_Tencent_Target
             //
