@@ -1,4 +1,4 @@
-﻿using GTranslate.Translators;
+using GTranslate.Translators;
 using System.Threading.Tasks;
 using System.Web;
 
