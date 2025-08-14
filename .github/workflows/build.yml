@@ -1,0 +1,75 @@
+# 工作流的名称
+name: .NET Framework Multi-Platform Build
+
+# 触发工作流的事件
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  watch:
+    types: [started]
+  #手动触发按钮
+  workflow_dispatch:
+
+jobs:
+  # --- 第一个任务：编译 x86 版本 ---
+  build-x86:
+    name: Build (x86)
+    runs-on: windows-latest
+    
+    # 为整个 Job 添加 if 条件
+    # 只有当事件不是 'watch'，或者当事件是 'watch' 且触发者是仓库所有者时，才运行此任务
+    if: github.event_name != 'watch' || (github.event_name == 'watch' && github.actor == github.repository_owner)
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v2
+
+    - name: Restore NuGet packages
+      run: nuget restore TrOCR.sln
+
+    - name: Build with MSBuild (x86)
+      run: msbuild.exe TrOCR.sln /p:Configuration=Release /p:Platform=x86
+      
+    - name: Upload x86 Build Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: TrOCR-Release-x86
+        path: bin/x86/Release
+
+  # --- 第二个任务：编译 x64 版本 ---
+  build-x64:
+    name: Build (x64)
+    runs-on: windows-latest
+
+    # 为整个 Job 添加同样的 if 条件
+    if: github.event_name != 'watch' || (github.event_name == 'watch' && github.actor == github.repository_owner)
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v2
+
+    - name: Restore NuGet packages
+      run: nuget restore TrOCR.sln
+
+    - name: Build with MSBuild (x64)
+      run: msbuild.exe TrOCR.sln /p:Configuration=Release /p:Platform=x64
+      
+    - name: Upload x64 Build Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: TrOCR-Release-x64
+        path: bin/x64/Release
