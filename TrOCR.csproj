@@ -131,6 +131,12 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
+    <Reference Include="TencentCloudCommon, Version=3.0.1276.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\TencentCloudSDK.Common.3.0.1276\lib\net45\TencentCloudCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="TencentCloudTmt, Version=3.0.1276.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\TencentCloudSDK.Tmt.3.0.1276\lib\net45\TencentCloudTmt.dll</HintPath>
+    </Reference>
     <Reference Include="WeChatOcr, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\WeChatOcr.1.0.3\lib\net481\WeChatOcr.dll</HintPath>
     </Reference>
@@ -268,6 +274,7 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\screenshot.wav">

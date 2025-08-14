@@ -62,6 +62,18 @@ namespace TrOCR.Helper
 
         public static string BD_API_KEY = "";
 
+        public static string TX_API_ID = "";
+
+        public static string TX_API_KEY = "";
+
+        public static string BD_T_API_ID = "";
+
+        public static string BD_T_API_KEY = "";
+
+        public static string TX_T_API_ID = "";
+
+        public static string TX_T_API_KEY = "";
+
         public static bool IsCapture;
 
         public static bool v_topmost;

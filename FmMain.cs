@@ -8,6 +8,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -26,6 +27,10 @@ using ZXing;
 using ZXing.Common;
 using ZXing.QrCode;
 using Timer = System.Windows.Forms.Timer;
+using TencentCloud.Common;
+using TencentCloud.Common.Profile;
+using TencentCloud.Tmt.V20180321;
+using TencentCloud.Tmt.V20180321.Models;
 // ReSharper disable StringLiteralTypo
 
 namespace TrOCR
@@ -380,15 +385,12 @@ namespace TrOCR
 				split_txt = "";
 				typeset_txt = "";
 
-				string secretId = IniHelper.GetValue("密钥_腾讯", "secret_id");
-				string secretKey = IniHelper.GetValue("密钥_腾讯", "secret_key");
-
-				if (string.IsNullOrEmpty(secretId) || string.IsNullOrEmpty(secretKey) || secretId == "发生错误" || secretId.Contains("secret_id"))
-				{
-					typeset_txt = "***请在设置中输入腾讯云密钥***";
-					split_txt = typeset_txt;
-					return;
-				}
+				            if (string.IsNullOrEmpty(StaticValue.TX_API_ID) || string.IsNullOrEmpty(StaticValue.TX_API_KEY))
+				            {
+				                typeset_txt = "***请在设置中输入腾讯云密钥***";
+				                split_txt = typeset_txt;
+				                return;
+				            }
 				if (imageToProcess.Width > 90 && imageToProcess.Height < 90)
 				{
 					tempBitmap = new Bitmap(imageToProcess.Width, 300);
@@ -419,7 +421,7 @@ namespace TrOCR
 
 				byte[] imageBytes = OcrHelper.ImgToBytes(imageToProcess);
 
-				string result = OcrHelper.Tencent(imageBytes, secretId, secretKey);
+				string result = OcrHelper.Tencent(imageBytes, StaticValue.TX_API_ID, StaticValue.TX_API_KEY);
 				typeset_txt = result;
 				split_txt = result;
 			}
@@ -726,15 +728,50 @@ namespace TrOCR
 				var text8 = "F11";
 				SetHotkey(text7, text8, value4, 235);
 			}
-			StaticValue.BD_API_ID = HelpWin32.IniFileHelper.GetValue("密钥_百度", "secret_id", filePath);
-			if (HelpWin32.IniFileHelper.GetValue("密钥_百度", "secret_id", filePath) == "发生错误")
+			// --- 加载OCR密钥 ---
+			StaticValue.BD_API_ID = IniHelper.GetValue("密钥_百度", "secret_id");
+			if (StaticValue.BD_API_ID == "发生错误")
 			{
-				StaticValue.BD_API_ID = "请输入secret_id";
+			 StaticValue.BD_API_ID = "";
 			}
-			StaticValue.BD_API_KEY = HelpWin32.IniFileHelper.GetValue("密钥_百度", "secret_key", filePath);
-			if (HelpWin32.IniFileHelper.GetValue("密钥_百度", "secret_key", filePath) == "发生错误")
+			StaticValue.BD_API_KEY = IniHelper.GetValue("密钥_百度", "secret_key");
+			if (StaticValue.BD_API_KEY == "发生错误")
 			{
-				StaticValue.BD_API_KEY = "请输入secret_key";
+			 StaticValue.BD_API_KEY = "";
+			}
+
+			StaticValue.TX_API_ID = IniHelper.GetValue("密钥_腾讯", "secret_id");
+			if (StaticValue.TX_API_ID == "发生错误")
+			{
+			 StaticValue.TX_API_ID = "";
+			}
+			StaticValue.TX_API_KEY = IniHelper.GetValue("密钥_腾讯", "secret_key");
+			if (StaticValue.TX_API_KEY == "发生错误")
+			{
+			 StaticValue.TX_API_KEY = "";
+			}
+
+			// --- 加载翻译密钥 ---
+			StaticValue.BD_T_API_ID = IniHelper.GetValue("Translate_Baidu", "APP_ID");
+			if (StaticValue.BD_T_API_ID == "发生错误")
+			{
+			 StaticValue.BD_T_API_ID = "";
+			}
+			StaticValue.BD_T_API_KEY = IniHelper.GetValue("Translate_Baidu", "APP_KEY");
+			if (StaticValue.BD_T_API_KEY == "发生错误")
+			{
+			 StaticValue.BD_T_API_KEY = "";
+			}
+
+			StaticValue.TX_T_API_ID = IniHelper.GetValue("Translate_Tencent", "SecretId");
+			if (StaticValue.TX_T_API_ID == "发生错误")
+			{
+			 StaticValue.TX_T_API_ID = "";
+			}
+			StaticValue.TX_T_API_KEY = IniHelper.GetValue("Translate_Tencent", "SecretKey");
+			if (StaticValue.TX_T_API_KEY == "发生错误")
+			{
+			 StaticValue.TX_T_API_KEY = "";
 			}
 		}
 
@@ -806,10 +843,54 @@ namespace TrOCR
 					var text8 = "F11";
 					SetHotkey(text7, text8, value4, 235);
 				}
+                // --- 重新加载所有API密钥 ---
+                // --- 加载OCR密钥 ---
                 StaticValue.BD_API_ID = IniHelper.GetValue("密钥_百度", "secret_id");
+                if (StaticValue.BD_API_ID == "发生错误")
+                {
+                    StaticValue.BD_API_ID = "";
+                }
                 StaticValue.BD_API_KEY = IniHelper.GetValue("密钥_百度", "secret_key");
-			}
-		}
+                if (StaticValue.BD_API_KEY == "发生错误")
+                {
+                    StaticValue.BD_API_KEY = "";
+                }
+
+                StaticValue.TX_API_ID = IniHelper.GetValue("密钥_腾讯", "secret_id");
+                if (StaticValue.TX_API_ID == "发生错误")
+                {
+                    StaticValue.TX_API_ID = "";
+                }
+                StaticValue.TX_API_KEY = IniHelper.GetValue("密钥_腾讯", "secret_key");
+                if (StaticValue.TX_API_KEY == "发生错误")
+                {
+                    StaticValue.TX_API_KEY = "";
+                }
+
+                // --- 加载翻译密钥 ---
+                StaticValue.BD_T_API_ID = IniHelper.GetValue("Translate_Baidu", "APP_ID");
+                if (StaticValue.BD_T_API_ID == "发生错误")
+                {
+                    StaticValue.BD_T_API_ID = "";
+                }
+                StaticValue.BD_T_API_KEY = IniHelper.GetValue("Translate_Baidu", "APP_KEY");
+                if (StaticValue.BD_T_API_KEY == "发生错误")
+                {
+                    StaticValue.BD_T_API_KEY = "";
+                }
+
+                StaticValue.TX_T_API_ID = IniHelper.GetValue("Translate_Tencent", "SecretId");
+                if (StaticValue.TX_T_API_ID == "发生错误")
+                {
+                    StaticValue.TX_T_API_ID = "";
+                }
+                StaticValue.TX_T_API_KEY = IniHelper.GetValue("Translate_Tencent", "SecretKey");
+                if (StaticValue.TX_T_API_KEY == "发生错误")
+                {
+                    StaticValue.TX_T_API_KEY = "";
+                }
+            }
+      }
 
 		public static bool IsNum(string str)
         {
@@ -987,6 +1068,21 @@ namespace TrOCR
 				                toLang = targetLangSetting;
 				            }
 
+				if (transService == "百度")
+				{
+				    if (fromLang == "zh-CN") fromLang = "zh";
+				    if (toLang == "zh-CN") toLang = "zh";
+				    if (fromLang == "ja") fromLang = "jp";
+				    if (toLang == "ja") toLang = "jp";
+				    if (fromLang == "ko") fromLang = "kor";
+				    if (toLang == "ko") toLang = "kor";
+				}
+				if (transService == "腾讯")
+				{
+				    if (fromLang == "zh-CN") fromLang = "zh";
+				    if (toLang == "zh-CN") toLang = "zh";
+				}
+
 				switch (transService)
 				{
 					case "谷歌":
@@ -1002,10 +1098,10 @@ namespace TrOCR
 						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, fromLang, toLang, "yandex");
 						break;
 					case "百度":
-						googleTranslate_txt = TranslateBaidu(typeset_txt);
+						googleTranslate_txt = TranslateBaidu(typeset_txt, fromLang, toLang);
 						break;
 					case "腾讯":
-						googleTranslate_txt = Translate_Tencent(typeset_txt);
+						googleTranslate_txt = Translate_Tencent(typeset_txt, fromLang, toLang);
 						break;
 					default:
 						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, fromLang, toLang, "google");
@@ -3350,6 +3446,21 @@ namespace TrOCR
 					                   toLang = targetLangSetting;
 					               }
 
+					if (transService == "百度")
+					{
+					    if (fromLang == "zh-CN") fromLang = "zh";
+					    if (toLang == "zh-CN") toLang = "zh";
+					    if (fromLang == "ja") fromLang = "jp";
+					    if (toLang == "ja") toLang = "jp";
+					    if (fromLang == "ko") fromLang = "kor";
+					    if (toLang == "ko") toLang = "kor";
+					}
+					if (transService == "腾讯")
+					{
+					    if (fromLang == "zh-CN") fromLang = "zh";
+					    if (toLang == "zh-CN") toLang = "zh";
+					}
+					
 					switch (transService)
 					{
 					 case "谷歌":
@@ -3365,10 +3476,10 @@ namespace TrOCR
 					  data = await GTranslateHelper.TranslateAsync(trans_hotkey, fromLang, toLang, "yandex");
 					  break;
 					 case "百度":
-					  data = TranslateBaidu(trans_hotkey);
+					  data = TranslateBaidu(trans_hotkey, fromLang, toLang);
 					  break;
 					 case "腾讯":
-					  data = Translate_Tencent(trans_hotkey);
+					  data = Translate_Tencent(trans_hotkey, fromLang, toLang);
 					  break;
 					 default:
 					  data = await GTranslateHelper.TranslateAsync(trans_hotkey, fromLang, toLang, "google");
@@ -3791,150 +3902,122 @@ namespace TrOCR
 		          }
 		      }
 
-		private string TranslateBaidu(string content)
+		private string TranslateBaidu(string content, string from, string to)
 		{
-			var text = "";
 			try
 			{
-				new CookieContainer();
-				var text2 = "zh";
-				var text3 = "en";
-				if (StaticValue.ZH2EN)
+				if (string.IsNullOrEmpty(StaticValue.BD_T_API_ID) || string.IsNullOrEmpty(StaticValue.BD_T_API_KEY))
 				{
-					if (ch_count(content.Trim()) > en_count(content.Trim()) || (en_count(content.Trim()) == 1 && ch_count(content.Trim()) == 1))
-					{
-						text2 = "zh";
-						text3 = "en";
-					}
-					else
-					{
-						text2 = "en";
-						text3 = "zh";
-					}
+					return "[百度翻译]：未输入APP_ID或APP_KEY";
 				}
-				if (StaticValue.ZH2JP)
+
+				var rd = new Random();
+				var salt = rd.Next(100000).ToString();
+				var sign = EncryptString(StaticValue.BD_T_API_ID + content + salt + StaticValue.BD_T_API_KEY);
+				var url = "http://api.fanyi.baidu.com/api/trans/vip/translate?";
+				url += "q=" + HttpUtility.UrlEncode(content);
+				url += "&from=" + from;
+				url += "&to=" + to;
+				url += "&appid=" + StaticValue.BD_T_API_ID;
+				url += "&salt=" + salt;
+				url += "&sign=" + sign;
+
+				var request = (HttpWebRequest)WebRequest.Create(url);
+				request.Method = "GET";
+				request.ContentType = "text/html;charset=UTF-8";
+				request.UserAgent = null;
+				request.Timeout = 6000;
+
+				HttpWebResponse response;
+				try
 				{
-					if (contain_jap(replaceStr(Del_ch(content.Trim()))))
-					{
-						text2 = "jp";
-						text3 = "zh";
-					}
-					else
-					{
-						text2 = "zh";
-						text3 = "jp";
-					}
+					response = (HttpWebResponse)request.GetResponse();
 				}
-				if (StaticValue.ZH2KO)
+				catch (WebException)
 				{
-					if (contain_kor(content.Trim()))
-					{
-						text2 = "kor";
-						text3 = "zh";
-					}
-					else
-					{
-						text2 = "zh";
-						text3 = "kor";
-					}
+					return "[百度翻译]：网络请求超时，请检查网络连接。";
 				}
-//                var html = CommonHelper.PostStrData("https://fanyi.baidu.com/basetrans",
-//                    string.Concat("query=", HttpUtility.UrlEncode(Text.Trim()).Replace("+", "%20"), "&from=", text2,
-//                        "&to=", text3));
-		              var html = TranslateHelper.BdTrans(content.Trim(), text2, text3);
-				var jArray = JArray.Parse(((JObject)JsonConvert.DeserializeObject(html))["fanyi_list"].ToString());
-				foreach (var arr in jArray)
+
+				using (var myResponseStream = response.GetResponseStream())
+				using (var myStreamReader = new StreamReader(myResponseStream, Encoding.UTF8))
+				{
+					var retString = myStreamReader.ReadToEnd();
+					var result = JsonConvert.DeserializeObject<Rootobject>(retString);
+
+					if (!string.IsNullOrEmpty(result.error_code))
+					{
+						return $"[百度翻译]：API错误 {result.error_code} - {result.error_msg}";
+					}
+
+					if (result.trans_result != null && result.trans_result.Any())
+					{
+						var result_temp = "";
+						foreach (var trans_result_temp in result.trans_result)
+						{
+							result_temp += trans_result_temp.dst + Environment.NewLine;
+						}
+						return result_temp.TrimEnd('\r', '\n');
+					}
+					
+					return "[百度翻译]：收到未知响应，无法解析译文。";
+				}
+			}
+			catch (JsonException)
+			{
+				return "[百度翻译]：无法解析返回的JSON数据。";
+			}
+			catch (Exception ex)
+			{
+				return $"[百度翻译]：发生未知错误 - {ex.Message}";
+			}
+		}
+
+
+
+		      private string Translate_Tencent(string content, string from, string to)
+		      {
+		          if (string.IsNullOrEmpty(StaticValue.TX_T_API_ID) || string.IsNullOrEmpty(StaticValue.TX_T_API_KEY))
+		          {
+		              return "[腾讯翻译]：未输入SecretId或SecretKey";
+		          }
+		
+		          try
+		          {
+		              Credential cred = new Credential
 		              {
-		                  text = text + arr + "\r\n";
-		              }
-			}
-			catch (Exception)
-			{
-				text = "[百度接口报错]：\r\n1.接口请求出现问题等待修复。";
-			}
-			return text;
-		}
-
-
-		public string Content_Length(string text, string from, string to)
-		{
-			return string.Concat("&source=", from, "&target=", to, "&sourceText=", HttpUtility.UrlEncode(text)?.Replace("+", "%20"));
-		}
-
-		public string TencentPOST(string url, string content)
-		{
-			string result;
-			try
-			{
-				var referer = "https://fanyi.qq.com/";
-				result = CommonHelper.PostStrData(url, content, "", referer);
-			}
-			catch
-			{
-				result = "[腾讯接口报错]：\r\n请切换其它接口或再次尝试。";
-			}
-			return result;
-		}
-
-		private string Translate_Tencent(string strTrans)
-		{
-			var text = "";
-			try
-			{
-				var from = "zh";
-				var to = "en";
-				if (StaticValue.ZH2EN)
-				{
-					if (ch_count(strTrans.Trim()) > en_count(strTrans.Trim()) || (en_count(text.Trim()) == 1 && ch_count(text.Trim()) == 1))
-					{
-						from = "zh";
-						to = "en";
-					}
-					else
-					{
-						from = "en";
-						to = "zh";
-					}
-				}
-				if (StaticValue.ZH2JP)
-				{
-					if (contain_jap(replaceStr(Del_ch(strTrans.Trim()))))
-					{
-						from = "jp";
-						to = "zh";
-					}
-					else
-					{
-						from = "zh";
-						to = "jp";
-					}
-				}
-				if (StaticValue.ZH2KO)
-				{
-					if (contain_kor(strTrans.Trim()))
-					{
-						from = "kr";
-						to = "zh";
-					}
-					else
-					{
-						from = "zh";
-						to = "kr";
-					}
-				}
-				var jArray = JArray.Parse(((JObject)JsonConvert.DeserializeObject(TencentPOST("https://fanyi.qq.com/api/translate", Content_Length(strTrans, from, to))))["translate"]["records"].ToString());
-				foreach (var t in jArray)
+		                  SecretId = StaticValue.TX_T_API_ID,
+		                  SecretKey = StaticValue.TX_T_API_KEY
+		              };
+		
+		              ClientProfile clientProfile = new ClientProfile();
+		              HttpProfile httpProfile = new HttpProfile
 		              {
-		                  var jObject = JObject.Parse(t.ToString());
-		                  text += jObject["targetText"].ToString();
-		              }
-			}
-			catch (Exception)
-			{
-				text = "[腾讯接口报错]：\r\n1.接口请求出现问题等待修复。";
-			}
-			return text;
-		}
+		                  Endpoint = "tmt.tencentcloudapi.com",
+		                  Timeout = 5000 // 5 seconds
+		              };
+		              clientProfile.HttpProfile = httpProfile;
+		
+		              TmtClient client = new TmtClient(cred, "ap-guangzhou", clientProfile);
+		              TextTranslateRequest req = new TextTranslateRequest
+		              {
+		                  SourceText = content,
+		                  Source = from,
+		                  Target = to,
+		                  ProjectId = 0
+		              };
+		
+		              TextTranslateResponse resp = client.TextTranslateSync(req);
+		              return resp.TargetText;
+		          }
+		          catch (TencentCloudSDKException e)
+		          {
+		              return $"[腾讯翻译]：API错误 {e.ErrorCode} - {e.Message}";
+		          }
+		          catch (Exception ex)
+		          {
+		              return $"[腾讯翻译]：发生未知错误 - {ex.Message}";
+		          }
+		      }
 
 		public void BdTableOCR()
 		{
@@ -4136,66 +4219,6 @@ namespace TrOCR
 			RichBoxBody.Rtx1Rtf = str + str2 + text + str3;
 		}
 
-		public string Translate_Googlekey(string text)
-		{
-			var text2 = "";
-			try
-			{
-				var text3 = "zh-CN";
-				var text4 = "en";
-				if (StaticValue.ZH2EN)
-				{
-					if (ch_count(typeset_txt.Trim()) > en_count(typeset_txt.Trim()))
-					{
-						text3 = "zh-CN";
-						text4 = "en";
-					}
-					else
-					{
-						text3 = "en";
-						text4 = "zh-CN";
-					}
-				}
-				else if (StaticValue.ZH2JP)
-				{
-					if (contain_jap(replaceStr(Del_ch(typeset_txt.Trim()))))
-					{
-						text3 = "ja";
-						text4 = "zh-CN";
-					}
-					else
-					{
-						text3 = "zh-CN";
-						text4 = "ja";
-					}
-				}
-                else if(StaticValue.ZH2KO)
-				{
-					if (contain_kor(typeset_txt.Trim()))
-					{
-						text3 = "ko";
-						text4 = "zh-CN";
-					}
-					else
-					{
-						text3 = "zh-CN";
-						text4 = "ko";
-					}
-				}
-				var postData = string.Concat("client=gtx&sl=", text3, "&tl=", text4, "&dt=t&q=", HttpUtility.UrlEncode(text).Replace("+", "%20"));
-				var jArray = (JArray)JsonConvert.DeserializeObject(CommonHelper.PostStrData("https://translate.google.cn/translate_a/single", postData));
-				var count = ((JArray)jArray[0]).Count;
-				for (var i = 0; i < count; i++)
-				{
-					text2 += jArray[0][i][0].ToString();
-				}
-			}
-			catch (Exception)
-			{
-				text2 = "[谷歌接口报错]：\r\n出现这个提示文字，表示您当前的网络不适合使用谷歌接口。\r\n请放弃使用谷歌接口，腾讯，百度接口都可以正常使用。";
-			}
-			return text2;
-		}
 
 		public void OCR_baidutable_Click(object sender, EventArgs e)
 		{
@@ -4295,31 +4318,6 @@ namespace TrOCR
 			dataObject.SetData(DataFormats.Text, data);
 			Clipboard.SetDataObject(dataObject);
 		}
-//
-//		public static string Encript(string functionName, object[] pams)
-//		{
-//			var code = File.ReadAllText("sign.js");
-//            ScriptControlClass scriptControlClass = new ScriptControlClass();
-//			((IScriptControl)scriptControlClass).Language = "javascript";
-//			((IScriptControl)scriptControlClass).AddCode(code);
-//			return ((IScriptControl)scriptControlClass).Run(functionName, ref pams).ToString();
-//		}
-//
-//		private object ExecuteScript(string sExpression, string sCode)
-//		{
-//			ScriptControl scriptControl = new ScriptControlClass();
-//			scriptControl.UseSafeSubset = true;
-//			scriptControl.Language = "JScript";
-//			scriptControl.AddCode(sCode);
-//			try
-//			{
-//				return scriptControl.Eval(sExpression);
-//			}
-//			catch (Exception)
-//			{
-//			}
-//			return null;
-//		}
 
 		private void OCR_Mathfuntion_Click(object sender, EventArgs e)
 		{
@@ -5000,5 +4998,36 @@ namespace TrOCR
 				private bool _preformatted;
 			}
 		}
+
+		      // 计算MD5值
+		      public static string EncryptString(string str)
+		      {
+		          var md5 = MD5.Create();
+		          // 将字符串转换成字节数组
+		          var byteOld = Encoding.UTF8.GetBytes(str);
+		          // 调用加密方法
+		          var byteNew = md5.ComputeHash(byteOld);
+		          // 将加密结果转换为字符串
+		          var sb = new StringBuilder();
+		          foreach (var b in byteNew)
+		              // 将字节转换成16进制表示的字符串，
+		              sb.Append(b.ToString("x2"));
+		          // 返回加密的字符串
+		          return sb.ToString();
+		      }
 	}
+		  public class Rootobject
+		  {
+		      public string from { get; set; }
+		      public string to { get; set; }
+		      public Trans_result[] trans_result { get; set; }
+		      public string error_code { get; set; }
+		      public string error_msg { get; set; }
+		  }
+
+		  public class Trans_result
+		  {
+		      public string src { get; set; }
+		      public string dst { get; set; }
+		  }
 }

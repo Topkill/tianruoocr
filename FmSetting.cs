@@ -331,18 +331,18 @@ namespace TrOCR
 			         textBox_Baidu_Source.Text = (baiduSource == "发生错误") ? "auto" : baiduSource;
 			         var baiduTarget = IniHelper.GetValue("Translate_Baidu", "Target");
 			         textBox_Baidu_Target.Text = (baiduTarget == "发生错误") ? "自动判断" : baiduTarget;
-			         var baiduAK = IniHelper.GetValue("Translate_Baidu", "ak");
+			         var baiduAK = IniHelper.GetValue("Translate_Baidu", "APP_ID");
 			         textBox_Baidu_AK.Text = (baiduAK == "发生错误") ? "" : baiduAK;
-			         var baiduSK = IniHelper.GetValue("Translate_Baidu", "sk");
+			         var baiduSK = IniHelper.GetValue("Translate_Baidu", "APP_KEY");
 			         textBox_Baidu_SK.Text = (baiduSK == "发生错误") ? "" : baiduSK;
-
+	
 			         var tencentSource = IniHelper.GetValue("Translate_Tencent", "Source");
 			         textBox_Tencent_Source.Text = (tencentSource == "发生错误") ? "auto" : tencentSource;
 			         var tencentTarget = IniHelper.GetValue("Translate_Tencent", "Target");
 			         textBox_Tencent_Target.Text = (tencentTarget == "发生错误") ? "自动判断" : tencentTarget;
-			         var tencentAK = IniHelper.GetValue("Translate_Tencent", "ak");
+			         var tencentAK = IniHelper.GetValue("Translate_Tencent", "SecretId");
 			         textBox_Tencent_AK.Text = (tencentAK == "发生错误") ? "" : tencentAK;
-			         var tencentSK = IniHelper.GetValue("Translate_Tencent", "sk");
+			         var tencentSK = IniHelper.GetValue("Translate_Tencent", "SecretKey");
 			         textBox_Tencent_SK.Text = (tencentSK == "发生错误") ? "" : tencentSK;
 
 			         var bingSource = IniHelper.GetValue("Translate_Bing", "Source");
@@ -899,13 +899,13 @@ namespace TrOCR
 			         
 			         IniHelper.SetValue("Translate_Baidu", "Source", textBox_Baidu_Source.Text);
 			         IniHelper.SetValue("Translate_Baidu", "Target", textBox_Baidu_Target.Text);
-			         IniHelper.SetValue("Translate_Baidu", "ak", textBox_Baidu_AK.Text);
-			         IniHelper.SetValue("Translate_Baidu", "sk", textBox_Baidu_SK.Text);
-
+			         IniHelper.SetValue("Translate_Baidu", "APP_ID", textBox_Baidu_AK.Text);
+			         IniHelper.SetValue("Translate_Baidu", "APP_KEY", textBox_Baidu_SK.Text);
+	
 			         IniHelper.SetValue("Translate_Tencent", "Source", textBox_Tencent_Source.Text);
 			         IniHelper.SetValue("Translate_Tencent", "Target", textBox_Tencent_Target.Text);
-			         IniHelper.SetValue("Translate_Tencent", "ak", textBox_Tencent_AK.Text);
-			         IniHelper.SetValue("Translate_Tencent", "sk", textBox_Tencent_SK.Text);
+			         IniHelper.SetValue("Translate_Tencent", "SecretId", textBox_Tencent_AK.Text);
+			         IniHelper.SetValue("Translate_Tencent", "SecretKey", textBox_Tencent_SK.Text);
 
 			         IniHelper.SetValue("Translate_Bing", "Source", textBox_Bing_Source.Text);
 			         IniHelper.SetValue("Translate_Bing", "Target", textBox_Bing_Target.Text);
@@ -1013,6 +1013,8 @@ private void btn_Reset_Source_Click(object sender, EventArgs e)
 			if (textBox != null)
 			{
 				textBox.Text = "auto";
+				string sectionName = $"Translate_{serviceName}";
+				IniHelper.SetValue(sectionName, "Source", "auto");
 			}
 		}
 
@@ -1023,7 +1025,7 @@ private void btn_Reset_Source_Click(object sender, EventArgs e)
 
 			// 从按钮名称 "btn_Reset_Google_Target" 中提取 "Google"
 			string serviceName = button.Name.Split('_')[2];
-    
+				
 			// 构建目标TextBox的名称 "textBox_Google_Target"
 			string textBoxName = $"textBox_{serviceName}_Target";
 
@@ -1033,6 +1035,8 @@ private void btn_Reset_Source_Click(object sender, EventArgs e)
 			if (textBox != null)
 			{
 				textBox.Text = "自动判断";
+				string sectionName = $"Translate_{serviceName}";
+				IniHelper.SetValue(sectionName, "Target", "自动判断");
 			}
 		}
 		public string Start_set
