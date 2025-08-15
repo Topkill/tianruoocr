@@ -1,20 +1,20 @@
 ﻿namespace TrOCR
 {
 
-	public sealed partial class FmSetting : global::System.Windows.Forms.Form
-	{
+    public sealed partial class FmSetting : global::System.Windows.Forms.Form
+    {
 
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && this.components != null)
-			{
-				this.components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && this.components != null)
+            {
+                this.components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-		private void InitializeComponent()
-		{
+        private void InitializeComponent()
+        {
             this.tabControl_Trans = new System.Windows.Forms.TabControl();
             this.tabPage_Google = new System.Windows.Forms.TabPage();
             this.groupBox_Google_Key = new System.Windows.Forms.GroupBox();
@@ -50,6 +50,13 @@
             this.textBox_Bing_Target = new System.Windows.Forms.TextBox();
             this.groupBox_Bing_Source = new System.Windows.Forms.GroupBox();
             this.textBox_Bing_Source = new System.Windows.Forms.TextBox();
+            this.tabPage_Bing2 = new System.Windows.Forms.TabPage();
+            this.groupBox_Bing2_Key = new System.Windows.Forms.GroupBox();
+            this.label_Bing2_Notice = new System.Windows.Forms.Label();
+            this.groupBox_Bing2_Target = new System.Windows.Forms.GroupBox();
+            this.textBox_Bing2_Target = new System.Windows.Forms.TextBox();
+            this.groupBox_Bing2_Source = new System.Windows.Forms.GroupBox();
+            this.textBox_Bing2_Source = new System.Windows.Forms.TextBox();
             this.tabPage_Microsoft = new System.Windows.Forms.TabPage();
             this.groupBox_Microsoft_Key = new System.Windows.Forms.GroupBox();
             this.label_Microsoft_Key = new System.Windows.Forms.Label();
@@ -72,6 +79,8 @@
             this.btn_Reset_Tencent_Target = new System.Windows.Forms.Button();
             this.btn_Reset_Bing_Source = new System.Windows.Forms.Button();
             this.btn_Reset_Bing_Target = new System.Windows.Forms.Button();
+            this.btn_Reset_Bing2_Source = new System.Windows.Forms.Button();
+            this.btn_Reset_Bing2_Target = new System.Windows.Forms.Button();
             this.btn_Reset_Microsoft_Source = new System.Windows.Forms.Button();
             this.btn_Reset_Microsoft_Target = new System.Windows.Forms.Button();
             this.btn_Reset_Yandex_Source = new System.Windows.Forms.Button();
@@ -197,6 +206,10 @@
             this.groupBox_Bing_Key.SuspendLayout();
             this.groupBox_Bing_Target.SuspendLayout();
             this.groupBox_Bing_Source.SuspendLayout();
+            this.tabPage_Bing2.SuspendLayout();
+            this.groupBox_Bing2_Key.SuspendLayout();
+            this.groupBox_Bing2_Target.SuspendLayout();
+            this.groupBox_Bing2_Source.SuspendLayout();
             this.tabPage_Microsoft.SuspendLayout();
             this.groupBox_Microsoft_Key.SuspendLayout();
             this.groupBox_Microsoft_Target.SuspendLayout();
@@ -761,6 +774,7 @@
             this.tabControl_Trans.Controls.Add(this.tabPage_Baidu);
             this.tabControl_Trans.Controls.Add(this.tabPage_Tencent);
             this.tabControl_Trans.Controls.Add(this.tabPage_Bing);
+            this.tabControl_Trans.Controls.Add(this.tabPage_Bing2);
             this.tabControl_Trans.Controls.Add(this.tabPage_Microsoft);
             this.tabControl_Trans.Controls.Add(this.tabPage_Yandex);
             this.tabControl_Trans.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1171,6 +1185,93 @@
             this.textBox_Bing_Source.Name = "textBox_Bing_Source";
             this.textBox_Bing_Source.Size = new System.Drawing.Size(302, 21);
             this.textBox_Bing_Source.TabIndex = 0;
+            //
+            // tabPage_Bing2
+            //
+            this.tabPage_Bing2.Controls.Add(this.groupBox_Bing2_Key);
+            this.tabPage_Bing2.Controls.Add(this.groupBox_Bing2_Target);
+            this.tabPage_Bing2.Controls.Add(this.groupBox_Bing2_Source);
+            this.tabPage_Bing2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Bing2.Name = "tabPage_Bing2";
+            this.tabPage_Bing2.Size = new System.Drawing.Size(382, 303);
+            this.tabPage_Bing2.TabIndex = 6;
+            this.tabPage_Bing2.Text = "Bing2";
+            this.tabPage_Bing2.UseVisualStyleBackColor = true;
+            //
+            // groupBox_Bing2_Key
+            //
+            this.groupBox_Bing2_Key.Controls.Add(this.label_Bing2_Notice);
+            this.groupBox_Bing2_Key.Location = new System.Drawing.Point(6, 128);
+            this.groupBox_Bing2_Key.Name = "groupBox_Bing2_Key";
+            this.groupBox_Bing2_Key.Size = new System.Drawing.Size(370, 80);
+            this.groupBox_Bing2_Key.TabIndex = 5;
+            this.groupBox_Bing2_Key.TabStop = false;
+            this.groupBox_Bing2_Key.Text = "说明";
+            //
+            // label_Bing2_Notice
+            //
+            this.label_Bing2_Notice.AutoSize = true;
+            this.label_Bing2_Notice.Location = new System.Drawing.Point(6, 20);
+            this.label_Bing2_Notice.Name = "label_Bing2_Notice";
+            this.label_Bing2_Notice.Size = new System.Drawing.Size(200, 48);
+            this.label_Bing2_Notice.TabIndex = 0;
+            this.label_Bing2_Notice.Text = "Bing2 使用 Microsoft Edge 翻译API\r\n无需密钥即可使用\r\n支持自动检测语言";
+            //
+            // groupBox_Bing2_Target
+            //
+            this.groupBox_Bing2_Target.Controls.Add(this.btn_Reset_Bing2_Target);
+            this.groupBox_Bing2_Target.Controls.Add(this.textBox_Bing2_Target);
+            this.groupBox_Bing2_Target.Location = new System.Drawing.Point(6, 67);
+            this.groupBox_Bing2_Target.Name = "groupBox_Bing2_Target";
+            this.groupBox_Bing2_Target.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Bing2_Target.TabIndex = 4;
+            this.groupBox_Bing2_Target.TabStop = false;
+            this.groupBox_Bing2_Target.Text = "目标语言";
+            //
+            // btn_Reset_Bing2_Target
+            //
+            this.btn_Reset_Bing2_Target.Location = new System.Drawing.Point(314, 19);
+            this.btn_Reset_Bing2_Target.Name = "btn_Reset_Bing2_Target";
+            this.btn_Reset_Bing2_Target.Size = new System.Drawing.Size(50, 23);
+            this.btn_Reset_Bing2_Target.TabIndex = 1;
+            this.btn_Reset_Bing2_Target.Text = "重置";
+            this.btn_Reset_Bing2_Target.UseVisualStyleBackColor = true;
+            this.btn_Reset_Bing2_Target.Click += new System.EventHandler(this.btn_Reset_Target_Click);
+            //
+            // textBox_Bing2_Target
+            //
+            this.textBox_Bing2_Target.Location = new System.Drawing.Point(6, 20);
+            this.textBox_Bing2_Target.Name = "textBox_Bing2_Target";
+            this.textBox_Bing2_Target.Size = new System.Drawing.Size(302, 21);
+            this.textBox_Bing2_Target.TabIndex = 0;
+            //
+            // groupBox_Bing2_Source
+            //
+            this.groupBox_Bing2_Source.Controls.Add(this.btn_Reset_Bing2_Source);
+            this.groupBox_Bing2_Source.Controls.Add(this.textBox_Bing2_Source);
+            this.groupBox_Bing2_Source.Location = new System.Drawing.Point(6, 6);
+            this.groupBox_Bing2_Source.Name = "groupBox_Bing2_Source";
+            this.groupBox_Bing2_Source.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Bing2_Source.TabIndex = 3;
+            this.groupBox_Bing2_Source.TabStop = false;
+            this.groupBox_Bing2_Source.Text = "源语言";
+            //
+            // btn_Reset_Bing2_Source
+            //
+            this.btn_Reset_Bing2_Source.Location = new System.Drawing.Point(314, 19);
+            this.btn_Reset_Bing2_Source.Name = "btn_Reset_Bing2_Source";
+            this.btn_Reset_Bing2_Source.Size = new System.Drawing.Size(50, 23);
+            this.btn_Reset_Bing2_Source.TabIndex = 1;
+            this.btn_Reset_Bing2_Source.Text = "重置";
+            this.btn_Reset_Bing2_Source.UseVisualStyleBackColor = true;
+            this.btn_Reset_Bing2_Source.Click += new System.EventHandler(this.btn_Reset_Source_Click);
+            //
+            // textBox_Bing2_Source
+            //
+            this.textBox_Bing2_Source.Location = new System.Drawing.Point(6, 20);
+            this.textBox_Bing2_Source.Name = "textBox_Bing2_Source";
+            this.textBox_Bing2_Source.Size = new System.Drawing.Size(302, 21);
+            this.textBox_Bing2_Source.TabIndex = 0;
             //
             // tabPage_Microsoft
             //
@@ -1888,6 +1989,13 @@
             this.groupBox_Bing_Target.PerformLayout();
             this.groupBox_Bing_Source.ResumeLayout(false);
             this.groupBox_Bing_Source.PerformLayout();
+            this.tabPage_Bing2.ResumeLayout(false);
+            this.groupBox_Bing2_Key.ResumeLayout(false);
+            this.groupBox_Bing2_Key.PerformLayout();
+            this.groupBox_Bing2_Target.ResumeLayout(false);
+            this.groupBox_Bing2_Target.PerformLayout();
+            this.groupBox_Bing2_Source.ResumeLayout(false);
+            this.groupBox_Bing2_Source.PerformLayout();
             this.tabPage_Microsoft.ResumeLayout(false);
             this.groupBox_Microsoft_Key.ResumeLayout(false);
             this.groupBox_Microsoft_Key.PerformLayout();
@@ -1921,84 +2029,84 @@
             this.Page_About.PerformLayout();
             this.ResumeLayout(false);
 
-		}
+        }
 
-		private global::System.ComponentModel.IContainer components;
-		private global::System.Windows.Forms.TabPage Page_代理;
-		private global::System.Windows.Forms.TabPage Page_密钥;
-		private global::System.Windows.Forms.TabPage Page_快捷键;
-		private global::System.Windows.Forms.TabPage page_常规;
-		private global::System.Windows.Forms.PictureBox pic_help;
-		private global::System.Windows.Forms.Button 常规Button;
-		private global::System.Windows.Forms.GroupBox groupBox2;
-		private global::System.Windows.Forms.NumericUpDown numbox_记录;
-		private global::System.Windows.Forms.Label label3;
-		private global::System.Windows.Forms.ComboBox cobBox_动画;
-		private global::System.Windows.Forms.Label label2;
-		private global::System.Windows.Forms.GroupBox groupBox1;
-		private global::System.Windows.Forms.CheckBox cbBox_开机;
-		private global::System.Windows.Forms.TabControl tab_标签;
-		private global::System.Windows.Forms.TabPage Page_更新;
-		private global::System.Windows.Forms.GroupBox groupBox3;
-		private global::System.Windows.Forms.PictureBox pictureBox_翻译文本;
-		private global::System.Windows.Forms.PictureBox pictureBox_文字识别;
-		private global::System.Windows.Forms.TextBox txtBox_识别界面;
-		private global::System.Windows.Forms.TextBox txtBox_记录界面;
-		private global::System.Windows.Forms.TextBox txtBox_翻译文本;
-		private global::System.Windows.Forms.TextBox txtBox_文字识别;
-		private global::System.Windows.Forms.Label label7;
-		private global::System.Windows.Forms.Label label6;
-		private global::System.Windows.Forms.Label label5;
-		private global::System.Windows.Forms.Label label4;
-		private global::System.Windows.Forms.PictureBox pictureBox_识别界面;
-		private global::System.Windows.Forms.PictureBox pictureBox_记录界面;
-		private global::System.Windows.Forms.Label label8;
-		private global::System.Windows.Forms.CheckBox cbBox_翻译;
-		private global::System.Windows.Forms.TabControl tabControl2;
-		private global::System.Windows.Forms.TabPage inPage_百度接口;
-		private global::System.Windows.Forms.TextBox text_baidupassword;
-		private global::System.Windows.Forms.TextBox text_baiduaccount;
-		private global::System.Windows.Forms.Label label10;
-		private global::System.Windows.Forms.Label label9;
-		private global::System.Windows.Forms.Button 快捷键Button;
-		private global::System.Windows.Forms.Button 密钥Button_apply;
-		private global::System.Windows.Forms.Button 密钥Button;
-		private global::System.Windows.Forms.GroupBox groupBox4;
-		private global::System.Windows.Forms.ComboBox combox_代理;
-		private global::System.Windows.Forms.Label label11;
-		private global::System.Windows.Forms.Button 代理Button;
-		private global::System.Windows.Forms.CheckBox chbox_代理服务器;
-		private global::System.Windows.Forms.TextBox text_密码;
-		private global::System.Windows.Forms.TextBox text_端口;
-		private global::System.Windows.Forms.Label label15;
-		private global::System.Windows.Forms.TextBox text_账号;
-		private global::System.Windows.Forms.TextBox text_服务器;
-		private global::System.Windows.Forms.Label label14;
-		private global::System.Windows.Forms.Label label13;
-		private global::System.Windows.Forms.Label label12;
-		private global::System.Windows.Forms.Button 更新Button_check;
-		private global::System.Windows.Forms.Button 更新Button;
-		private global::System.Windows.Forms.GroupBox groupBox5;
-		private global::System.Windows.Forms.Label label16;
-		private global::System.Windows.Forms.NumericUpDown numbox_间隔时间;
-		private global::System.Windows.Forms.CheckBox checkBox_更新间隔;
-		private global::System.Windows.Forms.CheckBox check_检查更新;
-		private global::System.Windows.Forms.CheckBox cbBox_弹窗;
-		private global::System.Windows.Forms.GroupBox groupBox6;
-		private global::System.Windows.Forms.TextBox textBox_path;
-		private global::System.Windows.Forms.Label label1;
-		private global::System.Windows.Forms.CheckBox cbBox_保存;
-		private global::System.Windows.Forms.Button btn_浏览;
-		private global::System.Windows.Forms.Button 百度_btn;
-		private global::System.Windows.Forms.GroupBox groupBox10;
-		private global::System.Windows.Forms.Button btn_音效;
-		private global::System.Windows.Forms.TextBox text_音效path;
-		private global::System.Windows.Forms.Label label18;
-		private global::System.Windows.Forms.CheckBox chbox_save;
-		private global::System.Windows.Forms.CheckBox chbox_copy;
-		private global::System.Windows.Forms.Label label20;
-		private global::System.Windows.Forms.Button btn_音效路径;
-		private global::System.Windows.Forms.CheckBox chbox_取色;
+        private global::System.ComponentModel.IContainer components;
+        private global::System.Windows.Forms.TabPage Page_代理;
+        private global::System.Windows.Forms.TabPage Page_密钥;
+        private global::System.Windows.Forms.TabPage Page_快捷键;
+        private global::System.Windows.Forms.TabPage page_常规;
+        private global::System.Windows.Forms.PictureBox pic_help;
+        private global::System.Windows.Forms.Button 常规Button;
+        private global::System.Windows.Forms.GroupBox groupBox2;
+        private global::System.Windows.Forms.NumericUpDown numbox_记录;
+        private global::System.Windows.Forms.Label label3;
+        private global::System.Windows.Forms.ComboBox cobBox_动画;
+        private global::System.Windows.Forms.Label label2;
+        private global::System.Windows.Forms.GroupBox groupBox1;
+        private global::System.Windows.Forms.CheckBox cbBox_开机;
+        private global::System.Windows.Forms.TabControl tab_标签;
+        private global::System.Windows.Forms.TabPage Page_更新;
+        private global::System.Windows.Forms.GroupBox groupBox3;
+        private global::System.Windows.Forms.PictureBox pictureBox_翻译文本;
+        private global::System.Windows.Forms.PictureBox pictureBox_文字识别;
+        private global::System.Windows.Forms.TextBox txtBox_识别界面;
+        private global::System.Windows.Forms.TextBox txtBox_记录界面;
+        private global::System.Windows.Forms.TextBox txtBox_翻译文本;
+        private global::System.Windows.Forms.TextBox txtBox_文字识别;
+        private global::System.Windows.Forms.Label label7;
+        private global::System.Windows.Forms.Label label6;
+        private global::System.Windows.Forms.Label label5;
+        private global::System.Windows.Forms.Label label4;
+        private global::System.Windows.Forms.PictureBox pictureBox_识别界面;
+        private global::System.Windows.Forms.PictureBox pictureBox_记录界面;
+        private global::System.Windows.Forms.Label label8;
+        private global::System.Windows.Forms.CheckBox cbBox_翻译;
+        private global::System.Windows.Forms.TabControl tabControl2;
+        private global::System.Windows.Forms.TabPage inPage_百度接口;
+        private global::System.Windows.Forms.TextBox text_baidupassword;
+        private global::System.Windows.Forms.TextBox text_baiduaccount;
+        private global::System.Windows.Forms.Label label10;
+        private global::System.Windows.Forms.Label label9;
+        private global::System.Windows.Forms.Button 快捷键Button;
+        private global::System.Windows.Forms.Button 密钥Button_apply;
+        private global::System.Windows.Forms.Button 密钥Button;
+        private global::System.Windows.Forms.GroupBox groupBox4;
+        private global::System.Windows.Forms.ComboBox combox_代理;
+        private global::System.Windows.Forms.Label label11;
+        private global::System.Windows.Forms.Button 代理Button;
+        private global::System.Windows.Forms.CheckBox chbox_代理服务器;
+        private global::System.Windows.Forms.TextBox text_密码;
+        private global::System.Windows.Forms.TextBox text_端口;
+        private global::System.Windows.Forms.Label label15;
+        private global::System.Windows.Forms.TextBox text_账号;
+        private global::System.Windows.Forms.TextBox text_服务器;
+        private global::System.Windows.Forms.Label label14;
+        private global::System.Windows.Forms.Label label13;
+        private global::System.Windows.Forms.Label label12;
+        private global::System.Windows.Forms.Button 更新Button_check;
+        private global::System.Windows.Forms.Button 更新Button;
+        private global::System.Windows.Forms.GroupBox groupBox5;
+        private global::System.Windows.Forms.Label label16;
+        private global::System.Windows.Forms.NumericUpDown numbox_间隔时间;
+        private global::System.Windows.Forms.CheckBox checkBox_更新间隔;
+        private global::System.Windows.Forms.CheckBox check_检查更新;
+        private global::System.Windows.Forms.CheckBox cbBox_弹窗;
+        private global::System.Windows.Forms.GroupBox groupBox6;
+        private global::System.Windows.Forms.TextBox textBox_path;
+        private global::System.Windows.Forms.Label label1;
+        private global::System.Windows.Forms.CheckBox cbBox_保存;
+        private global::System.Windows.Forms.Button btn_浏览;
+        private global::System.Windows.Forms.Button 百度_btn;
+        private global::System.Windows.Forms.GroupBox groupBox10;
+        private global::System.Windows.Forms.Button btn_音效;
+        private global::System.Windows.Forms.TextBox text_音效path;
+        private global::System.Windows.Forms.Label label18;
+        private global::System.Windows.Forms.CheckBox chbox_save;
+        private global::System.Windows.Forms.CheckBox chbox_copy;
+        private global::System.Windows.Forms.Label label20;
+        private global::System.Windows.Forms.Button btn_音效路径;
+        private global::System.Windows.Forms.CheckBox chbox_取色;
         private System.Windows.Forms.TabPage Page_反馈;
         private System.Windows.Forms.TabPage Page_About;
         private System.Windows.Forms.TabPage Page_翻译接口;
@@ -2023,6 +2131,7 @@
         private System.Windows.Forms.TabPage tabPage_Baidu;
         private System.Windows.Forms.TabPage tabPage_Tencent;
         private System.Windows.Forms.TabPage tabPage_Bing;
+        private System.Windows.Forms.TabPage tabPage_Bing2;
         private System.Windows.Forms.TabPage tabPage_Microsoft;
         private System.Windows.Forms.TabPage tabPage_Yandex;
         private System.Windows.Forms.GroupBox groupBox_Google_Key;
@@ -2055,6 +2164,12 @@
         private System.Windows.Forms.TextBox textBox_Bing_Target;
         private System.Windows.Forms.GroupBox groupBox_Bing_Source;
         private System.Windows.Forms.TextBox textBox_Bing_Source;
+        private System.Windows.Forms.GroupBox groupBox_Bing2_Key;
+        private System.Windows.Forms.Label label_Bing2_Notice;
+        private System.Windows.Forms.GroupBox groupBox_Bing2_Target;
+        private System.Windows.Forms.TextBox textBox_Bing2_Target;
+        private System.Windows.Forms.GroupBox groupBox_Bing2_Source;
+        private System.Windows.Forms.TextBox textBox_Bing2_Source;
         private System.Windows.Forms.GroupBox groupBox_Microsoft_Key;
         private System.Windows.Forms.Label label_Microsoft_Key;
         private System.Windows.Forms.GroupBox groupBox_Microsoft_Target;
@@ -2075,6 +2190,8 @@
         private System.Windows.Forms.Button btn_Reset_Tencent_Target;
         private System.Windows.Forms.Button btn_Reset_Bing_Source;
         private System.Windows.Forms.Button btn_Reset_Bing_Target;
+        private System.Windows.Forms.Button btn_Reset_Bing2_Source;
+        private System.Windows.Forms.Button btn_Reset_Bing2_Target;
         private System.Windows.Forms.Button btn_Reset_Microsoft_Source;
         private System.Windows.Forms.Button btn_Reset_Microsoft_Target;
         private System.Windows.Forms.Button btn_Reset_Yandex_Source;
