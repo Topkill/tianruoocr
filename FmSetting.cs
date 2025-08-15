@@ -364,7 +364,25 @@ namespace TrOCR
 			         textBox_Yandex_Source.Text = (yandexSource == "发生错误") ? "auto" : yandexSource;
 			         var yandexTarget = IniHelper.GetValue("Translate_Yandex", "Target");
 			         textBox_Yandex_Target.Text = (yandexTarget == "发生错误") ? "自动判断" : yandexTarget;
-		}
+			         
+			         // 腾讯交互翻译
+			         var tencentInteractiveSource = IniHelper.GetValue("Translate_TencentInteractive", "Source");
+			         textBox_TencentInteractive_Source.Text = (tencentInteractiveSource == "发生错误") ? "auto" : tencentInteractiveSource;
+			         var tencentInteractiveTarget = IniHelper.GetValue("Translate_TencentInteractive", "Target");
+			         textBox_TencentInteractive_Target.Text = (tencentInteractiveTarget == "发生错误") ? "自动判断" : tencentInteractiveTarget;
+			         
+			         // 彩云小译
+			         var caiyunSource = IniHelper.GetValue("Translate_Caiyun", "Source");
+			         textBox_Caiyun_Source.Text = (caiyunSource == "发生错误") ? "auto" : caiyunSource;
+			         var caiyunTarget = IniHelper.GetValue("Translate_Caiyun", "Target");
+			         textBox_Caiyun_Target.Text = (caiyunTarget == "发生错误") ? "自动判断" : caiyunTarget;
+			         
+			         // 火山翻译
+			         var volcanoSource = IniHelper.GetValue("Translate_Volcano", "Source");
+			         textBox_Volcano_Source.Text = (volcanoSource == "发生错误") ? "auto" : volcanoSource;
+			         var volcanoTarget = IniHelper.GetValue("Translate_Volcano", "Target");
+			         textBox_Volcano_Target.Text = (volcanoTarget == "发生错误") ? "自动判断" : volcanoTarget;
+			     }
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
@@ -923,8 +941,20 @@ namespace TrOCR
 
 			         IniHelper.SetValue("Translate_Yandex", "Source", textBox_Yandex_Source.Text);
 			         IniHelper.SetValue("Translate_Yandex", "Target", textBox_Yandex_Target.Text);
+			         
+			         // 腾讯交互翻译
+			         IniHelper.SetValue("Translate_TencentInteractive", "Source", textBox_TencentInteractive_Source.Text);
+			         IniHelper.SetValue("Translate_TencentInteractive", "Target", textBox_TencentInteractive_Target.Text);
+			         
+			         // 彩云小译
+			         IniHelper.SetValue("Translate_Caiyun", "Source", textBox_Caiyun_Source.Text);
+			         IniHelper.SetValue("Translate_Caiyun", "Target", textBox_Caiyun_Target.Text);
+			         
+			         // 火山翻译
+			         IniHelper.SetValue("Translate_Volcano", "Source", textBox_Volcano_Source.Text);
+			         IniHelper.SetValue("Translate_Volcano", "Target", textBox_Volcano_Target.Text);
 
-			DialogResult = DialogResult.OK;
+			         DialogResult = DialogResult.OK;
 		}
 
 		public static void AutoStart(bool isAuto)

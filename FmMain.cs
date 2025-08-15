@@ -1007,6 +1007,15 @@ namespace TrOCR
 				                case "腾讯":
 				                    sectionName = "Tencent";
 				                    break;
+				                case "腾讯交互翻译":
+				                    sectionName = "TencentInteractive";
+				                    break;
+				                case "彩云小译":
+				                    sectionName = "Caiyun";
+				                    break;
+				                case "火山翻译":
+				                    sectionName = "Volcano";
+				                    break;
 				                default:
 				                    sectionName = transService; // Handles Bing, Microsoft, Yandex
 				                    break;
@@ -1085,31 +1094,40 @@ namespace TrOCR
 
 				switch (transService)
 				{
-					case "谷歌":
-						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, fromLang, toLang, "google");
-						break;
-					case "Bing":
-						googleTranslate_txt = await BingTranslator.TranslateAsync(typeset_txt, fromLang, toLang);
-						break;
-					case "Bing2":
-					case "BingNew":
-						googleTranslate_txt = await BingTranslator2.TranslateAsync(typeset_txt, fromLang, toLang);
-						break;
-					case "Microsoft":
-						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, fromLang, toLang, "microsoft");
-						break;
-					case "Yandex":
-						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, fromLang, toLang, "yandex");
-						break;
-					case "百度":
-						googleTranslate_txt = TranslateBaidu(typeset_txt, fromLang, toLang);
-						break;
-					case "腾讯":
-						googleTranslate_txt = Translate_Tencent(typeset_txt, fromLang, toLang);
-						break;
-					default:
-						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, fromLang, toLang, "google");
-						break;
+				    case "谷歌":
+				        googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, fromLang, toLang, "google");
+				        break;
+				    case "Bing":
+				        googleTranslate_txt = await BingTranslator.TranslateAsync(typeset_txt, fromLang, toLang);
+				        break;
+				    case "Bing2":
+				    case "BingNew":
+				        googleTranslate_txt = await BingTranslator2.TranslateAsync(typeset_txt, fromLang, toLang);
+				        break;
+				    case "Microsoft":
+				        googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, fromLang, toLang, "microsoft");
+				        break;
+				    case "Yandex":
+				        googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, fromLang, toLang, "yandex");
+				        break;
+				    case "百度":
+				        googleTranslate_txt = TranslateBaidu(typeset_txt, fromLang, toLang);
+				        break;
+				    case "腾讯":
+				        googleTranslate_txt = Translate_Tencent(typeset_txt, fromLang, toLang);
+				        break;
+				    case "腾讯交互翻译":
+				        googleTranslate_txt = await TencentTranslator.TranslateAsync(typeset_txt, fromLang, toLang);
+				        break;
+				    case "彩云小译":
+				        googleTranslate_txt = await CaiyunTranslator.TranslateAsync(typeset_txt, fromLang, toLang);
+				        break;
+				    case "火山翻译":
+				        googleTranslate_txt = await VolcanoTranslator.TranslateAsync(typeset_txt, fromLang, toLang);
+				        break;
+				    default:
+				        googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, fromLang, toLang, "google");
+				        break;
 				}
 			}
 
@@ -3389,6 +3407,15 @@ namespace TrOCR
 					                   case "腾讯":
 					                       sectionName = "Tencent";
 					                       break;
+					                   case "腾讯交互翻译":
+					                       sectionName = "TencentInteractive";
+					                       break;
+					                   case "彩云小译":
+					                       sectionName = "Caiyun";
+					                       break;
+					                   case "火山翻译":
+					                       sectionName = "Volcano";
+					                       break;
 					                   default:
 					                       sectionName = transService; // Handles Bing, Microsoft, Yandex
 					                       break;
@@ -3488,6 +3515,15 @@ namespace TrOCR
 					  break;
 					 case "腾讯":
 					  data = Translate_Tencent(trans_hotkey, fromLang, toLang);
+					  break;
+					 case "腾讯交互翻译":
+					  data = await TencentTranslator.TranslateAsync(trans_hotkey, fromLang, toLang);
+					  break;
+					 case "彩云小译":
+					  data = await CaiyunTranslator.TranslateAsync(trans_hotkey, fromLang, toLang);
+					  break;
+					 case "火山翻译":
+					  data = await VolcanoTranslator.TranslateAsync(trans_hotkey, fromLang, toLang);
 					  break;
 					 default:
 					  data = await GTranslateHelper.TranslateAsync(trans_hotkey, fromLang, toLang, "google");
@@ -3871,6 +3907,21 @@ namespace TrOCR
 		      {
 		          Trans_foreach("Yandex");
 		      }
+		      
+		      public void Trans_tencentinteractive_Click(object sender, EventArgs e)
+		      {
+		          Trans_foreach("腾讯交互翻译");
+		      }
+		      
+		      public void Trans_caiyun_Click(object sender, EventArgs e)
+		      {
+		          Trans_foreach("彩云小译");
+		      }
+		      
+		      public void Trans_volcano_Click(object sender, EventArgs e)
+		      {
+		          Trans_foreach("火山翻译");
+		      }
 
 		private void Trans_foreach(string name)
 		{
@@ -3881,6 +3932,9 @@ namespace TrOCR
 		          trans_bing2.Text = "Bing2";
 		          trans_microsoft.Text = "Microsoft";
 		          trans_yandex.Text = "Yandex";
+		          trans_tencentinteractive.Text = "腾讯交互";
+		          trans_caiyun.Text = "彩云";
+		          trans_volcano.Text = "火山";
 
 			if (name == "百度")
 			{
@@ -3909,6 +3963,18 @@ namespace TrOCR
 		          if (name == "Yandex")
 		          {
 		              trans_yandex.Text = "Yandex√";
+		          }
+		          if (name == "腾讯交互翻译")
+		          {
+		              trans_tencentinteractive.Text = "腾讯交互√";
+		          }
+		          if (name == "彩云小译")
+		          {
+		              trans_caiyun.Text = "彩云√";
+		          }
+		          if (name == "火山翻译")
+		          {
+		              trans_volcano.Text = "火山√";
 		          }
 		          IniHelper.SetValue("配置", "翻译接口", name);
 		          if (transtalate_fla == "开启")

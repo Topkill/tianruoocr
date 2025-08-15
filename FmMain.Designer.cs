@@ -29,6 +29,9 @@
 			this.trans_bing2 = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.trans_microsoft = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.trans_yandex = new global::System.Windows.Forms.ToolStripMenuItem();
+			this.trans_tencentinteractive = new global::System.Windows.Forms.ToolStripMenuItem();
+			this.trans_caiyun = new global::System.Windows.Forms.ToolStripMenuItem();
+			this.trans_volcano = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.baidu_table = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.ali_table = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.ocr_table = new global::System.Windows.Forms.ToolStripMenuItem();
@@ -124,6 +127,12 @@
 			this.trans_microsoft.Click += new global::System.EventHandler(this.Trans_microsoft_Click);
 			this.trans_yandex.Text = "Yandex";
 			this.trans_yandex.Click += new global::System.EventHandler(this.Trans_yandex_Click);
+			this.trans_tencentinteractive.Text = "腾讯交互";
+			this.trans_tencentinteractive.Click += new global::System.EventHandler(this.Trans_tencentinteractive_Click);
+			this.trans_caiyun.Text = "彩云";
+			this.trans_caiyun.Click += new global::System.EventHandler(this.Trans_caiyun_Click);
+			this.trans_volcano.Text = "火山";
+			this.trans_volcano.Click += new global::System.EventHandler(this.Trans_volcano_Click);
 			this.menu_copy.Items.AddRange(new global::System.Windows.Forms.ToolStripItem[]
 			{
 				this.Trans_copy,
@@ -141,7 +150,10 @@
 				this.trans_bing,
 				this.trans_bing2,
 				this.trans_microsoft,
-				this.trans_yandex
+				this.trans_yandex,
+				this.trans_tencentinteractive,
+				this.trans_caiyun,
+				this.trans_volcano
 			});
 			this.menu_copy.Font = new global::System.Drawing.Font("微软雅黑", 9f / global::TrOCR.Helper.StaticValue.DpiFactor, global::System.Drawing.FontStyle.Regular);
 			this.Main_copy.Text = "复制";
@@ -410,6 +422,9 @@
 		private global::System.Windows.Forms.ToolStripMenuItem trans_bing2;
 		private global::System.Windows.Forms.ToolStripMenuItem trans_microsoft;
 		private global::System.Windows.Forms.ToolStripMenuItem trans_yandex;
+		private global::System.Windows.Forms.ToolStripMenuItem trans_tencentinteractive;
+		private global::System.Windows.Forms.ToolStripMenuItem trans_caiyun;
+		private global::System.Windows.Forms.ToolStripMenuItem trans_volcano;
 
 		private global::System.Windows.Forms.ToolStripMenuItem ocr_table;
 

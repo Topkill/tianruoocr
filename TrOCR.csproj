@@ -209,6 +209,9 @@
     <Compile Include="Helper\TranslateHelper.cs" />
     <Compile Include="Helper\BingTranslator.cs" />
     <Compile Include="Helper\BingTranslator2.cs" />
+    <Compile Include="Helper\TencentTranslator.cs" />
+    <Compile Include="Helper\CaiyunTranslator.cs" />
+    <Compile Include="Helper\VolcanoTranslator.cs" />
     <Compile Include="Messageload.cs">
       <SubType>Form</SubType>
     </Compile>
