@@ -44,15 +44,33 @@ namespace TrOCR.Helper
         {
             try
             {
-                if (service.ToLower() == "bing")
+                // 处理无需密钥的翻译服务
+                switch (service.ToLower())
                 {
-                    return await BingTranslator.TranslateAsync(text, fromLanguage, toLanguage);
-                }
-                else if (service.ToLower() == "bing2" || service.ToLower() == "bingnew")
-                {
-                    return await BingTranslator2.TranslateAsync(text, fromLanguage, toLanguage);
+                    case "bing":
+                        return await BingTranslator.TranslateAsync(text, fromLanguage, toLanguage);
+                    
+                    case "bing2":
+                    case "bingnew":
+                        return await BingTranslator2.TranslateAsync(text, fromLanguage, toLanguage);
+                    
+                    case "tencent2":
+                    case "tencentnew":
+                    case "腾讯交互":
+                        return await TencentTranslator.TranslateAsync(text, fromLanguage, toLanguage);
+                    
+                    case "caiyun":
+                    case "彩云":
+                    case "彩云小译":
+                        return await CaiyunTranslator.TranslateAsync(text, fromLanguage, toLanguage);
+                    
+                    case "volcano":
+                    case "volc":
+                    case "火山":
+                        return await VolcanoTranslator.TranslateAsync(text, fromLanguage, toLanguage);
                 }
 
+                // 处理 GTranslate 库支持的翻译服务
                 ITranslator translator;
                 switch (service.ToLower())
                 {
