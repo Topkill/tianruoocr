@@ -32,6 +32,7 @@
 			this.trans_tencentinteractive = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.trans_caiyun = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.trans_volcano = new global::System.Windows.Forms.ToolStripMenuItem();
+			this.trans_caiyun2 = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.baidu_table = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.ali_table = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.ocr_table = new global::System.Windows.Forms.ToolStripMenuItem();
@@ -133,6 +134,8 @@
 			this.trans_caiyun.Click += new global::System.EventHandler(this.Trans_caiyun_Click);
 			this.trans_volcano.Text = "火山";
 			this.trans_volcano.Click += new global::System.EventHandler(this.Trans_volcano_Click);
+			this.trans_caiyun2.Text = "彩云2";
+			this.trans_caiyun2.Click += new global::System.EventHandler(this.Trans_caiyun2_Click);
 			this.menu_copy.Items.AddRange(new global::System.Windows.Forms.ToolStripItem[]
 			{
 				this.Trans_copy,
@@ -153,7 +156,8 @@
 				this.trans_yandex,
 				this.trans_tencentinteractive,
 				this.trans_caiyun,
-				this.trans_volcano
+				this.trans_volcano,
+				this.trans_caiyun2
 			});
 			this.menu_copy.Font = new global::System.Drawing.Font("微软雅黑", 9f / global::TrOCR.Helper.StaticValue.DpiFactor, global::System.Drawing.FontStyle.Regular);
 			this.Main_copy.Text = "复制";
@@ -425,6 +429,7 @@
 		private global::System.Windows.Forms.ToolStripMenuItem trans_tencentinteractive;
 		private global::System.Windows.Forms.ToolStripMenuItem trans_caiyun;
 		private global::System.Windows.Forms.ToolStripMenuItem trans_volcano;
+		private global::System.Windows.Forms.ToolStripMenuItem trans_caiyun2;
 
 		private global::System.Windows.Forms.ToolStripMenuItem ocr_table;
 

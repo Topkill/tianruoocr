@@ -382,7 +382,15 @@ namespace TrOCR
 			         textBox_Volcano_Source.Text = (volcanoSource == "发生错误") ? "auto" : volcanoSource;
 			         var volcanoTarget = IniHelper.GetValue("Translate_Volcano", "Target");
 			         textBox_Volcano_Target.Text = (volcanoTarget == "发生错误") ? "自动判断" : volcanoTarget;
-			     }
+
+			        // 彩云小译2
+			        var caiyun2Source = IniHelper.GetValue("Translate_Caiyun2", "Source");
+			        textBox_Caiyun2_Source.Text = (caiyun2Source == "发生错误") ? "auto" : caiyun2Source;
+			        var caiyun2Target = IniHelper.GetValue("Translate_Caiyun2", "Target");
+			        textBox_Caiyun2_Target.Text = (caiyun2Target == "发生错误") ? "自动判断" : caiyun2Target;
+			        var caiyun2Token = IniHelper.GetValue("Translate_Caiyun2", "Token");
+			        textBox_Caiyun2_Token.Text = (caiyun2Token == "发生错误") ? "3975l6lr5pcbvidl6jl2" : caiyun2Token;
+			             }
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
@@ -953,6 +961,11 @@ namespace TrOCR
 			         // 火山翻译
 			         IniHelper.SetValue("Translate_Volcano", "Source", textBox_Volcano_Source.Text);
 			         IniHelper.SetValue("Translate_Volcano", "Target", textBox_Volcano_Target.Text);
+
+			        // 彩云小译2
+			        IniHelper.SetValue("Translate_Caiyun2", "Source", textBox_Caiyun2_Source.Text);
+			        IniHelper.SetValue("Translate_Caiyun2", "Target", textBox_Caiyun2_Target.Text);
+			        IniHelper.SetValue("Translate_Caiyun2", "Token", textBox_Caiyun2_Token.Text);
 
 			         DialogResult = DialogResult.OK;
 		}

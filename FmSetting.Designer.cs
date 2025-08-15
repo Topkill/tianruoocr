@@ -93,6 +93,15 @@
             this.textBox_Volcano_Source = new System.Windows.Forms.TextBox();
             this.textBox_Volcano_Target = new System.Windows.Forms.TextBox();
             this.label_Volcano_Key = new System.Windows.Forms.Label();
+            this.tabPage_Caiyun2 = new System.Windows.Forms.TabPage();
+            this.groupBox_Caiyun2_Source = new System.Windows.Forms.GroupBox();
+            this.groupBox_Caiyun2_Target = new System.Windows.Forms.GroupBox();
+            this.groupBox_Caiyun2_Key = new System.Windows.Forms.GroupBox();
+            this.textBox_Caiyun2_Source = new System.Windows.Forms.TextBox();
+            this.textBox_Caiyun2_Target = new System.Windows.Forms.TextBox();
+            this.textBox_Caiyun2_Token = new System.Windows.Forms.TextBox();
+            this.label_Caiyun2_Token = new System.Windows.Forms.Label();
+
             //重置按钮区域
             this.btn_Reset_Google_Source = new System.Windows.Forms.Button();
             this.btn_Reset_Google_Target = new System.Windows.Forms.Button();
@@ -114,8 +123,9 @@
             this.btn_Reset_Caiyun_Target = new System.Windows.Forms.Button();
             this.btn_Reset_Volcano_Source = new System.Windows.Forms.Button();
             this.btn_Reset_Volcano_Target = new System.Windows.Forms.Button();
+            this.btn_Reset_Caiyun2_Source = new System.Windows.Forms.Button();
+            this.btn_Reset_Caiyun2_Target = new System.Windows.Forms.Button();
 
-            
 
             this.Page_About = new System.Windows.Forms.TabPage();
             this.Page_翻译接口 = new System.Windows.Forms.TabPage();
@@ -250,6 +260,10 @@
             this.groupBox_Yandex_Key.SuspendLayout();
             this.groupBox_Yandex_Target.SuspendLayout();
             this.groupBox_Yandex_Source.SuspendLayout();
+            this.tabPage_Caiyun2.SuspendLayout();
+            this.groupBox_Caiyun2_Source.SuspendLayout();
+            this.groupBox_Caiyun2_Target.SuspendLayout();
+            this.groupBox_Caiyun2_Key.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -812,6 +826,7 @@
             this.tabControl_Trans.Controls.Add(this.tabPage_TencentInteractive);
             this.tabControl_Trans.Controls.Add(this.tabPage_Caiyun);
             this.tabControl_Trans.Controls.Add(this.tabPage_Volcano);
+            this.tabControl_Trans.Controls.Add(this.tabPage_Caiyun2);
             this.tabControl_Trans.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl_Trans.Location = new System.Drawing.Point(0, 0);
             this.tabControl_Trans.Name = "tabControl_Trans";
@@ -1746,8 +1761,104 @@
             this.textBox_Volcano_Source.Size = new System.Drawing.Size(302, 21);
             this.textBox_Volcano_Source.TabIndex = 0;
             //
+            // tabPage_Caiyun2
+            //
+            this.tabPage_Caiyun2.Controls.Add(this.groupBox_Caiyun2_Key);
+            this.tabPage_Caiyun2.Controls.Add(this.groupBox_Caiyun2_Target);
+            this.tabPage_Caiyun2.Controls.Add(this.groupBox_Caiyun2_Source);
+            this.tabPage_Caiyun2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Caiyun2.Name = "tabPage_Caiyun2";
+            this.tabPage_Caiyun2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Caiyun2.Size = new System.Drawing.Size(382, 303);
+            this.tabPage_Caiyun2.TabIndex = 10;
+            this.tabPage_Caiyun2.Text = "彩云小译2";
+            this.tabPage_Caiyun2.UseVisualStyleBackColor = true;
+            //
+            // groupBox_Caiyun2_Key
+            //
+            this.groupBox_Caiyun2_Key.Controls.Add(this.textBox_Caiyun2_Token);
+            this.groupBox_Caiyun2_Key.Controls.Add(this.label_Caiyun2_Token);
+            this.groupBox_Caiyun2_Key.Location = new System.Drawing.Point(6, 128);
+            this.groupBox_Caiyun2_Key.Name = "groupBox_Caiyun2_Key";
+            this.groupBox_Caiyun2_Key.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Caiyun2_Key.TabIndex = 2;
+            this.groupBox_Caiyun2_Key.TabStop = false;
+            this.groupBox_Caiyun2_Key.Text = "密钥";
+            //
+            // label_Caiyun2_Token
+            //
+            this.label_Caiyun2_Token.AutoSize = true;
+            this.label_Caiyun2_Token.Location = new System.Drawing.Point(7, 23);
+            this.label_Caiyun2_Token.Name = "label_Caiyun2_Token";
+            this.label_Caiyun2_Token.Size = new System.Drawing.Size(41, 12);
+            this.label_Caiyun2_Token.TabIndex = 0;
+            this.label_Caiyun2_Token.Text = "Token:";
+            //
+            // textBox_Caiyun2_Token
+            //
+            this.textBox_Caiyun2_Token.Location = new System.Drawing.Point(80, 20);
+            this.textBox_Caiyun2_Token.Name = "textBox_Caiyun2_Token";
+            this.textBox_Caiyun2_Token.Size = new System.Drawing.Size(284, 21);
+            this.textBox_Caiyun2_Token.TabIndex = 1;
+            //
+            // groupBox_Caiyun2_Target
+            //
+            this.groupBox_Caiyun2_Target.Controls.Add(this.btn_Reset_Caiyun2_Target);
+            this.groupBox_Caiyun2_Target.Controls.Add(this.textBox_Caiyun2_Target);
+            this.groupBox_Caiyun2_Target.Location = new System.Drawing.Point(6, 67);
+            this.groupBox_Caiyun2_Target.Name = "groupBox_Caiyun2_Target";
+            this.groupBox_Caiyun2_Target.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Caiyun2_Target.TabIndex = 1;
+            this.groupBox_Caiyun2_Target.TabStop = false;
+            this.groupBox_Caiyun2_Target.Text = "目标语言";
+            //
+            // btn_Reset_Caiyun2_Target
+            //
+            this.btn_Reset_Caiyun2_Target.Location = new System.Drawing.Point(314, 19);
+            this.btn_Reset_Caiyun2_Target.Name = "btn_Reset_Caiyun2_Target";
+            this.btn_Reset_Caiyun2_Target.Size = new System.Drawing.Size(50, 23);
+            this.btn_Reset_Caiyun2_Target.TabIndex = 1;
+            this.btn_Reset_Caiyun2_Target.Text = "重置";
+            this.btn_Reset_Caiyun2_Target.UseVisualStyleBackColor = true;
+            this.btn_Reset_Caiyun2_Target.Click += new System.EventHandler(this.btn_Reset_Target_Click);
+            //
+            // textBox_Caiyun2_Target
+            //
+            this.textBox_Caiyun2_Target.Location = new System.Drawing.Point(6, 20);
+            this.textBox_Caiyun2_Target.Name = "textBox_Caiyun2_Target";
+            this.textBox_Caiyun2_Target.Size = new System.Drawing.Size(302, 21);
+            this.textBox_Caiyun2_Target.TabIndex = 0;
+            //
+            // groupBox_Caiyun2_Source
+            //
+            this.groupBox_Caiyun2_Source.Controls.Add(this.btn_Reset_Caiyun2_Source);
+            this.groupBox_Caiyun2_Source.Controls.Add(this.textBox_Caiyun2_Source);
+            this.groupBox_Caiyun2_Source.Location = new System.Drawing.Point(6, 6);
+            this.groupBox_Caiyun2_Source.Name = "groupBox_Caiyun2_Source";
+            this.groupBox_Caiyun2_Source.Size = new System.Drawing.Size(370, 55);
+            this.groupBox_Caiyun2_Source.TabIndex = 0;
+            this.groupBox_Caiyun2_Source.TabStop = false;
+            this.groupBox_Caiyun2_Source.Text = "源语言";
+            //
+            // btn_Reset_Caiyun2_Source
+            //
+            this.btn_Reset_Caiyun2_Source.Location = new System.Drawing.Point(314, 19);
+            this.btn_Reset_Caiyun2_Source.Name = "btn_Reset_Caiyun2_Source";
+            this.btn_Reset_Caiyun2_Source.Size = new System.Drawing.Size(50, 23);
+            this.btn_Reset_Caiyun2_Source.TabIndex = 1;
+            this.btn_Reset_Caiyun2_Source.Text = "重置";
+            this.btn_Reset_Caiyun2_Source.UseVisualStyleBackColor = true;
+            this.btn_Reset_Caiyun2_Source.Click += new System.EventHandler(this.btn_Reset_Source_Click);
+            //
+            // textBox_Caiyun2_Source
+            //
+            this.textBox_Caiyun2_Source.Location = new System.Drawing.Point(6, 20);
+            this.textBox_Caiyun2_Source.Name = "textBox_Caiyun2_Source";
+            this.textBox_Caiyun2_Source.Size = new System.Drawing.Size(302, 21);
+            this.textBox_Caiyun2_Source.TabIndex = 0;
+            //
             // groupBox6
-            // 
+            //
             this.groupBox6.Controls.Add(this.btn_浏览);
             this.groupBox6.Controls.Add(this.textBox_path);
             this.groupBox6.Controls.Add(this.label1);
@@ -2309,6 +2420,13 @@
             this.groupBox_Yandex_Target.PerformLayout();
             this.groupBox_Yandex_Source.ResumeLayout(false);
             this.groupBox_Yandex_Source.PerformLayout();
+            this.tabPage_Caiyun2.ResumeLayout(false);
+            this.groupBox_Caiyun2_Source.ResumeLayout(false);
+            this.groupBox_Caiyun2_Source.PerformLayout();
+            this.groupBox_Caiyun2_Target.ResumeLayout(false);
+            this.groupBox_Caiyun2_Target.PerformLayout();
+            this.groupBox_Caiyun2_Key.ResumeLayout(false);
+            this.groupBox_Caiyun2_Key.PerformLayout();
             this.page_常规.ResumeLayout(false);
             this.Page_翻译接口.ResumeLayout(false);
             this.tab_标签.ResumeLayout(false);
@@ -2522,5 +2640,15 @@
         private System.Windows.Forms.Button btn_Reset_Volcano_Source;
         private System.Windows.Forms.Button btn_Reset_Volcano_Target;
         private System.Windows.Forms.Label label_Volcano_Key;
+        private System.Windows.Forms.TabPage tabPage_Caiyun2;
+        private System.Windows.Forms.GroupBox groupBox_Caiyun2_Source;
+        private System.Windows.Forms.Button btn_Reset_Caiyun2_Source;
+        private System.Windows.Forms.TextBox textBox_Caiyun2_Source;
+        private System.Windows.Forms.GroupBox groupBox_Caiyun2_Target;
+        private System.Windows.Forms.Button btn_Reset_Caiyun2_Target;
+        private System.Windows.Forms.TextBox textBox_Caiyun2_Target;
+        private System.Windows.Forms.GroupBox groupBox_Caiyun2_Key;
+        private System.Windows.Forms.TextBox textBox_Caiyun2_Token;
+        private System.Windows.Forms.Label label_Caiyun2_Token;
     }
 }
