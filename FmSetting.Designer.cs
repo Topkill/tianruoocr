@@ -102,6 +102,13 @@
             this.textBox_Caiyun2_Token = new System.Windows.Forms.TextBox();
             this.label_Caiyun2_Token = new System.Windows.Forms.Label();
 
+            // 白描接口控件
+            this.inPage白描接口 = new System.Windows.Forms.TabPage();
+            this.BoxBaimiaoPassword = new System.Windows.Forms.TextBox();
+            this.BoxBaimiaoUsername = new System.Windows.Forms.TextBox();
+            this.label_BaimiaoPassword = new System.Windows.Forms.Label();
+            this.label_BaimiaoUsername = new System.Windows.Forms.Label();
+
             //重置按钮区域
             this.btn_Reset_Google_Source = new System.Windows.Forms.Button();
             this.btn_Reset_Google_Target = new System.Windows.Forms.Button();
@@ -477,9 +484,10 @@
             this.密钥Button.Click += new System.EventHandler(this.密钥Button_Click);
             // 
             // tabControl2
-            // 
+            //
             this.tabControl2.Controls.Add(this.inPage_百度接口);
             this.tabControl2.Controls.Add(this.inPage腾讯接口);
+            this.tabControl2.Controls.Add(this.inPage白描接口);
             this.tabControl2.Location = new System.Drawing.Point(6, 6);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
@@ -583,6 +591,55 @@
             this.label22.Size = new System.Drawing.Size(59, 12);
             this.label22.TabIndex = 4;
             this.label22.Text = "SecretId:";
+            //
+            // inPage白描接口
+            //
+            this.inPage白描接口.BackColor = System.Drawing.Color.White;
+            this.inPage白描接口.Controls.Add(this.BoxBaimiaoPassword);
+            this.inPage白描接口.Controls.Add(this.BoxBaimiaoUsername);
+            this.inPage白描接口.Controls.Add(this.label_BaimiaoPassword);
+            this.inPage白描接口.Controls.Add(this.label_BaimiaoUsername);
+            this.inPage白描接口.Location = new System.Drawing.Point(4, 22);
+            this.inPage白描接口.Name = "inPage白描接口";
+            this.inPage白描接口.Padding = new System.Windows.Forms.Padding(3);
+            this.inPage白描接口.Size = new System.Drawing.Size(370, 98);
+            this.inPage白描接口.TabIndex = 2;
+            this.inPage白描接口.Text = "白描识别接口";
+            //
+            // BoxBaimiaoPassword
+            //
+            this.BoxBaimiaoPassword.BackColor = System.Drawing.Color.White;
+            this.BoxBaimiaoPassword.Location = new System.Drawing.Point(70, 55);
+            this.BoxBaimiaoPassword.Name = "BoxBaimiaoPassword";
+            this.BoxBaimiaoPassword.PasswordChar = '*';
+            this.BoxBaimiaoPassword.Size = new System.Drawing.Size(260, 21);
+            this.BoxBaimiaoPassword.TabIndex = 8;
+            //
+            // BoxBaimiaoUsername
+            //
+            this.BoxBaimiaoUsername.BackColor = System.Drawing.Color.White;
+            this.BoxBaimiaoUsername.Location = new System.Drawing.Point(70, 20);
+            this.BoxBaimiaoUsername.Name = "BoxBaimiaoUsername";
+            this.BoxBaimiaoUsername.Size = new System.Drawing.Size(260, 21);
+            this.BoxBaimiaoUsername.TabIndex = 7;
+            //
+            // label_BaimiaoPassword
+            //
+            this.label_BaimiaoPassword.AutoSize = true;
+            this.label_BaimiaoPassword.Location = new System.Drawing.Point(6, 58);
+            this.label_BaimiaoPassword.Name = "label_BaimiaoPassword";
+            this.label_BaimiaoPassword.Size = new System.Drawing.Size(41, 12);
+            this.label_BaimiaoPassword.TabIndex = 6;
+            this.label_BaimiaoPassword.Text = "密码:";
+            //
+            // label_BaimiaoUsername
+            //
+            this.label_BaimiaoUsername.AutoSize = true;
+            this.label_BaimiaoUsername.Location = new System.Drawing.Point(6, 23);
+            this.label_BaimiaoUsername.Name = "label_BaimiaoUsername";
+            this.label_BaimiaoUsername.Size = new System.Drawing.Size(53, 12);
+            this.label_BaimiaoUsername.TabIndex = 5;
+            this.label_BaimiaoUsername.Text = "账号:";
             //
             // Page_快捷键
             // 
@@ -2357,6 +2414,8 @@
             this.inPage_百度接口.PerformLayout();
             this.inPage腾讯接口.ResumeLayout(false);
             this.inPage腾讯接口.PerformLayout();
+            this.inPage白描接口.ResumeLayout(false);
+            this.inPage白描接口.PerformLayout();
             this.Page_快捷键.ResumeLayout(false);
             this.Page_快捷键.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -2650,5 +2709,10 @@
         private System.Windows.Forms.GroupBox groupBox_Caiyun2_Key;
         private System.Windows.Forms.TextBox textBox_Caiyun2_Token;
         private System.Windows.Forms.Label label_Caiyun2_Token;
+        private System.Windows.Forms.TabPage inPage白描接口;
+        private System.Windows.Forms.TextBox BoxBaimiaoPassword;
+        private System.Windows.Forms.TextBox BoxBaimiaoUsername;
+        private System.Windows.Forms.Label label_BaimiaoPassword;
+        private System.Windows.Forms.Label label_BaimiaoUsername;
     }
 }

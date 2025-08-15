@@ -162,6 +162,20 @@ namespace TrOCR
 				BoxTencentKey.Text = "";
 			}
 
+			// 读取白描账号信息
+			var valueBaimiaoUsername = IniHelper.GetValue("密钥_白描", "username");
+			BoxBaimiaoUsername.Text = valueBaimiaoUsername;
+			if (valueBaimiaoUsername == "发生错误")
+			{
+				BoxBaimiaoUsername.Text = "";
+			}
+			var valueBaimiaoPassword = IniHelper.GetValue("密钥_白描", "password");
+			BoxBaimiaoPassword.Text = valueBaimiaoPassword;
+			if (valueBaimiaoPassword == "发生错误")
+			{
+				BoxBaimiaoPassword.Text = "";
+			}
+
 			var value14 = IniHelper.GetValue("代理", "代理类型");
 			combox_代理.Text = value14;
 			if (value14 == "发生错误")
@@ -435,6 +449,14 @@ namespace TrOCR
 			{
 				Process.Start("https://console.cloud.tencent.com/ocr/general");
 			}
+			else if (tabControl2.SelectedTab == inPage白描接口)
+			{
+				// 白描不提供传统的API申请，显示提示信息
+				MessageBox.Show("白描OCR使用账号登录方式，无需申请API密钥。\n\n请直接输入您的白描账号（手机号/邮箱）和密码即可使用。\n\n如需注册账号，请前往白描官网或下载白描App。",
+					"白描OCR说明", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				// 可选：打开白描官网
+				// Process.Start("https://web.baimiaoapp.com");
+			}
 			else
 			{
 				Process.Start("https://console.bce.baidu.com/ai/");
@@ -557,10 +579,25 @@ namespace TrOCR
 
 		private void 密钥Button_Click(object sender, EventArgs e)
 		{
-			text_baiduaccount.Text = "YsZKG1wha34PlDOPYaIrIIKO";
-			text_baidupassword.Text = "HPRZtdOHrdnnETVsZM2Nx7vbDkMfxrkD";
-			BoxTencentId.Text = "";
-			BoxTencentKey.Text = "";
+			// 根据当前选中的标签页，只恢复对应接口的默认设置
+			if (tabControl2.SelectedTab == inPage_百度接口)
+			{
+				// 恢复百度OCR默认密钥
+				text_baiduaccount.Text = "YsZKG1wha34PlDOPYaIrIIKO";
+				text_baidupassword.Text = "HPRZtdOHrdnnETVsZM2Nx7vbDkMfxrkD";
+			}
+			else if (tabControl2.SelectedTab == inPage腾讯接口)
+			{
+				// 清空腾讯OCR密钥
+				BoxTencentId.Text = "";
+				BoxTencentKey.Text = "";
+			}
+			else if (tabControl2.SelectedTab == inPage白描接口)
+			{
+				// 清空白描账号密码
+				BoxBaimiaoUsername.Text = "";
+				BoxBaimiaoPassword.Text = "";
+			}
 		}
 
 		private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
@@ -674,9 +711,77 @@ namespace TrOCR
 			pictureBox_识别界面.Image = Resources.快捷键_0;
 		}
 
-		private void 百度_btn_Click(object sender, EventArgs e)
+		private async void 百度_btn_Click(object sender, EventArgs e)
 		{
-			if (tabControl2.SelectedTab == inPage腾讯接口)
+			if (tabControl2.SelectedTab == inPage白描接口)
+			{
+				string username = BoxBaimiaoUsername.Text;
+				string password = BoxBaimiaoPassword.Text;
+
+				if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+				{
+					MessageBox.Show("账号和密码不能为空！", "提醒");
+					return;
+				}
+
+				// 禁用按钮，防止重复点击
+				var button = sender as Button;
+				if (button != null)
+				{
+					button.Enabled = false;
+					button.Text = "验证中...";
+				}
+
+				try
+				{
+					// 异步调用白描登录验证
+					var loginResult = await OcrHelper.BaimiaoVerifyAccount(username, password);
+					
+					if (loginResult != null && loginResult.ContainsKey("code"))
+					{
+						int code = Convert.ToInt32(loginResult["code"]);
+						string message = loginResult.ContainsKey("message") ? loginResult["message"].ToString() : "";
+						bool success = loginResult.ContainsKey("success") ? (bool)loginResult["success"] : false;
+						
+						// 白描API: code=1 表示成功
+						if (code == 1 || success)
+						{
+							MessageBox.Show("白描账号验证成功！", "验证成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+						}
+						else if (code == 0 && message.Contains("密码错误"))
+						{
+							MessageBox.Show("账号或密码错误！\n\n请确认：\n1. 账号（手机号/邮箱）输入正确\n2. 密码输入正确\n3. 该账号已在白描App或网页版注册", "验证失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						}
+						else
+						{
+							// 显示原始的code和msg
+							MessageBox.Show($"验证失败\n\n错误码(code): {code}\n错误信息(msg): {message}", "验证失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						}
+					}
+					else
+					{
+						MessageBox.Show("验证失败：未收到有效响应\n\n请检查网络连接后重试", "无响应", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					}
+				}
+				catch (System.Threading.Tasks.TaskCanceledException)
+				{
+					MessageBox.Show("验证超时，请检查网络连接后重试", "超时", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show($"验证时发生异常：{ex.Message}", "异常", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+				finally
+				{
+					// 恢复按钮状态
+					if (button != null)
+					{
+						button.Enabled = true;
+						button.Text = "验证";
+					}
+				}
+			}
+			else if (tabControl2.SelectedTab == inPage腾讯接口)
 			{
 				string secretId = BoxTencentId.Text;
 				string secretKey = BoxTencentKey.Text;
@@ -905,6 +1010,8 @@ namespace TrOCR
 			IniHelper.SetValue("密钥_百度", "secret_key", text_baidupassword.Text);
 			IniHelper.SetValue("密钥_腾讯", "secret_id", BoxTencentId.Text);
 			IniHelper.SetValue("密钥_腾讯", "secret_key", BoxTencentKey.Text);
+			IniHelper.SetValue("密钥_白描", "username", BoxBaimiaoUsername.Text);
+			IniHelper.SetValue("密钥_白描", "password", BoxBaimiaoPassword.Text);
 			IniHelper.SetValue("代理", "代理类型", combox_代理.Text);
 			IniHelper.SetValue("代理", "服务器", text_服务器.Text);
 			IniHelper.SetValue("代理", "端口", text_端口.Text);

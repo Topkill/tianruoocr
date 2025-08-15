@@ -461,6 +461,40 @@ namespace TrOCR
 			}
 		}
 
+		public void OCR_Baimiao()
+		{
+			try
+			{
+				split_txt = "";
+				typeset_txt = "";
+				
+				// 获取白描账号信息
+				string username = IniHelper.GetValue("密钥_白描", "username");
+				string password = IniHelper.GetValue("密钥_白描", "password");
+				
+				if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+				{
+					typeset_txt = "***请在设置中输入白描账号密码***";
+					split_txt = typeset_txt;
+					return;
+				}
+				
+				byte[] imageBytes = OcrHelper.ImgToBytes(image_screen);
+				string result = OcrHelper.Baimiao(imageBytes, username, password).GetAwaiter().GetResult();
+				typeset_txt = result;
+				split_txt = result;
+			}
+			catch (Exception ex)
+			{
+				typeset_txt = $"***白描OCR识别出错: {ex.Message}***";
+				split_txt = typeset_txt;
+				if (esc == "退出")
+				{
+					esc = "";
+				}
+			}
+		}
+
 		public void OCR_baidu_bak()
 		{
 			split_txt = "";
@@ -641,6 +675,11 @@ namespace TrOCR
 		public void OCR_wechat_Click(object sender, EventArgs e)
 		{
 			OCR_foreach("微信");
+		}
+
+		public void OCR_baimiao_Click(object sender, EventArgs e)
+		{
+			OCR_foreach("白描");
 		}
 
 		public void change_Chinese_Click(object sender, EventArgs e)
@@ -1902,6 +1941,13 @@ namespace TrOCR
 				Invoke(new OcrThread(Main_OCR_Thread_last));
 				return;
 			}
+			if (interface_flag == "白描")
+			{
+				OCR_Baimiao();
+				fmloading.FmlClose = "窗体已关闭";
+				Invoke(new OcrThread(Main_OCR_Thread_last));
+				return;
+			}
 			if (interface_flag == "公式")
 			{
 				OCR_Math();
@@ -2567,6 +2613,11 @@ namespace TrOCR
 					interface_flag = "微信";
 					Refresh();
 					wechat.Text = "微信√";
+					break;
+				case "白描":
+					interface_flag = "白描";
+					Refresh();
+					baimiao.Text = "白描√";
 					break;
 				case "公式":
 					interface_flag = "公式";
@@ -3694,6 +3745,10 @@ namespace TrOCR
 					{
 						OCR_youdao();
 					}
+					if (interface_flag == "白描")
+					{
+						OCR_Baimiao();
+					}
 					if (interface_flag == "日语" || interface_flag == "中英" || interface_flag == "韩语")
 					{
 						OCR_baidu();
@@ -4351,6 +4406,7 @@ namespace TrOCR
 			baidu.Text = "百度";
 			youdao.Text = "有道";
 			wechat.Text = "微信";
+			baimiao.Text = "白描";
 			shupai.Text = "竖排";
 			ocr_table.Text = "表格";
 			ch_en.Text = "中英";

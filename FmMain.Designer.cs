@@ -198,6 +198,9 @@
 			this.youdao.Click += new global::System.EventHandler(this.OCR_youdao_Click);
 			this.wechat.Text = "微信";
 			this.wechat.Click += new global::System.EventHandler(this.OCR_wechat_Click);
+			this.baimiao = new global::System.Windows.Forms.ToolStripMenuItem();
+			this.baimiao.Text = "白描";
+			this.baimiao.Click += new global::System.EventHandler(this.OCR_baimiao_Click);
 			this.ocr_table.Text = "表格";
 			this.baidu_table.Text = "百度";
 			this.baidu_table.Click += new global::System.EventHandler(this.OCR_baidutable_Click);
@@ -244,6 +247,7 @@
 				this.tencent,
 				this.youdao,
 				this.wechat,
+				this.baimiao,
 				this.baidu,
 				this.toolStripSeparator1,
 				this.Mathfuntion,
@@ -336,6 +340,8 @@
 		public global::System.Windows.Forms.ToolStripItem youdao;
 
 		public global::System.Windows.Forms.ToolStripItem wechat;
+
+		public global::System.Windows.Forms.ToolStripItem baimiao;
 
 		public global::System.Windows.Forms.ToolStripDropDownItem interface_button;
 
