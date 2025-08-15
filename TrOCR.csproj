@@ -177,9 +177,7 @@
     <Compile Include="FmLoading.Designer.cs">
       <DependentUpon>FmLoading.cs</DependentUpon>
     </Compile>
-    <Compile Include="FmMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="FmMain.cs" />
     <Compile Include="FmMain.Designer.cs">
       <DependentUpon>FmMain.cs</DependentUpon>
     </Compile>
@@ -195,7 +193,9 @@
     <Compile Include="FmScreenPaste.Designer.cs">
       <DependentUpon>FmScreenPaste.cs</DependentUpon>
     </Compile>
-    <Compile Include="FmSetting.cs" />
+    <Compile Include="FmSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FmSetting.Designer.cs">
       <DependentUpon>FmSetting.cs</DependentUpon>
     </Compile>
@@ -212,6 +212,7 @@
     <Compile Include="Helper\TencentTranslator.cs" />
     <Compile Include="Helper\CaiyunTranslator.cs" />
     <Compile Include="Helper\VolcanoTranslator.cs" />
+    <Compile Include="Helper\CaiyunTranslator2.cs" />
     <Compile Include="Messageload.cs">
       <SubType>Form</SubType>
     </Compile>
