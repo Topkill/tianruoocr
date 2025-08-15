@@ -195,9 +195,7 @@
     <Compile Include="FmScreenPaste.Designer.cs">
       <DependentUpon>FmScreenPaste.cs</DependentUpon>
     </Compile>
-    <Compile Include="FmSetting.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="FmSetting.cs" />
     <Compile Include="FmSetting.Designer.cs">
       <DependentUpon>FmSetting.cs</DependentUpon>
     </Compile>
@@ -210,6 +208,7 @@
     <Compile Include="Helper\OcrHelper.cs" />
     <Compile Include="Helper\TranslateHelper.cs" />
     <Compile Include="Helper\BingTranslator.cs" />
+    <Compile Include="Helper\BingTranslator2.cs" />
     <Compile Include="Messageload.cs">
       <SubType>Form</SubType>
     </Compile>

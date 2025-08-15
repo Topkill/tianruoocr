@@ -48,6 +48,10 @@ namespace TrOCR.Helper
                 {
                     return await BingTranslator.TranslateAsync(text, fromLanguage, toLanguage);
                 }
+                else if (service.ToLower() == "bing2" || service.ToLower() == "bingnew")
+                {
+                    return await BingTranslator2.TranslateAsync(text, fromLanguage, toLanguage);
+                }
 
                 ITranslator translator;
                 switch (service.ToLower())

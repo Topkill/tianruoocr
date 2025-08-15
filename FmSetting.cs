@@ -349,7 +349,12 @@ namespace TrOCR
 			         textBox_Bing_Source.Text = (bingSource == "发生错误") ? "auto" : bingSource;
 			         var bingTarget = IniHelper.GetValue("Translate_Bing", "Target");
 			         textBox_Bing_Target.Text = (bingTarget == "发生错误") ? "自动判断" : bingTarget;
-
+			
+			         var bing2Source = IniHelper.GetValue("Translate_Bing2", "Source");
+			         textBox_Bing2_Source.Text = (bing2Source == "发生错误") ? "auto" : bing2Source;
+			         var bing2Target = IniHelper.GetValue("Translate_Bing2", "Target");
+			         textBox_Bing2_Target.Text = (bing2Target == "发生错误") ? "自动判断" : bing2Target;
+			
 			         var microsoftSource = IniHelper.GetValue("Translate_Microsoft", "Source");
 			         textBox_Microsoft_Source.Text = (microsoftSource == "发生错误") ? "auto" : microsoftSource;
 			         var microsoftTarget = IniHelper.GetValue("Translate_Microsoft", "Target");
@@ -909,7 +914,10 @@ namespace TrOCR
 
 			         IniHelper.SetValue("Translate_Bing", "Source", textBox_Bing_Source.Text);
 			         IniHelper.SetValue("Translate_Bing", "Target", textBox_Bing_Target.Text);
-
+			
+			         IniHelper.SetValue("Translate_Bing2", "Source", textBox_Bing2_Source.Text);
+			         IniHelper.SetValue("Translate_Bing2", "Target", textBox_Bing2_Target.Text);
+			
 			         IniHelper.SetValue("Translate_Microsoft", "Source", textBox_Microsoft_Source.Text);
 			         IniHelper.SetValue("Translate_Microsoft", "Target", textBox_Microsoft_Target.Text);
 

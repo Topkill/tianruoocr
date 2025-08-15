@@ -26,6 +26,7 @@
 			this.trans_baidu = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.trans_tencent = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.trans_bing = new global::System.Windows.Forms.ToolStripMenuItem();
+			this.trans_bing2 = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.trans_microsoft = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.trans_yandex = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.baidu_table = new global::System.Windows.Forms.ToolStripMenuItem();
@@ -117,6 +118,8 @@
 			this.trans_tencent.Click += new global::System.EventHandler(this.Trans_tencent_Click);
 			this.trans_bing.Text = "Bing";
 			this.trans_bing.Click += new global::System.EventHandler(this.Trans_bing_Click);
+			this.trans_bing2.Text = "Bing2";
+			this.trans_bing2.Click += new global::System.EventHandler(this.Trans_bing2_Click);
 			this.trans_microsoft.Text = "Microsoft";
 			this.trans_microsoft.Click += new global::System.EventHandler(this.Trans_microsoft_Click);
 			this.trans_yandex.Text = "Yandex";
@@ -136,6 +139,7 @@
 				this.trans_baidu,
 				this.trans_tencent,
 				this.trans_bing,
+				this.trans_bing2,
 				this.trans_microsoft,
 				this.trans_yandex
 			});
@@ -403,6 +407,7 @@
 
 		private global::System.Windows.Forms.ToolStripMenuItem trans_tencent;
 		private global::System.Windows.Forms.ToolStripMenuItem trans_bing;
+		private global::System.Windows.Forms.ToolStripMenuItem trans_bing2;
 		private global::System.Windows.Forms.ToolStripMenuItem trans_microsoft;
 		private global::System.Windows.Forms.ToolStripMenuItem trans_yandex;
 

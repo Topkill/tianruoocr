@@ -1091,6 +1091,10 @@ namespace TrOCR
 					case "Bing":
 						googleTranslate_txt = await BingTranslator.TranslateAsync(typeset_txt, fromLang, toLang);
 						break;
+					case "Bing2":
+					case "BingNew":
+						googleTranslate_txt = await BingTranslator2.TranslateAsync(typeset_txt, fromLang, toLang);
+						break;
 					case "Microsoft":
 						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, fromLang, toLang, "microsoft");
 						break;
@@ -3469,6 +3473,10 @@ namespace TrOCR
 					 case "Bing":
 					  data = await BingTranslator.TranslateAsync(trans_hotkey, fromLang, toLang);
 					  break;
+					 case "Bing2":
+					 case "BingNew":
+					  data = await BingTranslator2.TranslateAsync(trans_hotkey, fromLang, toLang);
+					  break;
 					 case "Microsoft":
 					  data = await GTranslateHelper.TranslateAsync(trans_hotkey, fromLang, toLang, "microsoft");
 					  break;
@@ -3849,6 +3857,11 @@ namespace TrOCR
 		          Trans_foreach("Bing");
 		      }
 
+		      public void Trans_bing2_Click(object sender, EventArgs e)
+		      {
+		          Trans_foreach("Bing2");
+		      }
+
 		      public void Trans_microsoft_Click(object sender, EventArgs e)
 		      {
 		          Trans_foreach("Microsoft");
@@ -3865,6 +3878,7 @@ namespace TrOCR
 		          trans_google.Text = "谷歌";
 		          trans_tencent.Text = "腾讯";
 		          trans_bing.Text = "Bing";
+		          trans_bing2.Text = "Bing2";
 		          trans_microsoft.Text = "Microsoft";
 		          trans_yandex.Text = "Yandex";
 
@@ -3883,6 +3897,10 @@ namespace TrOCR
 		          if (name == "Bing")
 		          {
 		              trans_bing.Text = "Bing√";
+		          }
+		          if (name == "Bing2")
+		          {
+		              trans_bing2.Text = "Bing2√";
 		          }
 		          if (name == "Microsoft")
 		          {
