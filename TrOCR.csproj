@@ -177,7 +177,9 @@
     <Compile Include="FmLoading.Designer.cs">
       <DependentUpon>FmLoading.cs</DependentUpon>
     </Compile>
-    <Compile Include="FmMain.cs" />
+    <Compile Include="FmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FmMain.Designer.cs">
       <DependentUpon>FmMain.cs</DependentUpon>
     </Compile>
