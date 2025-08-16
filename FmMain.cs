@@ -1109,12 +1109,30 @@ namespace TrOCR
 					}
 					else if (StaticValue.ZH2JP)
 					{
-						if (contain_jap(replaceStr(Del_ch(typeset_txt.Trim()))))
+						// 统计中文字符和日文字符数量来判断主要语言
+						string textToCheck = typeset_txt.Trim();
+						int chineseCount = ch_count(textToCheck);
+						// 对于日文，我们需要统计假名的数量，因为汉字在中日文都存在
+						int japaneseKanaCount = 0;
+						foreach (char c in textToCheck)
 						{
+							// 统计平假名 (U+3040-U+309F) 和片假名 (U+30A0-U+30FF)
+							if ((c >= '\u3040' && c <= '\u309F') || (c >= '\u30A0' && c <= '\u30FF'))
+							{
+								japaneseKanaCount++;
+							}
+						}
+						
+						// 如果日文假名多于中文字符，说明是日文文本，翻译到中文
+						// 否则翻译到日文
+						if (japaneseKanaCount > 0 && japaneseKanaCount >= chineseCount / 2)
+						{
+							// 有相当数量的假名，判断为日文，翻译到中文
 							toLang = "zh-CN";
 						}
 						else
 						{
+							// 中文字符占主导，翻译到日文
 							toLang = "ja";
 						}
 					}
@@ -3537,12 +3555,30 @@ namespace TrOCR
 						}
 						else if (StaticValue.ZH2JP)
 						{
-							if (contain_jap(replaceStr(Del_ch(trans_hotkey.Trim()))))
+							// 统计中文字符和日文字符数量来判断主要语言
+							string textToCheck = trans_hotkey.Trim();
+							int chineseCount = ch_count(textToCheck);
+							// 对于日文，我们需要统计假名的数量，因为汉字在中日文都存在
+							int japaneseKanaCount = 0;
+							foreach (char c in textToCheck)
 							{
+								// 统计平假名 (U+3040-U+309F) 和片假名 (U+30A0-U+30FF)
+								if ((c >= '\u3040' && c <= '\u309F') || (c >= '\u30A0' && c <= '\u30FF'))
+								{
+									japaneseKanaCount++;
+								}
+							}
+							
+							// 如果日文假名多于中文字符，说明是日文文本，翻译到中文
+							// 否则翻译到日文
+							if (japaneseKanaCount > 0 && japaneseKanaCount >= chineseCount / 2)
+							{
+								// 有相当数量的假名，判断为日文，翻译到中文
 								toLang = "zh-CN";
 							}
 							else
 							{
+								// 中文字符占主导，翻译到日文
 								toLang = "ja";
 							}
 						}
