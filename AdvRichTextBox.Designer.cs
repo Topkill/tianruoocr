@@ -545,7 +545,12 @@ namespace TrOCR
 
         public void toolStripButtonSend_Click(object sender, EventArgs e)
         {
-            Clipboard.SetDataObject(this.richTextBox1.Text);
+            // 判断是否有选中的文本
+            string textToCopy = string.IsNullOrEmpty(this.richTextBox1.SelectedText)
+                ? this.richTextBox1.Text  // 没有选中文本，复制全部
+                : this.richTextBox1.SelectedText;  // 有选中文本，只复制选中部分
+                
+            Clipboard.SetDataObject(textToCopy);
             HelpWin32.SendMessage(HelpWin32.GetForegroundWindow(), 786, 530);
             HelpWin32.keybd_event(Keys.ControlKey, 0, 0u, 0u);
             HelpWin32.keybd_event(Keys.V, 0, 0u, 0u);

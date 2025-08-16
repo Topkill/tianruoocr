@@ -2312,7 +2312,8 @@
             // 
             this.txt_问题反馈.BackColor = System.Drawing.Color.White;
             this.txt_问题反馈.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_问题反馈.ImeMode = System.Windows.Forms.ImeMode.HangulFull;
+            // 移除韩文输入法模式，使用默认输入法以支持所有语言
+            // this.txt_问题反馈.ImeMode = System.Windows.Forms.ImeMode.HangulFull;
             this.txt_问题反馈.Location = new System.Drawing.Point(6, 6);
             this.txt_问题反馈.Multiline = true;
             this.txt_问题反馈.Name = "txt_问题反馈";

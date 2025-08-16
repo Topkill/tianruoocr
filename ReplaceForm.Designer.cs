@@ -28,7 +28,8 @@
 			this.findtextbox.Name = "findtextbox";
 			this.findtextbox.Size = new global::System.Drawing.Size(280, 21);
 			this.findtextbox.TabIndex = 3;
-			this.findtextbox.ImeMode = global::System.Windows.Forms.ImeMode.HangulFull;
+			// 移除韩文输入法模式，使用默认输入法
+			// this.findtextbox.ImeMode = global::System.Windows.Forms.ImeMode.HangulFull;
 			this.label1.AutoSize = true;
 			this.label1.Font = new global::System.Drawing.Font("宋体", 9f, global::System.Drawing.FontStyle.Regular, global::System.Drawing.GraphicsUnit.Point, 134);
 			this.label1.Location = new global::System.Drawing.Point(12, 11);
@@ -40,7 +41,8 @@
 			this.replacetextBox.Name = "replacetextBox";
 			this.replacetextBox.Size = new global::System.Drawing.Size(280, 21);
 			this.replacetextBox.TabIndex = 5;
-			this.replacetextBox.ImeMode = global::System.Windows.Forms.ImeMode.HangulFull;
+			// 移除韩文输入法模式，使用默认输入法
+			// this.replacetextBox.ImeMode = global::System.Windows.Forms.ImeMode.HangulFull;
 			this.label2.AutoSize = true;
 			this.label2.Font = new global::System.Drawing.Font("宋体", 9f, global::System.Drawing.FontStyle.Regular, global::System.Drawing.GraphicsUnit.Point, 134);
 			this.label2.Location = new global::System.Drawing.Point(12, 48);

@@ -16,6 +16,16 @@ namespace TrOCR
 			var componentResourceManager = new ComponentResourceManager(typeof(FmMain));
 			Icon = (Icon)componentResourceManager.GetObject("minico.Icon");
 			StartPosition = FormStartPosition.Manual;
+			
+			// 如果有选中的文本，自动填充到查找框
+			if (!string.IsNullOrEmpty(mm.richTextBox1.SelectedText))
+			{
+				findtextbox.Text = mm.richTextBox1.SelectedText;
+				// 选中查找框中的文本，方便用户修改
+				findtextbox.SelectAll();
+			}
+			// 设置焦点到查找框
+			findtextbox.Focus();
 		}
 
 		private void Form2_Load(object sender, EventArgs e)
