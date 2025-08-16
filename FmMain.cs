@@ -145,7 +145,11 @@ namespace TrOCR
 				menu_copy.Close();
 				auto_fla = "开启";
 				split_txt = "";
-				RichBoxBody.Text = "***该区域未发现文本***";
+				// 避免不必要的文本更新
+				if (RichBoxBody.Text != "***该区域未发现文本***")
+				{
+					RichBoxBody.Text = "***该区域未发现文本***";
+				}
 				RichBoxBody_T.Text = "";
 				typeset_txt = "";
 				transtalate_fla = "关闭";
@@ -560,11 +564,17 @@ namespace TrOCR
 			{
 				if (esc != "退出")
 				{
-					RichBoxBody.Text = "***该区域未发现文本***";
+					if (RichBoxBody.Text != "***该区域未发现文本***")
+					{
+						RichBoxBody.Text = "***该区域未发现文本***";
+					}
 				}
 				else
 				{
-					RichBoxBody.Text = "***该区域未发现文本***";
+					if (RichBoxBody.Text != "***该区域未发现文本***")
+					{
+						RichBoxBody.Text = "***该区域未发现文本***";
+					}
 					esc = "";
 				}
 			}
@@ -657,11 +667,17 @@ namespace TrOCR
 			{
 				if (esc != "退出")
 				{
-					RichBoxBody.Text = "***该区域未发现文本***";
+					if (RichBoxBody.Text != "***该区域未发现文本***")
+					{
+						RichBoxBody.Text = "***该区域未发现文本***";
+					}
 				}
 				else
 				{
-					RichBoxBody.Text = "***该区域未发现文本***";
+					if (RichBoxBody.Text != "***该区域未发现文本***")
+					{
+						RichBoxBody.Text = "***该区域未发现文本***";
+					}
 					esc = "";
 				}
 			}
@@ -1671,7 +1687,11 @@ namespace TrOCR
 				menu_copy.Close();
 				auto_fla = "开启";
 				split_txt = "";
-				RichBoxBody.Text = "***该区域未发现文本***";
+				// 避免不必要的文本更新
+				if (RichBoxBody.Text != "***该区域未发现文本***")
+				{
+					RichBoxBody.Text = "***该区域未发现文本***";
+				}
 				RichBoxBody_T.Text = "";
 				typeset_txt = "";
 				transtalate_fla = "关闭";
@@ -2016,6 +2036,7 @@ namespace TrOCR
 			}
 			if (text != "")
 			{
+				// 直接设置Text属性，因为AdvRichTextBox.Text的setter已经优化
 				RichBoxBody.Text = text;
 			}
 			StaticValue.v_Split = split_txt;
@@ -2142,7 +2163,8 @@ namespace TrOCR
 				SetHotkey(text6, text7, value3, 205);
 			}
 			HelpWin32.UnregisterHotKey(Handle, 222);
-			RichBoxBody.Refresh();
+			// 移除不必要的Refresh()调用，避免重复重绘
+			// RichBoxBody.Refresh();
 		}
 
 		private void OCR_baidu_Ch_and_En_Click(object sender, EventArgs e)

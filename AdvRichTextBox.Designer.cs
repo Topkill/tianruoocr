@@ -353,9 +353,25 @@ namespace TrOCR
             }
             set
             {
-                this.richTextBox1.Font = new Font("Times New Roman", 16f * Program.Factor, GraphicsUnit.Pixel);
-                this.richTextBox1.Text = value;
-                this.richTextBox1.Font = new Font("Times New Roman", 16f * Program.Factor, GraphicsUnit.Pixel);
+                // 使用BeginUpdate/EndUpdate来避免重绘问题
+                this.richTextBox1.BeginUpdate();
+                try
+                {
+                    // 只设置一次字体，避免重复设置导致的渲染问题
+                    if (this.richTextBox1.Font.Name != "Times New Roman" ||
+                        this.richTextBox1.Font.Size != 16f * Program.Factor)
+                    {
+                        this.richTextBox1.Font = new Font("Times New Roman", 16f * Program.Factor, GraphicsUnit.Pixel);
+                    }
+                    this.richTextBox1.Text = value;
+                }
+                finally
+                {
+                    this.richTextBox1.EndUpdate();
+                    // 确保文本完全渲染
+                    this.richTextBox1.Invalidate();
+                    Application.DoEvents();
+                }
             }
         }
 
@@ -755,12 +771,21 @@ namespace TrOCR
             if (e.Control && e.KeyCode == Keys.Z)
             {
                 this.c.undo();
+                // 简单方案：撤销后光标移到文本末尾
+                // 这是最安全和最可预测的行为
                 this.richTextBox1.Text = this.c.Record;
+                this.richTextBox1.SelectionStart = this.richTextBox1.Text.Length;
+                this.richTextBox1.SelectionLength = 0;
+                this.richTextBox1.ScrollToCaret();  // 确保光标可见
             }
             if (e.Control && e.KeyCode == Keys.Y)
             {
                 this.c.redo();
+                // 重做后光标也移到文本末尾
                 this.richTextBox1.Text = this.c.Record;
+                this.richTextBox1.SelectionStart = this.richTextBox1.Text.Length;
+                this.richTextBox1.SelectionLength = 0;
+                this.richTextBox1.ScrollToCaret();  // 确保光标可见
             }
             if (e.Control && e.KeyCode == Keys.F)
             {
