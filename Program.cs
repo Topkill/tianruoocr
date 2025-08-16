@@ -73,37 +73,90 @@ namespace TrOCR
 
         public static void CheckUpdate()
         {
-            var html = CommonHelper.GetHtmlContent("https://www.jianshu.com/p/3afe79471cb9");
-            if (string.IsNullOrEmpty(html))
+            try
             {
-                return;
-            }
+                // 直接使用 GitHub Releases 作为更新源
+                var apiUrl = "https://gh-proxy.com/https://api.github.com/repos/Topkill/tianruoocr/releases/latest";
 
-            var regex = Regex.Match(html, @"(?<=<pre><code>)[\s\S]+?(?=</code>)");
-            if (regex.Success)
-            {
-                var code = regex.Value.Trim();
-                var json = JObject.Parse(code);
-                var newVersion = json["version"].Value<string>();
-                var curVersion = Application.ProductVersion;
-                if (!CheckVersion(newVersion, curVersion))
+                // 获取最新版本信息
+                var request = System.Net.WebRequest.Create(apiUrl) as System.Net.HttpWebRequest;
+                request.UserAgent = "TianruoOCR";  // GitHub API 要求设置 User-Agent
+                request.Accept = "application/vnd.github.v3+json";
+                request.Timeout = 10000;  // 10秒超时
+                
+                using (var response = request.GetResponse())
+                using (var stream = response.GetResponseStream())
+                using (var reader = new StreamReader(stream))
                 {
-                    CommonHelper.ShowHelpMsg("当前已是最新版本");
+                    var jsonText = reader.ReadToEnd();
+                    var json = JObject.Parse(jsonText);
+                    
+                    // 获取版本号（去掉前面的 'v'）
+                    var tagName = json["tag_name"].Value<string>();
+                    var newVersion = tagName.TrimStart('v', 'V');
+                    var curVersion = Application.ProductVersion;
+                    
+                    if (!CheckVersion(newVersion, curVersion))
+                    {
+                        CommonHelper.ShowHelpMsg("当前已是最新版本");
+                        return;
+                    }
+                    
+                    CommonHelper.ShowHelpMsg("有新版本：" + newVersion);
+                    
+                    // 获取下载链接
+                    var htmlUrl = json["html_url"].Value<string>();
+                    var assets = json["assets"] as JArray;
+                    string downloadUrl = null;
+                    
+                    // 查找 exe 或 zip 文件的下载链接
+                    if (assets != null && assets.Count > 0)
+                    {
+                        foreach (var asset in assets)
+                        {
+                            var name = asset["name"].Value<string>();
+                            if (name.EndsWith(".exe") || name.EndsWith(".zip") || name.EndsWith(".rar"))
+                            {
+                                downloadUrl = asset["browser_download_url"].Value<string>();
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // 获取更新说明（限制长度）
+                    var body = json["body"]?.Value<string>() ?? "无更新说明";
+                    if (body.Length > 500)
+                    {
+                        body = body.Substring(0, 500) + "...";
+                    }
+                    
+                    // 显示更新提示
+                    var message = $"发现新版本：{newVersion}\n";
+                    message += $"当前版本：{curVersion}\n\n";
+                    message += $"更新内容：\n{body}\n\n";
+                    message += "是否前往下载页面？";
+                    
+                    if (MessageBox.Show(message, "发现新版本", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    {
+                        // 如果有直接下载链接，使用下载链接；否则打开发布页面
+                        Process.Start(downloadUrl ?? htmlUrl);
+                    }
+                }
+            }
+            catch (System.Net.WebException ex)
+            {
+                // 网络错误，静默失败或显示简单提示
+                if (ex.Status == System.Net.WebExceptionStatus.Timeout)
+                {
+                    // 超时不提示，避免影响用户体验
                     return;
                 }
-                CommonHelper.ShowHelpMsg("有新版本：" + newVersion);
-                var fullUpdate = json["full_update"].Value<bool>();
-                if (fullUpdate)
-                {
-                    MessageBox.Show($"发现新版本：{newVersion}，请到百度网盘下载！", "提醒");
-                    Process.Start(json["pan_url"].Value<string>());
-                }
-                else
-                {
-                    Process.Start("Data\\update.exe", " " + json["main_url"].Value<string>() + " " + json["pan_url"].Value<string>() + " " +
-                                                      Path.Combine(Application.ExecutablePath, "天若OCR文字识别.exe"));
-                    Environment.Exit(0);
-                }
+                CommonHelper.ShowHelpMsg("检查更新失败，请检查网络连接");
+            }
+            catch (Exception ex)
+            {
+                // 其他错误
+                CommonHelper.ShowHelpMsg($"检查更新时出错：{ex.Message}");
             }
         }
 
@@ -159,6 +212,7 @@ namespace TrOCR
                 IniHelper.SetValue("更新", "检测更新", "True");
                 IniHelper.SetValue("更新", "更新间隔", "True");
                 IniHelper.SetValue("更新", "间隔时间", "24");
+                IniHelper.SetValue("更新", "更新地址", "https://github.com/Topkill/tianruoocr/releases");
                 IniHelper.SetValue("截图音效", "自动保存", "True");
                 IniHelper.SetValue("截图音效", "音效路径", "Data\\screenshot.wav");
                 IniHelper.SetValue("截图音效", "粘贴板", "False");
@@ -293,6 +347,11 @@ namespace TrOCR
             if (IniHelper.GetValue("更新", "间隔时间") == "发生错误")
             {
                 IniHelper.SetValue("更新", "间隔时间", "24");
+            }
+
+            if (IniHelper.GetValue("更新", "更新地址") == "发生错误")
+            {
+                IniHelper.SetValue("更新", "更新地址", "https://github.com/Topkill/tianruoocr/releases");
             }
 
             if (IniHelper.GetValue("截图音效", "自动保存") == "发生错误")
