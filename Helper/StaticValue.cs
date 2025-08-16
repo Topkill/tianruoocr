@@ -78,8 +78,6 @@ namespace TrOCR.Helper
 
         public static bool v_topmost;
 
-        public static string ReleaseDate;
-
         static StaticValue()
 		{
 			note = "";
@@ -96,8 +94,8 @@ namespace TrOCR.Helper
 			set_记录 = false;
 			set_截图 = false;
 			DpiFactor = 1f;
-			CurrentVersion = "6.6.6";
-			ReleaseDate = "2019-02-27";
+			// 动态获取程序集版本，确保一致性
+			CurrentVersion = System.Windows.Forms.Application.ProductVersion;
 		}
 
 		
