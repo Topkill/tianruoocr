@@ -10,6 +10,7 @@ using System.Threading;
 using System.Web;
 using System.Windows.Forms;
 using System.Linq;
+using System.Collections.Generic;
 using Microsoft.Win32;
 using TrOCR.Helper;
 using TrOCR.Properties;
@@ -18,13 +19,14 @@ namespace TrOCR
 {
 
 	public sealed partial class FmSetting
-    {
+	  {
+	      private Dictionary<Control, Point> _originalControlLocations;
 
-		public FmSetting()
-		{
-			Font = new Font(Font.Name, 9f / StaticValue.DpiFactor, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
-			InitializeComponent();
-		}
+	public FmSetting()
+	{
+		Font = new Font(Font.Name, 9f / StaticValue.DpiFactor, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
+		InitializeComponent();
+	}
 
 		public void readIniFile()
 		{
@@ -66,6 +68,19 @@ namespace TrOCR
 			catch
 			{
 				cbBox_弹窗.Checked = true;
+			}
+			var value_input_translate_clipboard = IniHelper.GetValue("配置", "InputTranslateClipboard");
+			if (value_input_translate_clipboard == "发生错误")
+			{
+				cbBox_输入翻译剪贴板.Checked = false;
+			}
+			try
+			{
+				cbBox_输入翻译剪贴板.Checked = Convert.ToBoolean(value_input_translate_clipboard);
+			}
+			catch
+			{
+				cbBox_输入翻译剪贴板.Checked = false;
 			}
 			var value4 = IniHelper.GetValue("配置", "窗体动画");
 			cobBox_动画.Text = value4;
@@ -136,6 +151,14 @@ namespace TrOCR
 			pictureBox_翻译文本.Image = txtBox_翻译文本.Text == "请按下快捷键" ? Resources.快捷键_0 : Resources.快捷键_1;
 			pictureBox_记录界面.Image = txtBox_记录界面.Text == "请按下快捷键" ? Resources.快捷键_0 : Resources.快捷键_1;
 			pictureBox_识别界面.Image = txtBox_识别界面.Text == "请按下快捷键" ? Resources.快捷键_0 : Resources.快捷键_1;
+
+			var value_input_translate = IniHelper.GetValue("快捷键", "输入翻译");
+			txtBox_输入翻译.Text = value_input_translate;
+			if (value_input_translate == "发生错误")
+			{
+				txtBox_输入翻译.Text = "请按下快捷键";
+			}
+			pictureBox_输入翻译.Image = txtBox_输入翻译.Text == "请按下快捷键" ? Resources.快捷键_0 : Resources.快捷键_1;
 			var value12 = IniHelper.GetValue("密钥_百度", "secret_id");
 			text_baiduaccount.Text = value12;
 			if (value12 == "发生错误")
@@ -434,14 +457,18 @@ namespace TrOCR
 			var array6 = new int[4];
 			array6[0] = 1;
 			numericUpDown6.Value = new decimal(array6);
-			tab_标签.Height = (int)(350.0 * Program.Factor);
-			Height = tab_标签.Height + 50;
 			readIniFile();
 			// 使用程序集的实际版本号，而不是写死的值
 			label_VersionInfo.Text = "版本号：" + System.Windows.Forms.Application.ProductVersion;
 			label_AuthorInfo.Text = "作者：topkill";
 			chbox_代理服务器.CheckedChanged += chbox_代理服务器_CheckedChanged;
 			更新Button_check.Click += 更新Button_check_Click;
+
+			         StoreOriginalLocations(this);
+			         tab_标签.SelectedIndexChanged += AdjustPageSize;
+			         tabControl2.SelectedIndexChanged += AdjustPageSize;
+			         tabControl_Trans.SelectedIndexChanged += AdjustPageSize;
+			         AdjustPageSize(tab_标签, EventArgs.Empty);
 		}
 
 		private void 百度申请_Click(object sender, EventArgs e)
@@ -492,41 +519,7 @@ namespace TrOCR
 
 		private void tab_标签_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (tab_标签.SelectedTab == page_常规)
-			{
-				tab_标签.Height = (int)(400.0 * Program.Factor);
-				Height = tab_标签.Height + 50;
-			}
-			if (tab_标签.SelectedTab == Page_快捷键)
-			{
-				tab_标签.Height = (int)(225.0 * Program.Factor);
-				Height = tab_标签.Height + 50;
-			}
-			if (tab_标签.SelectedTab == Page_密钥)
-			{
-				tab_标签.Height = (int)(190.0 * Program.Factor);
-				Height = tab_标签.Height + 50;
-			}
-			if (tab_标签.SelectedTab == Page_翻译接口)
-			{
-				tab_标签.Height = (int)(280.0 * Program.Factor);
-				Height = tab_标签.Height + 50;
-			}
-			if (tab_标签.SelectedTab == Page_代理)
-			{
-				tab_标签.Height = (int)(245.0 * Program.Factor);
-				Height = tab_标签.Height + 50;
-			}
-			if (tab_标签.SelectedTab == Page_更新)
-			{
-				tab_标签.Height = (int)(135.0 * Program.Factor);
-				Height = tab_标签.Height + 50;
-			}
-			if (tab_标签.SelectedTab == Page_About)
-			{
-				tab_标签.Height = (int)(135.0 * Program.Factor);
-				Height = tab_标签.Height + 50;
-			}
+		          AdjustPageSize(sender, e);
 		}
 
 		private void pic_help_Click(object sender, EventArgs e)
@@ -620,6 +613,7 @@ namespace TrOCR
 			text_音效path.Text = "Data\\screenshot.wav";
 			chbox_copy.Checked = false;
 			chbox_取色.Checked = false;
+			cbBox_输入翻译剪贴板.Checked = false;
 		}
 
 		private void txtBox_KeyUp(object sender, KeyEventArgs e)
@@ -653,7 +647,11 @@ namespace TrOCR
 				if (textBox.Name.Contains("识别界面"))
 				{
 					IniHelper.SetValue("快捷键", "识别界面", txtBox_识别界面.Text);
-                }
+					           }
+				if (textBox.Name.Contains("输入翻译"))
+				{
+					IniHelper.SetValue("快捷键", "输入翻译", txtBox_输入翻译.Text);
+				}
 			}
 			else if (e.KeyValue != 16 && e.KeyValue != 17 && e.KeyValue != 18)
 			{
@@ -685,13 +683,17 @@ namespace TrOCR
 					{
 						IniHelper.SetValue("快捷键", "识别界面", txtBox_识别界面.Text);
 					}
-				}
+						              if (textBox.Name.Contains("输入翻译"))
+						              {
+						                  IniHelper.SetValue("快捷键", "输入翻译", txtBox_输入翻译.Text);
+						              }
+						          }
 			}
 		}
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
-			return (keyData == Keys.Tab && txtBox_文字识别.Focused) || (keyData == Keys.Tab && txtBox_翻译文本.Focused) || (keyData == Keys.Tab && txtBox_记录界面.Focused) || (keyData == Keys.Tab && txtBox_识别界面.Focused);
+			return (keyData == Keys.Tab && txtBox_文字识别.Focused) || (keyData == Keys.Tab && txtBox_翻译文本.Focused) || (keyData == Keys.Tab && txtBox_记录界面.Focused) || (keyData == Keys.Tab && txtBox_识别界面.Focused) || (keyData == Keys.Tab && txtBox_输入翻译.Focused);
 		}
 
 		private void txtBox_KeyDown(object sender, KeyEventArgs e)
@@ -710,6 +712,8 @@ namespace TrOCR
 			pictureBox_记录界面.Image = Resources.快捷键_0;
 			txtBox_识别界面.Text = "请按下快捷键";
 			pictureBox_识别界面.Image = Resources.快捷键_0;
+			txtBox_输入翻译.Text = "请按下快捷键";
+			pictureBox_输入翻译.Image = Resources.快捷键_0;
 		}
 
 		private async void 百度_btn_Click(object sender, EventArgs e)
@@ -999,6 +1003,7 @@ namespace TrOCR
 			IniHelper.SetValue("配置", "开机自启", cbBox_开机.Checked.ToString());
 			IniHelper.SetValue("配置", "快速翻译", cbBox_翻译.Checked.ToString());
 			IniHelper.SetValue("配置", "识别弹窗", cbBox_弹窗.Checked.ToString());
+			IniHelper.SetValue("配置", "InputTranslateClipboard", cbBox_输入翻译剪贴板.Checked.ToString());
 			IniHelper.SetValue("配置", "窗体动画", cobBox_动画.Text);
 			IniHelper.SetValue("配置", "记录数目", numbox_记录.Text);
 			IniHelper.SetValue("配置", "自动保存", cbBox_保存.Checked.ToString());
@@ -1007,6 +1012,7 @@ namespace TrOCR
 			IniHelper.SetValue("快捷键", "翻译文本", txtBox_翻译文本.Text);
 			IniHelper.SetValue("快捷键", "记录界面", txtBox_记录界面.Text);
 			IniHelper.SetValue("快捷键", "识别界面", txtBox_识别界面.Text);
+			IniHelper.SetValue("快捷键", "输入翻译", txtBox_输入翻译.Text);
 			IniHelper.SetValue("密钥_百度", "secret_id", text_baiduaccount.Text);
 			IniHelper.SetValue("密钥_百度", "secret_key", text_baidupassword.Text);
 			IniHelper.SetValue("密钥_腾讯", "secret_id", BoxTencentId.Text);
@@ -1205,5 +1211,74 @@ private void btn_Reset_Source_Click(object sender, EventArgs e)
 				tab_标签.SelectedIndex = 5;
 			}
 		}
-	}
+
+		      private void StoreOriginalLocations(Control container)
+		      {
+		          if (_originalControlLocations == null)
+		          {
+		              _originalControlLocations = new Dictionary<Control, Point>();
+		          }
+		          foreach (Control control in container.Controls)
+		          {
+		              if (!_originalControlLocations.ContainsKey(control))
+		              {
+		                  _originalControlLocations[control] = control.Location;
+		              }
+		              if (control.Controls.Count > 0)
+		              {
+		                  StoreOriginalLocations(control);
+		              }
+		          }
+		      }
+
+		      private void ResetControlLocations()
+		      {
+		          if (_originalControlLocations == null) return;
+		          foreach (var entry in _originalControlLocations)
+		          {
+		              entry.Key.Location = entry.Value;
+		          }
+		      }
+
+		      private void AdjustPageSize(object sender, EventArgs e)
+		      {
+		          ResetControlLocations();
+
+		          // Determine which TabPage is ultimately visible.
+		          TabPage selectedPage = tab_标签.SelectedTab;
+		          if (selectedPage == Page_密钥)
+		          {
+		              selectedPage = tabControl2.SelectedTab;
+		          }
+		          else if (selectedPage == Page_翻译接口)
+		          {
+		              selectedPage = tabControl_Trans.SelectedTab;
+		          }
+		          if (selectedPage == null) return;
+
+		          // Calculate the bottom-most point of any visible control on that page.
+		          int maxBottom = 0;
+		          var visibleControls = selectedPage.Controls.OfType<Control>().Where(c => c.Visible).ToList();
+		          if (visibleControls.Any())
+		          {
+		              maxBottom = visibleControls.Max(c => c.Bottom);
+		          }
+
+		          // This is the total height required for the content within the main TabControl area.
+		          int requiredContentHeight = maxBottom + 40; // Add 40px padding.
+
+		          // The total form height is the position of the main TabControl plus the content height.
+		          int requiredFormHeight = tab_标签.Top + requiredContentHeight;
+		          
+		          const int minFormHeight = 435;
+		          int newHeight = Math.Max(requiredFormHeight, minFormHeight);
+
+		          // Apply DPI scaling and update the form's client size.
+		          int scaledHeight = (int)(newHeight / StaticValue.DpiFactor);
+		          if (this.ClientSize.Height != scaledHeight)
+		          {
+		               this.ClientSize = new System.Drawing.Size(this.ClientSize.Width, scaledHeight);
+		          }
+		      }
+		  }
 }

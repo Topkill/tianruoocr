@@ -179,6 +179,9 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.label_输入翻译 = new System.Windows.Forms.Label();
+            this.txtBox_输入翻译 = new System.Windows.Forms.TextBox();
+            this.pictureBox_输入翻译 = new System.Windows.Forms.PictureBox();
             this.page_常规 = new System.Windows.Forms.TabPage();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.chbox_save = new System.Windows.Forms.CheckBox();
@@ -199,6 +202,7 @@
             this.cobBox_动画 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbBox_输入翻译剪贴板 = new System.Windows.Forms.CheckBox();
             this.chbox_取色 = new System.Windows.Forms.CheckBox();
             this.cbBox_弹窗 = new System.Windows.Forms.CheckBox();
             this.cbBox_翻译 = new System.Windows.Forms.CheckBox();
@@ -218,6 +222,7 @@
             this.pictureBox_记录界面 = new System.Windows.Forms.PictureBox();
             this.pictureBox_翻译文本 = new System.Windows.Forms.PictureBox();
             this.pictureBox_文字识别 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_输入翻译)).BeginInit();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.label19 = new System.Windows.Forms.Label();
             this.label_版本号 = new System.Windows.Forms.Label();
@@ -655,27 +660,30 @@
             this.Page_快捷键.Text = "快捷键";
             // 
             // 快捷键Button
-            // 
+            //
             this.快捷键Button.BackColor = System.Drawing.Color.White;
-            this.快捷键Button.Location = new System.Drawing.Point(309, 175);
+            this.快捷键Button.Location = new System.Drawing.Point(309, 195);
             this.快捷键Button.Name = "快捷键Button";
             this.快捷键Button.Size = new System.Drawing.Size(75, 23);
             this.快捷键Button.TabIndex = 7;
             this.快捷键Button.Text = "恢复默认";
             this.快捷键Button.UseVisualStyleBackColor = false;
             this.快捷键Button.Click += new System.EventHandler(this.快捷键Button_Click);
-            // 
+            //
             // label8
-            // 
+            //
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 180);
+            this.label8.Location = new System.Drawing.Point(6, 198);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(215, 12);
             this.label8.TabIndex = 1;
             this.label8.Text = "说明：按Backspace键可清除当前快捷键";
-            // 
+            //
             // groupBox3
-            // 
+            //
+            this.groupBox3.Controls.Add(this.pictureBox_输入翻译);
+            this.groupBox3.Controls.Add(this.txtBox_输入翻译);
+            this.groupBox3.Controls.Add(this.label_输入翻译);
             this.groupBox3.Controls.Add(this.pictureBox_识别界面);
             this.groupBox3.Controls.Add(this.pictureBox_记录界面);
             this.groupBox3.Controls.Add(this.pictureBox_翻译文本);
@@ -690,35 +698,35 @@
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Location = new System.Drawing.Point(6, 6);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(378, 163);
+            this.groupBox3.Size = new System.Drawing.Size(378, 185);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "全局快捷键";
-            // 
+            //
             // txtBox_识别界面
-            // 
+            //
             this.txtBox_识别界面.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.txtBox_识别界面.Location = new System.Drawing.Point(78, 122);
+            this.txtBox_识别界面.Location = new System.Drawing.Point(78, 151);
             this.txtBox_识别界面.Name = "txtBox_识别界面";
             this.txtBox_识别界面.Size = new System.Drawing.Size(260, 23);
-            this.txtBox_识别界面.TabIndex = 7;
+            this.txtBox_识别界面.TabIndex = 8;
             this.txtBox_识别界面.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtBox_识别界面.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBox_KeyDown);
             this.txtBox_识别界面.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBox_KeyUp);
-            // 
+            //
             // txtBox_记录界面
-            // 
+            //
             this.txtBox_记录界面.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.txtBox_记录界面.Location = new System.Drawing.Point(78, 89);
+            this.txtBox_记录界面.Location = new System.Drawing.Point(78, 118);
             this.txtBox_记录界面.Name = "txtBox_记录界面";
             this.txtBox_记录界面.Size = new System.Drawing.Size(260, 23);
-            this.txtBox_记录界面.TabIndex = 6;
+            this.txtBox_记录界面.TabIndex = 7;
             this.txtBox_记录界面.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtBox_记录界面.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBox_KeyDown);
             this.txtBox_记录界面.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBox_KeyUp);
-            // 
+            //
             // txtBox_翻译文本
-            // 
+            //
             this.txtBox_翻译文本.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.txtBox_翻译文本.Location = new System.Drawing.Point(78, 52);
             this.txtBox_翻译文本.Name = "txtBox_翻译文本";
@@ -727,9 +735,9 @@
             this.txtBox_翻译文本.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtBox_翻译文本.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBox_KeyDown);
             this.txtBox_翻译文本.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBox_KeyUp);
-            // 
+            //
             // txtBox_文字识别
-            // 
+            //
             this.txtBox_文字识别.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.txtBox_文字识别.Location = new System.Drawing.Point(78, 19);
             this.txtBox_文字识别.Name = "txtBox_文字识别";
@@ -739,36 +747,36 @@
             this.txtBox_文字识别.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtBox_文字识别.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBox_KeyDown);
             this.txtBox_文字识别.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBox_KeyUp);
-            // 
+            //
             // label7
-            // 
+            //
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 125);
+            this.label7.Location = new System.Drawing.Point(6, 157);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(65, 12);
             this.label7.TabIndex = 3;
             this.label7.Text = "识别界面：";
-            // 
+            //
             // label6
-            // 
+            //
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(7, 92);
+            this.label6.Location = new System.Drawing.Point(7, 124);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(65, 12);
             this.label6.TabIndex = 2;
             this.label6.Text = "记录界面：";
-            // 
+            //
             // label5
-            // 
+            //
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(6, 58);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(65, 12);
             this.label5.TabIndex = 1;
             this.label5.Text = "翻译文本：";
-            // 
+            //
             // label4
-            // 
+            //
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(7, 24);
             this.label4.Name = "label4";
@@ -801,7 +809,7 @@
             this.groupBox10.Controls.Add(this.btn_音效);
             this.groupBox10.Controls.Add(this.text_音效path);
             this.groupBox10.Controls.Add(this.label18);
-            this.groupBox10.Location = new System.Drawing.Point(6, 136);
+            this.groupBox10.Location = new System.Drawing.Point(6, 166);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(378, 86);
             this.groupBox10.TabIndex = 8;
@@ -1920,7 +1928,7 @@
             this.groupBox6.Controls.Add(this.textBox_path);
             this.groupBox6.Controls.Add(this.label1);
             this.groupBox6.Controls.Add(this.cbBox_保存);
-            this.groupBox6.Location = new System.Drawing.Point(6, 227);
+            this.groupBox6.Location = new System.Drawing.Point(6, 257);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(378, 63);
             this.groupBox6.TabIndex = 6;
@@ -1968,9 +1976,9 @@
             this.cbBox_保存.CheckedChanged += new System.EventHandler(this.cbBox_保存_CheckedChanged);
             // 
             // 常规Button
-            // 
+            //
             this.常规Button.BackColor = System.Drawing.Color.White;
-            this.常规Button.Location = new System.Drawing.Point(309, 297);
+            this.常规Button.Location = new System.Drawing.Point(309, 327);
             this.常规Button.Name = "常规Button";
             this.常规Button.Size = new System.Drawing.Size(75, 23);
             this.常规Button.TabIndex = 6;
@@ -1979,12 +1987,12 @@
             this.常规Button.Click += new System.EventHandler(this.常规Button_Click);
             // 
             // groupBox2
-            // 
+            //
             this.groupBox2.Controls.Add(this.numbox_记录);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.cobBox_动画);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Location = new System.Drawing.Point(6, 60);
+            this.groupBox2.Location = new System.Drawing.Point(6, 90);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(378, 70);
             this.groupBox2.TabIndex = 4;
@@ -2033,20 +2041,31 @@
             this.label2.Text = "窗体动画：";
             // 
             // groupBox1
-            // 
+            //
+            this.groupBox1.Controls.Add(this.cbBox_输入翻译剪贴板);
             this.groupBox1.Controls.Add(this.chbox_取色);
             this.groupBox1.Controls.Add(this.cbBox_弹窗);
             this.groupBox1.Controls.Add(this.cbBox_翻译);
             this.groupBox1.Controls.Add(this.cbBox_开机);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(378, 48);
+            this.groupBox1.Size = new System.Drawing.Size(378, 78);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "设置";
-            // 
+            //
+            // cbBox_输入翻译剪贴板
+            //
+            this.cbBox_输入翻译剪贴板.AutoSize = true;
+            this.cbBox_输入翻译剪贴板.Location = new System.Drawing.Point(17, 46);
+            this.cbBox_输入翻译剪贴板.Name = "cbBox_输入翻译剪贴板";
+            this.cbBox_输入翻译剪贴板.Size = new System.Drawing.Size(192, 16);
+            this.cbBox_输入翻译剪贴板.TabIndex = 7;
+            this.cbBox_输入翻译剪贴板.Text = "输入翻译默认使用剪贴板文本";
+            this.cbBox_输入翻译剪贴板.UseVisualStyleBackColor = true;
+            //
             // chbox_取色
-            // 
+            //
             this.chbox_取色.AutoSize = true;
             this.chbox_取色.Location = new System.Drawing.Point(298, 20);
             this.chbox_取色.Name = "chbox_取色";
@@ -2055,9 +2074,9 @@
             this.chbox_取色.Text = "取色HEX";
             this.chbox_取色.UseVisualStyleBackColor = true;
             this.chbox_取色.CheckedChanged += new System.EventHandler(this.chbox_取色_CheckedChanged);
-            // 
+            //
             // cbBox_弹窗
-            // 
+            //
             this.cbBox_弹窗.AutoSize = true;
             this.cbBox_弹窗.Location = new System.Drawing.Point(204, 20);
             this.cbBox_弹窗.Name = "cbBox_弹窗";
@@ -2066,9 +2085,9 @@
             this.cbBox_弹窗.Text = "识别弹窗";
             this.cbBox_弹窗.UseVisualStyleBackColor = true;
             this.cbBox_弹窗.CheckedChanged += new System.EventHandler(this.cbBox_弹窗_CheckedChanged);
-            // 
+            //
             // cbBox_翻译
-            // 
+            //
             this.cbBox_翻译.AutoSize = true;
             this.cbBox_翻译.Location = new System.Drawing.Point(107, 20);
             this.cbBox_翻译.Name = "cbBox_翻译";
@@ -2077,9 +2096,9 @@
             this.cbBox_翻译.Text = "快速翻译";
             this.cbBox_翻译.UseVisualStyleBackColor = true;
             this.cbBox_翻译.CheckedChanged += new System.EventHandler(this.cbBox_翻译_CheckedChanged);
-            // 
+            //
             // cbBox_开机
-            // 
+            //
             this.cbBox_开机.AutoSize = true;
             this.cbBox_开机.Location = new System.Drawing.Point(17, 20);
             this.cbBox_开机.Name = "cbBox_开机";
@@ -2099,6 +2118,9 @@
             this.tab_标签.Controls.Add(this.Page_更新);
             this.tab_标签.Controls.Add(this.Page_反馈);
             this.tab_标签.Controls.Add(this.Page_About);
+            this.tab_标签.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tab_标签.Location = new System.Drawing.Point(10, 2);
             this.tab_标签.Name = "tab_标签";
             this.tab_标签.SelectedIndex = 0;
@@ -2215,19 +2237,19 @@
             this.pic_help.Click += new System.EventHandler(this.pic_help_Click);
             // 
             // pictureBox_识别界面
-            // 
+            //
             this.pictureBox_识别界面.Image = global::TrOCR.Properties.Resources.快捷键_1;
-            this.pictureBox_识别界面.Location = new System.Drawing.Point(351, 122);
+            this.pictureBox_识别界面.Location = new System.Drawing.Point(351, 151);
             this.pictureBox_识别界面.Name = "pictureBox_识别界面";
             this.pictureBox_识别界面.Size = new System.Drawing.Size(21, 21);
             this.pictureBox_识别界面.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox_识别界面.TabIndex = 11;
             this.pictureBox_识别界面.TabStop = false;
-            // 
+            //
             // pictureBox_记录界面
-            // 
+            //
             this.pictureBox_记录界面.Image = global::TrOCR.Properties.Resources.快捷键_1;
-            this.pictureBox_记录界面.Location = new System.Drawing.Point(351, 89);
+            this.pictureBox_记录界面.Location = new System.Drawing.Point(351, 118);
             this.pictureBox_记录界面.Name = "pictureBox_记录界面";
             this.pictureBox_记录界面.Size = new System.Drawing.Size(21, 21);
             this.pictureBox_记录界面.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -2421,6 +2443,36 @@
             this.Page_快捷键.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            //
+            // label_输入翻译
+            //
+            this.label_输入翻译.AutoSize = true;
+            this.label_输入翻译.Location = new System.Drawing.Point(6, 91);
+            this.label_输入翻译.Name = "label_输入翻译";
+            this.label_输入翻译.Size = new System.Drawing.Size(65, 12);
+            this.label_输入翻译.TabIndex = 12;
+            this.label_输入翻译.Text = "输入翻译：";
+            //
+            // txtBox_输入翻译
+            //
+            this.txtBox_输入翻译.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.txtBox_输入翻译.Location = new System.Drawing.Point(78, 85);
+            this.txtBox_输入翻译.Name = "txtBox_输入翻译";
+            this.txtBox_输入翻译.Size = new System.Drawing.Size(260, 23);
+            this.txtBox_输入翻译.TabIndex = 6;
+            this.txtBox_输入翻译.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtBox_输入翻译.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBox_KeyDown);
+            this.txtBox_输入翻译.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBox_KeyUp);
+            //
+            // pictureBox_输入翻译
+            //
+            this.pictureBox_输入翻译.Image = global::TrOCR.Properties.Resources.快捷键_1;
+            this.pictureBox_输入翻译.Location = new System.Drawing.Point(351, 85);
+            this.pictureBox_输入翻译.Name = "pictureBox_输入翻译";
+            this.pictureBox_输入翻译.Size = new System.Drawing.Size(21, 21);
+            this.pictureBox_输入翻译.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox_输入翻译.TabIndex = 14;
+            this.pictureBox_输入翻译.TabStop = false;
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.groupBox6.ResumeLayout(false);
@@ -2499,6 +2551,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_记录界面)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_翻译文本)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_文字识别)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_输入翻译)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             this.Page_反馈.ResumeLayout(false);
             this.Page_反馈.PerformLayout();
@@ -2521,6 +2574,7 @@
         private global::System.Windows.Forms.ComboBox cobBox_动画;
         private global::System.Windows.Forms.Label label2;
         private global::System.Windows.Forms.GroupBox groupBox1;
+        private global::System.Windows.Forms.CheckBox cbBox_输入翻译剪贴板;
         private global::System.Windows.Forms.CheckBox cbBox_开机;
         private global::System.Windows.Forms.TabControl tab_标签;
         private global::System.Windows.Forms.TabPage Page_更新;
@@ -2535,8 +2589,11 @@
         private global::System.Windows.Forms.Label label6;
         private global::System.Windows.Forms.Label label5;
         private global::System.Windows.Forms.Label label4;
+        private global::System.Windows.Forms.Label label_输入翻译;
         private global::System.Windows.Forms.PictureBox pictureBox_识别界面;
         private global::System.Windows.Forms.PictureBox pictureBox_记录界面;
+        private global::System.Windows.Forms.PictureBox pictureBox_输入翻译;
+        private global::System.Windows.Forms.TextBox txtBox_输入翻译;
         private global::System.Windows.Forms.Label label8;
         private global::System.Windows.Forms.CheckBox cbBox_翻译;
         private global::System.Windows.Forms.TabControl tabControl2;

@@ -309,6 +309,10 @@ namespace TrOCR
 				{
 					翻译文本();
 				}
+				if (m.Msg == 786 && m.WParam.ToInt32() == 240)
+				{
+					trayInputTranslateClick(null, null);
+				}
 				base.WndProc(ref m);
 				return;
 			}
@@ -330,6 +334,7 @@ namespace TrOCR
 			{
 				var menuItems = new[]
 				{
+					new MenuItem("输入翻译", trayInputTranslateClick),
 					new MenuItem("显示", trayShowClick),
 					new MenuItem("设置", tray_Set_Click),
 					new MenuItem("更新", tray_update_Click),
@@ -342,6 +347,48 @@ namespace TrOCR
 			{
 				MessageBox.Show("InitMinimize()" + ex.Message);
 			}
+		}
+
+		private void trayInputTranslateClick(object sender, EventArgs e)
+		{
+			// 1. 始终重置翻译界面，确保只显示主输入窗口
+			transtalate_fla = "关闭";
+			RichBoxBody.Dock = DockStyle.Fill;
+			RichBoxBody_T.Visible = false;
+			PictureBox1.Visible = false;
+			RichBoxBody_T.Text = "";
+
+			// 2. 恢复原始窗口大小
+			if (WindowState == FormWindowState.Maximized)
+			{
+				WindowState = FormWindowState.Normal;
+			}
+			MinimumSize = new Size((int)font_base.Width * 23, (int)font_base.Height * 24);
+			Size = new Size((int)font_base.Width * 23, (int)font_base.Height * 24);
+
+			// 3. 根据设置填充剪贴板内容
+			if (IniHelper.GetValue("配置", "InputTranslateClipboard") == "True")
+			{
+				if (Clipboard.ContainsText())
+				{
+					RichBoxBody.Text = Clipboard.GetText();
+				}
+				else
+				{
+					RichBoxBody.Text = "";
+				}
+			}
+			else
+			{
+				RichBoxBody.Text = "";
+			}
+
+			// 4. 显示并激活窗口
+			Show();
+			Activate();
+			Visible = true;
+			WindowState = FormWindowState.Normal;
+			TopMost = IniHelper.GetValue("工具栏", "顶置") == "True";
 		}
 
 		private void trayShowClick(object sender, EventArgs e)
@@ -783,6 +830,12 @@ namespace TrOCR
 				var text8 = "F11";
 				SetHotkey(text7, text8, value4, 235);
 			}
+			if (IniHelper.GetValue("快捷键", "输入翻译") != "请按下快捷键")
+			{
+				var value5 = IniHelper.GetValue("快捷键", "输入翻译");
+				// 移除令人困惑的默认键 F1，因为SetHotkey函数会直接解析 value5 字符串
+				SetHotkey("None", "", value5, 240);
+			}
 			// --- 加载OCR密钥 ---
 			StaticValue.BD_API_ID = IniHelper.GetValue("密钥_百度", "secret_id");
 			if (StaticValue.BD_API_ID == "发生错误")
@@ -854,6 +907,7 @@ namespace TrOCR
 			HelpWin32.UnregisterHotKey(Handle, 205);
 			HelpWin32.UnregisterHotKey(Handle, 206);
 			HelpWin32.UnregisterHotKey(Handle, 235);
+			HelpWin32.UnregisterHotKey(Handle, 240);
 			WindowState = FormWindowState.Minimized;
 			var fmSetting = new FmSetting();
 			fmSetting.TopMost = true;
@@ -897,6 +951,12 @@ namespace TrOCR
 					var text7 = "None";
 					var text8 = "F11";
 					SetHotkey(text7, text8, value4, 235);
+				}
+				if (IniHelper.GetValue("快捷键", "输入翻译") != "请按下快捷键")
+				{
+					var value5 = IniHelper.GetValue("快捷键", "输入翻译");
+					// 移除令人困惑的默认键 F1，因为SetHotkey函数会直接解析 value5 字符串
+					SetHotkey("None", "", value5, 240);
 				}
 				// --- 重新加载所有API密钥 ---
 				// --- 加载OCR密钥 ---
