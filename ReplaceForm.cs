@@ -26,6 +26,20 @@ namespace TrOCR
 			}
 			// 设置焦点到查找框
 			findtextbox.Focus();
+			caseSensitiveButton.BackColor = SystemColors.Control;
+		}
+
+		private void caseSensitiveButton_Click(object sender, EventArgs e)
+		{
+			matchCase = !matchCase;
+			if (matchCase)
+			{
+				caseSensitiveButton.BackColor = SystemColors.Control;
+			}
+			else
+			{
+				caseSensitiveButton.BackColor = Color.Red;
+			}
 		}
 
 		private void Form2_Load(object sender, EventArgs e)
@@ -36,9 +50,10 @@ namespace TrOCR
 		{
 			try
 			{
-				if (Fmok.richTextBox1.Text != "")
+				if (Fmok.richTextBox1.Text != "" && findtextbox.Text != "")
 				{
-					p = Fmok.richTextBox1.Text.IndexOf(findtextbox.Text, p);
+					StringComparison comparison = matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
+					p = Fmok.richTextBox1.Text.IndexOf(findtextbox.Text, p, comparison);
 					if (p != -1)
 					{
 						Fmok.richTextBox1.Select(p, findtextbox.Text.Length);
@@ -63,7 +78,8 @@ namespace TrOCR
 			if (Fmok.richTextBox1.Text != "")
 			{
 				p = 0;
-				p = Fmok.richTextBox1.Text.IndexOf(findtextbox.Text, p);
+				StringComparison comparison = matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
+				p = Fmok.richTextBox1.Text.IndexOf(findtextbox.Text, p, comparison);
 				if (p != -1)
 				{
 					Fmok.richTextBox1.Select(p, findtextbox.Text.Length);
@@ -80,23 +96,32 @@ namespace TrOCR
 		{
 			if (Fmok.richTextBox1.Text != "" && findtextbox.Text != "")
 			{
-				p = 0;
-				p = Fmok.richTextBox1.Text.IndexOf(findtextbox.Text, p);
-				while (p != -1)
+				StringComparison comparison = matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
+				flag = false;
+				int start = 0;
+				while (start < Fmok.richTextBox1.Text.Length)
 				{
-					Fmok.richTextBox1.Select(p, findtextbox.Text.Length);
-					Fmok.richTextBox1.SelectedText = replacetextBox.Text;
-					p = Fmok.richTextBox1.Text.IndexOf(findtextbox.Text, p);
-					flag = true;
+					p = Fmok.richTextBox1.Text.IndexOf(findtextbox.Text, start, comparison);
+					if (p != -1)
+					{
+						Fmok.richTextBox1.Select(p, findtextbox.Text.Length);
+						Fmok.richTextBox1.SelectedText = replacetextBox.Text;
+						start = p + replacetextBox.Text.Length;
+						flag = true;
+					}
+					else
+					{
+						break;
+					}
 				}
 				if (flag)
 				{
 					MessageBox.Show("替换完毕！", "提醒", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-					return;
 				}
-				if (MessageBox.Show("替换内容不存在，请重新输入！", "提醒") == DialogResult.OK)
+				else
 				{
-					findtextbox.Text = "";
+					MessageBox.Show("替换内容不存在！", "提醒", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					findtextbox.Focus();
 				}
 			}
 		}
@@ -118,5 +143,7 @@ namespace TrOCR
 		private int p;
 
 		private bool flag;
+
+		private bool matchCase = true;
 	}
 }
