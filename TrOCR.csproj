@@ -215,6 +215,8 @@
     <Compile Include="Helper\CaiyunTranslator.cs" />
     <Compile Include="Helper\VolcanoTranslator.cs" />
     <Compile Include="Helper\CaiyunTranslator2.cs" />
+    <Compile Include="Helper\BaiduOcrHelper.cs" />
+    <Compile Include="Helper\TencentOcrHelper.cs" />
     <Compile Include="Messageload.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -161,10 +161,28 @@
             this.text_baidupassword = new System.Windows.Forms.TextBox();
             this.text_baiduaccount = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.inPage腾讯接口 = new System.Windows.Forms.TabPage();
-            this.BoxTencentKey = new System.Windows.Forms.TextBox();
-            this.BoxTencentId = new System.Windows.Forms.TextBox();
+           this.label9 = new System.Windows.Forms.Label();
+           this.comboBox_Baidu_Language = new System.Windows.Forms.ComboBox();
+           this.label_Baidu_Language = new System.Windows.Forms.Label();
+           this.inPage_百度高精度接口 = new System.Windows.Forms.TabPage();
+           this.text_baidu_accurate_secretkey = new System.Windows.Forms.TextBox();
+           this.text_baidu_accurate_apikey = new System.Windows.Forms.TextBox();
+           this.label_baidu_accurate_secretkey = new System.Windows.Forms.Label();
+           this.label_baidu_accurate_apikey = new System.Windows.Forms.Label();
+           this.comboBox_Baidu_Accurate_Language = new System.Windows.Forms.ComboBox();
+           this.label_Baidu_Accurate_Language = new System.Windows.Forms.Label();
+           this.comboBox_Tencent_Language = new System.Windows.Forms.ComboBox();
+           this.label_Tencent_Language = new System.Windows.Forms.Label();
+           this.inPage腾讯接口 = new System.Windows.Forms.TabPage();
+           this.inPage腾讯高精度接口 = new System.Windows.Forms.TabPage();
+           this.text_tencent_accurate_secretkey = new System.Windows.Forms.TextBox();
+           this.text_tencent_accurate_secretid = new System.Windows.Forms.TextBox();
+           this.label_tencent_accurate_secretkey = new System.Windows.Forms.Label();
+           this.label_tencent_accurate_secretid = new System.Windows.Forms.Label();
+           this.comboBox_Tencent_Accurate_Language = new System.Windows.Forms.ComboBox();
+           this.label_Tencent_Accurate_Language = new System.Windows.Forms.Label();
+           this.BoxTencentKey = new System.Windows.Forms.TextBox();
+           this.BoxTencentId = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.Page_快捷键 = new System.Windows.Forms.TabPage();
@@ -458,7 +476,7 @@
             // 百度_btn
             // 
             this.百度_btn.BackColor = System.Drawing.Color.White;
-            this.百度_btn.Location = new System.Drawing.Point(152, 136);
+            this.百度_btn.Location = new System.Drawing.Point(152, 162);
             this.百度_btn.Name = "百度_btn";
             this.百度_btn.Size = new System.Drawing.Size(75, 23);
             this.百度_btn.TabIndex = 10;
@@ -469,7 +487,7 @@
             // 密钥Button_apply
             // 
             this.密钥Button_apply.BackColor = System.Drawing.Color.White;
-            this.密钥Button_apply.Location = new System.Drawing.Point(6, 136);
+            this.密钥Button_apply.Location = new System.Drawing.Point(6, 162);
             this.密钥Button_apply.Name = "密钥Button_apply";
             this.密钥Button_apply.Size = new System.Drawing.Size(75, 23);
             this.密钥Button_apply.TabIndex = 9;
@@ -480,7 +498,7 @@
             // 密钥Button
             // 
             this.密钥Button.BackColor = System.Drawing.Color.White;
-            this.密钥Button.Location = new System.Drawing.Point(309, 136);
+            this.密钥Button.Location = new System.Drawing.Point(309, 162);
             this.密钥Button.Name = "密钥Button";
             this.密钥Button.Size = new System.Drawing.Size(75, 23);
             this.密钥Button.TabIndex = 8;
@@ -491,17 +509,21 @@
             // tabControl2
             //
             this.tabControl2.Controls.Add(this.inPage_百度接口);
+            this.tabControl2.Controls.Add(this.inPage_百度高精度接口);
             this.tabControl2.Controls.Add(this.inPage腾讯接口);
+            this.tabControl2.Controls.Add(this.inPage腾讯高精度接口);
             this.tabControl2.Controls.Add(this.inPage白描接口);
             this.tabControl2.Location = new System.Drawing.Point(6, 6);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(378, 124);
+            this.tabControl2.Size = new System.Drawing.Size(378, 150);
             this.tabControl2.TabIndex = 0;
             // 
             // inPage_百度接口
             // 
             this.inPage_百度接口.BackColor = System.Drawing.Color.White;
+            this.inPage_百度接口.Controls.Add(this.comboBox_Baidu_Language);
+            this.inPage_百度接口.Controls.Add(this.label_Baidu_Language);
             this.inPage_百度接口.Controls.Add(this.text_baidupassword);
             this.inPage_百度接口.Controls.Add(this.text_baiduaccount);
             this.inPage_百度接口.Controls.Add(this.label10);
@@ -509,14 +531,14 @@
             this.inPage_百度接口.Location = new System.Drawing.Point(4, 22);
             this.inPage_百度接口.Name = "inPage_百度接口";
             this.inPage_百度接口.Padding = new System.Windows.Forms.Padding(3);
-            this.inPage_百度接口.Size = new System.Drawing.Size(370, 98);
+            this.inPage_百度接口.Size = new System.Drawing.Size(370, 120);
             this.inPage_百度接口.TabIndex = 0;
-            this.inPage_百度接口.Text = "百度识别接口";
+            this.inPage_百度接口.Text = "百度-标准版";
             // 
             // text_baidupassword
             // 
             this.text_baidupassword.BackColor = System.Drawing.Color.White;
-            this.text_baidupassword.Location = new System.Drawing.Point(80, 55);
+            this.text_baidupassword.Location = new System.Drawing.Point(80, 42);
             this.text_baidupassword.Name = "text_baidupassword";
             this.text_baidupassword.Size = new System.Drawing.Size(284, 21);
             this.text_baidupassword.TabIndex = 3;
@@ -525,7 +547,7 @@
             // text_baiduaccount
             // 
             this.text_baiduaccount.BackColor = System.Drawing.Color.White;
-            this.text_baiduaccount.Location = new System.Drawing.Point(80, 20);
+            this.text_baiduaccount.Location = new System.Drawing.Point(80, 10);
             this.text_baiduaccount.Name = "text_baiduaccount";
             this.text_baiduaccount.Size = new System.Drawing.Size(284, 21);
             this.text_baiduaccount.TabIndex = 2;
@@ -534,7 +556,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 58);
+            this.label10.Location = new System.Drawing.Point(6, 45);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(71, 12);
             this.label10.TabIndex = 1;
@@ -543,19 +565,108 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 23);
+            this.label9.Location = new System.Drawing.Point(6, 13);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(47, 12);
             this.label9.TabIndex = 0;
             this.label9.Text = "API Key:";
-            // 
+            //
+            // comboBox_Baidu_Language
+            //
+            this.comboBox_Baidu_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Baidu_Language.FormattingEnabled = true;
+            this.comboBox_Baidu_Language.Location = new System.Drawing.Point(80, 74);
+            this.comboBox_Baidu_Language.Name = "comboBox_Baidu_Language";
+            this.comboBox_Baidu_Language.Size = new System.Drawing.Size(121, 20);
+            this.comboBox_Baidu_Language.TabIndex = 5;
+            //
+            // label_Baidu_Language
+            //
+            this.label_Baidu_Language.AutoSize = true;
+            this.label_Baidu_Language.Location = new System.Drawing.Point(6, 77);
+            this.label_Baidu_Language.Name = "label_Baidu_Language";
+            this.label_Baidu_Language.Size = new System.Drawing.Size(65, 12);
+            this.label_Baidu_Language.TabIndex = 4;
+            this.label_Baidu_Language.Text = "识别语言：";
+            //
+            // inPage_百度高精度接口
+            //
+            this.inPage_百度高精度接口.BackColor = System.Drawing.Color.White;
+            this.inPage_百度高精度接口.Controls.Add(this.text_baidu_accurate_secretkey);
+            this.inPage_百度高精度接口.Controls.Add(this.text_baidu_accurate_apikey);
+            this.inPage_百度高精度接口.Controls.Add(this.label_baidu_accurate_secretkey);
+            this.inPage_百度高精度接口.Controls.Add(this.label_baidu_accurate_apikey);
+            this.inPage_百度高精度接口.Controls.Add(this.comboBox_Baidu_Accurate_Language);
+            this.inPage_百度高精度接口.Controls.Add(this.label_Baidu_Accurate_Language);
+            this.inPage_百度高精度接口.Location = new System.Drawing.Point(4, 22);
+            this.inPage_百度高精度接口.Name = "inPage_百度高精度接口";
+            this.inPage_百度高精度接口.Padding = new System.Windows.Forms.Padding(3);
+            this.inPage_百度高精度接口.Size = new System.Drawing.Size(370, 120);
+            this.inPage_百度高精度接口.TabIndex = 3;
+            this.inPage_百度高精度接口.Text = "百度-高精度";
+
+            //
+            // text_baidu_accurate_secretkey
+            //
+            this.text_baidu_accurate_secretkey.BackColor = System.Drawing.Color.White;
+            this.text_baidu_accurate_secretkey.Location = new System.Drawing.Point(80, 42);
+            this.text_baidu_accurate_secretkey.Name = "text_baidu_accurate_secretkey";
+            this.text_baidu_accurate_secretkey.Size = new System.Drawing.Size(284, 21);
+            this.text_baidu_accurate_secretkey.TabIndex = 9;
+            //
+            // text_baidu_accurate_apikey
+            //
+            this.text_baidu_accurate_apikey.BackColor = System.Drawing.Color.White;
+            this.text_baidu_accurate_apikey.Location = new System.Drawing.Point(80, 10);
+            this.text_baidu_accurate_apikey.Name = "text_baidu_accurate_apikey";
+            this.text_baidu_accurate_apikey.Size = new System.Drawing.Size(284, 21);
+            this.text_baidu_accurate_apikey.TabIndex = 8;
+            //
+            // label_baidu_accurate_secretkey
+            //
+            this.label_baidu_accurate_secretkey.AutoSize = true;
+            this.label_baidu_accurate_secretkey.Location = new System.Drawing.Point(6, 45);
+            this.label_baidu_accurate_secretkey.Name = "label_baidu_accurate_secretkey";
+            this.label_baidu_accurate_secretkey.Size = new System.Drawing.Size(71, 12);
+            this.label_baidu_accurate_secretkey.TabIndex = 7;
+            this.label_baidu_accurate_secretkey.Text = "Secret Key:";
+            //
+            // label_baidu_accurate_apikey
+            //
+            this.label_baidu_accurate_apikey.AutoSize = true;
+            this.label_baidu_accurate_apikey.Location = new System.Drawing.Point(6, 13);
+            this.label_baidu_accurate_apikey.Name = "label_baidu_accurate_apikey";
+            this.label_baidu_accurate_apikey.Size = new System.Drawing.Size(47, 12);
+            this.label_baidu_accurate_apikey.TabIndex = 6;
+            this.label_baidu_accurate_apikey.Text = "API Key:";
+            //
+            // comboBox_Baidu_Accurate_Language
+            //
+            this.comboBox_Baidu_Accurate_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Baidu_Accurate_Language.FormattingEnabled = true;
+            this.comboBox_Baidu_Accurate_Language.Location = new System.Drawing.Point(80, 74);
+            this.comboBox_Baidu_Accurate_Language.Name = "comboBox_Baidu_Accurate_Language";
+            this.comboBox_Baidu_Accurate_Language.Size = new System.Drawing.Size(121, 20);
+            this.comboBox_Baidu_Accurate_Language.TabIndex = 5;
+            //
+            // label_Baidu_Accurate_Language
+            //
+            this.label_Baidu_Accurate_Language.AutoSize = true;
+            this.label_Baidu_Accurate_Language.Location = new System.Drawing.Point(6, 77);
+            this.label_Baidu_Accurate_Language.Name = "label_Baidu_Accurate_Language";
+            this.label_Baidu_Accurate_Language.Size = new System.Drawing.Size(65, 12);
+            this.label_Baidu_Accurate_Language.TabIndex = 4;
+            this.label_Baidu_Accurate_Language.Text = "识别语言：";
+            //
             // inPage腾讯接口
-            // 
+            //
             this.inPage腾讯接口.BackColor = System.Drawing.Color.White;
             this.inPage腾讯接口.Controls.Add(this.BoxTencentKey);
             this.inPage腾讯接口.Controls.Add(this.BoxTencentId);
             this.inPage腾讯接口.Controls.Add(this.label17);
             this.inPage腾讯接口.Controls.Add(this.label22);
+            this.inPage腾讯接口.Controls.Add(this.comboBox_Tencent_Language);
+            this.inPage腾讯接口.Controls.Add(this.label_Tencent_Language);
             this.inPage腾讯接口.Location = new System.Drawing.Point(4, 22);
             this.inPage腾讯接口.Name = "inPage腾讯接口";
             this.inPage腾讯接口.Padding = new System.Windows.Forms.Padding(3);
@@ -566,23 +677,23 @@
             // BoxTencentKey
             // 
             this.BoxTencentKey.BackColor = System.Drawing.Color.White;
-            this.BoxTencentKey.Location = new System.Drawing.Point(70, 55);
+            this.BoxTencentKey.Location = new System.Drawing.Point(80, 42);
             this.BoxTencentKey.Name = "BoxTencentKey";
-            this.BoxTencentKey.Size = new System.Drawing.Size(260, 21);
+            this.BoxTencentKey.Size = new System.Drawing.Size(284, 21);
             this.BoxTencentKey.TabIndex = 7;
             // 
             // BoxTencentId
             // 
             this.BoxTencentId.BackColor = System.Drawing.Color.White;
-            this.BoxTencentId.Location = new System.Drawing.Point(70, 20);
+            this.BoxTencentId.Location = new System.Drawing.Point(80, 10);
             this.BoxTencentId.Name = "BoxTencentId";
-            this.BoxTencentId.Size = new System.Drawing.Size(260, 21);
+            this.BoxTencentId.Size = new System.Drawing.Size(284, 21);
             this.BoxTencentId.TabIndex = 6;
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(6, 58);
+            this.label17.Location = new System.Drawing.Point(6, 45);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(65, 12);
             this.label17.TabIndex = 5;
@@ -591,12 +702,96 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(6, 23);
+            this.label22.Location = new System.Drawing.Point(6, 13);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(59, 12);
             this.label22.TabIndex = 4;
             this.label22.Text = "SecretId:";
+           //
+           // comboBox_Tencent_Language
+           //
+           this.comboBox_Tencent_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+           this.comboBox_Tencent_Language.FormattingEnabled = true;
+           this.comboBox_Tencent_Language.Location = new System.Drawing.Point(80, 74);
+           this.comboBox_Tencent_Language.Name = "comboBox_Tencent_Language";
+           this.comboBox_Tencent_Language.Size = new System.Drawing.Size(121, 20);
+           this.comboBox_Tencent_Language.TabIndex = 9;
+           //
+           // label_Tencent_Language
+           //
+           this.label_Tencent_Language.AutoSize = true;
+           this.label_Tencent_Language.Location = new System.Drawing.Point(6, 77);
+           this.label_Tencent_Language.Name = "label_Tencent_Language";
+           this.label_Tencent_Language.Size = new System.Drawing.Size(65, 12);
+           this.label_Tencent_Language.TabIndex = 8;
+           this.label_Tencent_Language.Text = "识别语言：";
             //
+            // inPage腾讯高精度接口
+            //
+            this.inPage腾讯高精度接口.BackColor = System.Drawing.Color.White;
+            this.inPage腾讯高精度接口.Controls.Add(this.text_tencent_accurate_secretkey);
+            this.inPage腾讯高精度接口.Controls.Add(this.text_tencent_accurate_secretid);
+            this.inPage腾讯高精度接口.Controls.Add(this.label_tencent_accurate_secretkey);
+            this.inPage腾讯高精度接口.Controls.Add(this.label_tencent_accurate_secretid);
+            this.inPage腾讯高精度接口.Controls.Add(this.comboBox_Tencent_Accurate_Language);
+            this.inPage腾讯高精度接口.Controls.Add(this.label_Tencent_Accurate_Language);
+            this.inPage腾讯高精度接口.Location = new System.Drawing.Point(4, 22);
+            this.inPage腾讯高精度接口.Name = "inPage腾讯高精度接口";
+            this.inPage腾讯高精度接口.Size = new System.Drawing.Size(370, 98);
+            this.inPage腾讯高精度接口.TabIndex = 4;
+            this.inPage腾讯高精度接口.Text = "腾讯-高精度";
+            //
+            // text_tencent_accurate_secretkey
+            //
+            this.text_tencent_accurate_secretkey.BackColor = System.Drawing.Color.White;
+            this.text_tencent_accurate_secretkey.Location = new System.Drawing.Point(80, 42);
+            this.text_tencent_accurate_secretkey.Name = "text_tencent_accurate_secretkey";
+            this.text_tencent_accurate_secretkey.Size = new System.Drawing.Size(284, 21);
+            this.text_tencent_accurate_secretkey.TabIndex = 9;
+            //
+            // text_tencent_accurate_secretid
+            //
+            this.text_tencent_accurate_secretid.BackColor = System.Drawing.Color.White;
+            this.text_tencent_accurate_secretid.Location = new System.Drawing.Point(80, 10);
+            this.text_tencent_accurate_secretid.Name = "text_tencent_accurate_secretid";
+            this.text_tencent_accurate_secretid.Size = new System.Drawing.Size(284, 21);
+            this.text_tencent_accurate_secretid.TabIndex = 8;
+            //
+            // label_tencent_accurate_secretkey
+            //
+            this.label_tencent_accurate_secretkey.AutoSize = true;
+            this.label_tencent_accurate_secretkey.Location = new System.Drawing.Point(6, 45);
+            this.label_tencent_accurate_secretkey.Name = "label_tencent_accurate_secretkey";
+            this.label_tencent_accurate_secretkey.Size = new System.Drawing.Size(65, 12);
+            this.label_tencent_accurate_secretkey.TabIndex = 7;
+            this.label_tencent_accurate_secretkey.Text = "SecretKey:";
+            //
+            // label_tencent_accurate_secretid
+            //
+            this.label_tencent_accurate_secretid.AutoSize = true;
+            this.label_tencent_accurate_secretid.Location = new System.Drawing.Point(6, 13);
+            this.label_tencent_accurate_secretid.Name = "label_tencent_accurate_secretid";
+            this.label_tencent_accurate_secretid.Size = new System.Drawing.Size(59, 12);
+            this.label_tencent_accurate_secretid.TabIndex = 6;
+            this.label_tencent_accurate_secretid.Text = "SecretId:";
+            //
+            // comboBox_Tencent_Accurate_Language
+            //
+            this.comboBox_Tencent_Accurate_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Tencent_Accurate_Language.FormattingEnabled = true;
+            this.comboBox_Tencent_Accurate_Language.Location = new System.Drawing.Point(80, 74);
+            this.comboBox_Tencent_Accurate_Language.Name = "comboBox_Tencent_Accurate_Language";
+            this.comboBox_Tencent_Accurate_Language.Size = new System.Drawing.Size(121, 20);
+            this.comboBox_Tencent_Accurate_Language.TabIndex = 5;
+            //
+            // label_Tencent_Accurate_Language
+            //
+            this.label_Tencent_Accurate_Language.AutoSize = true;
+            this.label_Tencent_Accurate_Language.Location = new System.Drawing.Point(6, 77);
+            this.label_Tencent_Accurate_Language.Name = "label_Tencent_Accurate_Language";
+            this.label_Tencent_Accurate_Language.Size = new System.Drawing.Size(65, 12);
+            this.label_Tencent_Accurate_Language.TabIndex = 4;
+            this.label_Tencent_Accurate_Language.Text = "识别语言：";
             // inPage白描接口
             //
             this.inPage白描接口.BackColor = System.Drawing.Color.White;
@@ -2435,8 +2630,12 @@
             this.tabControl2.ResumeLayout(false);
             this.inPage_百度接口.ResumeLayout(false);
             this.inPage_百度接口.PerformLayout();
+            this.inPage_百度高精度接口.ResumeLayout(false);
+            this.inPage_百度高精度接口.PerformLayout();
             this.inPage腾讯接口.ResumeLayout(false);
             this.inPage腾讯接口.PerformLayout();
+            this.inPage腾讯高精度接口.ResumeLayout(false);
+            this.inPage腾讯高精度接口.PerformLayout();
             this.inPage白描接口.ResumeLayout(false);
             this.inPage白描接口.PerformLayout();
             this.Page_快捷键.ResumeLayout(false);
@@ -2598,6 +2797,7 @@
         private global::System.Windows.Forms.CheckBox cbBox_翻译;
         private global::System.Windows.Forms.TabControl tabControl2;
         private global::System.Windows.Forms.TabPage inPage_百度接口;
+        private global::System.Windows.Forms.TabPage inPage_百度高精度接口;
         private global::System.Windows.Forms.TextBox text_baidupassword;
         private global::System.Windows.Forms.TextBox text_baiduaccount;
         private global::System.Windows.Forms.Label label10;
@@ -2772,5 +2972,22 @@
         private System.Windows.Forms.TextBox BoxBaimiaoUsername;
         private System.Windows.Forms.Label label_BaimiaoPassword;
         private System.Windows.Forms.Label label_BaimiaoUsername;
+        private System.Windows.Forms.ComboBox comboBox_Baidu_Language;
+        private System.Windows.Forms.Label label_Baidu_Language;
+        private System.Windows.Forms.TextBox text_baidu_accurate_secretkey;
+        private System.Windows.Forms.TextBox text_baidu_accurate_apikey;
+        private System.Windows.Forms.Label label_baidu_accurate_secretkey;
+        private System.Windows.Forms.Label label_baidu_accurate_apikey;
+        private System.Windows.Forms.ComboBox comboBox_Baidu_Accurate_Language;
+        private System.Windows.Forms.Label label_Baidu_Accurate_Language;
+        private System.Windows.Forms.ComboBox comboBox_Tencent_Language;
+        private System.Windows.Forms.Label label_Tencent_Language;
+        private System.Windows.Forms.TabPage inPage腾讯高精度接口;
+        private System.Windows.Forms.TextBox text_tencent_accurate_secretkey;
+        private System.Windows.Forms.TextBox text_tencent_accurate_secretid;
+        private System.Windows.Forms.Label label_tencent_accurate_secretkey;
+        private System.Windows.Forms.Label label_tencent_accurate_secretid;
+        private System.Windows.Forms.ComboBox comboBox_Tencent_Accurate_Language;
+        private System.Windows.Forms.Label label_Tencent_Accurate_Language;
     }
 }

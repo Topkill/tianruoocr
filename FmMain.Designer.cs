@@ -192,6 +192,9 @@
 			this.Mathfuntion.Click += new global::System.EventHandler(this.OCR_Mathfuntion_Click);
 			this.tencent.Text = "腾讯";
 			this.tencent.Click += new global::System.EventHandler(this.OCR_tencent_Click);
+			this.tencent_accurate = new global::System.Windows.Forms.ToolStripMenuItem();
+			this.tencent_accurate.Text = "腾讯-高精度";
+			this.tencent_accurate.Click += new global::System.EventHandler(this.OCR_tencent_accurate_Click);
 			this.baidu.Text = "百度";
 			this.baidu.Click += new global::System.EventHandler(this.OCR_baidu_Click);
 			this.youdao.Text = "有道";
@@ -201,6 +204,7 @@
 			this.baimiao = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.baimiao.Text = "白描";
 			this.baimiao.Click += new global::System.EventHandler(this.OCR_baimiao_Click);
+			this.baidu_accurate = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.ocr_table.Text = "表格";
 			this.baidu_table.Text = "百度";
 			this.baidu_table.Click += new global::System.EventHandler(this.OCR_baidutable_Click);
@@ -245,10 +249,12 @@
 			{
 				this.sougou,
 				this.tencent,
+				            this.tencent_accurate,
 				this.youdao,
 				this.wechat,
 				this.baimiao,
 				this.baidu,
+				            this.baidu_accurate,
 				this.toolStripSeparator1,
 				this.Mathfuntion,
 				this.ocr_table,
@@ -267,6 +273,8 @@
 			this.jap.Click += new global::System.EventHandler(this.OCR_baidu_Jap_Click);
 			this.kor.Text = "韩语";
 			this.kor.Click += new global::System.EventHandler(this.OCR_baidu_Kor_Click);
+			         this.baidu_accurate.Text = "百度-高精度";
+			         this.baidu_accurate.Click += new global::System.EventHandler(this.OCR_baidu_accurate_Click);
 			((global::System.Windows.Forms.ToolStripDropDownItem)this.baidu).DropDownItems.AddRange(new global::System.Windows.Forms.ToolStripItem[]
 			{
 				this.ch_en,
@@ -335,6 +343,8 @@
 
 		public global::System.Windows.Forms.ToolStripItem tencent;
 
+		      public global::System.Windows.Forms.ToolStripItem tencent_accurate;
+
 		public global::System.Windows.Forms.ToolStripItem baidu;
 
 		public global::System.Windows.Forms.ToolStripItem youdao;
@@ -342,9 +352,10 @@
 		public global::System.Windows.Forms.ToolStripItem wechat;
 
 		public global::System.Windows.Forms.ToolStripItem baimiao;
-
+		      public global::System.Windows.Forms.ToolStripItem baidu_accurate;
+	
 		public global::System.Windows.Forms.ToolStripDropDownItem interface_button;
-
+	
 		public global::System.Windows.Forms.ToolStripMenuItem Main_change;
 
 		public global::System.Windows.Forms.ToolStripDropDownItem change_button;

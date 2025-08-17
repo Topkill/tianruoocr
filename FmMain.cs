@@ -436,12 +436,19 @@ namespace TrOCR
 				split_txt = "";
 				typeset_txt = "";
 
-				if (string.IsNullOrEmpty(StaticValue.TX_API_ID) || string.IsNullOrEmpty(StaticValue.TX_API_KEY))
+				bool isAccurate = (interface_flag == "腾讯-高精度");
+				string secretId = isAccurate ? StaticValue.TX_ACCURATE_API_ID : StaticValue.TX_API_ID;
+				string secretKey = isAccurate ? StaticValue.TX_ACCURATE_API_KEY : StaticValue.TX_API_KEY;
+				string language = isAccurate ? StaticValue.TX_ACCURATE_LANGUAGE : StaticValue.TX_LANGUAGE;
+				string apiType = isAccurate ? "GeneralAccurateOCR" : "GeneralBasicOCR";
+
+				if (string.IsNullOrEmpty(secretId) || string.IsNullOrEmpty(secretKey))
 				{
-					typeset_txt = "***请在设置中输入腾讯云密钥***";
+					typeset_txt = isAccurate ? "***请在设置中输入腾讯云高精度版密钥***" : "***请在设置中输入腾讯云密钥***";
 					split_txt = typeset_txt;
 					return;
 				}
+
 				if (imageToProcess.Width > 90 && imageToProcess.Height < 90)
 				{
 					tempBitmap = new Bitmap(imageToProcess.Width, 300);
@@ -472,7 +479,7 @@ namespace TrOCR
 
 				byte[] imageBytes = OcrHelper.ImgToBytes(imageToProcess);
 
-				string result = OcrHelper.Tencent(imageBytes, StaticValue.TX_API_ID, StaticValue.TX_API_KEY);
+				string result = TencentOcrHelper.Ocr(imageBytes, secretId, secretKey, apiType, language);
 				typeset_txt = result;
 				split_txt = result;
 			}
@@ -637,6 +644,11 @@ namespace TrOCR
 			OCR_foreach("腾讯");
 		}
 
+		private void OCR_tencent_accurate_Click(object sender, EventArgs e)
+		{
+			OCR_foreach("腾讯-高精度");
+		}
+
 		private void OCR_baidu_Click(object sender, EventArgs e)
 		{
 		}
@@ -745,6 +757,11 @@ namespace TrOCR
 			OCR_foreach("白描");
 		}
 
+			     private void OCR_baidu_accurate_Click(object sender, EventArgs e)
+			     {
+			         OCR_foreach("百度-高精度");
+			     }
+
 		public void change_Chinese_Click(object sender, EventArgs e)
 		{
 			language = "中文标点";
@@ -847,6 +864,11 @@ namespace TrOCR
 			{
 				StaticValue.BD_API_KEY = "";
 			}
+				        StaticValue.BD_LANGUAGE = IniHelper.GetValue("密钥_百度", "language_code");
+				        if (StaticValue.BD_LANGUAGE == "发生错误")
+				        {
+				            StaticValue.BD_LANGUAGE = "CHN_ENG";
+				        }
 
 			StaticValue.TX_API_ID = IniHelper.GetValue("密钥_腾讯", "secret_id");
 			if (StaticValue.TX_API_ID == "发生错误")
@@ -858,6 +880,43 @@ namespace TrOCR
 			{
 				StaticValue.TX_API_KEY = "";
 			}
+				        StaticValue.TX_LANGUAGE = IniHelper.GetValue("密钥_腾讯", "language_code");
+				        if (StaticValue.TX_LANGUAGE == "发生错误")
+				        {
+				            StaticValue.TX_LANGUAGE = "zh";
+				        }
+
+			StaticValue.TX_ACCURATE_API_ID = IniHelper.GetValue("密钥_腾讯高精度", "secret_id");
+			if (StaticValue.TX_ACCURATE_API_ID == "发生错误")
+			{
+				StaticValue.TX_ACCURATE_API_ID = "";
+			}
+			StaticValue.TX_ACCURATE_API_KEY = IniHelper.GetValue("密钥_腾讯高精度", "secret_key");
+			if (StaticValue.TX_ACCURATE_API_KEY == "发生错误")
+			{
+				StaticValue.TX_ACCURATE_API_KEY = "";
+			}
+			StaticValue.TX_ACCURATE_LANGUAGE = IniHelper.GetValue("密钥_腾讯高精度", "language");
+			if (StaticValue.TX_ACCURATE_LANGUAGE == "发生错误")
+			{
+				StaticValue.TX_ACCURATE_LANGUAGE = "auto";
+			}
+
+			         StaticValue.BD_ACCURATE_API_ID = IniHelper.GetValue("密钥_百度高精度", "secret_id");
+			         if (StaticValue.BD_ACCURATE_API_ID == "发生错误")
+			         {
+			             StaticValue.BD_ACCURATE_API_ID = "";
+			         }
+			         StaticValue.BD_ACCURATE_API_KEY = IniHelper.GetValue("密钥_百度高精度", "secret_key");
+			         if (StaticValue.BD_ACCURATE_API_KEY == "发生错误")
+			         {
+			             StaticValue.BD_ACCURATE_API_KEY = "";
+			         }
+			         StaticValue.BD_ACCURATE_LANGUAGE = IniHelper.GetValue("密钥_百度高精度", "language_code");
+			         if (StaticValue.BD_ACCURATE_LANGUAGE == "发生错误")
+			         {
+			             StaticValue.BD_ACCURATE_LANGUAGE = "CHN_ENG";
+			         }
 
 			// --- 加载翻译密钥 ---
 			StaticValue.BD_T_API_ID = IniHelper.GetValue("Translate_Baidu", "APP_ID");
@@ -969,9 +1028,14 @@ namespace TrOCR
 				if (StaticValue.BD_API_KEY == "发生错误")
 				{
 					StaticValue.BD_API_KEY = "";
-				}
-
-				StaticValue.TX_API_ID = IniHelper.GetValue("密钥_腾讯", "secret_id");
+					}
+					            StaticValue.BD_LANGUAGE = IniHelper.GetValue("密钥_百度", "language_code");
+					            if (StaticValue.BD_LANGUAGE == "发生错误")
+					            {
+					                StaticValue.BD_LANGUAGE = "CHN_ENG";
+					            }
+	
+					StaticValue.TX_API_ID = IniHelper.GetValue("密钥_腾讯", "secret_id");
 				if (StaticValue.TX_API_ID == "发生错误")
 				{
 					StaticValue.TX_API_ID = "";
@@ -980,7 +1044,44 @@ namespace TrOCR
 				if (StaticValue.TX_API_KEY == "发生错误")
 				{
 					StaticValue.TX_API_KEY = "";
+					}
+					            StaticValue.TX_LANGUAGE = IniHelper.GetValue("密钥_腾讯", "language_code");
+					            if (StaticValue.TX_LANGUAGE == "发生错误")
+					            {
+					                StaticValue.TX_LANGUAGE = "zh";
+					            }
+	
+					StaticValue.TX_ACCURATE_API_ID = IniHelper.GetValue("密钥_腾讯高精度", "secret_id");
+				if (StaticValue.TX_ACCURATE_API_ID == "发生错误")
+				{
+					StaticValue.TX_ACCURATE_API_ID = "";
 				}
+				StaticValue.TX_ACCURATE_API_KEY = IniHelper.GetValue("密钥_腾讯高精度", "secret_key");
+				if (StaticValue.TX_ACCURATE_API_KEY == "发生错误")
+				{
+					StaticValue.TX_ACCURATE_API_KEY = "";
+				}
+				StaticValue.TX_ACCURATE_LANGUAGE = IniHelper.GetValue("密钥_腾讯高精度", "language");
+				if (StaticValue.TX_ACCURATE_LANGUAGE == "发生错误")
+				{
+					StaticValue.TX_ACCURATE_LANGUAGE = "auto";
+				}
+
+				            StaticValue.BD_ACCURATE_API_ID = IniHelper.GetValue("密钥_百度高精度", "secret_id");
+				            if (StaticValue.BD_ACCURATE_API_ID == "发生错误")
+				            {
+				                StaticValue.BD_ACCURATE_API_ID = "";
+				            }
+				            StaticValue.BD_ACCURATE_API_KEY = IniHelper.GetValue("密钥_百度高精度", "secret_key");
+				            if (StaticValue.BD_ACCURATE_API_KEY == "发生错误")
+				            {
+				                StaticValue.BD_ACCURATE_API_KEY = "";
+				            }
+				            StaticValue.BD_ACCURATE_LANGUAGE = IniHelper.GetValue("密钥_百度高精度", "language_code");
+				            if (StaticValue.BD_ACCURATE_LANGUAGE == "发生错误")
+				            {
+				                StaticValue.BD_ACCURATE_LANGUAGE = "CHN_ENG";
+				            }
 
 				// --- 加载翻译密钥 ---
 				StaticValue.BD_T_API_ID = IniHelper.GetValue("Translate_Baidu", "APP_ID");
@@ -2018,7 +2119,7 @@ namespace TrOCR
 				Invoke(new OcrThread(Main_OCR_Thread_last));
 				return;
 			}
-			if (interface_flag == "腾讯")
+			if (interface_flag == "腾讯" || interface_flag == "腾讯-高精度")
 			{
 				OCR_Tencent();
 				fmloading.FmlClose = "窗体已关闭";
@@ -2070,6 +2171,12 @@ namespace TrOCR
 			if (interface_flag == "日语" || interface_flag == "中英" || interface_flag == "韩语")
 			{
 				OCR_baidu();
+				fmloading.FmlClose = "窗体已关闭";
+				Invoke(new OcrThread(Main_OCR_Thread_last));
+			}
+			if (interface_flag == "百度-高精度")
+			{
+				OCR_baidu_accurate();
 				fmloading.FmlClose = "窗体已关闭";
 				Invoke(new OcrThread(Main_OCR_Thread_last));
 			}
@@ -2247,16 +2354,19 @@ namespace TrOCR
 
 		private void OCR_baidu_Ch_and_En_Click(object sender, EventArgs e)
 		{
+			IniHelper.SetValue("密钥_百度", "language_code", "CHN_ENG");
 			OCR_foreach("中英");
 		}
 
 		private void OCR_baidu_Jap_Click(object sender, EventArgs e)
 		{
+			IniHelper.SetValue("密钥_百度", "language_code", "JAP");
 			OCR_foreach("日语");
 		}
 
 		private void OCR_baidu_Kor_Click(object sender, EventArgs e)
 		{
+			IniHelper.SetValue("密钥_百度", "language_code", "KOR");
 			OCR_foreach("韩语");
 		}
 
@@ -2299,38 +2409,41 @@ namespace TrOCR
 			split_txt = "";
 			try
 			{
-				baidu_vip = CommonHelper.GetHtmlContent("https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=" + StaticValue.BD_API_ID + "&client_secret=" + StaticValue.BD_API_KEY);
-				if (string.IsNullOrEmpty(baidu_vip))
+		              // 从 StaticValue 读取语言类型
+		              string languageType = StaticValue.BD_LANGUAGE;
+
+				// 使用新的BaiduOcrHelper类进行识别
+				// API Keys are already loaded into StaticValue.BD_API_ID and StaticValue.BD_API_KEY
+				var imageBytes = OcrHelper.ImgToBytes(image_screen);
+				var result = BaiduOcrHelper.GeneralBasic(imageBytes, StaticValue.BD_API_ID, StaticValue.BD_API_KEY, languageType);
+
+				if (!string.IsNullOrEmpty(result))
 				{
-					MessageBox.Show("请检查密钥输入是否正确！", "提醒");
+					if (result.StartsWith("***") || result.Contains("错误") || result.Contains("失败"))
+					{
+						// 错误信息直接显示
+						if (esc != "退出")
+						{
+							RichBoxBody.Text = result;
+						}
+						else
+						{
+							RichBoxBody.Text = "***该区域未发现文本***";
+							esc = "";
+						}
+					}
+					else
+					{
+						// 处理识别结果
+						ProcessOcrResult(result);
+					}
 				}
 				else
 				{
-					var str = "CHN_ENG";
-					split_txt = "";
-					var img = image_screen;
-					var inArray = OcrHelper.ImgToBytes(img);
-					switch (interface_flag)
-					{
-						case "中英":
-							str = "CHN_ENG";
-							break;
-						case "日语":
-							str = "JAP";
-							break;
-						case "韩语":
-							str = "KOR";
-							break;
-					}
-					var s = "image=" + HttpUtility.UrlEncode(Convert.ToBase64String(inArray)) + "&language_type=" + str;
-					var url = "https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic?access_token=" +
-                              ((JObject) JsonConvert.DeserializeObject(baidu_vip))["access_token"];
-					var value = CommonHelper.PostStrData(url, s);
-					var jArray = JArray.Parse(((JObject)JsonConvert.DeserializeObject(value))["words_result"].ToString());
-					checked_txt(jArray, 1, "words");
+					RichBoxBody.Text = "***百度OCR识别失败***";
 				}
 			}
-			catch
+			catch (Exception ex)
 			{
 				if (esc != "退出")
 				{
@@ -2341,6 +2454,101 @@ namespace TrOCR
 					RichBoxBody.Text = "***该区域未发现文本***";
 					esc = "";
 				}
+			}
+		}
+
+		/// <summary>
+		/// 百度OCR高精度版
+		/// </summary>
+		public void OCR_baidu_accurate()
+		{
+			split_txt = "";
+			try
+			{
+		              // 从 StaticValue 读取高精度版设置
+		              string languageType = StaticValue.BD_ACCURATE_LANGUAGE;
+		              string apiKey = StaticValue.BD_ACCURATE_API_ID;
+		              string secretKey = StaticValue.BD_ACCURATE_API_KEY;
+
+		              // 检查密钥是否为空
+		              if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(secretKey))
+		              {
+		                  typeset_txt = "***请在设置中输入百度高精度版密钥***";
+		                  split_txt = typeset_txt;
+		                  return;
+		              }
+
+				// 使用新的BaiduOcrHelper类进行高精度识别
+				var imageBytes = OcrHelper.ImgToBytes(image_screen);
+				var result = BaiduOcrHelper.AccurateBasic(imageBytes, apiKey, secretKey, languageType);
+
+				if (!string.IsNullOrEmpty(result))
+				{
+					if (result.StartsWith("***") || result.Contains("错误") || result.Contains("失败"))
+					{
+						// 错误信息直接显示
+						if (esc != "退出")
+						{
+							RichBoxBody.Text = result;
+						}
+						else
+						{
+							RichBoxBody.Text = "***该区域未发现文本***";
+							esc = "";
+						}
+					}
+					else
+					{
+						// 处理识别结果
+						ProcessOcrResult(result);
+					}
+				}
+				else
+				{
+					RichBoxBody.Text = "***百度高精度OCR识别失败***";
+				}
+			}
+			catch (Exception ex)
+			{
+				if (esc != "退出")
+				{
+					RichBoxBody.Text = "***该区域未发现文本或者密钥次数用尽***";
+				}
+				else
+				{
+					RichBoxBody.Text = "***该区域未发现文本***";
+					esc = "";
+				}
+			}
+		}
+
+
+		/// <summary>
+		/// 处理OCR识别结果
+		/// </summary>
+		private void ProcessOcrResult(string result)
+		{
+			// 将纯文本结果转换为之前的格式进行处理
+			var lines = result.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+			var jArray = new JArray();
+			foreach (var line in lines)
+			{
+				if (!string.IsNullOrWhiteSpace(line))
+				{
+					var jObject = new JObject();
+					jObject["words"] = line;
+					jArray.Add(jObject);
+				}
+			}
+			
+			if (jArray.Count > 0)
+			{
+				checked_txt(jArray, 1, "words");
+			}
+			else
+			{
+				split_txt = "";
+				typeset_txt = "";
 			}
 		}
 
@@ -2704,6 +2912,11 @@ namespace TrOCR
 					Refresh();
 					tencent.Text = "腾讯√";
 					break;
+				case "腾讯-高精度":
+					interface_flag = "腾讯-高精度";
+					Refresh();
+					tencent_accurate.Text = "腾讯-高精度√";
+					break;
 				case "有道":
 					interface_flag = "有道";
 					Refresh();
@@ -2719,6 +2932,11 @@ namespace TrOCR
 					Refresh();
 					baimiao.Text = "白描√";
 					break;
+					           case "百度-高精度":
+					               interface_flag = "百度-高精度";
+					               Refresh();
+					               baidu_accurate.Text = "百度-高精度√";
+					               break;
 				case "公式":
 					interface_flag = "公式";
 					Refresh();
@@ -4521,10 +4739,12 @@ namespace TrOCR
 		{
 			sougou.Text = "搜狗";
 			tencent.Text = "腾讯";
+			tencent_accurate.Text = "腾讯-高精度";
 			baidu.Text = "百度";
 			youdao.Text = "有道";
 			wechat.Text = "微信";
 			baimiao.Text = "白描";
+			         baidu_accurate.Text = "百度-高精度";
 			shupai.Text = "竖排";
 			ocr_table.Text = "表格";
 			ch_en.Text = "中英";

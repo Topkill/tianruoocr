@@ -171,8 +171,19 @@ namespace TrOCR
 			{
 				text_baidupassword.Text = "HPRZtdOHrdnnETVsZM2Nx7vbDkMfxrkD";
 			}
+				       var valueBaiduLanguage = IniHelper.GetValue("密钥_百度", "language_code");
+				       BaiduOcrHelper.GetStandardLanguages().TryGetValue(valueBaiduLanguage, out string langName);
+				       comboBox_Baidu_Language.SelectedItem = string.IsNullOrEmpty(langName) ? "中英文混合" : langName;
 
-			var valueTencentId = IniHelper.GetValue("密钥_腾讯", "secret_id");
+				       var valueBaiduAccurateId = IniHelper.GetValue("密钥_百度高精度", "secret_id");
+				       text_baidu_accurate_apikey.Text = valueBaiduAccurateId == "发生错误" ? "" : valueBaiduAccurateId;
+				       var valueBaiduAccurateKey = IniHelper.GetValue("密钥_百度高精度", "secret_key");
+				       text_baidu_accurate_secretkey.Text = valueBaiduAccurateKey == "发生错误" ? "" : valueBaiduAccurateKey;
+				       var valueBaiduAccurateLanguage = IniHelper.GetValue("密钥_百度高精度", "language_code");
+				       BaiduOcrHelper.GetAccurateLanguages().TryGetValue(valueBaiduAccurateLanguage, out string accurateLangName);
+				       comboBox_Baidu_Accurate_Language.SelectedItem = string.IsNullOrEmpty(accurateLangName) ? "中英文混合" : accurateLangName;
+				       
+				       var valueTencentId = IniHelper.GetValue("密钥_腾讯", "secret_id");
 			BoxTencentId.Text = valueTencentId;
 			if (valueTencentId == "发生错误")
 			{
@@ -183,9 +194,21 @@ namespace TrOCR
 			if (valueTencentKey == "发生错误")
 			{
 				BoxTencentKey.Text = "";
-			}
+				}
 
-			// 读取白描账号信息
+				var valueTencentLanguage = IniHelper.GetValue("密钥_腾讯", "language_code");
+				TencentOcrHelper.GetStandardLanguages().TryGetValue(valueTencentLanguage, out string tencentLangName);
+				comboBox_Tencent_Language.SelectedItem = string.IsNullOrEmpty(tencentLangName) ? "中英文混合" : tencentLangName;
+	
+				        var valueTencentAccurateId = IniHelper.GetValue("密钥_腾讯高精度", "secret_id");
+				        text_tencent_accurate_secretid.Text = valueTencentAccurateId == "发生错误" ? "" : valueTencentAccurateId;
+				        var valueTencentAccurateKey = IniHelper.GetValue("密钥_腾讯高精度", "secret_key");
+				        text_tencent_accurate_secretkey.Text = valueTencentAccurateKey == "发生错误" ? "" : valueTencentAccurateKey;
+				        var valueTencentAccurateLanguage = IniHelper.GetValue("密钥_腾讯高精度", "language_code");
+				        TencentOcrHelper.GetAccurateLanguages().TryGetValue(valueTencentAccurateLanguage, out string tencentAccurateLangName);
+				        comboBox_Tencent_Accurate_Language.SelectedItem = string.IsNullOrEmpty(tencentAccurateLangName) ? "自动检测" : tencentAccurateLangName;
+
+				// 读取白描账号信息
 			var valueBaimiaoUsername = IniHelper.GetValue("密钥_白描", "username");
 			BoxBaimiaoUsername.Text = valueBaimiaoUsername;
 			if (valueBaimiaoUsername == "发生错误")
@@ -457,8 +480,49 @@ namespace TrOCR
 			var array6 = new int[4];
 			array6[0] = 1;
 			numericUpDown6.Value = new decimal(array6);
-			readIniFile();
-			// 使用程序集的实际版本号，而不是写死的值
+			        comboBox_Baidu_Language.Items.AddRange(BaiduOcrHelper.GetStandardLanguages().Values.ToArray());
+			        comboBox_Baidu_Accurate_Language.Items.AddRange(BaiduOcrHelper.GetAccurateLanguages().Values.ToArray());
+			                comboBox_Tencent_Accurate_Language.Items.AddRange(TencentOcrHelper.GetAccurateLanguages().Values.ToArray());
+			        comboBox_Tencent_Language.Items.AddRange(TencentOcrHelper.GetStandardLanguages().Values.ToArray());
+
+			        // 为标准版添加重置按钮
+			        Button btnResetBaiduLang = new Button();
+			        btnResetBaiduLang.Name = "btnResetBaiduLang";
+			        btnResetBaiduLang.Text = "重置";
+			        btnResetBaiduLang.Size = new Size(50, 23);
+			        btnResetBaiduLang.Location = new Point(comboBox_Baidu_Language.Right + 6, comboBox_Baidu_Language.Top - 2);
+			        btnResetBaiduLang.Click += (s, ev) => { comboBox_Baidu_Language.SelectedItem = "中英文混合"; };
+			        inPage_百度接口.Controls.Add(btnResetBaiduLang);
+
+			        // 为高精度版添加重置按钮
+			        Button btnResetBaiduAccurateLang = new Button();
+			        btnResetBaiduAccurateLang.Name = "btnResetBaiduAccurateLang";
+			        btnResetBaiduAccurateLang.Text = "重置";
+			        btnResetBaiduAccurateLang.Size = new Size(50, 23);
+			        btnResetBaiduAccurateLang.Location = new Point(comboBox_Baidu_Accurate_Language.Right + 6, comboBox_Baidu_Accurate_Language.Top - 2);
+			        btnResetBaiduAccurateLang.Click += (s, ev) => { comboBox_Baidu_Accurate_Language.SelectedItem = "中英文混合"; };
+			        inPage_百度高精度接口.Controls.Add(btnResetBaiduAccurateLang);
+
+			                // 为腾讯高精度版添加重置按钮
+			                Button btnResetTencentAccurateLang = new Button();
+			                btnResetTencentAccurateLang.Name = "btnResetTencentAccurateLang";
+			                btnResetTencentAccurateLang.Text = "重置";
+			                btnResetTencentAccurateLang.Size = new Size(50, 23);
+			                btnResetTencentAccurateLang.Location = new Point(comboBox_Tencent_Accurate_Language.Right + 6, comboBox_Tencent_Accurate_Language.Top - 2);
+			                btnResetTencentAccurateLang.Click += (s, ev) => { comboBox_Tencent_Accurate_Language.SelectedItem = "自动检测"; };
+			                inPage腾讯高精度接口.Controls.Add(btnResetTencentAccurateLang);
+
+			                // 为腾讯标准版添加重置按钮
+			                Button btnResetTencentLang = new Button();
+			                btnResetTencentLang.Name = "btnResetTencentLang";
+			                btnResetTencentLang.Text = "重置";
+			                btnResetTencentLang.Size = new Size(50, 23);
+			                btnResetTencentLang.Location = new Point(comboBox_Tencent_Language.Right + 6, comboBox_Tencent_Language.Top - 2);
+			                btnResetTencentLang.Click += (s, ev) => { comboBox_Tencent_Language.SelectedItem = "中英文混合"; };
+			                inPage腾讯接口.Controls.Add(btnResetTencentLang);
+
+			        readIniFile();
+			        // 使用程序集的实际版本号，而不是写死的值
 			label_VersionInfo.Text = "版本号：" + System.Windows.Forms.Application.ProductVersion;
 			label_AuthorInfo.Text = "作者：topkill";
 			chbox_代理服务器.CheckedChanged += chbox_代理服务器_CheckedChanged;
@@ -473,7 +537,7 @@ namespace TrOCR
 
 		private void 百度申请_Click(object sender, EventArgs e)
 		{
-			if (tabControl2.SelectedTab == inPage腾讯接口)
+			if (tabControl2.SelectedTab == inPage腾讯接口 || tabControl2.SelectedTab == inPage腾讯高精度接口)
 			{
 				Process.Start("https://console.cloud.tencent.com/ocr/general");
 			}
@@ -579,13 +643,27 @@ namespace TrOCR
 				// 恢复百度OCR默认密钥
 				text_baiduaccount.Text = "YsZKG1wha34PlDOPYaIrIIKO";
 				text_baidupassword.Text = "HPRZtdOHrdnnETVsZM2Nx7vbDkMfxrkD";
+				           comboBox_Baidu_Language.SelectedItem = "中英文混合";
 			}
+				       else if (tabControl2.SelectedTab == inPage_百度高精度接口)
+				       {
+				           text_baidu_accurate_apikey.Text = "";
+				           text_baidu_accurate_secretkey.Text = "";
+				           comboBox_Baidu_Accurate_Language.SelectedItem = "中英文混合";
+				       }
 			else if (tabControl2.SelectedTab == inPage腾讯接口)
 			{
 				// 清空腾讯OCR密钥
 				BoxTencentId.Text = "";
 				BoxTencentKey.Text = "";
+				comboBox_Tencent_Language.SelectedItem = "中英文混合";
 			}
+				       else if (tabControl2.SelectedTab == inPage腾讯高精度接口)
+				       {
+				           text_tencent_accurate_secretid.Text = "";
+				           text_tencent_accurate_secretkey.Text = "";
+				           comboBox_Tencent_Accurate_Language.SelectedItem = "自动检测";
+				       }
 			else if (tabControl2.SelectedTab == inPage白描接口)
 			{
 				// 清空白描账号密码
@@ -718,7 +796,29 @@ namespace TrOCR
 
 		private async void 百度_btn_Click(object sender, EventArgs e)
 		{
-			if (tabControl2.SelectedTab == inPage白描接口)
+		         if (tabControl2.SelectedTab == inPage_百度接口)
+		         {
+		             if (await BaiduOcrHelper.VerifyKeys(text_baiduaccount.Text, text_baidupassword.Text))
+		             {
+		                 MessageBox.Show("密钥正确!", "提醒");
+		             }
+		             else
+		             {
+		                 MessageBox.Show("请确保密钥正确!", "提醒");
+		             }
+		         }
+		         else if (tabControl2.SelectedTab == inPage_百度高精度接口)
+		         {
+		             if (await BaiduOcrHelper.VerifyKeys(text_baidu_accurate_apikey.Text, text_baidu_accurate_secretkey.Text))
+		             {
+		                 MessageBox.Show("密钥正确!", "提醒");
+		             }
+		             else
+		             {
+		                 MessageBox.Show("请确保密钥正确!", "提醒");
+		             }
+		         }
+		         else if (tabControl2.SelectedTab == inPage白描接口)
 			{
 				string username = BoxBaimiaoUsername.Text;
 				string password = BoxBaimiaoPassword.Text;
@@ -786,10 +886,19 @@ namespace TrOCR
 					}
 				}
 			}
-			else if (tabControl2.SelectedTab == inPage腾讯接口)
+			else if (tabControl2.SelectedTab == inPage腾讯接口 || tabControl2.SelectedTab == inPage腾讯高精度接口)
 			{
-				string secretId = BoxTencentId.Text;
-				string secretKey = BoxTencentKey.Text;
+			            string secretId, secretKey;
+			            if (tabControl2.SelectedTab == inPage腾讯接口)
+			            {
+			                secretId = BoxTencentId.Text;
+			                secretKey = BoxTencentKey.Text;
+			            }
+			            else
+			            {
+			                secretId = text_tencent_accurate_secretid.Text;
+			                secretKey = text_tencent_accurate_secretkey.Text;
+			            }
 
 				if (string.IsNullOrEmpty(secretId) || string.IsNullOrEmpty(secretKey) || secretId.Contains("secret_id"))
 				{
@@ -799,7 +908,7 @@ namespace TrOCR
 
 				try
 				{
-					string jsonResult = OcrHelper.VerifyTencentKey(secretId, secretKey);
+					string jsonResult = TencentOcrHelper.VerifyTencentKey(secretId, secretKey);
 					var jObject = Newtonsoft.Json.Linq.JObject.Parse(jsonResult);
 					var error = jObject?["Response"]?["Error"];
 
@@ -834,15 +943,15 @@ namespace TrOCR
 					MessageBox.Show($"测试时发生代码异常: {ex.Message}", "异常", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
-			else
-			{
-				if (Get_html(string.Format("{0}?{1}", "https://aip.baidubce.com/oauth/2.0/token", "grant_type=client_credentials&client_id=" + text_baiduaccount.Text + "&client_secret=" + text_baidupassword.Text)) != "")
-				{
-					MessageBox.Show("密钥正确!", "提醒");
-					return;
-				}
-				MessageBox.Show("请确保密钥正确!", "提醒");
-			}
+			//else
+			//{
+			//	if (Get_html(string.Format("{0}?{1}", "https://aip.baidubce.com/oauth/2.0/token", "grant_type=client_credentials&client_id=" + text_baiduaccount.Text + "&client_secret=" + text_baidupassword.Text)) != "")
+			//	{
+			//		MessageBox.Show("密钥正确!", "提醒");
+			//		return;
+			//	}
+			//	MessageBox.Show("请确保密钥正确!", "提醒");
+			//}
 		}
 
 		private void combox_代理_SelectedIndexChanged(object sender, EventArgs e)
@@ -1015,8 +1124,28 @@ namespace TrOCR
 			IniHelper.SetValue("快捷键", "输入翻译", txtBox_输入翻译.Text);
 			IniHelper.SetValue("密钥_百度", "secret_id", text_baiduaccount.Text);
 			IniHelper.SetValue("密钥_百度", "secret_key", text_baidupassword.Text);
+			        var selectedLang = comboBox_Baidu_Language.SelectedItem?.ToString();
+			        var langCode = BaiduOcrHelper.GetStandardLanguages().FirstOrDefault(x => x.Value == selectedLang).Key;
+			        IniHelper.SetValue("密钥_百度", "language_code", langCode ?? "auto_detect");
+
+			        IniHelper.SetValue("密钥_百度高精度", "secret_id", text_baidu_accurate_apikey.Text);
+			        IniHelper.SetValue("密钥_百度高精度", "secret_key", text_baidu_accurate_secretkey.Text);
+			        var selectedAccurateLang = comboBox_Baidu_Accurate_Language.SelectedItem?.ToString();
+			        var accurateLangCode = BaiduOcrHelper.GetAccurateLanguages().FirstOrDefault(x => x.Value == selectedAccurateLang).Key;
+			        IniHelper.SetValue("密钥_百度高精度", "language_code", accurateLangCode ?? "auto_detect");
+
 			IniHelper.SetValue("密钥_腾讯", "secret_id", BoxTencentId.Text);
 			IniHelper.SetValue("密钥_腾讯", "secret_key", BoxTencentKey.Text);
+			var selectedTencentLang = comboBox_Tencent_Language.SelectedItem?.ToString();
+			var tencentLangCode = TencentOcrHelper.GetStandardLanguages().FirstOrDefault(x => x.Value == selectedTencentLang).Key;
+			IniHelper.SetValue("密钥_腾讯", "language_code", tencentLangCode ?? "zh");
+
+			        IniHelper.SetValue("密钥_腾讯高精度", "secret_id", text_tencent_accurate_secretid.Text);
+			        IniHelper.SetValue("密钥_腾讯高精度", "secret_key", text_tencent_accurate_secretkey.Text);
+			        var selectedTencentAccurateLang = comboBox_Tencent_Accurate_Language.SelectedItem?.ToString();
+			        var tencentAccurateLangCode = TencentOcrHelper.GetAccurateLanguages().FirstOrDefault(x => x.Value == selectedTencentAccurateLang).Key;
+			        IniHelper.SetValue("密钥_腾讯高精度", "language_code", tencentAccurateLangCode ?? "auto");
+
 			IniHelper.SetValue("密钥_白描", "username", BoxBaimiaoUsername.Text);
 			IniHelper.SetValue("密钥_白描", "password", BoxBaimiaoPassword.Text);
 			IniHelper.SetValue("代理", "代理类型", combox_代理.Text);

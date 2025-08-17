@@ -62,9 +62,25 @@ namespace TrOCR.Helper
 
         public static string BD_API_KEY = "";
 
+        public static string BD_LANGUAGE = "";
+
         public static string TX_API_ID = "";
 
         public static string TX_API_KEY = "";
+
+        public static string TX_LANGUAGE = "";
+
+        public static string TX_ACCURATE_API_ID = "";
+
+        public static string TX_ACCURATE_API_KEY = "";
+
+        public static string TX_ACCURATE_LANGUAGE = "";
+
+        public static string BD_ACCURATE_API_ID = "";
+
+        public static string BD_ACCURATE_API_KEY = "";
+
+        public static string BD_ACCURATE_LANGUAGE = "";
 
         public static string BD_T_API_ID = "";
 
