@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace TrOCR.Helper
@@ -6,7 +7,18 @@ namespace TrOCR.Helper
 
 	public static class StaticValue
 	{
-        public static string v_Split;
+	       public class TranslateConfig
+	       {
+	           public string Source { get; set; }
+	           public string Target { get; set; }
+	           public string AppId { get; set; }
+	           public string ApiKey { get; set; }
+	       }
+
+	       public static string Translate_Current_API = "谷歌";
+	       public static readonly Dictionary<string, TranslateConfig> Translate_Configs = new Dictionary<string, TranslateConfig>();
+
+	       public static string v_Split;
 
         public static string v_Restore;
 
@@ -82,13 +94,6 @@ namespace TrOCR.Helper
 
         public static string BD_ACCURATE_LANGUAGE = "";
 
-        public static string BD_T_API_ID = "";
-
-        public static string BD_T_API_KEY = "";
-
-        public static string TX_T_API_ID = "";
-
-        public static string TX_T_API_KEY = "";
 
         public static bool IsCapture;
 

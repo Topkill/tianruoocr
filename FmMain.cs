@@ -800,6 +800,51 @@ namespace TrOCR
 			IniHelper.SetValue("配置", "接口", interface_flag);
 		}
 
+		private void LoadTranslateConfig()
+		{
+			StaticValue.Translate_Configs.Clear();
+			var services = new[] { "Google", "Baidu", "Tencent", "Bing", "Bing2", "Microsoft", "Yandex", "TencentInteractive", "Caiyun", "Caiyun2", "Volcano" };
+			foreach (var service in services)
+			{
+				string section = "Translate_" + service;
+				string source = IniHelper.GetValue(section, "Source");
+				string target = IniHelper.GetValue(section, "Target");
+				string appId = "";
+				string apiKey = "";
+
+				// 根据不同的服务读取不同的密钥名
+				if (service == "Baidu")
+				{
+					appId = IniHelper.GetValue(section, "APP_ID");
+					apiKey = IniHelper.GetValue(section, "APP_KEY");
+				}
+				else if (service == "Tencent")
+				{
+					appId = IniHelper.GetValue(section, "SecretId");
+					apiKey = IniHelper.GetValue(section, "SecretKey");
+				}
+				else if (service == "Caiyun2")
+				{
+					// 彩云小译2使用Token作为密钥
+					apiKey = IniHelper.GetValue(section, "Token");
+				}
+				else
+				{
+					// 其他服务的默认或通用密钥名
+					appId = IniHelper.GetValue(section, "APP_ID");
+					apiKey = IniHelper.GetValue(section, "API_KEY");
+				}
+
+				StaticValue.Translate_Configs[service] = new StaticValue.TranslateConfig
+				{
+					Source = (source == "发生错误" || string.IsNullOrEmpty(source)) ? "auto" : source,
+					Target = (target == "发生错误" || string.IsNullOrEmpty(target)) ? "自动判断" : target,
+					AppId = (appId == "发生错误") ? "" : appId,
+					ApiKey = (apiKey == "发生错误") ? "" : apiKey
+				};
+			}
+		}
+
 		private void InitConfig()
 		{
 			interface_flag = IniHelper.GetValue("配置", "接口");
@@ -812,12 +857,13 @@ namespace TrOCR
 			{
 				OCR_foreach(interface_flag);
 			}
-			string transService = IniHelper.GetValue("配置", "翻译接口");
-			if (transService == "发生错误")
+			StaticValue.Translate_Current_API = IniHelper.GetValue("配置", "翻译接口");
+			if (StaticValue.Translate_Current_API == "发生错误")
 			{
-				transService = "谷歌";
+				StaticValue.Translate_Current_API = "谷歌";
 			}
-			Trans_foreach(transService);
+			Trans_foreach(StaticValue.Translate_Current_API);
+			LoadTranslateConfig();
 			var filePath = AppDomain.CurrentDomain.BaseDirectory + "Data\\config.ini";
 			if (IniHelper.GetValue("快捷键", "文字识别") != "请按下快捷键")
 			{
@@ -918,28 +964,6 @@ namespace TrOCR
 			             StaticValue.BD_ACCURATE_LANGUAGE = "CHN_ENG";
 			         }
 
-			// --- 加载翻译密钥 ---
-			StaticValue.BD_T_API_ID = IniHelper.GetValue("Translate_Baidu", "APP_ID");
-			if (StaticValue.BD_T_API_ID == "发生错误")
-			{
-				StaticValue.BD_T_API_ID = "";
-			}
-			StaticValue.BD_T_API_KEY = IniHelper.GetValue("Translate_Baidu", "APP_KEY");
-			if (StaticValue.BD_T_API_KEY == "发生错误")
-			{
-				StaticValue.BD_T_API_KEY = "";
-			}
-
-			StaticValue.TX_T_API_ID = IniHelper.GetValue("Translate_Tencent", "SecretId");
-			if (StaticValue.TX_T_API_ID == "发生错误")
-			{
-				StaticValue.TX_T_API_ID = "";
-			}
-			StaticValue.TX_T_API_KEY = IniHelper.GetValue("Translate_Tencent", "SecretKey");
-			if (StaticValue.TX_T_API_KEY == "发生错误")
-			{
-				StaticValue.TX_T_API_KEY = "";
-			}
 		}
 
 		public static string check_ch_en(string text)
@@ -1083,28 +1107,13 @@ namespace TrOCR
 				                StaticValue.BD_ACCURATE_LANGUAGE = "CHN_ENG";
 				            }
 
-				// --- 加载翻译密钥 ---
-				StaticValue.BD_T_API_ID = IniHelper.GetValue("Translate_Baidu", "APP_ID");
-				if (StaticValue.BD_T_API_ID == "发生错误")
+				// 重新加载翻译配置
+				StaticValue.Translate_Current_API = IniHelper.GetValue("配置", "翻译接口");
+				if (StaticValue.Translate_Current_API == "发生错误")
 				{
-					StaticValue.BD_T_API_ID = "";
+					StaticValue.Translate_Current_API = "谷歌";
 				}
-				StaticValue.BD_T_API_KEY = IniHelper.GetValue("Translate_Baidu", "APP_KEY");
-				if (StaticValue.BD_T_API_KEY == "发生错误")
-				{
-					StaticValue.BD_T_API_KEY = "";
-				}
-
-				StaticValue.TX_T_API_ID = IniHelper.GetValue("Translate_Tencent", "SecretId");
-				if (StaticValue.TX_T_API_ID == "发生错误")
-				{
-					StaticValue.TX_T_API_ID = "";
-				}
-				StaticValue.TX_T_API_KEY = IniHelper.GetValue("Translate_Tencent", "SecretKey");
-				if (StaticValue.TX_T_API_KEY == "发生错误")
-				{
-					StaticValue.TX_T_API_KEY = "";
-				}
+				LoadTranslateConfig();
 			}
 		}
 
@@ -1210,7 +1219,7 @@ namespace TrOCR
 			}
 			else
 			{
-				string transService = IniHelper.GetValue("配置", "翻译接口");
+				string transService = StaticValue.Translate_Current_API;
 				string sectionName;
 				switch (transService)
 				{
@@ -1236,25 +1245,19 @@ namespace TrOCR
 						sectionName = "Volcano";
 						break;
 					default:
-						sectionName = transService; // Handles Bing, Microsoft, Yandex
+						sectionName = transService;
 						break;
 				}
-				string targetLangSetting = IniHelper.GetValue("Translate_" + sectionName, "Target");
-				string sourceLangSetting = IniHelper.GetValue("Translate_" + sectionName, "Source");
+
+				if (!StaticValue.Translate_Configs.TryGetValue(sectionName, out var config))
+				{
+					config = new StaticValue.TranslateConfig { Source = "auto", Target = "自动判断" };
+				}
 
 				string toLang;
-				string fromLang;
+				string fromLang = config.Source;
 
-				if (sourceLangSetting == "发生错误" || string.IsNullOrEmpty(sourceLangSetting))
-				{
-					fromLang = "auto";
-				}
-				else
-				{
-					fromLang = sourceLangSetting;
-				}
-
-				if (targetLangSetting == "自动判断" || targetLangSetting == "发生错误")
+				if (config.Target == "自动判断")
 				{
 					toLang = "en"; // Default
 					if (StaticValue.ZH2EN)
@@ -1311,7 +1314,7 @@ namespace TrOCR
 				}
 				else
 				{
-					toLang = targetLangSetting;
+					toLang = config.Target;
 				}
 
 				if (transService == "百度")
@@ -1348,10 +1351,10 @@ namespace TrOCR
 						googleTranslate_txt = await GTranslateHelper.TranslateAsync(typeset_txt, fromLang, toLang, "yandex");
 						break;
 					case "百度":
-						googleTranslate_txt = TranslateBaidu(typeset_txt, fromLang, toLang);
+						googleTranslate_txt = TranslateBaidu(typeset_txt, fromLang, toLang, config.AppId, config.ApiKey);
 						break;
 					case "腾讯":
-						googleTranslate_txt = Translate_Tencent(typeset_txt, fromLang, toLang);
+						googleTranslate_txt = Translate_Tencent(typeset_txt, fromLang, toLang, config.AppId, config.ApiKey);
 						break;
 					case "腾讯交互翻译":
 						googleTranslate_txt = await TencentTranslator.TranslateAsync(typeset_txt, fromLang, toLang);
@@ -1360,11 +1363,10 @@ namespace TrOCR
 						googleTranslate_txt = await CaiyunTranslator.TranslateAsync(typeset_txt, fromLang, toLang);
 						break;
 					case "彩云小译2":
-						var token = IniHelper.GetValue("Translate_Caiyun2", "Token");
-						if (token == "发生错误" || string.IsNullOrEmpty(token))
+						if (string.IsNullOrEmpty(config.ApiKey))
 							googleTranslate_txt = "[彩云小译2]：未配置Token";
 						else
-							googleTranslate_txt = await CaiyunTranslator2.TranslateAsync(typeset_txt, fromLang, toLang, token);
+							googleTranslate_txt = await CaiyunTranslator2.TranslateAsync(typeset_txt, fromLang, toLang, config.ApiKey);
 						break;
 					case "火山翻译":
 						googleTranslate_txt = await VolcanoTranslator.TranslateAsync(typeset_txt, fromLang, toLang);
@@ -3773,7 +3775,7 @@ namespace TrOCR
 					}
 					if (string.IsNullOrEmpty(trans_hotkey)) return;
 
-					string transService = IniHelper.GetValue("配置", "翻译接口");
+					string transService = StaticValue.Translate_Current_API;
 					string sectionName;
 					switch (transService)
 					{
@@ -3799,25 +3801,18 @@ namespace TrOCR
 							sectionName = "Volcano";
 							break;
 						default:
-							sectionName = transService; // Handles Bing, Microsoft, Yandex
+							sectionName = transService;
 							break;
 					}
-					string targetLangSetting = IniHelper.GetValue("Translate_" + sectionName, "Target");
-					string sourceLangSetting = IniHelper.GetValue("Translate_" + sectionName, "Source");
+					if (!StaticValue.Translate_Configs.TryGetValue(sectionName, out var config))
+					{
+						config = new StaticValue.TranslateConfig { Source = "auto", Target = "自动判断" };
+					}
 
 					string toLang;
-					string fromLang;
+					string fromLang = config.Source;
 
-					if (sourceLangSetting == "发生错误" || string.IsNullOrEmpty(sourceLangSetting))
-					{
-						fromLang = "auto";
-					}
-					else
-					{
-						fromLang = sourceLangSetting;
-					}
-
-					if (targetLangSetting == "自动判断" || targetLangSetting == "发生错误")
+					if (config.Target == "自动判断")
 					{
 						toLang = "en"; // Default
 						if (StaticValue.ZH2EN)
@@ -3874,7 +3869,7 @@ namespace TrOCR
 					}
 					else
 					{
-						toLang = targetLangSetting;
+						toLang = config.Target;
 					}
 
 					if (transService == "百度")
@@ -3911,10 +3906,10 @@ namespace TrOCR
 							data = await GTranslateHelper.TranslateAsync(trans_hotkey, fromLang, toLang, "yandex");
 							break;
 						case "百度":
-							data = TranslateBaidu(trans_hotkey, fromLang, toLang);
+							data = TranslateBaidu(trans_hotkey, fromLang, toLang, config.AppId, config.ApiKey);
 							break;
 						case "腾讯":
-							data = Translate_Tencent(trans_hotkey, fromLang, toLang);
+							data = Translate_Tencent(trans_hotkey, fromLang, toLang, config.AppId, config.ApiKey);
 							break;
 						case "腾讯交互翻译":
 							data = await TencentTranslator.TranslateAsync(trans_hotkey, fromLang, toLang);
@@ -3923,11 +3918,10 @@ namespace TrOCR
 							data = await CaiyunTranslator.TranslateAsync(trans_hotkey, fromLang, toLang);
 							break;
 						case "彩云小译2":
-							var token_quick = IniHelper.GetValue("Translate_Caiyun2", "Token");
-							if (token_quick == "发生错误" || string.IsNullOrEmpty(token_quick))
+							if (string.IsNullOrEmpty(config.ApiKey))
 								data = "[彩云小译2]：未配置Token";
 							else
-								data = await CaiyunTranslator2.TranslateAsync(trans_hotkey, fromLang, toLang, token_quick);
+								data = await CaiyunTranslator2.TranslateAsync(trans_hotkey, fromLang, toLang, config.ApiKey);
 							break;
 						case "火山翻译":
 							data = await VolcanoTranslator.TranslateAsync(trans_hotkey, fromLang, toLang);
@@ -4407,23 +4401,23 @@ namespace TrOCR
 			}
 		}
 
-		private string TranslateBaidu(string content, string from, string to)
+		private string TranslateBaidu(string content, string from, string to, string appId, string apiKey)
 		{
 			try
 			{
-				if (string.IsNullOrEmpty(StaticValue.BD_T_API_ID) || string.IsNullOrEmpty(StaticValue.BD_T_API_KEY))
+				if (string.IsNullOrEmpty(appId) || string.IsNullOrEmpty(apiKey))
 				{
 					return "[百度翻译]：未输入APP_ID或APP_KEY";
 				}
 
 				var rd = new Random();
 				var salt = rd.Next(100000).ToString();
-				var sign = EncryptString(StaticValue.BD_T_API_ID + content + salt + StaticValue.BD_T_API_KEY);
+				var sign = EncryptString(appId + content + salt + apiKey);
 				var url = "http://api.fanyi.baidu.com/api/trans/vip/translate?";
 				url += "q=" + HttpUtility.UrlEncode(content);
 				url += "&from=" + from;
 				url += "&to=" + to;
-				url += "&appid=" + StaticValue.BD_T_API_ID;
+				url += "&appid=" + appId;
 				url += "&salt=" + salt;
 				url += "&sign=" + sign;
 
@@ -4479,9 +4473,9 @@ namespace TrOCR
 
 
 
-		private string Translate_Tencent(string content, string from, string to)
+		private string Translate_Tencent(string content, string from, string to, string appId, string apiKey)
 		{
-			if (string.IsNullOrEmpty(StaticValue.TX_T_API_ID) || string.IsNullOrEmpty(StaticValue.TX_T_API_KEY))
+			if (string.IsNullOrEmpty(appId) || string.IsNullOrEmpty(apiKey))
 			{
 				return "[腾讯翻译]：未输入SecretId或SecretKey";
 			}
@@ -4490,8 +4484,8 @@ namespace TrOCR
 			{
 				Credential cred = new Credential
 				{
-					SecretId = StaticValue.TX_T_API_ID,
-					SecretKey = StaticValue.TX_T_API_KEY
+					SecretId = appId,
+					SecretKey = apiKey
 				};
 
 				ClientProfile clientProfile = new ClientProfile();
