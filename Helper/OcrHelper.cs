@@ -19,11 +19,6 @@ namespace TrOCR.Helper
     {
         private static ImageOcr ocr;
         
-        // 白描登录token缓存
-        private static string baimiaoTokenCache = null;
-        private static string baimiaoUsernameCache = null;
-        private static string baimiaoPasswordCache = null;
-        private static DateTime baimiaoTokenExpiry = DateTime.MinValue;
 
         public static void Dispose()
         {
@@ -170,31 +165,39 @@ namespace TrOCR.Helper
             return "微信OCR识别超时(10秒)";
         }
 
-        public static async Task<string> Baimiao(byte[] imageBytes, string username, string password)
+        public static async Task<string> Baimiao(byte[] imageBytes)
         {
-            try
-            {
-                const string url = "https://web.baimiaoapp.com";
-                // 获取或生成固定的设备UUID
-                string uuid = GetOrCreateDeviceUuid();
-                string loginToken = "";
-
-                // 检查是否有有效的缓存token
-                if (IsBaimiaoTokenValid(username, password))
-                {
-                    loginToken = baimiaoTokenCache;
-                }
-                else
-                {
-                    // 登录获取新token
-                    loginToken = await BaimiaoLogin(username, password, uuid);
-                    
-                    if (!string.IsNullOrEmpty(loginToken))
-                    {
-                        // 缓存token，有效期设为240小时
-                        CacheBaimiaoToken(loginToken, username, password, 14400);  // 14400分钟 = 240小时
-                    }
-                }
+        	try
+        	{
+        		// 使用 StaticValue 中的凭据
+        		string username = StaticValue.BaimiaoUsername;
+        		string password = StaticValue.BaimiaoPassword;
+        		if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+        		{
+        			return "***请在设置中配置白描账号密码***";
+        		}
+      
+        		const string url = "https://web.baimiaoapp.com";
+        		// 获取或生成固定的设备UUID
+        		string uuid = GetOrCreateDeviceUuid();
+        		string loginToken = "";
+      
+        		// 检查是否有有效的缓存token
+        		if (IsBaimiaoTokenValid())
+        		{
+        			loginToken = StaticValue.BaimiaoToken;
+        		}
+        		else
+        		{
+        			// 登录获取新token
+        			loginToken = await BaimiaoLogin(username, password, uuid);
+        			
+        			if (!string.IsNullOrEmpty(loginToken))
+        			{
+        				// 缓存token，有效期设为240小时
+        				CacheBaimiaoToken(loginToken, 14400);  // 14400分钟 = 240小时
+        			}
+        		}
                 
                 if (string.IsNullOrEmpty(loginToken))
                 {
@@ -218,100 +221,70 @@ namespace TrOCR.Helper
             }
         }
 
-        // 检查白描token是否有效
-        private static bool IsBaimiaoTokenValid(string username, string password)
+        // 检查白描token是否有效 (基于StaticValue缓存)
+        private static bool IsBaimiaoTokenValid()
         {
-            // 优先检查内存缓存
-            if (!string.IsNullOrEmpty(baimiaoTokenCache) &&
-                baimiaoUsernameCache == username &&
-                baimiaoPasswordCache == password &&
-                DateTime.Now < baimiaoTokenExpiry)
-            {
-                return true;
-            }
-            
-            // 从配置文件读取
-            string savedToken = IniHelper.GetValue("密钥_白描", "token");
-            string savedExpiry = IniHelper.GetValue("密钥_白描", "token_expiry");
-            string savedUsername = IniHelper.GetValue("密钥_白描", "token_username");
-            
-            // 检查token是否存在
-            if (string.IsNullOrEmpty(savedToken) || savedToken == "发生错误")
-            {
-                return false;
-            }
-            
-            // 检查是否同一账号
-            if (savedUsername != username)
-            {
-                return false;
-            }
-            
-            // 检查是否过期
-            if (!DateTime.TryParse(savedExpiry, out DateTime expiry))
-            {
-                return false;
-            }
-            
-            if (DateTime.Now >= expiry)
-            {
-                return false;
-            }
-            
-            // 恢复到内存缓存以提高性能
-            baimiaoTokenCache = savedToken;
-            baimiaoUsernameCache = username;
-            baimiaoPasswordCache = password;
-            baimiaoTokenExpiry = expiry;
-            
-            return true;
+        	// 检查内存缓存
+        	if (!string.IsNullOrEmpty(StaticValue.BaimiaoToken) &&
+        		StaticValue.BaimiaoToken != "发生错误" &&
+        		DateTime.Now < StaticValue.BaimiaoTokenExpiry)
+        	{
+        		return true;
+        	}
+        	return false;
         }
         
-        // 缓存白描token
-        private static void CacheBaimiaoToken(string token, string username, string password, int expiryMinutes)
+        // 缓存白描token (到StaticValue和配置文件)
+        private static void CacheBaimiaoToken(string token, int expiryMinutes)
         {
-            // 保存到内存
-            baimiaoTokenCache = token;
-            baimiaoUsernameCache = username;
-            baimiaoPasswordCache = password;
-            baimiaoTokenExpiry = DateTime.Now.AddMinutes(expiryMinutes);
-            
-            // 持久化到配置文件
-            IniHelper.SetValue("密钥_白描", "token", token);
-            IniHelper.SetValue("密钥_白描", "token_expiry", baimiaoTokenExpiry.ToString("yyyy-MM-dd HH:mm:ss"));
-            IniHelper.SetValue("密钥_白描", "token_username", username);
+        	DateTime newExpiry = DateTime.Now.AddMinutes(expiryMinutes);
+      
+        	// 保存到StaticValue内存缓存
+        	StaticValue.BaimiaoToken = token;
+        	StaticValue.BaimiaoTokenExpiry = newExpiry;
+        	
+        	// 持久化到配置文件
+        	IniHelper.SetValue("密钥_白描", "token", token);
+        	IniHelper.SetValue("密钥_白描", "token_expiry", newExpiry.ToString("yyyy-MM-dd HH:mm:ss"));
+        	IniHelper.SetValue("密钥_白描", "token_username", StaticValue.BaimiaoUsername); // 使用缓存中的用户名
         }
         
         // 清除白描token缓存
         public static void ClearBaimiaoTokenCache()
         {
-            // 清除内存缓存
-            baimiaoTokenCache = null;
-            baimiaoUsernameCache = null;
-            baimiaoPasswordCache = null;
-            baimiaoTokenExpiry = DateTime.MinValue;
-            
-            // 清除配置文件中的token
-            IniHelper.SetValue("密钥_白描", "token", "");
-            IniHelper.SetValue("密钥_白描", "token_expiry", "");
-            IniHelper.SetValue("密钥_白描", "token_username", "");
+        	// 清除StaticValue内存缓存
+        	StaticValue.BaimiaoToken = null;
+        	StaticValue.BaimiaoTokenExpiry = DateTime.MinValue;
+        	
+        	// 清除配置文件中的token
+        	IniHelper.SetValue("密钥_白描", "token", "");
+        	IniHelper.SetValue("密钥_白描", "token_expiry", "");
+        	IniHelper.SetValue("密钥_白描", "token_username", "");
         }
 
         // 获取或创建设备UUID
         private static string GetOrCreateDeviceUuid()
         {
-            // 从配置文件读取UUID
-            string uuid = IniHelper.GetValue("密钥_白描", "device_uuid");
-            
-            // 如果没有UUID或读取失败，生成新的
-            if (string.IsNullOrEmpty(uuid) || uuid == "发生错误")
-            {
-                uuid = Guid.NewGuid().ToString();
-                // 保存到配置文件
-                IniHelper.SetValue("密钥_白描", "device_uuid", uuid);
-            }
-            
-            return uuid;
+        	// 1. 优先从StaticValue缓存获取
+        	if (!string.IsNullOrEmpty(StaticValue.BaimiaoDeviceUuid))
+        	{
+        		return StaticValue.BaimiaoDeviceUuid;
+        	}
+      
+        	// 2. 尝试从配置文件加载
+        	string uuid = IniHelper.GetValue("密钥_白描", "device_uuid");
+        	
+        	// 3. 如果没有UUID或读取失败，则生成新的
+        	if (string.IsNullOrEmpty(uuid) || uuid == "发生错误")
+        	{
+        		uuid = Guid.NewGuid().ToString();
+        		// 保存到配置文件
+        		IniHelper.SetValue("密钥_白描", "device_uuid", uuid);
+        	}
+        	
+        	// 4. 存入StaticValue缓存
+        	StaticValue.BaimiaoDeviceUuid = uuid;
+        	return uuid;
         }
 
         public static async Task<Dictionary<string, object>> BaimiaoVerifyAccount(string username, string password)
@@ -402,8 +375,11 @@ namespace TrOCR.Helper
                             if (json["data"]?["token"] != null)
                             {
                                 string token = json["data"]["token"].ToString();
-                                CacheBaimiaoToken(token, username, password, 1440);  // 1440分钟 = 24小时
-                            }
+                                // 更新StaticValue中的用户名和密码，因为它们已被验证
+                                StaticValue.BaimiaoUsername = username;
+                                StaticValue.BaimiaoPassword = password;
+                                CacheBaimiaoToken(token, 14400);  // 14400分钟 = 240小时
+                               }
                         }
                         else
                         {

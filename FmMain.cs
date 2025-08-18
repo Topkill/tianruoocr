@@ -526,19 +526,9 @@ namespace TrOCR
 				split_txt = "";
 				typeset_txt = "";
 				
-				// 获取白描账号信息
-				string username = IniHelper.GetValue("密钥_白描", "username");
-				string password = IniHelper.GetValue("密钥_白描", "password");
-				
-				if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-				{
-					typeset_txt = "***请在设置中输入白描账号密码***";
-					split_txt = typeset_txt;
-					return;
-				}
-				
 				byte[] imageBytes = OcrHelper.ImgToBytes(image_screen);
-				string result = OcrHelper.Baimiao(imageBytes, username, password).GetAwaiter().GetResult();
+				// 调用已重构的、无参数的Baimiao方法
+				string result = OcrHelper.Baimiao(imageBytes).GetAwaiter().GetResult();
 				typeset_txt = result;
 				split_txt = result;
 			}
@@ -963,8 +953,34 @@ namespace TrOCR
 			         {
 			             StaticValue.BD_ACCURATE_LANGUAGE = "CHN_ENG";
 			         }
+	
+			// --- 加载白描OCR凭据 ---
+			StaticValue.BaimiaoUsername = IniHelper.GetValue("密钥_白描", "username");
+			if (StaticValue.BaimiaoUsername == "发生错误") StaticValue.BaimiaoUsername = "";
 
-		}
+			StaticValue.BaimiaoPassword = IniHelper.GetValue("密钥_白描", "password");
+			if (StaticValue.BaimiaoPassword == "发生错误") StaticValue.BaimiaoPassword = "";
+
+			// 加载持久化的token信息
+			string savedToken = IniHelper.GetValue("密钥_白描", "token");
+			string savedExpiry = IniHelper.GetValue("密钥_白描", "token_expiry");
+			string savedUsername = IniHelper.GetValue("密钥_白描", "token_username");
+			string savedUuid = IniHelper.GetValue("密钥_白描", "device_uuid");
+
+			if (!string.IsNullOrEmpty(savedToken) && savedToken != "发生错误" &&
+			    !string.IsNullOrEmpty(savedUsername) && savedUsername != "发生错误" &&
+			    savedUsername == StaticValue.BaimiaoUsername && // 确保token属于当前用户
+			    DateTime.TryParse(savedExpiry, out DateTime expiry) && DateTime.Now < expiry)
+			{
+			 StaticValue.BaimiaoToken = savedToken;
+			 StaticValue.BaimiaoTokenExpiry = expiry;
+			}
+
+			if (!string.IsNullOrEmpty(savedUuid) && savedUuid != "发生错误")
+			{
+			 StaticValue.BaimiaoDeviceUuid = savedUuid;
+			}
+			}
 
 		public static string check_ch_en(string text)
 		{
@@ -1106,6 +1122,42 @@ namespace TrOCR
 				            {
 				                StaticValue.BD_ACCURATE_LANGUAGE = "CHN_ENG";
 				            }
+	
+				// --- 重新加载白描OCR凭据 ---
+				string newBaimiaoUsername = IniHelper.GetValue("密钥_白描", "username");
+				if (newBaimiaoUsername == "发生错误") newBaimiaoUsername = "";
+
+				// 如果用户名发生变化，则清除旧的token缓存
+				if (StaticValue.BaimiaoUsername != newBaimiaoUsername)
+				{
+				 OcrHelper.ClearBaimiaoTokenCache();
+				}
+				StaticValue.BaimiaoUsername = newBaimiaoUsername;
+
+				StaticValue.BaimiaoPassword = IniHelper.GetValue("密钥_白描", "password");
+				if (StaticValue.BaimiaoPassword == "发生错误") StaticValue.BaimiaoPassword = "";
+
+				// 重新加载持久化的token信息
+				string savedToken = IniHelper.GetValue("密钥_白描", "token");
+				string savedExpiry = IniHelper.GetValue("密钥_白描", "token_expiry");
+				string savedUsername = IniHelper.GetValue("密钥_白描", "token_username");
+				if (!string.IsNullOrEmpty(savedToken) && savedToken != "发生错误" &&
+				    !string.IsNullOrEmpty(savedUsername) && savedUsername != "发生错误" &&
+				    savedUsername == StaticValue.BaimiaoUsername &&
+				    DateTime.TryParse(savedExpiry, out DateTime expiry) && DateTime.Now < expiry)
+				{
+				 StaticValue.BaimiaoToken = savedToken;
+				 StaticValue.BaimiaoTokenExpiry = expiry;
+				}
+				else
+				{
+				 StaticValue.BaimiaoToken = null;
+				 StaticValue.BaimiaoTokenExpiry = DateTime.MinValue;
+				}
+
+				// 重新加载UUID
+				string savedUuid = IniHelper.GetValue("密钥_白描", "device_uuid");
+				StaticValue.BaimiaoDeviceUuid = (savedUuid == "发生错误" || string.IsNullOrEmpty(savedUuid)) ? null : savedUuid;
 
 				// 重新加载翻译配置
 				StaticValue.Translate_Current_API = IniHelper.GetValue("配置", "翻译接口");
@@ -2414,13 +2466,12 @@ namespace TrOCR
 		              // 从 StaticValue 读取语言类型
 		              string languageType = StaticValue.BD_LANGUAGE;
 
-				// 使用新的BaiduOcrHelper类进行识别
-				// API Keys are already loaded into StaticValue.BD_API_ID and StaticValue.BD_API_KEY
-				var imageBytes = OcrHelper.ImgToBytes(image_screen);
-				var result = BaiduOcrHelper.GeneralBasic(imageBytes, StaticValue.BD_API_ID, StaticValue.BD_API_KEY, languageType);
+		  var imageBytes = OcrHelper.ImgToBytes(image_screen);
+		  // 调用已重构的、无密钥参数的方法
+		  var result = BaiduOcrHelper.GeneralBasic(imageBytes, languageType);
 
-				if (!string.IsNullOrEmpty(result))
-				{
+		  if (!string.IsNullOrEmpty(result))
+		  {
 					if (result.StartsWith("***") || result.Contains("错误") || result.Contains("失败"))
 					{
 						// 错误信息直接显示
@@ -2469,23 +2520,13 @@ namespace TrOCR
 			{
 		              // 从 StaticValue 读取高精度版设置
 		              string languageType = StaticValue.BD_ACCURATE_LANGUAGE;
-		              string apiKey = StaticValue.BD_ACCURATE_API_ID;
-		              string secretKey = StaticValue.BD_ACCURATE_API_KEY;
 
-		              // 检查密钥是否为空
-		              if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(secretKey))
-		              {
-		                  typeset_txt = "***请在设置中输入百度高精度版密钥***";
-		                  split_txt = typeset_txt;
-		                  return;
-		              }
+		  var imageBytes = OcrHelper.ImgToBytes(image_screen);
+		  // 调用已重构的、无密钥参数的方法
+		  var result = BaiduOcrHelper.AccurateBasic(imageBytes, languageType);
 
-				// 使用新的BaiduOcrHelper类进行高精度识别
-				var imageBytes = OcrHelper.ImgToBytes(image_screen);
-				var result = BaiduOcrHelper.AccurateBasic(imageBytes, apiKey, secretKey, languageType);
-
-				if (!string.IsNullOrEmpty(result))
-				{
+		  if (!string.IsNullOrEmpty(result))
+		  {
 					if (result.StartsWith("***") || result.Contains("错误") || result.Contains("失败"))
 					{
 						// 错误信息直接显示

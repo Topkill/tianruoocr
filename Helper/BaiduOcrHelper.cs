@@ -16,137 +16,99 @@ namespace TrOCR.Helper
     /// </summary>
     public static class BaiduOcrHelper
     {
-        // access_token缓存（内存缓存）
-        private static string accessTokenCache = null;
-        private static DateTime accessTokenExpiry = DateTime.MinValue;
-        private static string cachedApiKey = null;
-        private static string cachedSecretKey = null;
-
-        // 高精度版access_token缓存
-        private static string accessTokenCacheHighAccuracy = null;
-        private static DateTime accessTokenExpiryHighAccuracy = DateTime.MinValue;
-        private static string cachedApiKeyHighAccuracy = null;
-        private static string cachedSecretKeyHighAccuracy = null;
-
         /// <summary>
-        /// 获取或刷新access_token（双重缓存机制）
+        /// 获取或刷新access_token（使用StaticValue作为一级缓存）
         /// </summary>
         private static string GetAccessToken(string apiKey, string secretKey, bool isHighAccuracy = false)
         {
-            try
-            {
-                // 选择对应的缓存
-                ref string tokenCache = ref (isHighAccuracy ? ref accessTokenCacheHighAccuracy : ref accessTokenCache);
-                ref DateTime tokenExpiry = ref (isHighAccuracy ? ref accessTokenExpiryHighAccuracy : ref accessTokenExpiry);
-                ref string cachedKey = ref (isHighAccuracy ? ref cachedApiKeyHighAccuracy : ref cachedApiKey);
-                ref string cachedSecret = ref (isHighAccuracy ? ref cachedSecretKeyHighAccuracy : ref cachedSecretKey);
-
-                // 1. 检查内存缓存
-                if (!string.IsNullOrEmpty(tokenCache) &&
-                    cachedKey == apiKey &&
-                    cachedSecret == secretKey &&
-                    DateTime.Now < tokenExpiry)
-                {
-                    return tokenCache;
-                }
-
-                // 2. 从配置文件读取持久化的token
-                string configSection = isHighAccuracy ? "密钥_百度高精度" : "密钥_百度";
-                string savedToken = IniHelper.GetValue(configSection, "access_token");
-                string savedExpiry = IniHelper.GetValue(configSection, "token_expiry");
-                string savedApiKey = IniHelper.GetValue(configSection, "cached_api_key");
-
-                // 检查持久化的token是否有效
-                if (!string.IsNullOrEmpty(savedToken) && savedToken != "发生错误" &&
-                    savedApiKey == apiKey &&
-                    DateTime.TryParse(savedExpiry, out DateTime expiry) &&
-                    DateTime.Now < expiry)
-                {
-                    // 恢复到内存缓存
-                    tokenCache = savedToken;
-                    tokenExpiry = expiry;
-                    cachedKey = apiKey;
-                    cachedSecret = secretKey;
-                    return savedToken;
-                }
-
-                // 3. 获取新的access_token
-                string url = $"https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id={apiKey}&client_secret={secretKey}";
-                string response = CommonHelper.GetHtmlContent(url);
-                
-                if (string.IsNullOrEmpty(response))
-                {
-                    return null;
-                }
-
-                JObject json = JObject.Parse(response);
-                if (json["access_token"] != null)
-                {
-                    string newToken = json["access_token"].ToString();
-                    int expiresIn = json["expires_in"]?.ToObject<int>() ?? 2592000; // 默认30天
-                    
-                    // 设置过期时间为29天（留1天缓冲）
-                    DateTime newExpiry = DateTime.Now.AddSeconds(expiresIn - 86400);
-                    
-                    // 缓存到内存
-                    tokenCache = newToken;
-                    tokenExpiry = newExpiry;
-                    cachedKey = apiKey;
-                    cachedSecret = secretKey;
-
-                    // 持久化到配置文件
-                    IniHelper.SetValue(configSection, "access_token", newToken);
-                    IniHelper.SetValue(configSection, "token_expiry", newExpiry.ToString("yyyy-MM-dd HH:mm:ss"));
-                    IniHelper.SetValue(configSection, "cached_api_key", apiKey);
-
-                    return newToken;
-                }
-
-                return null;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"获取百度access_token失败: {ex.Message}");
-                return null;
-            }
+        	try
+        	{
+        		// 1. 选择正确的StaticValue缓存字段
+        		ref string tokenCache = ref (isHighAccuracy ? ref StaticValue.BaiduAccurateAccessToken : ref StaticValue.BaiduAccessToken);
+        		ref DateTime tokenExpiry = ref (isHighAccuracy ? ref StaticValue.BaiduAccurateAccessTokenExpiry : ref StaticValue.BaiduAccessTokenExpiry);
+      
+        		// 2. 检查内存缓存是否有效
+        		// 注意：这里不再检查API Key是否匹配，FmMain中设置API Key时应负责清除旧Token
+        		if (!string.IsNullOrEmpty(tokenCache) && tokenCache != "发生错误" && DateTime.Now < tokenExpiry)
+        		{
+        			return tokenCache;
+        		}
+      
+        		// 3. 获取新的access_token
+        		string url = $"https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id={apiKey}&client_secret={secretKey}";
+        		string response = CommonHelper.GetHtmlContent(url);
+        		
+        		if (string.IsNullOrEmpty(response))
+        		{
+        			return null;
+        		}
+      
+        		JObject json = JObject.Parse(response);
+        		if (json["access_token"] != null)
+        		{
+        			string newToken = json["access_token"].ToString();
+        			int expiresIn = json["expires_in"]?.ToObject<int>() ?? 2592000; // 默认30天
+        			
+        			// 设置过期时间为29天（留1天缓冲）
+        			DateTime newExpiry = DateTime.Now.AddSeconds(expiresIn - 86400);
+        			
+        			// 4. 更新StaticValue缓存
+        			tokenCache = newToken;
+        			tokenExpiry = newExpiry;
+      
+        			// 5. 持久化到配置文件
+        			string configSection = isHighAccuracy ? "密钥_百度高精度" : "密钥_百度";
+        			IniHelper.SetValue(configSection, "access_token", newToken);
+        			IniHelper.SetValue(configSection, "token_expiry", newExpiry.ToString("yyyy-MM-dd HH:mm:ss"));
+        			
+        			return newToken;
+        		}
+      
+        		return null;
+        	}
+        	catch (Exception ex)
+        	{
+        		System.Diagnostics.Debug.WriteLine($"获取百度access_token失败: {ex.Message}");
+        		return null;
+        	}
         }
 
         /// <summary>
-        /// 清除access_token缓存
+        /// 清除access_token缓存 (内存和配置文件)
         /// </summary>
         public static void ClearAccessTokenCache(bool isHighAccuracy = false)
         {
-            if (isHighAccuracy)
-            {
-                accessTokenCacheHighAccuracy = null;
-                accessTokenExpiryHighAccuracy = DateTime.MinValue;
-                cachedApiKeyHighAccuracy = null;
-                cachedSecretKeyHighAccuracy = null;
-                
-                IniHelper.SetValue("密钥_百度高精度", "access_token", "");
-                IniHelper.SetValue("密钥_百度高精度", "token_expiry", "");
-                IniHelper.SetValue("密钥_百度高精度", "cached_api_key", "");
-            }
-            else
-            {
-                accessTokenCache = null;
-                accessTokenExpiry = DateTime.MinValue;
-                cachedApiKey = null;
-                cachedSecretKey = null;
-                
-                IniHelper.SetValue("密钥_百度", "access_token", "");
-                IniHelper.SetValue("密钥_百度", "token_expiry", "");
-                IniHelper.SetValue("密钥_百度", "cached_api_key", "");
-            }
+        	if (isHighAccuracy)
+        	{
+        		StaticValue.BaiduAccurateAccessToken = null;
+        		StaticValue.BaiduAccurateAccessTokenExpiry = DateTime.MinValue;
+        		IniHelper.SetValue("密钥_百度高精度", "access_token", "");
+        		IniHelper.SetValue("密钥_百度高精度", "token_expiry", "");
+        	}
+        	else
+        	{
+        		StaticValue.BaiduAccessToken = null;
+        		StaticValue.BaiduAccessTokenExpiry = DateTime.MinValue;
+        		IniHelper.SetValue("密钥_百度", "access_token", "");
+        		IniHelper.SetValue("密钥_百度", "token_expiry", "");
+        	}
         }
 
         /// <summary>
         /// 通用文字识别（标准版）
         /// </summary>
-        public static string GeneralBasic(byte[] imageBytes, string apiKey, string secretKey, string languageType = null)
+        public static string GeneralBasic(byte[] imageBytes, string languageType = null)
         {
             try
             {
+                string apiKey = StaticValue.BD_API_ID;
+                string secretKey = StaticValue.BD_API_KEY;
+
+                if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(secretKey))
+                {
+                    return "***请在设置中输入百度密钥***";
+                }
+                
                 // 获取access_token
                 string accessToken = GetAccessToken(apiKey, secretKey, false);
                 if (string.IsNullOrEmpty(accessToken))
@@ -154,14 +116,10 @@ namespace TrOCR.Helper
                     return "获取百度access_token失败，请检查API Key和Secret Key";
                 }
 
-                // 如果没有指定语言，从配置文件读取
+                // 如果没有指定语言，使用 StaticValue 中的设置
                 if (string.IsNullOrEmpty(languageType))
                 {
-                    languageType = IniHelper.GetValue("百度接口设置", "language_type");
-                    if (string.IsNullOrEmpty(languageType) || languageType == "发生错误")
-                    {
-                        languageType = "CHN_ENG"; // 默认中英文混合
-                    }
+                    languageType = StaticValue.BD_LANGUAGE ?? "CHN_ENG";
                 }
 
                 // 构建请求
@@ -250,25 +208,29 @@ namespace TrOCR.Helper
         /// <summary>
         /// 通用文字识别（高精度版）
         /// </summary>
-        public static string AccurateBasic(byte[] imageBytes, string apiKey, string secretKey, string languageType = null)
+        public static string AccurateBasic(byte[] imageBytes, string languageType = null)
         {
             try
             {
+                string apiKey = StaticValue.BD_ACCURATE_API_ID;
+                string secretKey = StaticValue.BD_ACCURATE_API_KEY;
+
+                if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(secretKey))
+                {
+                    return "***请在设置中输入百度高精度版密钥***";
+                }
+                
                 // 获取access_token
                 string accessToken = GetAccessToken(apiKey, secretKey, true);
                 if (string.IsNullOrEmpty(accessToken))
                 {
                     return "获取百度高精度access_token失败，请检查API Key和Secret Key";
                 }
-
-                // 如果没有指定语言，从配置文件读取
+                
+                // 如果没有指定语言，使用 StaticValue 中的设置
                 if (string.IsNullOrEmpty(languageType))
                 {
-                    languageType = IniHelper.GetValue("百度高精度接口设置", "language_type");
-                    if (string.IsNullOrEmpty(languageType) || languageType == "发生错误")
-                    {
-                        languageType = "CHN_ENG"; // 高精度版默认中英文
-                    }
+                    languageType = StaticValue.BD_ACCURATE_LANGUAGE ?? "CHN_ENG";
                 }
 
                 // 构建请求

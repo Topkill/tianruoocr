@@ -94,6 +94,22 @@ namespace TrOCR.Helper
 
         public static string BD_ACCURATE_LANGUAGE = "";
 
+// --- OCR Token Caching ---
+
+        // Baidu OCR
+        public static string BaiduAccessToken = null;
+        public static DateTime BaiduAccessTokenExpiry = DateTime.MinValue;
+
+        // Baidu OCR (High Accuracy)
+        public static string BaiduAccurateAccessToken = null;
+        public static DateTime BaiduAccurateAccessTokenExpiry = DateTime.MinValue;
+
+        // Baimiao OCR
+        public static string BaimiaoUsername = "";
+        public static string BaimiaoPassword = "";
+        public static string BaimiaoToken = null;
+        public static DateTime BaimiaoTokenExpiry = DateTime.MinValue;
+        public static string BaimiaoDeviceUuid = null;
 
         public static bool IsCapture;
 
