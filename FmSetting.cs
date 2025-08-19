@@ -171,19 +171,19 @@ namespace TrOCR
 			{
 				text_baidupassword.Text = "HPRZtdOHrdnnETVsZM2Nx7vbDkMfxrkD";
 			}
-				       var valueBaiduLanguage = IniHelper.GetValue("密钥_百度", "language_code");
-				       BaiduOcrHelper.GetStandardLanguages().TryGetValue(valueBaiduLanguage, out string langName);
-				       comboBox_Baidu_Language.SelectedItem = string.IsNullOrEmpty(langName) ? "中英文混合" : langName;
+			var valueBaiduLanguage = IniHelper.GetValue("密钥_百度", "language_code");
+			BaiduOcrHelper.GetStandardLanguages().TryGetValue(valueBaiduLanguage, out string langName);
+			comboBox_Baidu_Language.SelectedItem = string.IsNullOrEmpty(langName) ? "中英文混合" : langName;
 
-				       var valueBaiduAccurateId = IniHelper.GetValue("密钥_百度高精度", "secret_id");
-				       text_baidu_accurate_apikey.Text = valueBaiduAccurateId == "发生错误" ? "" : valueBaiduAccurateId;
-				       var valueBaiduAccurateKey = IniHelper.GetValue("密钥_百度高精度", "secret_key");
-				       text_baidu_accurate_secretkey.Text = valueBaiduAccurateKey == "发生错误" ? "" : valueBaiduAccurateKey;
-				       var valueBaiduAccurateLanguage = IniHelper.GetValue("密钥_百度高精度", "language_code");
-				       BaiduOcrHelper.GetAccurateLanguages().TryGetValue(valueBaiduAccurateLanguage, out string accurateLangName);
-				       comboBox_Baidu_Accurate_Language.SelectedItem = string.IsNullOrEmpty(accurateLangName) ? "中英文混合" : accurateLangName;
+			var valueBaiduAccurateId = IniHelper.GetValue("密钥_百度高精度", "secret_id");
+			text_baidu_accurate_apikey.Text = valueBaiduAccurateId == "发生错误" ? "" : valueBaiduAccurateId;
+			var valueBaiduAccurateKey = IniHelper.GetValue("密钥_百度高精度", "secret_key");
+			text_baidu_accurate_secretkey.Text = valueBaiduAccurateKey == "发生错误" ? "" : valueBaiduAccurateKey;
+			var valueBaiduAccurateLanguage = IniHelper.GetValue("密钥_百度高精度", "language_code");
+			BaiduOcrHelper.GetAccurateLanguages().TryGetValue(valueBaiduAccurateLanguage, out string accurateLangName);
+			comboBox_Baidu_Accurate_Language.SelectedItem = string.IsNullOrEmpty(accurateLangName) ? "中英文混合" : accurateLangName;
 				       
-				       var valueTencentId = IniHelper.GetValue("密钥_腾讯", "secret_id");
+			var valueTencentId = IniHelper.GetValue("密钥_腾讯", "secret_id");
 			BoxTencentId.Text = valueTencentId;
 			if (valueTencentId == "发生错误")
 			{
@@ -196,19 +196,19 @@ namespace TrOCR
 				BoxTencentKey.Text = "";
 				}
 
-				var valueTencentLanguage = IniHelper.GetValue("密钥_腾讯", "language_code");
-				TencentOcrHelper.GetStandardLanguages().TryGetValue(valueTencentLanguage, out string tencentLangName);
-				comboBox_Tencent_Language.SelectedItem = string.IsNullOrEmpty(tencentLangName) ? "中英文混合" : tencentLangName;
+			var valueTencentLanguage = IniHelper.GetValue("密钥_腾讯", "language_code");
+			TencentOcrHelper.GetStandardLanguages().TryGetValue(valueTencentLanguage, out string tencentLangName);
+			comboBox_Tencent_Language.SelectedItem = string.IsNullOrEmpty(tencentLangName) ? "中英文混合" : tencentLangName;
 	
-				        var valueTencentAccurateId = IniHelper.GetValue("密钥_腾讯高精度", "secret_id");
-				        text_tencent_accurate_secretid.Text = valueTencentAccurateId == "发生错误" ? "" : valueTencentAccurateId;
-				        var valueTencentAccurateKey = IniHelper.GetValue("密钥_腾讯高精度", "secret_key");
-				        text_tencent_accurate_secretkey.Text = valueTencentAccurateKey == "发生错误" ? "" : valueTencentAccurateKey;
-				        var valueTencentAccurateLanguage = IniHelper.GetValue("密钥_腾讯高精度", "language_code");
-				        TencentOcrHelper.GetAccurateLanguages().TryGetValue(valueTencentAccurateLanguage, out string tencentAccurateLangName);
-				        comboBox_Tencent_Accurate_Language.SelectedItem = string.IsNullOrEmpty(tencentAccurateLangName) ? "自动检测" : tencentAccurateLangName;
+			var valueTencentAccurateId = IniHelper.GetValue("密钥_腾讯高精度", "secret_id");
+			text_tencent_accurate_secretid.Text = valueTencentAccurateId == "发生错误" ? "" : valueTencentAccurateId;
+			var valueTencentAccurateKey = IniHelper.GetValue("密钥_腾讯高精度", "secret_key");
+			text_tencent_accurate_secretkey.Text = valueTencentAccurateKey == "发生错误" ? "" : valueTencentAccurateKey;
+			var valueTencentAccurateLanguage = IniHelper.GetValue("密钥_腾讯高精度", "language_code");
+			TencentOcrHelper.GetAccurateLanguages().TryGetValue(valueTencentAccurateLanguage, out string tencentAccurateLangName);
+			comboBox_Tencent_Accurate_Language.SelectedItem = string.IsNullOrEmpty(tencentAccurateLangName) ? "自动检测" : tencentAccurateLangName;
 
-				// 读取白描账号信息
+			// 读取白描账号信息
 			var valueBaimiaoUsername = IniHelper.GetValue("密钥_白描", "username");
 			BoxBaimiaoUsername.Text = valueBaimiaoUsername;
 			if (valueBaimiaoUsername == "发生错误")
@@ -383,74 +383,74 @@ namespace TrOCR
 				chbox_取色.Checked = true;
 			}
 			var googleSource = IniHelper.GetValue("Translate_Google", "Source");
-			         textBox_Google_Source.Text = (googleSource == "发生错误") ? "auto" : googleSource;
-			         var googleTarget = IniHelper.GetValue("Translate_Google", "Target");
-			         textBox_Google_Target.Text = (googleTarget == "发生错误") ? "自动判断" : googleTarget;
+			textBox_Google_Source.Text = (googleSource == "发生错误") ? "auto" : googleSource;
+			var googleTarget = IniHelper.GetValue("Translate_Google", "Target");
+			textBox_Google_Target.Text = (googleTarget == "发生错误") ? "自动判断" : googleTarget;
 
-			         var baiduSource = IniHelper.GetValue("Translate_Baidu", "Source");
-			         textBox_Baidu_Source.Text = (baiduSource == "发生错误") ? "auto" : baiduSource;
-			         var baiduTarget = IniHelper.GetValue("Translate_Baidu", "Target");
-			         textBox_Baidu_Target.Text = (baiduTarget == "发生错误") ? "自动判断" : baiduTarget;
-			         var baiduAK = IniHelper.GetValue("Translate_Baidu", "APP_ID");
-			         textBox_Baidu_AK.Text = (baiduAK == "发生错误") ? "" : baiduAK;
-			         var baiduSK = IniHelper.GetValue("Translate_Baidu", "APP_KEY");
-			         textBox_Baidu_SK.Text = (baiduSK == "发生错误") ? "" : baiduSK;
+			var baiduSource = IniHelper.GetValue("Translate_Baidu", "Source");
+			textBox_Baidu_Source.Text = (baiduSource == "发生错误") ? "auto" : baiduSource;
+			var baiduTarget = IniHelper.GetValue("Translate_Baidu", "Target");
+			textBox_Baidu_Target.Text = (baiduTarget == "发生错误") ? "自动判断" : baiduTarget;
+			var baiduAK = IniHelper.GetValue("Translate_Baidu", "APP_ID");
+			textBox_Baidu_AK.Text = (baiduAK == "发生错误") ? "" : baiduAK;
+			var baiduSK = IniHelper.GetValue("Translate_Baidu", "APP_KEY");
+			textBox_Baidu_SK.Text = (baiduSK == "发生错误") ? "" : baiduSK;
 	
-			         var tencentSource = IniHelper.GetValue("Translate_Tencent", "Source");
-			         textBox_Tencent_Source.Text = (tencentSource == "发生错误") ? "auto" : tencentSource;
-			         var tencentTarget = IniHelper.GetValue("Translate_Tencent", "Target");
-			         textBox_Tencent_Target.Text = (tencentTarget == "发生错误") ? "自动判断" : tencentTarget;
-			         var tencentAK = IniHelper.GetValue("Translate_Tencent", "SecretId");
-			         textBox_Tencent_AK.Text = (tencentAK == "发生错误") ? "" : tencentAK;
-			         var tencentSK = IniHelper.GetValue("Translate_Tencent", "SecretKey");
-			         textBox_Tencent_SK.Text = (tencentSK == "发生错误") ? "" : tencentSK;
+			var tencentSource = IniHelper.GetValue("Translate_Tencent", "Source");
+			textBox_Tencent_Source.Text = (tencentSource == "发生错误") ? "auto" : tencentSource;
+			var tencentTarget = IniHelper.GetValue("Translate_Tencent", "Target");
+			textBox_Tencent_Target.Text = (tencentTarget == "发生错误") ? "自动判断" : tencentTarget;
+			var tencentAK = IniHelper.GetValue("Translate_Tencent", "SecretId");
+			textBox_Tencent_AK.Text = (tencentAK == "发生错误") ? "" : tencentAK;
+			var tencentSK = IniHelper.GetValue("Translate_Tencent", "SecretKey");
+			textBox_Tencent_SK.Text = (tencentSK == "发生错误") ? "" : tencentSK;
 
-			         var bingSource = IniHelper.GetValue("Translate_Bing", "Source");
-			         textBox_Bing_Source.Text = (bingSource == "发生错误") ? "auto" : bingSource;
-			         var bingTarget = IniHelper.GetValue("Translate_Bing", "Target");
-			         textBox_Bing_Target.Text = (bingTarget == "发生错误") ? "自动判断" : bingTarget;
+			var bingSource = IniHelper.GetValue("Translate_Bing", "Source");
+			textBox_Bing_Source.Text = (bingSource == "发生错误") ? "auto" : bingSource;
+			var bingTarget = IniHelper.GetValue("Translate_Bing", "Target");
+			textBox_Bing_Target.Text = (bingTarget == "发生错误") ? "自动判断" : bingTarget;
 			
-			         var bing2Source = IniHelper.GetValue("Translate_Bing2", "Source");
-			         textBox_Bing2_Source.Text = (bing2Source == "发生错误") ? "auto" : bing2Source;
-			         var bing2Target = IniHelper.GetValue("Translate_Bing2", "Target");
-			         textBox_Bing2_Target.Text = (bing2Target == "发生错误") ? "自动判断" : bing2Target;
+			var bing2Source = IniHelper.GetValue("Translate_Bing2", "Source");
+			textBox_Bing2_Source.Text = (bing2Source == "发生错误") ? "auto" : bing2Source;
+			var bing2Target = IniHelper.GetValue("Translate_Bing2", "Target");
+			textBox_Bing2_Target.Text = (bing2Target == "发生错误") ? "自动判断" : bing2Target;
 			
-			         var microsoftSource = IniHelper.GetValue("Translate_Microsoft", "Source");
-			         textBox_Microsoft_Source.Text = (microsoftSource == "发生错误") ? "auto" : microsoftSource;
-			         var microsoftTarget = IniHelper.GetValue("Translate_Microsoft", "Target");
-			         textBox_Microsoft_Target.Text = (microsoftTarget == "发生错误") ? "自动判断" : microsoftTarget;
+			var microsoftSource = IniHelper.GetValue("Translate_Microsoft", "Source");
+			textBox_Microsoft_Source.Text = (microsoftSource == "发生错误") ? "auto" : microsoftSource;
+			var microsoftTarget = IniHelper.GetValue("Translate_Microsoft", "Target");
+			textBox_Microsoft_Target.Text = (microsoftTarget == "发生错误") ? "自动判断" : microsoftTarget;
 
-			         var yandexSource = IniHelper.GetValue("Translate_Yandex", "Source");
-			         textBox_Yandex_Source.Text = (yandexSource == "发生错误") ? "auto" : yandexSource;
-			         var yandexTarget = IniHelper.GetValue("Translate_Yandex", "Target");
-			         textBox_Yandex_Target.Text = (yandexTarget == "发生错误") ? "自动判断" : yandexTarget;
+			var yandexSource = IniHelper.GetValue("Translate_Yandex", "Source");
+			textBox_Yandex_Source.Text = (yandexSource == "发生错误") ? "auto" : yandexSource;
+			var yandexTarget = IniHelper.GetValue("Translate_Yandex", "Target");
+			textBox_Yandex_Target.Text = (yandexTarget == "发生错误") ? "自动判断" : yandexTarget;
 			         
-			         // 腾讯交互翻译
-			         var tencentInteractiveSource = IniHelper.GetValue("Translate_TencentInteractive", "Source");
-			         textBox_TencentInteractive_Source.Text = (tencentInteractiveSource == "发生错误") ? "auto" : tencentInteractiveSource;
-			         var tencentInteractiveTarget = IniHelper.GetValue("Translate_TencentInteractive", "Target");
-			         textBox_TencentInteractive_Target.Text = (tencentInteractiveTarget == "发生错误") ? "自动判断" : tencentInteractiveTarget;
-			         
-			         // 彩云小译
-			         var caiyunSource = IniHelper.GetValue("Translate_Caiyun", "Source");
-			         textBox_Caiyun_Source.Text = (caiyunSource == "发生错误") ? "auto" : caiyunSource;
-			         var caiyunTarget = IniHelper.GetValue("Translate_Caiyun", "Target");
-			         textBox_Caiyun_Target.Text = (caiyunTarget == "发生错误") ? "自动判断" : caiyunTarget;
-			         
-			         // 火山翻译
-			         var volcanoSource = IniHelper.GetValue("Translate_Volcano", "Source");
-			         textBox_Volcano_Source.Text = (volcanoSource == "发生错误") ? "auto" : volcanoSource;
-			         var volcanoTarget = IniHelper.GetValue("Translate_Volcano", "Target");
-			         textBox_Volcano_Target.Text = (volcanoTarget == "发生错误") ? "自动判断" : volcanoTarget;
+			// 腾讯交互翻译
+			var tencentInteractiveSource = IniHelper.GetValue("Translate_TencentInteractive", "Source");
+			textBox_TencentInteractive_Source.Text = (tencentInteractiveSource == "发生错误") ? "auto" : tencentInteractiveSource;
+			var tencentInteractiveTarget = IniHelper.GetValue("Translate_TencentInteractive", "Target");
+			textBox_TencentInteractive_Target.Text = (tencentInteractiveTarget == "发生错误") ? "自动判断" : tencentInteractiveTarget;
+			 
+			// 彩云小译
+			var caiyunSource = IniHelper.GetValue("Translate_Caiyun", "Source");
+			textBox_Caiyun_Source.Text = (caiyunSource == "发生错误") ? "auto" : caiyunSource;
+			var caiyunTarget = IniHelper.GetValue("Translate_Caiyun", "Target");
+			textBox_Caiyun_Target.Text = (caiyunTarget == "发生错误") ? "自动判断" : caiyunTarget;
+			 
+			// 火山翻译
+			var volcanoSource = IniHelper.GetValue("Translate_Volcano", "Source");
+			textBox_Volcano_Source.Text = (volcanoSource == "发生错误") ? "auto" : volcanoSource;
+			var volcanoTarget = IniHelper.GetValue("Translate_Volcano", "Target");
+			textBox_Volcano_Target.Text = (volcanoTarget == "发生错误") ? "自动判断" : volcanoTarget;
 
-			        // 彩云小译2
-			        var caiyun2Source = IniHelper.GetValue("Translate_Caiyun2", "Source");
-			        textBox_Caiyun2_Source.Text = (caiyun2Source == "发生错误") ? "auto" : caiyun2Source;
-			        var caiyun2Target = IniHelper.GetValue("Translate_Caiyun2", "Target");
-			        textBox_Caiyun2_Target.Text = (caiyun2Target == "发生错误") ? "自动判断" : caiyun2Target;
-			        var caiyun2Token = IniHelper.GetValue("Translate_Caiyun2", "Token");
-			        textBox_Caiyun2_Token.Text = (caiyun2Token == "发生错误") ? "3975l6lr5pcbvidl6jl2" : caiyun2Token;
-			             }
+			// 彩云小译2
+			var caiyun2Source = IniHelper.GetValue("Translate_Caiyun2", "Source");
+			textBox_Caiyun2_Source.Text = (caiyun2Source == "发生错误") ? "auto" : caiyun2Source;
+			var caiyun2Target = IniHelper.GetValue("Translate_Caiyun2", "Target");
+			textBox_Caiyun2_Target.Text = (caiyun2Target == "发生错误") ? "自动判断" : caiyun2Target;
+			var caiyun2Token = IniHelper.GetValue("Translate_Caiyun2", "Token");
+			textBox_Caiyun2_Token.Text = (caiyun2Token == "发生错误") ? "3975l6lr5pcbvidl6jl2" : caiyun2Token;
+		}
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
@@ -480,59 +480,57 @@ namespace TrOCR
 			var array6 = new int[4];
 			array6[0] = 1;
 			numericUpDown6.Value = new decimal(array6);
-			        comboBox_Baidu_Language.Items.AddRange(BaiduOcrHelper.GetStandardLanguages().Values.ToArray());
-			        comboBox_Baidu_Accurate_Language.Items.AddRange(BaiduOcrHelper.GetAccurateLanguages().Values.ToArray());
-			                comboBox_Tencent_Accurate_Language.Items.AddRange(TencentOcrHelper.GetAccurateLanguages().Values.ToArray());
-			        comboBox_Tencent_Language.Items.AddRange(TencentOcrHelper.GetStandardLanguages().Values.ToArray());
+			comboBox_Baidu_Language.Items.AddRange(BaiduOcrHelper.GetStandardLanguages().Values.ToArray());
+			comboBox_Baidu_Accurate_Language.Items.AddRange(BaiduOcrHelper.GetAccurateLanguages().Values.ToArray());
+			comboBox_Tencent_Accurate_Language.Items.AddRange(TencentOcrHelper.GetAccurateLanguages().Values.ToArray());
+			comboBox_Tencent_Language.Items.AddRange(TencentOcrHelper.GetStandardLanguages().Values.ToArray());
 
-			        // 为标准版添加重置按钮
-			        Button btnResetBaiduLang = new Button();
-			        btnResetBaiduLang.Name = "btnResetBaiduLang";
-			        btnResetBaiduLang.Text = "重置";
-			        btnResetBaiduLang.Size = new Size(50, 23);
-			        btnResetBaiduLang.Location = new Point(comboBox_Baidu_Language.Right + 6, comboBox_Baidu_Language.Top - 2);
-			        btnResetBaiduLang.Click += (s, ev) => { comboBox_Baidu_Language.SelectedItem = "中英文混合"; };
-			        inPage_百度接口.Controls.Add(btnResetBaiduLang);
+			// 为百度标准版添加重置按钮
+			Button btnResetBaiduLang = new Button();
+			btnResetBaiduLang.Name = "btnResetBaiduLang";
+			btnResetBaiduLang.Text = "重置";
+			btnResetBaiduLang.Size = new Size(50, 23);
+			btnResetBaiduLang.Location = new Point(comboBox_Baidu_Language.Right + 6, comboBox_Baidu_Language.Top - 2);
+			btnResetBaiduLang.Click += (s, ev) => { comboBox_Baidu_Language.SelectedItem = "中英文混合"; };
+			inPage_百度接口.Controls.Add(btnResetBaiduLang);
+			// 为百度高精度版添加重置按钮
+			Button btnResetBaiduAccurateLang = new Button();
+			btnResetBaiduAccurateLang.Name = "btnResetBaiduAccurateLang";
+			btnResetBaiduAccurateLang.Text = "重置";
+			btnResetBaiduAccurateLang.Size = new Size(50, 23);
+			btnResetBaiduAccurateLang.Location = new Point(comboBox_Baidu_Accurate_Language.Right + 6, comboBox_Baidu_Accurate_Language.Top - 2);
+			btnResetBaiduAccurateLang.Click += (s, ev) => { comboBox_Baidu_Accurate_Language.SelectedItem = "中英文混合"; };
+			inPage_百度高精度接口.Controls.Add(btnResetBaiduAccurateLang);
 
-			        // 为高精度版添加重置按钮
-			        Button btnResetBaiduAccurateLang = new Button();
-			        btnResetBaiduAccurateLang.Name = "btnResetBaiduAccurateLang";
-			        btnResetBaiduAccurateLang.Text = "重置";
-			        btnResetBaiduAccurateLang.Size = new Size(50, 23);
-			        btnResetBaiduAccurateLang.Location = new Point(comboBox_Baidu_Accurate_Language.Right + 6, comboBox_Baidu_Accurate_Language.Top - 2);
-			        btnResetBaiduAccurateLang.Click += (s, ev) => { comboBox_Baidu_Accurate_Language.SelectedItem = "中英文混合"; };
-			        inPage_百度高精度接口.Controls.Add(btnResetBaiduAccurateLang);
+			// 为腾讯高精度版添加重置按钮
+			Button btnResetTencentAccurateLang = new Button();
+			btnResetTencentAccurateLang.Name = "btnResetTencentAccurateLang";
+			btnResetTencentAccurateLang.Text = "重置";
+			btnResetTencentAccurateLang.Size = new Size(50, 23);
+			btnResetTencentAccurateLang.Location = new Point(comboBox_Tencent_Accurate_Language.Right + 6, comboBox_Tencent_Accurate_Language.Top - 2);
+			btnResetTencentAccurateLang.Click += (s, ev) => { comboBox_Tencent_Accurate_Language.SelectedItem = "自动检测"; };
+			inPage腾讯高精度接口.Controls.Add(btnResetTencentAccurateLang);
+			// 为腾讯标准版添加重置按钮
+			Button btnResetTencentLang = new Button();
+			btnResetTencentLang.Name = "btnResetTencentLang";
+			btnResetTencentLang.Text = "重置";
+			btnResetTencentLang.Size = new Size(50, 23);
+			btnResetTencentLang.Location = new Point(comboBox_Tencent_Language.Right + 6, comboBox_Tencent_Language.Top - 2);
+			btnResetTencentLang.Click += (s, ev) => { comboBox_Tencent_Language.SelectedItem = "中英文混合"; };
+			inPage腾讯接口.Controls.Add(btnResetTencentLang);
 
-			                // 为腾讯高精度版添加重置按钮
-			                Button btnResetTencentAccurateLang = new Button();
-			                btnResetTencentAccurateLang.Name = "btnResetTencentAccurateLang";
-			                btnResetTencentAccurateLang.Text = "重置";
-			                btnResetTencentAccurateLang.Size = new Size(50, 23);
-			                btnResetTencentAccurateLang.Location = new Point(comboBox_Tencent_Accurate_Language.Right + 6, comboBox_Tencent_Accurate_Language.Top - 2);
-			                btnResetTencentAccurateLang.Click += (s, ev) => { comboBox_Tencent_Accurate_Language.SelectedItem = "自动检测"; };
-			                inPage腾讯高精度接口.Controls.Add(btnResetTencentAccurateLang);
-
-			                // 为腾讯标准版添加重置按钮
-			                Button btnResetTencentLang = new Button();
-			                btnResetTencentLang.Name = "btnResetTencentLang";
-			                btnResetTencentLang.Text = "重置";
-			                btnResetTencentLang.Size = new Size(50, 23);
-			                btnResetTencentLang.Location = new Point(comboBox_Tencent_Language.Right + 6, comboBox_Tencent_Language.Top - 2);
-			                btnResetTencentLang.Click += (s, ev) => { comboBox_Tencent_Language.SelectedItem = "中英文混合"; };
-			                inPage腾讯接口.Controls.Add(btnResetTencentLang);
-
-			        readIniFile();
-			        // 使用程序集的实际版本号，而不是写死的值
+			readIniFile();
+			// 使用程序集的实际版本号，而不是写死的值
 			label_VersionInfo.Text = "版本号：" + System.Windows.Forms.Application.ProductVersion;
 			label_AuthorInfo.Text = "作者：topkill";
 			chbox_代理服务器.CheckedChanged += chbox_代理服务器_CheckedChanged;
 			更新Button_check.Click += 更新Button_check_Click;
 
-			         StoreOriginalLocations(this);
-			         tab_标签.SelectedIndexChanged += AdjustPageSize;
-			         tabControl2.SelectedIndexChanged += AdjustPageSize;
-			         tabControl_Trans.SelectedIndexChanged += AdjustPageSize;
-			         AdjustPageSize(tab_标签, EventArgs.Empty);
+			StoreOriginalLocations(this);
+			tab_标签.SelectedIndexChanged += AdjustPageSize;
+			tabControl2.SelectedIndexChanged += AdjustPageSize;
+			tabControl_Trans.SelectedIndexChanged += AdjustPageSize;
+			AdjustPageSize(tab_标签, EventArgs.Empty);
 		}
 
 		private void 百度申请_Click(object sender, EventArgs e)
@@ -643,7 +641,7 @@ namespace TrOCR
 				// 恢复百度OCR默认密钥
 				text_baiduaccount.Text = "YsZKG1wha34PlDOPYaIrIIKO";
 				text_baidupassword.Text = "HPRZtdOHrdnnETVsZM2Nx7vbDkMfxrkD";
-				           comboBox_Baidu_Language.SelectedItem = "中英文混合";
+				comboBox_Baidu_Language.SelectedItem = "中英文混合";
 			}
 				       else if (tabControl2.SelectedTab == inPage_百度高精度接口)
 				       {
@@ -761,11 +759,11 @@ namespace TrOCR
 					{
 						IniHelper.SetValue("快捷键", "识别界面", txtBox_识别界面.Text);
 					}
-						              if (textBox.Name.Contains("输入翻译"))
-						              {
-						                  IniHelper.SetValue("快捷键", "输入翻译", txtBox_输入翻译.Text);
-						              }
-						          }
+					if (textBox.Name.Contains("输入翻译"))
+					{
+						IniHelper.SetValue("快捷键", "输入翻译", txtBox_输入翻译.Text);
+					}
+				}
 			}
 		}
 
@@ -1124,15 +1122,15 @@ namespace TrOCR
 			IniHelper.SetValue("快捷键", "输入翻译", txtBox_输入翻译.Text);
 			IniHelper.SetValue("密钥_百度", "secret_id", text_baiduaccount.Text);
 			IniHelper.SetValue("密钥_百度", "secret_key", text_baidupassword.Text);
-			        var selectedLang = comboBox_Baidu_Language.SelectedItem?.ToString();
-			        var langCode = BaiduOcrHelper.GetStandardLanguages().FirstOrDefault(x => x.Value == selectedLang).Key;
-			        IniHelper.SetValue("密钥_百度", "language_code", langCode ?? "auto_detect");
+			var selectedLang = comboBox_Baidu_Language.SelectedItem?.ToString();
+			var langCode = BaiduOcrHelper.GetStandardLanguages().FirstOrDefault(x => x.Value == selectedLang).Key;
+			IniHelper.SetValue("密钥_百度", "language_code", langCode ?? "auto_detect");
 
-			        IniHelper.SetValue("密钥_百度高精度", "secret_id", text_baidu_accurate_apikey.Text);
-			        IniHelper.SetValue("密钥_百度高精度", "secret_key", text_baidu_accurate_secretkey.Text);
-			        var selectedAccurateLang = comboBox_Baidu_Accurate_Language.SelectedItem?.ToString();
-			        var accurateLangCode = BaiduOcrHelper.GetAccurateLanguages().FirstOrDefault(x => x.Value == selectedAccurateLang).Key;
-			        IniHelper.SetValue("密钥_百度高精度", "language_code", accurateLangCode ?? "auto_detect");
+			IniHelper.SetValue("密钥_百度高精度", "secret_id", text_baidu_accurate_apikey.Text);
+			IniHelper.SetValue("密钥_百度高精度", "secret_key", text_baidu_accurate_secretkey.Text);
+			var selectedAccurateLang = comboBox_Baidu_Accurate_Language.SelectedItem?.ToString();
+			var accurateLangCode = BaiduOcrHelper.GetAccurateLanguages().FirstOrDefault(x => x.Value == selectedAccurateLang).Key;
+			IniHelper.SetValue("密钥_百度高精度", "language_code", accurateLangCode ?? "auto_detect");
 
 			IniHelper.SetValue("密钥_腾讯", "secret_id", BoxTencentId.Text);
 			IniHelper.SetValue("密钥_腾讯", "secret_key", BoxTencentKey.Text);
@@ -1140,11 +1138,11 @@ namespace TrOCR
 			var tencentLangCode = TencentOcrHelper.GetStandardLanguages().FirstOrDefault(x => x.Value == selectedTencentLang).Key;
 			IniHelper.SetValue("密钥_腾讯", "language_code", tencentLangCode ?? "zh");
 
-			        IniHelper.SetValue("密钥_腾讯高精度", "secret_id", text_tencent_accurate_secretid.Text);
-			        IniHelper.SetValue("密钥_腾讯高精度", "secret_key", text_tencent_accurate_secretkey.Text);
-			        var selectedTencentAccurateLang = comboBox_Tencent_Accurate_Language.SelectedItem?.ToString();
-			        var tencentAccurateLangCode = TencentOcrHelper.GetAccurateLanguages().FirstOrDefault(x => x.Value == selectedTencentAccurateLang).Key;
-			        IniHelper.SetValue("密钥_腾讯高精度", "language_code", tencentAccurateLangCode ?? "auto");
+			IniHelper.SetValue("密钥_腾讯高精度", "secret_id", text_tencent_accurate_secretid.Text);
+			IniHelper.SetValue("密钥_腾讯高精度", "secret_key", text_tencent_accurate_secretkey.Text);
+			var selectedTencentAccurateLang = comboBox_Tencent_Accurate_Language.SelectedItem?.ToString();
+			var tencentAccurateLangCode = TencentOcrHelper.GetAccurateLanguages().FirstOrDefault(x => x.Value == selectedTencentAccurateLang).Key;
+			IniHelper.SetValue("密钥_腾讯高精度", "language_code", tencentAccurateLangCode ?? "auto");
 
 			IniHelper.SetValue("密钥_白描", "username", BoxBaimiaoUsername.Text);
 			IniHelper.SetValue("密钥_白描", "password", BoxBaimiaoPassword.Text);
@@ -1168,49 +1166,49 @@ namespace TrOCR
 			{
 				IniHelper.SetValue("取色器", "类型", "HEX");
 			}
-			         IniHelper.SetValue("Translate_Google", "Source", textBox_Google_Source.Text);
-			         IniHelper.SetValue("Translate_Google", "Target", textBox_Google_Target.Text);
+			IniHelper.SetValue("Translate_Google", "Source", textBox_Google_Source.Text);
+			IniHelper.SetValue("Translate_Google", "Target", textBox_Google_Target.Text);
 			         
-			         IniHelper.SetValue("Translate_Baidu", "Source", textBox_Baidu_Source.Text);
-			         IniHelper.SetValue("Translate_Baidu", "Target", textBox_Baidu_Target.Text);
-			         IniHelper.SetValue("Translate_Baidu", "APP_ID", textBox_Baidu_AK.Text);
-			         IniHelper.SetValue("Translate_Baidu", "APP_KEY", textBox_Baidu_SK.Text);
+			IniHelper.SetValue("Translate_Baidu", "Source", textBox_Baidu_Source.Text);
+			IniHelper.SetValue("Translate_Baidu", "Target", textBox_Baidu_Target.Text);
+			IniHelper.SetValue("Translate_Baidu", "APP_ID", textBox_Baidu_AK.Text);
+			IniHelper.SetValue("Translate_Baidu", "APP_KEY", textBox_Baidu_SK.Text);
 	
-			         IniHelper.SetValue("Translate_Tencent", "Source", textBox_Tencent_Source.Text);
-			         IniHelper.SetValue("Translate_Tencent", "Target", textBox_Tencent_Target.Text);
-			         IniHelper.SetValue("Translate_Tencent", "SecretId", textBox_Tencent_AK.Text);
-			         IniHelper.SetValue("Translate_Tencent", "SecretKey", textBox_Tencent_SK.Text);
+			IniHelper.SetValue("Translate_Tencent", "Source", textBox_Tencent_Source.Text);
+			IniHelper.SetValue("Translate_Tencent", "Target", textBox_Tencent_Target.Text);
+			IniHelper.SetValue("Translate_Tencent", "SecretId", textBox_Tencent_AK.Text);
+			IniHelper.SetValue("Translate_Tencent", "SecretKey", textBox_Tencent_SK.Text);
 
-			         IniHelper.SetValue("Translate_Bing", "Source", textBox_Bing_Source.Text);
-			         IniHelper.SetValue("Translate_Bing", "Target", textBox_Bing_Target.Text);
+			IniHelper.SetValue("Translate_Bing", "Source", textBox_Bing_Source.Text);
+			IniHelper.SetValue("Translate_Bing", "Target", textBox_Bing_Target.Text);
 			
-			         IniHelper.SetValue("Translate_Bing2", "Source", textBox_Bing2_Source.Text);
-			         IniHelper.SetValue("Translate_Bing2", "Target", textBox_Bing2_Target.Text);
+			IniHelper.SetValue("Translate_Bing2", "Source", textBox_Bing2_Source.Text);
+			IniHelper.SetValue("Translate_Bing2", "Target", textBox_Bing2_Target.Text);
 			
-			         IniHelper.SetValue("Translate_Microsoft", "Source", textBox_Microsoft_Source.Text);
-			         IniHelper.SetValue("Translate_Microsoft", "Target", textBox_Microsoft_Target.Text);
+			IniHelper.SetValue("Translate_Microsoft", "Source", textBox_Microsoft_Source.Text);
+			IniHelper.SetValue("Translate_Microsoft", "Target", textBox_Microsoft_Target.Text);
 
-			         IniHelper.SetValue("Translate_Yandex", "Source", textBox_Yandex_Source.Text);
-			         IniHelper.SetValue("Translate_Yandex", "Target", textBox_Yandex_Target.Text);
+			IniHelper.SetValue("Translate_Yandex", "Source", textBox_Yandex_Source.Text);
+			IniHelper.SetValue("Translate_Yandex", "Target", textBox_Yandex_Target.Text);
 			         
-			         // 腾讯交互翻译
-			         IniHelper.SetValue("Translate_TencentInteractive", "Source", textBox_TencentInteractive_Source.Text);
-			         IniHelper.SetValue("Translate_TencentInteractive", "Target", textBox_TencentInteractive_Target.Text);
+			// 腾讯交互翻译
+			IniHelper.SetValue("Translate_TencentInteractive", "Source", textBox_TencentInteractive_Source.Text);
+			IniHelper.SetValue("Translate_TencentInteractive", "Target", textBox_TencentInteractive_Target.Text);
 			         
-			         // 彩云小译
-			         IniHelper.SetValue("Translate_Caiyun", "Source", textBox_Caiyun_Source.Text);
-			         IniHelper.SetValue("Translate_Caiyun", "Target", textBox_Caiyun_Target.Text);
+			// 彩云小译
+			IniHelper.SetValue("Translate_Caiyun", "Source", textBox_Caiyun_Source.Text);
+			IniHelper.SetValue("Translate_Caiyun", "Target", textBox_Caiyun_Target.Text);
 			         
-			         // 火山翻译
-			         IniHelper.SetValue("Translate_Volcano", "Source", textBox_Volcano_Source.Text);
-			         IniHelper.SetValue("Translate_Volcano", "Target", textBox_Volcano_Target.Text);
+			// 火山翻译
+			IniHelper.SetValue("Translate_Volcano", "Source", textBox_Volcano_Source.Text);
+			IniHelper.SetValue("Translate_Volcano", "Target", textBox_Volcano_Target.Text);
 
-			        // 彩云小译2
-			        IniHelper.SetValue("Translate_Caiyun2", "Source", textBox_Caiyun2_Source.Text);
-			        IniHelper.SetValue("Translate_Caiyun2", "Target", textBox_Caiyun2_Target.Text);
-			        IniHelper.SetValue("Translate_Caiyun2", "Token", textBox_Caiyun2_Token.Text);
+			// 彩云小译2
+			IniHelper.SetValue("Translate_Caiyun2", "Source", textBox_Caiyun2_Source.Text);
+			IniHelper.SetValue("Translate_Caiyun2", "Target", textBox_Caiyun2_Target.Text);
+			IniHelper.SetValue("Translate_Caiyun2", "Token", textBox_Caiyun2_Token.Text);
 
-			         DialogResult = DialogResult.OK;
+			DialogResult = DialogResult.OK;
 		}
 
 		public static void AutoStart(bool isAuto)

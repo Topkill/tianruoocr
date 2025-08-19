@@ -35,10 +35,17 @@ using TencentCloud.Tmt.V20180321.Models;
 
 namespace TrOCR
 {
-
 	public sealed partial class FmMain
 	{
-
+// ====================================================================================================================
+		// **构造函数与窗体事件**
+		//
+		// 负责窗体的初始化、加载、关闭以及核心窗口消息处理（WndProc）。
+		// - FmMain(): 初始化组件、设置初始状态、加载配置、注册剪贴板查看器和热键。
+		// - Load_Click(): 处理窗体加载事件，最小化并隐藏窗体。
+		// - WndProc(): 窗口过程函数，用于处理系统消息，如热键、剪贴板变化、窗口状态改变等。
+		// ====================================================================================================================
+		#region 构造函数与窗体事件
 		public FmMain()
 		{
 			set_merge = false;
@@ -327,7 +334,17 @@ namespace TrOCR
 			Location = (Point)new Size(Screen.PrimaryScreen.Bounds.Width / 2 - Screen.PrimaryScreen.Bounds.Width / 10, Screen.PrimaryScreen.Bounds.Height / 2 - Screen.PrimaryScreen.Bounds.Height / 6);
 			Size = new Size((int)font_base.Width * 23, (int)font_base.Height * 24);
 		}
-
+		#endregion
+// ====================================================================================================================
+		// **托盘菜单事件**
+		//
+		// 管理系统托盘图标的右键菜单及其事件处理。
+		// - InitMinimize(): 初始化托盘菜单，添加“输入翻译”、“显示”、“设置”、“更新”、“帮助”和“退出”等菜单项。
+		// - trayInputTranslateClick(): 处理“输入翻译”菜单项的点击事件，重置并显示翻译窗口。
+		// - trayShowClick(): 处理“显示”菜单项的点击事件，显示主窗口。
+		// - trayExitClick(): 处理“退出”菜单项的点击事件，保存配置、释放资源并终止应用程序。
+		// ====================================================================================================================
+		#region 托盘菜单事件
 		public void InitMinimize()
 		{
 			try
@@ -407,7 +424,16 @@ namespace TrOCR
 			OcrHelper.Dispose();
 			Process.GetCurrentProcess().Kill();
 		}
-
+		#endregion
+// ====================================================================================================================
+		// **主菜单事件**
+		//
+		// 处理主文本框（RichBoxBody）的右键上下文菜单事件。
+		// - MainCopyClick(): 实现“复制”功能。
+		// - Main_SelectAll_Click(): 实现“全选”功能。
+		// - Main_paste_Click(): 实现“粘贴”功能。
+		// ====================================================================================================================
+		#region 主菜单事件
 		private void MainCopyClick(object sender, EventArgs e)
 		{
 			RichBoxBody.Focus();
@@ -425,7 +451,18 @@ namespace TrOCR
 			RichBoxBody.Focus();
 			RichBoxBody.richTextBox1.Paste();
 		}
-
+		#endregion
+// ====================================================================================================================
+		// **OCR 引擎调用**
+		//
+		// 包含调用不同 OCR 服务（腾讯、微信、白描、百度等）的实现方法。
+		// - OCR_Tencent(): 调用腾讯云 OCR API（通用版与高精度版）进行文字识别。
+		// - OCR_WeChat(): 调用微信 OCR API 进行文字识别。
+		// - OCR_Baimiao(): 调用白描 OCR API 进行文字识别。
+		// - OCR_baidu(), OCR_baidu_accurate(): 调用百度标准版和高精度版OCR API。
+		// - OCR_youdao(): 调用有道 OCR API 进行文字识别。
+		// ====================================================================================================================
+		#region OCR 引擎实现
 		public void OCR_Tencent()
 		{
 			Image imageToProcess = image_screen;
@@ -623,7 +660,150 @@ namespace TrOCR
 				}
 			}
 		}
+		public void OCR_baidu()
+		{
+			split_txt = "";
+			try
+			{
+		              // 从 StaticValue 读取语言类型
+		              string languageType = StaticValue.BD_LANGUAGE;
 
+		  var imageBytes = OcrHelper.ImgToBytes(image_screen);
+		  // 调用已重构的、无密钥参数的方法
+		  var result = BaiduOcrHelper.GeneralBasic(imageBytes, languageType);
+
+		  if (!string.IsNullOrEmpty(result))
+		  {
+					if (result.StartsWith("***") || result.Contains("错误") || result.Contains("失败"))
+					{
+						// 错误信息直接显示
+						if (esc != "退出")
+						{
+							RichBoxBody.Text = result;
+						}
+						else
+						{
+							RichBoxBody.Text = "***该区域未发现文本***";
+							esc = "";
+						}
+					}
+					else
+					{
+						// 处理识别结果
+						ProcessOcrResult(result);
+					}
+				}
+				else
+				{
+					RichBoxBody.Text = "***百度OCR识别失败***";
+				}
+			}
+			catch (Exception ex)
+			{
+				if (esc != "退出")
+				{
+					RichBoxBody.Text = "***该区域未发现文本或者密钥次数用尽***";
+				}
+				else
+				{
+					RichBoxBody.Text = "***该区域未发现文本***";
+					esc = "";
+				}
+			}
+		}
+
+		/// <summary>
+		/// 百度OCR高精度版
+		/// </summary>
+		public void OCR_baidu_accurate()
+		{
+			split_txt = "";
+			try
+			{
+		              // 从 StaticValue 读取高精度版设置
+		              string languageType = StaticValue.BD_ACCURATE_LANGUAGE;
+
+		  var imageBytes = OcrHelper.ImgToBytes(image_screen);
+		  // 调用已重构的、无密钥参数的方法
+		  var result = BaiduOcrHelper.AccurateBasic(imageBytes, languageType);
+
+		  if (!string.IsNullOrEmpty(result))
+		  {
+					if (result.StartsWith("***") || result.Contains("错误") || result.Contains("失败"))
+					{
+						// 错误信息直接显示
+						if (esc != "退出")
+						{
+							RichBoxBody.Text = result;
+						}
+						else
+						{
+							RichBoxBody.Text = "***该区域未发现文本***";
+							esc = "";
+						}
+					}
+					else
+					{
+						// 处理识别结果
+						ProcessOcrResult(result);
+					}
+				}
+				else
+				{
+					RichBoxBody.Text = "***百度高精度OCR识别失败***";
+				}
+			}
+			catch (Exception ex)
+			{
+				if (esc != "退出")
+				{
+					RichBoxBody.Text = "***该区域未发现文本或者密钥次数用尽***";
+				}
+				else
+				{
+					RichBoxBody.Text = "***该区域未发现文本***";
+					esc = "";
+				}
+			}
+		}
+
+
+		/// <summary>
+		/// 处理OCR识别结果
+		/// </summary>
+		private void ProcessOcrResult(string result)
+		{
+			// 将纯文本结果转换为之前的格式进行处理
+			var lines = result.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+			var jArray = new JArray();
+			foreach (var line in lines)
+			{
+				if (!string.IsNullOrWhiteSpace(line))
+				{
+					var jObject = new JObject();
+					jObject["words"] = line;
+					jArray.Add(jObject);
+				}
+			}
+			
+			if (jArray.Count > 0)
+			{
+				checked_txt(jArray, 1, "words");
+			}
+			else
+			{
+				split_txt = "";
+				typeset_txt = "";
+			}
+		}
+		#endregion
+// ====================================================================================================================
+		// **OCR 接口切换 (事件)**
+		//
+		// 包含用户在界面上选择不同 OCR 引擎的事件处理程序。
+		// 每个事件处理程序通过调用 OCR_foreach(string name) 方法来更新当前使用的 OCR 接口。
+		// ====================================================================================================================
+		#region OCR 接口切换 (事件)
 		private void OCR_sougou_Click(object sender, EventArgs e)
 		{
 			OCR_foreach("搜狗");
@@ -747,11 +927,20 @@ namespace TrOCR
 			OCR_foreach("白描");
 		}
 
-			     private void OCR_baidu_accurate_Click(object sender, EventArgs e)
-			     {
-			         OCR_foreach("百度-高精度");
-			     }
-
+		private void OCR_baidu_accurate_Click(object sender, EventArgs e)
+		{
+			OCR_foreach("百度-高精度");
+		}
+		#endregion
+// ====================================================================================================================
+		// **文本操作与格式化**
+		//
+		// 提供中英文标点符号转换等文本处理功能。
+		// - change_Chinese_Click(): 将文本中的英文标点符号转换为中文标点。
+		// - change_English_Click(): 将文本中的中文标点符号转换为英文标点。
+		// - punctuation_ch_en(): 具体的中文转英文标点实现。
+		// ====================================================================================================================
+		#region 文本操作与格式化
 		public void change_Chinese_Click(object sender, EventArgs e)
 		{
 			language = "中文标点";
@@ -784,7 +973,17 @@ namespace TrOCR
 			}
 			return new string(array);
 		}
-
+		#endregion
+// ====================================================================================================================
+		// **配置文件与初始化**
+		//
+		// 负责加载和保存应用程序的配置信息（config.ini）。
+		// - saveIniFile(): 保存当前配置到 ini 文件。
+		// - LoadTranslateConfig(): 从 ini 文件加载所有翻译服务的配置（源语言、目标语言、密钥等）。
+		// - InitConfig(): 在程序启动时初始化所有配置，包括 OCR 接口、翻译接口、热键和各 API 密钥。
+		// - tray_Set_Click(): 处理托盘菜单中的“设置”点击事件，打开设置窗口并重新加载所有配置。
+		// ====================================================================================================================
+		#region 配置文件与初始化
 		public void saveIniFile()
 		{
 			IniHelper.SetValue("配置", "接口", interface_flag);
@@ -900,11 +1099,11 @@ namespace TrOCR
 			{
 				StaticValue.BD_API_KEY = "";
 			}
-				        StaticValue.BD_LANGUAGE = IniHelper.GetValue("密钥_百度", "language_code");
-				        if (StaticValue.BD_LANGUAGE == "发生错误")
-				        {
-				            StaticValue.BD_LANGUAGE = "CHN_ENG";
-				        }
+			StaticValue.BD_LANGUAGE = IniHelper.GetValue("密钥_百度", "language_code");
+			if (StaticValue.BD_LANGUAGE == "发生错误")
+			{
+				StaticValue.BD_LANGUAGE = "CHN_ENG";
+			}
 
 			StaticValue.TX_API_ID = IniHelper.GetValue("密钥_腾讯", "secret_id");
 			if (StaticValue.TX_API_ID == "发生错误")
@@ -916,11 +1115,11 @@ namespace TrOCR
 			{
 				StaticValue.TX_API_KEY = "";
 			}
-				        StaticValue.TX_LANGUAGE = IniHelper.GetValue("密钥_腾讯", "language_code");
-				        if (StaticValue.TX_LANGUAGE == "发生错误")
-				        {
-				            StaticValue.TX_LANGUAGE = "zh";
-				        }
+			StaticValue.TX_LANGUAGE = IniHelper.GetValue("密钥_腾讯", "language_code");
+			if (StaticValue.TX_LANGUAGE == "发生错误")
+			{
+				StaticValue.TX_LANGUAGE = "zh";
+			}
 
 			StaticValue.TX_ACCURATE_API_ID = IniHelper.GetValue("密钥_腾讯高精度", "secret_id");
 			if (StaticValue.TX_ACCURATE_API_ID == "发生错误")
@@ -938,21 +1137,21 @@ namespace TrOCR
 				StaticValue.TX_ACCURATE_LANGUAGE = "auto";
 			}
 
-			         StaticValue.BD_ACCURATE_API_ID = IniHelper.GetValue("密钥_百度高精度", "secret_id");
-			         if (StaticValue.BD_ACCURATE_API_ID == "发生错误")
-			         {
-			             StaticValue.BD_ACCURATE_API_ID = "";
-			         }
-			         StaticValue.BD_ACCURATE_API_KEY = IniHelper.GetValue("密钥_百度高精度", "secret_key");
-			         if (StaticValue.BD_ACCURATE_API_KEY == "发生错误")
-			         {
-			             StaticValue.BD_ACCURATE_API_KEY = "";
-			         }
-			         StaticValue.BD_ACCURATE_LANGUAGE = IniHelper.GetValue("密钥_百度高精度", "language_code");
-			         if (StaticValue.BD_ACCURATE_LANGUAGE == "发生错误")
-			         {
-			             StaticValue.BD_ACCURATE_LANGUAGE = "CHN_ENG";
-			         }
+			StaticValue.BD_ACCURATE_API_ID = IniHelper.GetValue("密钥_百度高精度", "secret_id");
+			if (StaticValue.BD_ACCURATE_API_ID == "发生错误")
+			 {
+			    StaticValue.BD_ACCURATE_API_ID = "";
+			 }
+			StaticValue.BD_ACCURATE_API_KEY = IniHelper.GetValue("密钥_百度高精度", "secret_key");
+			if (StaticValue.BD_ACCURATE_API_KEY == "发生错误")
+			{
+			    StaticValue.BD_ACCURATE_API_KEY = "";
+			}
+			StaticValue.BD_ACCURATE_LANGUAGE = IniHelper.GetValue("密钥_百度高精度", "language_code");
+			if (StaticValue.BD_ACCURATE_LANGUAGE == "发生错误")
+			{
+			    StaticValue.BD_ACCURATE_LANGUAGE = "CHN_ENG";
+			}
 	
 			// --- 加载白描OCR凭据 ---
 			StaticValue.BaimiaoUsername = IniHelper.GetValue("密钥_白描", "username");
@@ -1013,6 +1212,12 @@ namespace TrOCR
 			fmSetting.ShowDialog();
 			if (fmSetting.DialogResult == DialogResult.OK)
 			{
+				// 在重新加载配置前，保存旧的百度密钥
+				string oldBaiduApiId = StaticValue.BD_API_ID;
+				string oldBaiduApiKey = StaticValue.BD_API_KEY;
+				string oldBaiduAccurateApiId = StaticValue.BD_ACCURATE_API_ID;
+				string oldBaiduAccurateApiKey = StaticValue.BD_ACCURATE_API_KEY;
+
 				var filePath = AppDomain.CurrentDomain.BaseDirectory + "Data\\config.ini";
 				StaticValue.NoteCount = Convert.ToInt32(HelpWin32.IniFileHelper.GetValue("配置", "记录数目", filePath));
 				pubnote = new string[StaticValue.NoteCount];
@@ -1068,14 +1273,19 @@ namespace TrOCR
 				if (StaticValue.BD_API_KEY == "发生错误")
 				{
 					StaticValue.BD_API_KEY = "";
-					}
-					            StaticValue.BD_LANGUAGE = IniHelper.GetValue("密钥_百度", "language_code");
-					            if (StaticValue.BD_LANGUAGE == "发生错误")
-					            {
-					                StaticValue.BD_LANGUAGE = "CHN_ENG";
-					            }
+				}
+				// 如果百度标准版密钥发生变化，清除旧的Token缓存
+				if (StaticValue.BD_API_ID != oldBaiduApiId || StaticValue.BD_API_KEY != oldBaiduApiKey)
+				{
+					BaiduOcrHelper.ClearAccessTokenCache(false);
+				}
+				StaticValue.BD_LANGUAGE = IniHelper.GetValue("密钥_百度", "language_code");
+				if (StaticValue.BD_LANGUAGE == "发生错误")
+				{
+					StaticValue.BD_LANGUAGE = "CHN_ENG";
+				}
 	
-					StaticValue.TX_API_ID = IniHelper.GetValue("密钥_腾讯", "secret_id");
+				StaticValue.TX_API_ID = IniHelper.GetValue("密钥_腾讯", "secret_id");
 				if (StaticValue.TX_API_ID == "发生错误")
 				{
 					StaticValue.TX_API_ID = "";
@@ -1084,14 +1294,14 @@ namespace TrOCR
 				if (StaticValue.TX_API_KEY == "发生错误")
 				{
 					StaticValue.TX_API_KEY = "";
-					}
-					            StaticValue.TX_LANGUAGE = IniHelper.GetValue("密钥_腾讯", "language_code");
-					            if (StaticValue.TX_LANGUAGE == "发生错误")
-					            {
-					                StaticValue.TX_LANGUAGE = "zh";
-					            }
+				}
+				StaticValue.TX_LANGUAGE = IniHelper.GetValue("密钥_腾讯", "language_code");
+				if (StaticValue.TX_LANGUAGE == "发生错误")
+				{
+					StaticValue.TX_LANGUAGE = "zh";
+				}
 	
-					StaticValue.TX_ACCURATE_API_ID = IniHelper.GetValue("密钥_腾讯高精度", "secret_id");
+				StaticValue.TX_ACCURATE_API_ID = IniHelper.GetValue("密钥_腾讯高精度", "secret_id");
 				if (StaticValue.TX_ACCURATE_API_ID == "发生错误")
 				{
 					StaticValue.TX_ACCURATE_API_ID = "";
@@ -1107,21 +1317,26 @@ namespace TrOCR
 					StaticValue.TX_ACCURATE_LANGUAGE = "auto";
 				}
 
-				            StaticValue.BD_ACCURATE_API_ID = IniHelper.GetValue("密钥_百度高精度", "secret_id");
-				            if (StaticValue.BD_ACCURATE_API_ID == "发生错误")
-				            {
-				                StaticValue.BD_ACCURATE_API_ID = "";
-				            }
-				            StaticValue.BD_ACCURATE_API_KEY = IniHelper.GetValue("密钥_百度高精度", "secret_key");
-				            if (StaticValue.BD_ACCURATE_API_KEY == "发生错误")
-				            {
-				                StaticValue.BD_ACCURATE_API_KEY = "";
-				            }
-				            StaticValue.BD_ACCURATE_LANGUAGE = IniHelper.GetValue("密钥_百度高精度", "language_code");
-				            if (StaticValue.BD_ACCURATE_LANGUAGE == "发生错误")
-				            {
-				                StaticValue.BD_ACCURATE_LANGUAGE = "CHN_ENG";
-				            }
+				StaticValue.BD_ACCURATE_API_ID = IniHelper.GetValue("密钥_百度高精度", "secret_id");
+				if (StaticValue.BD_ACCURATE_API_ID == "发生错误")
+				{
+				    StaticValue.BD_ACCURATE_API_ID = "";
+				}
+				StaticValue.BD_ACCURATE_API_KEY = IniHelper.GetValue("密钥_百度高精度", "secret_key");
+				if (StaticValue.BD_ACCURATE_API_KEY == "发生错误")
+				{
+				    StaticValue.BD_ACCURATE_API_KEY = "";
+				}
+				// 如果百度高精度版密钥发生变化，清除旧的Token缓存
+				if (StaticValue.BD_ACCURATE_API_ID != oldBaiduAccurateApiId || StaticValue.BD_ACCURATE_API_KEY != oldBaiduAccurateApiKey)
+				{
+					BaiduOcrHelper.ClearAccessTokenCache(true);
+				}
+				StaticValue.BD_ACCURATE_LANGUAGE = IniHelper.GetValue("密钥_百度高精度", "language_code");
+				if (StaticValue.BD_ACCURATE_LANGUAGE == "发生错误")
+				{
+				    StaticValue.BD_ACCURATE_LANGUAGE = "CHN_ENG";
+				}
 	
 				// --- 重新加载白描OCR凭据 ---
 				string newBaimiaoUsername = IniHelper.GetValue("密钥_白描", "username");
@@ -1200,7 +1415,19 @@ namespace TrOCR
 		{
 			return Regex.IsMatch(str, "[\\u4e00-\\u9fa5]");
 		}
+#endregion
 
+// ====================================================================================================================
+		// **翻译功能**
+		//
+		// 实现了文本翻译的核心逻辑和界面交互。
+		// - TransClick(): 启动翻译模式的入口，调整窗口布局以显示原文和译文两个文本框。
+		// - Form_Resize(): 处理窗口大小变化事件，确保翻译界面布局正确。
+		// - Trans_copy_Click(), Trans_paste_Click(), Trans_SelectAll_Click(): 翻译文本框的右键菜单功能。
+		// - trans_Calculate(): 异步执行翻译的核心方法，根据当前选择的翻译服务和语言设置调用相应的翻译API。
+		// - Trans_close_Click(): 关闭翻译模式，恢复原始窗口布局。
+		// ====================================================================================================================
+#region 翻译功能
 		public void TransClick()
 		{
 			typeset_txt = RichBoxBody.Text;
@@ -1450,6 +1677,12 @@ namespace TrOCR
 			Size = new Size((int)font_base.Width * 23, (int)font_base.Height * 24);
 		}
 
+		private void translate_child()
+		{
+			RichBoxBody_T.Text = googleTranslate_txt;
+			googleTranslate_txt = "";
+		}
+
 		private void ShowLoading()
 		{
 			try
@@ -1517,17 +1750,22 @@ namespace TrOCR
 			text = text.TrimEnd(null).Replace(" **&&**", "").Replace("**&&** ", "").Replace("**&&**", "");
 			return text;
 		}
+#endregion
 
+// ====================================================================================================================
+		// **文本朗读 (TTS)**
+		//
+		// 实现了文本到语音的转换功能。
+		// - TTS(): 启动一个新的线程来处理 TTS 请求。
+		// - TTS_thread(): 在后台线程中获取要朗读的文本，检测语言，并从百度 TTS 服务下载音频数据。
+		// - TTS_child(): 在 UI 线程中播放下载的音频。
+		// ====================================================================================================================
+#region 文本朗读 (TTS)
 		public void TTS()
 		{
 			new Thread(TTS_thread).Start();
 		}
 
-		private void translate_child()
-		{
-			RichBoxBody_T.Text = googleTranslate_txt;
-			googleTranslate_txt = "";
-		}
 
 		public void TTS_thread()
 		{
@@ -1581,7 +1819,20 @@ namespace TrOCR
 				speaking = true;
 			}
 		}
-
+#endregion
+// ====================================================================================================================
+		// **截图与图像处理**
+		//
+		// 包含了屏幕截图、二维码扫描、图像处理和文件操作等辅助功能。
+		// - CreateParams: 设置窗口样式，启用无边框窗口特性。
+		// - ScanQRCode(): 扫描屏幕截图中的二维码并返回解码后的文本。
+		// - SearchSelText(): 使用默认浏览器搜索选中的文本。
+		// - tray_update_Click(): 检查应用程序更新。
+		// - contain_jap(), contain_kor(): 判断字符串是否包含日文或韩文字符。
+		// - ReFileName(), GetUniqueFileName(): 生成唯一的文件名以避免覆盖。
+		// - PlaySong(): 播放音频文件。
+		// ====================================================================================================================
+#region 截图与图像处理
 		protected override CreateParams CreateParams
 		{
 			get
@@ -1725,7 +1976,17 @@ namespace TrOCR
 			HelpWin32.mciSendString("open \"" + file + "\" type mpegvideo alias media", null, 0, IntPtr.Zero);
 			HelpWin32.mciSendString("play media notify", null, 0, Handle);
 		}
+#endregion
 
+// ====================================================================================================================
+		// **右键菜单 - 朗读事件**
+		//
+		// 处理原文和译文文本框中通过右键菜单触发的朗读功能。
+		// - Main_Voice_Click(): 获取原文框中选中的文本并触发朗读。
+		// - Trans_Voice_Click(): 获取译文框中选中的文本并触发朗读。
+		// - Speak_child(): 在 UI 线程中播放朗读音频。
+		// ====================================================================================================================
+#region 右键菜单 - 朗读事件
 		public void Main_Voice_Click(object sender, EventArgs e)
 		{
 			RichBoxBody.Focus();
@@ -1775,7 +2036,18 @@ namespace TrOCR
 			HelpWin32.LCMapString(2048, 67108864, source, source.Length, text, source.Length);
 			return text;
 		}
+#endregion
 
+// ====================================================================================================================
+		// **右键菜单 - 文本转换**
+		//
+		// 提供文本的大小写转换和简繁体转换功能。
+		// - change_zh_tra_Click(): 将文本转换为繁体。
+		// - change_tra_zh_Click(): 将文本转换为简体。
+		// - change_str_Upper_Click(): 将文本转换为大写。
+		// - change_Upper_str_Click(): 将文本转换为小写。
+		// ====================================================================================================================
+#region 右键菜单 - 文本转换
 		public void change_zh_tra_Click(object sender, EventArgs e)
 		{
 			if (RichBoxBody.Text != null)
@@ -1807,7 +2079,16 @@ namespace TrOCR
 				RichBoxBody.Text = RichBoxBody.Text.ToLower();
 			}
 		}
+#endregion
 
+// ====================================================================================================================
+		// **热键管理**
+		//
+		// 负责解析快捷键字符串并注册系统范围的全局热键。
+		// - SetHotkey(): 核心方法，调用 Win32 API (RegisterHotKey) 来注册一个全局热键，
+		//              允许用户在任何地方通过快捷键触发程序功能（如截图、翻译）。
+		// ====================================================================================================================
+#region 热键管理
 		public string[] hotkey(string text, string text2, string value)
 		{
 			var array = (value + "+").Split('+');
@@ -1852,6 +2133,15 @@ namespace TrOCR
 			}
 			HelpWin32.RegisterHotKey(Handle, flag, (HelpWin32.KeyModifiers)Enum.Parse(typeof(HelpWin32.KeyModifiers), array2[0].Trim()), (Keys)Enum.Parse(typeof(Keys), array2[1].Trim()));
 		}
+#endregion
+// ====================================================================================================================
+		// **辅助方法与工具**
+		//
+		// 包含一些通用的辅助方法，例如记录管理和剪贴板操作。
+		// - p_note(): 将新的识别结果添加到历史记录队列中。
+		// - GetTextFromClipboard(): 从系统剪贴板安全地获取文本内容，处理线程问题。
+		// ====================================================================================================================
+#region 辅助方法与工具
 		public void p_note(string a)
 		{
 			for (var i = 0; i < StaticValue.NoteCount; i++)
@@ -1893,7 +2183,23 @@ namespace TrOCR
 			}
 			return text;
 		}
+#endregion
 
+// ====================================================================================================================
+		// **截图与核心OCR流程**
+		//
+		// 这是应用程序的核心功能所在，集成了截图、图像处理和OCR识别的完整流程。
+		// - MainOCRQuickScreenShots(): 启动截图功能，隐藏主窗口，调用 ShareX 库进行区域捕捉。
+		//                             根据用户的操作（如截图、贴图、保存、多区域选择等）执行不同逻辑。
+		// - Main_OCR_Thread(): 截图完成后，在此线程中执行 OCR 识别。
+		//                      它会先尝试扫描二维码，然后根据当前选择的 OCR 接口调用相应的识别方法。
+		// - Main_OCR_Thread_last(): OCR 识别完成后，在 UI 线程中更新界面，显示识别结果，处理自动翻译、
+		//                           分段合并等后续操作，并重新显示主窗口。
+		// - SougouOCR(): 调用搜狗OCR。
+		// - BdTableOCR(), OCR_ali_table(): 处理表格识别。
+		// - select_image(), FindBundingBox(): 使用 Emgu.CV进行图像处理，用于竖排文字的识别。
+		// ====================================================================================================================
+#region 截图与核心OCR流程
 		public void MainOCRQuickScreenShots()
 		{
 			if (StaticValue.IsCapture) return;
@@ -2458,142 +2764,6 @@ namespace TrOCR
 			return result;
 		}
 
-		public void OCR_baidu()
-		{
-			split_txt = "";
-			try
-			{
-		              // 从 StaticValue 读取语言类型
-		              string languageType = StaticValue.BD_LANGUAGE;
-
-		  var imageBytes = OcrHelper.ImgToBytes(image_screen);
-		  // 调用已重构的、无密钥参数的方法
-		  var result = BaiduOcrHelper.GeneralBasic(imageBytes, languageType);
-
-		  if (!string.IsNullOrEmpty(result))
-		  {
-					if (result.StartsWith("***") || result.Contains("错误") || result.Contains("失败"))
-					{
-						// 错误信息直接显示
-						if (esc != "退出")
-						{
-							RichBoxBody.Text = result;
-						}
-						else
-						{
-							RichBoxBody.Text = "***该区域未发现文本***";
-							esc = "";
-						}
-					}
-					else
-					{
-						// 处理识别结果
-						ProcessOcrResult(result);
-					}
-				}
-				else
-				{
-					RichBoxBody.Text = "***百度OCR识别失败***";
-				}
-			}
-			catch (Exception ex)
-			{
-				if (esc != "退出")
-				{
-					RichBoxBody.Text = "***该区域未发现文本或者密钥次数用尽***";
-				}
-				else
-				{
-					RichBoxBody.Text = "***该区域未发现文本***";
-					esc = "";
-				}
-			}
-		}
-
-		/// <summary>
-		/// 百度OCR高精度版
-		/// </summary>
-		public void OCR_baidu_accurate()
-		{
-			split_txt = "";
-			try
-			{
-		              // 从 StaticValue 读取高精度版设置
-		              string languageType = StaticValue.BD_ACCURATE_LANGUAGE;
-
-		  var imageBytes = OcrHelper.ImgToBytes(image_screen);
-		  // 调用已重构的、无密钥参数的方法
-		  var result = BaiduOcrHelper.AccurateBasic(imageBytes, languageType);
-
-		  if (!string.IsNullOrEmpty(result))
-		  {
-					if (result.StartsWith("***") || result.Contains("错误") || result.Contains("失败"))
-					{
-						// 错误信息直接显示
-						if (esc != "退出")
-						{
-							RichBoxBody.Text = result;
-						}
-						else
-						{
-							RichBoxBody.Text = "***该区域未发现文本***";
-							esc = "";
-						}
-					}
-					else
-					{
-						// 处理识别结果
-						ProcessOcrResult(result);
-					}
-				}
-				else
-				{
-					RichBoxBody.Text = "***百度高精度OCR识别失败***";
-				}
-			}
-			catch (Exception ex)
-			{
-				if (esc != "退出")
-				{
-					RichBoxBody.Text = "***该区域未发现文本或者密钥次数用尽***";
-				}
-				else
-				{
-					RichBoxBody.Text = "***该区域未发现文本***";
-					esc = "";
-				}
-			}
-		}
-
-
-		/// <summary>
-		/// 处理OCR识别结果
-		/// </summary>
-		private void ProcessOcrResult(string result)
-		{
-			// 将纯文本结果转换为之前的格式进行处理
-			var lines = result.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-			var jArray = new JArray();
-			foreach (var line in lines)
-			{
-				if (!string.IsNullOrWhiteSpace(line))
-				{
-					var jObject = new JObject();
-					jObject["words"] = line;
-					jArray.Add(jObject);
-				}
-			}
-			
-			if (jArray.Count > 0)
-			{
-				checked_txt(jArray, 1, "words");
-			}
-			else
-			{
-				split_txt = "";
-				typeset_txt = "";
-			}
-		}
 
 		public string check_str(string text)
 		{
@@ -2975,11 +3145,11 @@ namespace TrOCR
 					Refresh();
 					baimiao.Text = "白描√";
 					break;
-					           case "百度-高精度":
-					               interface_flag = "百度-高精度";
-					               Refresh();
-					               baidu_accurate.Text = "百度-高精度√";
-					               break;
+				case "百度-高精度":
+					interface_flag = "百度-高精度";
+					Refresh();
+					baidu_accurate.Text = "百度-高精度√";
+					break;
 				case "公式":
 					interface_flag = "公式";
 					Refresh();
@@ -4779,7 +4949,7 @@ namespace TrOCR
 			youdao.Text = "有道";
 			wechat.Text = "微信";
 			baimiao.Text = "白描";
-			         baidu_accurate.Text = "百度-高精度";
+			baidu_accurate.Text = "百度-高精度";
 			shupai.Text = "竖排";
 			ocr_table.Text = "表格";
 			ch_en.Text = "中英";
@@ -4908,6 +5078,15 @@ namespace TrOCR
 			}
 		}
 
+#endregion
+
+// ====================================================================================================================
+		// **字段声明**
+		//
+		// 定义了 FmMain 类中使用的所有字段（成员变量）。
+		// 这些字段用于存储窗体的状态、配置信息、OCR 和翻译结果、图像数据以及其他在整个类中需要共享的数据。
+		// ====================================================================================================================
+#region 字段声明
 		public string interface_flag;
 
 		public string language;
@@ -5051,7 +5230,21 @@ namespace TrOCR
 		public string tencent_cookie;
 
 		private AliTable ailibaba;
+#endregion
 
+// ====================================================================================================================
+		// **内部类、委托与枚举**
+		//
+		// 包含了 FmMain 类内部使用的辅助类型定义。
+		// - 委托 (Delegates): 定义了用于跨线程调用的委托类型，如 `Translate` 和 `OcrThread`。
+		// - 内部类 (Inner Classes):
+		//   - AutoClosedMsgBox: 一个可以自动关闭的消息框。
+		//   - TransObj, TransResult, Rootobject, Trans_result: 用于反序列化百度翻译 API 返回的 JSON 结果。
+		//   - HtmlToText: 用于将 HTML 内容转换为纯文本。
+		// - 枚举 (Enum):
+		//   - MsgBoxStyle: 定义了消息框的样式。
+		// ====================================================================================================================
+		#region 内部类、委托与枚举
 		public delegate void Translate();
 
 		public delegate void OcrThread();
@@ -5558,6 +5751,7 @@ namespace TrOCR
 			// 返回加密的字符串
 			return sb.ToString();
 		}
+		#endregion
 	}
 	public class Rootobject
 	{

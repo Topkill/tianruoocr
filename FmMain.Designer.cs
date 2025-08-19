@@ -3,7 +3,7 @@
 
 	public sealed partial class FmMain : global::System.Windows.Forms.Form
 	{
-
+		
 		protected override void Dispose(bool disposing)
 		{
 			global::TrOCR.Helper.HelpWin32.ChangeClipboardChain(base.Handle, this.nextClipboardViewer);
@@ -205,6 +205,8 @@
 			this.baimiao.Text = "白描";
 			this.baimiao.Click += new global::System.EventHandler(this.OCR_baimiao_Click);
 			this.baidu_accurate = new global::System.Windows.Forms.ToolStripMenuItem();
+			this.baidu_accurate.Text = "百度-高精度";
+			this.baidu_accurate.Click += new global::System.EventHandler(this.OCR_baidu_accurate_Click);
 			this.ocr_table.Text = "表格";
 			this.baidu_table.Text = "百度";
 			this.baidu_table.Click += new global::System.EventHandler(this.OCR_baidutable_Click);
@@ -249,12 +251,12 @@
 			{
 				this.sougou,
 				this.tencent,
-				            this.tencent_accurate,
+				this.tencent_accurate,
 				this.youdao,
 				this.wechat,
 				this.baimiao,
 				this.baidu,
-				            this.baidu_accurate,
+				this.baidu_accurate,
 				this.toolStripSeparator1,
 				this.Mathfuntion,
 				this.ocr_table,
@@ -273,8 +275,6 @@
 			this.jap.Click += new global::System.EventHandler(this.OCR_baidu_Jap_Click);
 			this.kor.Text = "韩语";
 			this.kor.Click += new global::System.EventHandler(this.OCR_baidu_Kor_Click);
-			         this.baidu_accurate.Text = "百度-高精度";
-			         this.baidu_accurate.Click += new global::System.EventHandler(this.OCR_baidu_accurate_Click);
 			((global::System.Windows.Forms.ToolStripDropDownItem)this.baidu).DropDownItems.AddRange(new global::System.Windows.Forms.ToolStripItem[]
 			{
 				this.ch_en,
@@ -323,58 +323,276 @@
 
 		private global::System.ComponentModel.IContainer components;
 
+		/// <summary>
+		/// 托盘图标
+		/// </summary>
 		public global::System.Windows.Forms.NotifyIcon minico;
 
+		/// <summary>
+		/// 主富文本框右键菜单
+		/// </summary>
 		public global::System.Windows.Forms.ContextMenuStrip menu;
 
 		private global::System.Windows.Forms.ToolStripMenuItem toolStrip;
 
+		#region 主菜单 (menu)
+		/// <summary>
+		/// 主菜单 - 复制
+		/// </summary>
 		public global::System.Windows.Forms.ToolStripMenuItem Main_copy;
 
+		/// <summary>
+		/// 主菜单 - 粘贴
+		/// </summary>
 		public global::System.Windows.Forms.ToolStripMenuItem Main_paste;
 
+		/// <summary>
+		/// 主菜单 - 全选
+		/// </summary>
 		public global::System.Windows.Forms.ToolStripMenuItem Main_selectall;
 
+		/// <summary>
+		/// 主菜单 - 退出
+		/// </summary>
 		public global::System.Windows.Forms.ToolStripMenuItem Main_exit;
 
+		/// <summary>
+		/// 主菜单 - "接口" 菜单
+		/// </summary>
 		public global::System.Windows.Forms.ToolStripMenuItem Main_jiekou;
 
-		public global::System.Windows.Forms.ToolStripItem sougou;
-
-		public global::System.Windows.Forms.ToolStripItem tencent;
-
-		      public global::System.Windows.Forms.ToolStripItem tencent_accurate;
-
-		public global::System.Windows.Forms.ToolStripItem baidu;
-
-		public global::System.Windows.Forms.ToolStripItem youdao;
-
-		public global::System.Windows.Forms.ToolStripItem wechat;
-
-		public global::System.Windows.Forms.ToolStripItem baimiao;
-		      public global::System.Windows.Forms.ToolStripItem baidu_accurate;
-	
+		/// <summary>
+		/// "接口" 菜单的实例, 用于动态添加菜单项
+		/// </summary>
 		public global::System.Windows.Forms.ToolStripDropDownItem interface_button;
-	
+
+		/// <summary>
+		/// 主菜单 - "转换" 菜单
+		/// </summary>
 		public global::System.Windows.Forms.ToolStripMenuItem Main_change;
 
+		/// <summary>
+		/// "转换" 菜单的实例, 用于动态添加菜单项
+		/// </summary>
 		public global::System.Windows.Forms.ToolStripDropDownItem change_button;
 
+		/// <summary>
+		/// 主菜单 - 朗读
+		/// </summary>
+		private global::System.Windows.Forms.ToolStripMenuItem speak;
+
+		/// <summary>
+		/// 主菜单 - 搜索
+		/// </summary>
+		public global::System.Windows.Forms.ToolStripMenuItem baidu_s;
+		#endregion
+
+		#region "接口" 子菜单 (Main_jiekou)
+		/// <summary>
+		/// 接口 - 搜狗
+		/// </summary>
+		public global::System.Windows.Forms.ToolStripItem sougou;
+
+		/// <summary>
+		/// 接口 - 腾讯
+		/// </summary>
+		public global::System.Windows.Forms.ToolStripItem tencent;
+
+		/// <summary>
+		/// 接口 - 腾讯(高精度)
+		/// </summary>
+		public global::System.Windows.Forms.ToolStripItem tencent_accurate;
+
+		/// <summary>
+		/// 接口 - 百度
+		/// </summary>
+		public global::System.Windows.Forms.ToolStripItem baidu;
+
+		/// <summary>
+		/// 接口 - 有道
+		/// </summary>
+		public global::System.Windows.Forms.ToolStripItem youdao;
+
+		/// <summary>
+		/// 接口 - 微信
+		/// </summary>
+		public global::System.Windows.Forms.ToolStripItem wechat;
+
+		/// <summary>
+		/// 接口 - 白描
+		/// </summary>
+		public global::System.Windows.Forms.ToolStripItem baimiao;
+
+		/// <summary>
+		/// 接口 - 百度(高精度)
+		/// </summary>
+		public global::System.Windows.Forms.ToolStripItem baidu_accurate;
+
+		/// <summary>
+		/// 接口 - 竖排
+		/// </summary>
+		public global::System.Windows.Forms.ToolStripItem shupai;
+
+		/// <summary>
+		/// 接口 - 手写
+		/// </summary>
+		public global::System.Windows.Forms.ToolStripItem write;
+
+		/// <summary>
+		/// 接口 - 公式
+		/// </summary>
+		public global::System.Windows.Forms.ToolStripItem Mathfuntion;
+
+		/// <summary>
+		/// 接口 - "表格" 子菜单
+		/// </summary>
+		private global::System.Windows.Forms.ToolStripMenuItem ocr_table;
+
+		/// <summary>
+		/// 接口 - 分隔符
+		/// </summary>
+		private global::System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		#endregion
+
+		#region "转换" 子菜单 (Main_change)
+		/// <summary>
+		/// 转换 - 中文标点
+		/// </summary>
 		public global::System.Windows.Forms.ToolStripMenuItem Chinese;
 
+		/// <summary>
+		/// 转换 - 英文标点
+		/// </summary>
 		public global::System.Windows.Forms.ToolStripMenuItem English;
 
+		/// <summary>
+		/// 转换 - 中文繁体
+		/// </summary>
+		private global::System.Windows.Forms.ToolStripMenuItem zh_tra;
+
+		/// <summary>
+		/// 转换 - 中文简体
+		/// </summary>
+		private global::System.Windows.Forms.ToolStripMenuItem tra_zh;
+
+		/// <summary>
+		/// 转换 - 英文大写
+		/// </summary>
+		private global::System.Windows.Forms.ToolStripMenuItem str_Upper;
+
+		/// <summary>
+		/// 转换 - 英文小写
+		/// </summary>
+		private global::System.Windows.Forms.ToolStripMenuItem Upper_str;
+
+		/// <summary>
+		/// 转换 - 汉语拼音
+		/// </summary>
+		private global::System.Windows.Forms.ToolStripMenuItem pinyin;
+		#endregion
+
+		#region 翻译文本框菜单 (menu_copy)
+		/// <summary>
+		/// 翻译结果的富文本框
+		/// </summary>
 		public global::TrOCR.AdvRichTextBox RichBoxBody_T;
 
+		/// <summary>
+		/// 翻译文本框的右键菜单
+		/// </summary>
 		public global::System.Windows.Forms.ContextMenuStrip menu_copy;
 
+		/// <summary>
+		/// 翻译菜单 - 复制
+		/// </summary>
 		public global::System.Windows.Forms.ToolStripMenuItem Trans_copy;
 
+		/// <summary>
+		/// 翻译菜单 - 粘贴
+		/// </summary>
 		public global::System.Windows.Forms.ToolStripMenuItem Trans_paste;
 
+		/// <summary>
+		/// 翻译菜单 - 全选
+		/// </summary>
 		public global::System.Windows.Forms.ToolStripMenuItem Trans_SelectAll;
 
+		/// <summary>
+		/// 翻译菜单 - 关闭
+		/// </summary>
 		public global::System.Windows.Forms.ToolStripMenuItem Trans_close;
+
+		/// <summary>
+		/// 翻译菜单 - 朗读
+		/// </summary>
+		private global::System.Windows.Forms.ToolStripMenuItem Trans_Voice;
+
+		/// <summary>
+		/// 翻译菜单 - "接口" 子菜单
+		/// </summary>
+		private global::System.Windows.Forms.ToolStripMenuItem trans_input;
+		#endregion
+
+		#region 翻译接口子菜单 (trans_input)
+		private global::System.Windows.Forms.ToolStripMenuItem trans_google;
+		private global::System.Windows.Forms.ToolStripMenuItem trans_baidu;
+		private global::System.Windows.Forms.ToolStripMenuItem trans_tencent;
+		private global::System.Windows.Forms.ToolStripMenuItem trans_bing;
+		private global::System.Windows.Forms.ToolStripMenuItem trans_bing2;
+		private global::System.Windows.Forms.ToolStripMenuItem trans_microsoft;
+		private global::System.Windows.Forms.ToolStripMenuItem trans_yandex;
+		private global::System.Windows.Forms.ToolStripMenuItem trans_tencentinteractive;
+		private global::System.Windows.Forms.ToolStripMenuItem trans_caiyun;
+		private global::System.Windows.Forms.ToolStripMenuItem trans_volcano;
+		private global::System.Windows.Forms.ToolStripMenuItem trans_caiyun2;
+		#endregion
+
+		#region 其他子菜单
+
+		#region "百度" OCR 语言子菜单
+		/// <summary>
+		/// 百度OCR语言 - 中英
+		/// </summary>
+		private global::System.Windows.Forms.ToolStripMenuItem ch_en;
+
+		/// <summary>
+		/// 百度OCR语言 - 日语
+		/// </summary>
+		private global::System.Windows.Forms.ToolStripMenuItem jap;
+
+		/// <summary>
+		/// 百度OCR语言 - 韩语
+		/// </summary>
+		private global::System.Windows.Forms.ToolStripMenuItem kor;
+		#endregion
+
+		#region "竖排" 子菜单
+		/// <summary>
+		/// 竖排 - 从左向右
+		/// </summary>
+		private global::System.Windows.Forms.ToolStripMenuItem left_right;
+
+		/// <summary>
+		/// 竖排 - 从右向左
+		/// </summary>
+		private global::System.Windows.Forms.ToolStripMenuItem righ_left;
+		#endregion
+
+		#region 代理 (Proxy) 子菜单
+		private global::System.Windows.Forms.ToolStripMenuItem customize_Proxy;
+		private global::System.Windows.Forms.ToolStripMenuItem null_Proxy;
+		private global::System.Windows.Forms.ToolStripMenuItem system_Proxy;
+		private global::System.Windows.Forms.ToolStripMenuItem Proxy;
+		#endregion
+
+		#region "表格" 子菜单
+		private global::System.Windows.Forms.ToolStripMenuItem baidu_table;
+		private global::System.Windows.Forms.ToolStripMenuItem ali_table;
+		#endregion
+
+		#endregion
+
+		#region 其他UI控件和变量
 
 		public global::System.Drawing.SizeF font_base;
 
@@ -390,72 +608,11 @@
 
 		private global::System.IntPtr nextClipboardViewer;
 
+		#endregion
+
+		#region 未分类或未使用的菜单项
 		public global::System.Windows.Forms.ToolStripMenuItem baidu_v;
-
 		public global::System.Windows.Forms.ToolStripMenuItem tencent_v;
-
-		public global::System.Windows.Forms.ToolStripMenuItem baidu_s;
-
-		private global::System.Windows.Forms.ToolStripMenuItem speak;
-
-		private global::System.Windows.Forms.ToolStripMenuItem Trans_Voice;
-
-		private global::System.Windows.Forms.ToolStripMenuItem zh_tra;
-
-		private global::System.Windows.Forms.ToolStripMenuItem tra_zh;
-
-		private global::System.Windows.Forms.ToolStripMenuItem str_Upper;
-
-		private global::System.Windows.Forms.ToolStripMenuItem Upper_str;
-
-		private global::System.Windows.Forms.ToolStripMenuItem ch_en;
-
-		private global::System.Windows.Forms.ToolStripMenuItem jap;
-
-		private global::System.Windows.Forms.ToolStripMenuItem kor;
-
-		public global::System.Windows.Forms.ToolStripItem shupai;
-
-		public global::System.Windows.Forms.ToolStripItem write;
-
-		private global::System.Windows.Forms.ToolStripMenuItem left_right;
-
-		private global::System.Windows.Forms.ToolStripMenuItem righ_left;
-
-		private global::System.Windows.Forms.ToolStripMenuItem customize_Proxy;
-
-		private global::System.Windows.Forms.ToolStripMenuItem null_Proxy;
-
-		private global::System.Windows.Forms.ToolStripMenuItem system_Proxy;
-
-		private global::System.Windows.Forms.ToolStripMenuItem Proxy;
-
-		private global::System.Windows.Forms.ToolStripMenuItem pinyin;
-
-		private global::System.Windows.Forms.ToolStripMenuItem trans_input;
-
-		private global::System.Windows.Forms.ToolStripMenuItem trans_google;
-
-		private global::System.Windows.Forms.ToolStripMenuItem trans_baidu;
-
-		private global::System.Windows.Forms.ToolStripMenuItem trans_tencent;
-		private global::System.Windows.Forms.ToolStripMenuItem trans_bing;
-		private global::System.Windows.Forms.ToolStripMenuItem trans_bing2;
-		private global::System.Windows.Forms.ToolStripMenuItem trans_microsoft;
-		private global::System.Windows.Forms.ToolStripMenuItem trans_yandex;
-		private global::System.Windows.Forms.ToolStripMenuItem trans_tencentinteractive;
-		private global::System.Windows.Forms.ToolStripMenuItem trans_caiyun;
-		private global::System.Windows.Forms.ToolStripMenuItem trans_volcano;
-		private global::System.Windows.Forms.ToolStripMenuItem trans_caiyun2;
-
-		private global::System.Windows.Forms.ToolStripMenuItem ocr_table;
-
-		private global::System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-
-		private global::System.Windows.Forms.ToolStripMenuItem baidu_table;
-
-		private global::System.Windows.Forms.ToolStripMenuItem ali_table;
-
-		public global::System.Windows.Forms.ToolStripItem Mathfuntion;
+		#endregion
 	}
 }
