@@ -1036,6 +1036,7 @@ namespace TrOCR
 
 		private void InitConfig()
 		{
+			InitializeApiMenus();
 			interface_flag = IniHelper.GetValue("配置", "接口");
 			if (interface_flag == "发生错误")
 			{
@@ -1381,6 +1382,7 @@ namespace TrOCR
 					StaticValue.Translate_Current_API = "谷歌";
 				}
 				LoadTranslateConfig();
+				InitializeApiMenus();
 			}
 		}
 
@@ -5079,6 +5081,51 @@ namespace TrOCR
 		}
 
 #endregion
+		//控制右键菜单-接口项的可见性
+		private void InitializeApiMenus()
+		{
+			// OCR 接口可见性设置
+			SetMenuItemVisibility(sougou, "Ocr接口显示", "Sougou");
+			SetMenuItemVisibility(tencent, "Ocr接口显示", "Tencent");
+			SetMenuItemVisibility(tencent_accurate, "Ocr接口显示", "TencentAccurate");
+			SetMenuItemVisibility(youdao, "Ocr接口显示", "Youdao");
+			SetMenuItemVisibility(wechat, "Ocr接口显示", "WeChat");
+			SetMenuItemVisibility(baimiao, "Ocr接口显示", "Baimiao");
+			SetMenuItemVisibility(baidu, "Ocr接口显示", "Baidu");
+			SetMenuItemVisibility(baidu_accurate, "Ocr接口显示", "BaiduAccurate");
+			SetMenuItemVisibility(Mathfuntion, "Ocr接口显示", "Mathfuntion");
+			SetMenuItemVisibility(ocr_table, "Ocr接口显示", "Table");
+			SetMenuItemVisibility(shupai, "Ocr接口显示", "Shupai");
+
+			// OCR 子菜单接口可见性设置
+			SetMenuItemVisibility(baidu_table, "Ocr接口显示", "TableBaidu");
+			SetMenuItemVisibility(ali_table, "Ocr接口显示", "TableAli");
+			SetMenuItemVisibility(left_right, "Ocr接口显示", "ShupaiLR");
+			SetMenuItemVisibility(righ_left, "Ocr接口显示", "ShupaiRL");
+
+			// 翻译接口可见性设置
+			SetMenuItemVisibility(trans_google, "翻译接口显示", "Google");
+			SetMenuItemVisibility(trans_baidu, "翻译接口显示", "Baidu");
+			SetMenuItemVisibility(trans_tencent, "翻译接口显示", "Tencent");
+			SetMenuItemVisibility(trans_bing, "翻译接口显示", "Bing");
+			SetMenuItemVisibility(trans_bing2, "翻译接口显示", "Bing2");
+			SetMenuItemVisibility(trans_microsoft, "翻译接口显示", "Microsoft");
+			SetMenuItemVisibility(trans_yandex, "翻译接口显示", "Yandex");
+			SetMenuItemVisibility(trans_tencentinteractive, "翻译接口显示", "TencentInteractive");
+			SetMenuItemVisibility(trans_caiyun, "翻译接口显示", "Caiyun");
+			SetMenuItemVisibility(trans_volcano, "翻译接口显示", "Volcano");
+			SetMenuItemVisibility(trans_caiyun2, "翻译接口显示", "Caiyun2");
+		}
+
+		private void SetMenuItemVisibility(ToolStripItem menuItem, string section, string key)
+		{
+			if (menuItem != null)
+			{
+				string visibilityValue = IniHelper.GetValue(section, key);
+				bool isVisible = visibilityValue == "发生错误" || Convert.ToBoolean(visibilityValue);
+				menuItem.Visible = isVisible;
+			}
+		}
 
 // ====================================================================================================================
 		// **字段声明**
@@ -5086,7 +5133,7 @@ namespace TrOCR
 		// 定义了 FmMain 类中使用的所有字段（成员变量）。
 		// 这些字段用于存储窗体的状态、配置信息、OCR 和翻译结果、图像数据以及其他在整个类中需要共享的数据。
 		// ====================================================================================================================
-#region 字段声明
+		#region 字段声明
 		public string interface_flag;
 
 		public string language;

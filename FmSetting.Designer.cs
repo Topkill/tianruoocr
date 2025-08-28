@@ -1,4 +1,4 @@
-﻿namespace TrOCR
+namespace TrOCR
 {
 
     public sealed partial class FmSetting : global::System.Windows.Forms.Form
@@ -15,7 +15,8 @@
 
         private void InitializeComponent()
         {
-            //翻译接口设置页
+            //"翻译接口"设置页
+            this.Page_翻译接口 = new System.Windows.Forms.TabPage();
             this.tabControl_Trans = new System.Windows.Forms.TabControl();
             this.tabPage_Google = new System.Windows.Forms.TabPage();
             this.groupBox_Google_Key = new System.Windows.Forms.GroupBox();
@@ -102,14 +103,14 @@
             this.textBox_Caiyun2_Token = new System.Windows.Forms.TextBox();
             this.label_Caiyun2_Token = new System.Windows.Forms.Label();
 
-            // 白描接口控件
+            // 白描OCR接口控件
             this.inPage白描接口 = new System.Windows.Forms.TabPage();
             this.BoxBaimiaoPassword = new System.Windows.Forms.TextBox();
             this.BoxBaimiaoUsername = new System.Windows.Forms.TextBox();
             this.label_BaimiaoPassword = new System.Windows.Forms.Label();
             this.label_BaimiaoUsername = new System.Windows.Forms.Label();
 
-            //重置按钮区域
+            //翻译接口的重置按钮区域
             this.btn_Reset_Google_Source = new System.Windows.Forms.Button();
             this.btn_Reset_Google_Target = new System.Windows.Forms.Button();
             this.btn_Reset_Baidu_Source = new System.Windows.Forms.Button();
@@ -133,11 +134,42 @@
             this.btn_Reset_Caiyun2_Source = new System.Windows.Forms.Button();
             this.btn_Reset_Caiyun2_Target = new System.Windows.Forms.Button();
 
+            //"显示的接口"设置页
+            this.Page_显示的接口 = new System.Windows.Forms.TabPage();
+            this.groupBox_翻译接口 = new System.Windows.Forms.GroupBox();
+            this.groupBox_Ocr = new System.Windows.Forms.GroupBox();
+            this.checkBox_ShowOcrBaidu = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowOcrBaiduAccurate = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowOcrTencent = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowOcrTencentAccurate = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowOcrBaimiao = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowOcrSougou = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowOcrYoudao = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowOcrWeChat = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowOcrMathfuntion = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowOcrTable = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowOcrShupai = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowOcrTableBaidu = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowOcrTableAli = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowOcrShupaiLR = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowOcrShupaiRL = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowGoogle = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowBaidu = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowTencent = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowBing = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowBing2 = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowMicrosoft = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowYandex = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowTencentInteractive = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowCaiyun = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowVolcano = new System.Windows.Forms.CheckBox();
+            this.checkBox_ShowCaiyun2 = new System.Windows.Forms.CheckBox();
 
+            //"关于"设置页
             this.Page_About = new System.Windows.Forms.TabPage();
-            this.Page_翻译接口 = new System.Windows.Forms.TabPage();
             this.label_VersionInfo = new System.Windows.Forms.Label();
             this.label_AuthorInfo = new System.Windows.Forms.Label();
+            //"代理"设置页
             this.Page_代理 = new System.Windows.Forms.TabPage();
             this.代理Button = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -152,6 +184,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.combox_代理 = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
+            //"密钥"设置页
             this.Page_密钥 = new System.Windows.Forms.TabPage();
             this.百度_btn = new System.Windows.Forms.Button();
             this.密钥Button_apply = new System.Windows.Forms.Button();
@@ -185,6 +218,7 @@
             this.BoxTencentId = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
+            //"快捷键"设置页
             this.Page_快捷键 = new System.Windows.Forms.TabPage();
             this.快捷键Button = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
@@ -200,6 +234,7 @@
             this.label_输入翻译 = new System.Windows.Forms.Label();
             this.txtBox_输入翻译 = new System.Windows.Forms.TextBox();
             this.pictureBox_输入翻译 = new System.Windows.Forms.PictureBox();
+            //"常规"设置页
             this.page_常规 = new System.Windows.Forms.TabPage();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.chbox_save = new System.Windows.Forms.CheckBox();
@@ -226,14 +261,6 @@
             this.cbBox_翻译 = new System.Windows.Forms.CheckBox();
             this.cbBox_开机 = new System.Windows.Forms.CheckBox();
             this.tab_标签 = new System.Windows.Forms.TabControl();
-            this.Page_更新 = new System.Windows.Forms.TabPage();
-            this.更新Button_check = new System.Windows.Forms.Button();
-            this.更新Button = new System.Windows.Forms.Button();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.numbox_间隔时间 = new System.Windows.Forms.NumericUpDown();
-            this.checkBox_更新间隔 = new System.Windows.Forms.CheckBox();
-            this.check_检查更新 = new System.Windows.Forms.CheckBox();
             this.btn_音效 = new System.Windows.Forms.Button();
             this.pic_help = new System.Windows.Forms.PictureBox();
             this.pictureBox_识别界面 = new System.Windows.Forms.PictureBox();
@@ -243,14 +270,27 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_输入翻译)).BeginInit();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.label19 = new System.Windows.Forms.Label();
+            //"更新"设置页
+            this.Page_更新 = new System.Windows.Forms.TabPage();
+            this.更新Button_check = new System.Windows.Forms.Button();
+            this.更新Button = new System.Windows.Forms.Button();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.numbox_间隔时间 = new System.Windows.Forms.NumericUpDown();
+            this.checkBox_更新间隔 = new System.Windows.Forms.CheckBox();
+            this.check_检查更新 = new System.Windows.Forms.CheckBox();
             this.label_版本号 = new System.Windows.Forms.Label();
             this.label_更新日期 = new System.Windows.Forms.Label();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.txt_更新说明 = new System.Windows.Forms.TextBox();
+            //"反馈"设置页
+            this.Page_反馈 = new System.Windows.Forms.TabPage();
             this.txt_问题反馈 = new System.Windows.Forms.TextBox();
             this.反馈Button = new System.Windows.Forms.Button();
             this.label21 = new System.Windows.Forms.Label();
-            this.Page_反馈 = new System.Windows.Forms.TabPage();
+            //
+            // 暂停所有控件的布局，以提高初始化性能
+            //
             this.Page_代理.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.Page_密钥.SuspendLayout();
@@ -310,9 +350,327 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_文字识别)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             this.Page_反馈.SuspendLayout();
+            this.Page_显示的接口.SuspendLayout();
+            this.groupBox_翻译接口.SuspendLayout();
+            this.groupBox_Ocr.SuspendLayout();
             this.Page_About.SuspendLayout();
             this.SuspendLayout();
-            // 
+            //
+            // Page_显示的接口
+            //
+            this.Page_显示的接口.BackColor = System.Drawing.Color.White;
+            this.Page_显示的接口.Controls.Add(this.groupBox_翻译接口);
+            this.Page_显示的接口.Controls.Add(this.groupBox_Ocr);
+            this.Page_显示的接口.Location = new System.Drawing.Point(4, 22);
+            this.Page_显示的接口.Name = "Page_显示的接口";
+            this.Page_显示的接口.Padding = new System.Windows.Forms.Padding(3);
+            this.Page_显示的接口.Size = new System.Drawing.Size(390, 329);
+            this.Page_显示的接口.TabIndex = 11;
+            this.Page_显示的接口.Text = "显示的接口";
+            //
+            // groupBox_Ocr
+            //
+            this.groupBox_Ocr.Controls.Add(this.checkBox_ShowOcrBaidu);
+            this.groupBox_Ocr.Controls.Add(this.checkBox_ShowOcrBaiduAccurate);
+            this.groupBox_Ocr.Controls.Add(this.checkBox_ShowOcrTencent);
+            this.groupBox_Ocr.Controls.Add(this.checkBox_ShowOcrTencentAccurate);
+            this.groupBox_Ocr.Controls.Add(this.checkBox_ShowOcrBaimiao);
+            this.groupBox_Ocr.Controls.Add(this.checkBox_ShowOcrSougou);
+            this.groupBox_Ocr.Controls.Add(this.checkBox_ShowOcrYoudao);
+            this.groupBox_Ocr.Controls.Add(this.checkBox_ShowOcrWeChat);
+            this.groupBox_Ocr.Controls.Add(this.checkBox_ShowOcrMathfuntion);
+            this.groupBox_Ocr.Controls.Add(this.checkBox_ShowOcrTable);
+            this.groupBox_Ocr.Controls.Add(this.checkBox_ShowOcrShupai);
+            this.groupBox_Ocr.Controls.Add(this.checkBox_ShowOcrTableBaidu);
+            this.groupBox_Ocr.Controls.Add(this.checkBox_ShowOcrTableAli);
+            this.groupBox_Ocr.Controls.Add(this.checkBox_ShowOcrShupaiLR);
+            this.groupBox_Ocr.Controls.Add(this.checkBox_ShowOcrShupaiRL);
+            this.groupBox_Ocr.Location = new System.Drawing.Point(6, 6);
+            this.groupBox_Ocr.Name = "groupBox_Ocr";
+            this.groupBox_Ocr.Size = new System.Drawing.Size(378, 145);
+            this.groupBox_Ocr.TabIndex = 0;
+            this.groupBox_Ocr.TabStop = false;
+            this.groupBox_Ocr.Text = "选择要显示的ocr接口";
+            //
+            // groupBox_翻译接口
+            //
+            this.groupBox_翻译接口.Controls.Add(this.checkBox_ShowGoogle);
+            this.groupBox_翻译接口.Controls.Add(this.checkBox_ShowBaidu);
+            this.groupBox_翻译接口.Controls.Add(this.checkBox_ShowTencent);
+            this.groupBox_翻译接口.Controls.Add(this.checkBox_ShowBing);
+            this.groupBox_翻译接口.Controls.Add(this.checkBox_ShowBing2);
+            this.groupBox_翻译接口.Controls.Add(this.checkBox_ShowMicrosoft);
+            this.groupBox_翻译接口.Controls.Add(this.checkBox_ShowYandex);
+            this.groupBox_翻译接口.Controls.Add(this.checkBox_ShowTencentInteractive);
+            this.groupBox_翻译接口.Controls.Add(this.checkBox_ShowCaiyun);
+            this.groupBox_翻译接口.Controls.Add(this.checkBox_ShowVolcano);
+            this.groupBox_翻译接口.Controls.Add(this.checkBox_ShowCaiyun2);
+            this.groupBox_翻译接口.Location = new System.Drawing.Point(6, 155);
+            this.groupBox_翻译接口.Name = "groupBox_翻译接口";
+            this.groupBox_翻译接口.Size = new System.Drawing.Size(378, 120);
+            this.groupBox_翻译接口.TabIndex = 1;
+            this.groupBox_翻译接口.TabStop = false;
+            this.groupBox_翻译接口.Text = "选择要显示的翻译接口";
+            //
+            // checkBox_ShowGoogle
+            //
+            this.checkBox_ShowGoogle.AutoSize = true;
+            this.checkBox_ShowGoogle.Location = new System.Drawing.Point(15, 25);
+            this.checkBox_ShowGoogle.Name = "checkBox_ShowGoogle";
+            this.checkBox_ShowGoogle.Size = new System.Drawing.Size(60, 16);
+            this.checkBox_ShowGoogle.TabIndex = 0;
+            this.checkBox_ShowGoogle.Text = "Google";
+            this.checkBox_ShowGoogle.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowBaidu
+            //
+            this.checkBox_ShowBaidu.AutoSize = true;
+            this.checkBox_ShowBaidu.Location = new System.Drawing.Point(100, 25);
+            this.checkBox_ShowBaidu.Name = "checkBox_ShowBaidu";
+            this.checkBox_ShowBaidu.Size = new System.Drawing.Size(54, 16);
+            this.checkBox_ShowBaidu.TabIndex = 1;
+            this.checkBox_ShowBaidu.Text = "Baidu";
+            this.checkBox_ShowBaidu.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowTencent
+            //
+            this.checkBox_ShowTencent.AutoSize = true;
+            this.checkBox_ShowTencent.Location = new System.Drawing.Point(185, 25);
+            this.checkBox_ShowTencent.Name = "checkBox_ShowTencent";
+            this.checkBox_ShowTencent.Size = new System.Drawing.Size(66, 16);
+            this.checkBox_ShowTencent.TabIndex = 2;
+            this.checkBox_ShowTencent.Text = "Tencent";
+            this.checkBox_ShowTencent.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowBing
+            //
+            this.checkBox_ShowBing.AutoSize = true;
+            this.checkBox_ShowBing.Location = new System.Drawing.Point(270, 25);
+            this.checkBox_ShowBing.Name = "checkBox_ShowBing";
+            this.checkBox_ShowBing.Size = new System.Drawing.Size(48, 16);
+            this.checkBox_ShowBing.TabIndex = 3;
+            this.checkBox_ShowBing.Text = "Bing";
+            this.checkBox_ShowBing.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowBing2
+            //
+            this.checkBox_ShowBing2.AutoSize = true;
+            this.checkBox_ShowBing2.Location = new System.Drawing.Point(15, 55);
+            this.checkBox_ShowBing2.Name = "checkBox_ShowBing2";
+            this.checkBox_ShowBing2.Size = new System.Drawing.Size(54, 16);
+            this.checkBox_ShowBing2.TabIndex = 4;
+            this.checkBox_ShowBing2.Text = "Bing2";
+            this.checkBox_ShowBing2.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowMicrosoft
+            //
+            this.checkBox_ShowMicrosoft.AutoSize = true;
+            this.checkBox_ShowMicrosoft.Location = new System.Drawing.Point(100, 55);
+            this.checkBox_ShowMicrosoft.Name = "checkBox_ShowMicrosoft";
+            this.checkBox_ShowMicrosoft.Size = new System.Drawing.Size(78, 16);
+            this.checkBox_ShowMicrosoft.TabIndex = 5;
+            this.checkBox_ShowMicrosoft.Text = "Microsoft";
+            this.checkBox_ShowMicrosoft.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowYandex
+            //
+            this.checkBox_ShowYandex.AutoSize = true;
+            this.checkBox_ShowYandex.Location = new System.Drawing.Point(185, 55);
+            this.checkBox_ShowYandex.Name = "checkBox_ShowYandex";
+            this.checkBox_ShowYandex.Size = new System.Drawing.Size(60, 16);
+            this.checkBox_ShowYandex.TabIndex = 6;
+            this.checkBox_ShowYandex.Text = "Yandex";
+            this.checkBox_ShowYandex.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowTencentInteractive
+            //
+            this.checkBox_ShowTencentInteractive.AutoSize = true;
+            this.checkBox_ShowTencentInteractive.Location = new System.Drawing.Point(270, 55);
+            this.checkBox_ShowTencentInteractive.Name = "checkBox_ShowTencentInteractive";
+            this.checkBox_ShowTencentInteractive.Size = new System.Drawing.Size(84, 16);
+            this.checkBox_ShowTencentInteractive.TabIndex = 7;
+            this.checkBox_ShowTencentInteractive.Text = "腾讯交互";
+            this.checkBox_ShowTencentInteractive.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowCaiyun
+            //
+            this.checkBox_ShowCaiyun.AutoSize = true;
+            this.checkBox_ShowCaiyun.Location = new System.Drawing.Point(15, 85);
+            this.checkBox_ShowCaiyun.Name = "checkBox_ShowCaiyun";
+            this.checkBox_ShowCaiyun.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_ShowCaiyun.TabIndex = 8;
+            this.checkBox_ShowCaiyun.Text = "彩云小译";
+            this.checkBox_ShowCaiyun.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowVolcano
+            //
+            this.checkBox_ShowVolcano.AutoSize = true;
+            this.checkBox_ShowVolcano.Location = new System.Drawing.Point(100, 85);
+            this.checkBox_ShowVolcano.Name = "checkBox_ShowVolcano";
+            this.checkBox_ShowVolcano.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_ShowVolcano.TabIndex = 9;
+            this.checkBox_ShowVolcano.Text = "火山翻译";
+            this.checkBox_ShowVolcano.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowCaiyun2
+            //
+            this.checkBox_ShowCaiyun2.AutoSize = true;
+            this.checkBox_ShowCaiyun2.Location = new System.Drawing.Point(185, 85);
+            this.checkBox_ShowCaiyun2.Name = "checkBox_ShowCaiyun2";
+            this.checkBox_ShowCaiyun2.Size = new System.Drawing.Size(78, 16);
+            this.checkBox_ShowCaiyun2.TabIndex = 10;
+            this.checkBox_ShowCaiyun2.Text = "彩云小译2";
+            this.checkBox_ShowCaiyun2.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowOcrBaidu
+            //
+            this.checkBox_ShowOcrBaidu.AutoSize = true;
+            this.checkBox_ShowOcrBaidu.Location = new System.Drawing.Point(15, 25);
+            this.checkBox_ShowOcrBaidu.Name = "checkBox_ShowOcrBaidu";
+            this.checkBox_ShowOcrBaidu.Size = new System.Drawing.Size(84, 16);
+            this.checkBox_ShowOcrBaidu.TabIndex = 11;
+            this.checkBox_ShowOcrBaidu.Text = "百度-标准";
+            this.checkBox_ShowOcrBaidu.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowOcrBaiduAccurate
+            //
+            this.checkBox_ShowOcrBaiduAccurate.AutoSize = true;
+            this.checkBox_ShowOcrBaiduAccurate.Location = new System.Drawing.Point(100, 25);
+            this.checkBox_ShowOcrBaiduAccurate.Name = "checkBox_ShowOcrBaiduAccurate";
+            this.checkBox_ShowOcrBaiduAccurate.Size = new System.Drawing.Size(84, 16);
+            this.checkBox_ShowOcrBaiduAccurate.TabIndex = 12;
+            this.checkBox_ShowOcrBaiduAccurate.Text = "百度-高精度";
+            this.checkBox_ShowOcrBaiduAccurate.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowOcrTencent
+            //
+            this.checkBox_ShowOcrTencent.AutoSize = true;
+            this.checkBox_ShowOcrTencent.Location = new System.Drawing.Point(185, 25);
+            this.checkBox_ShowOcrTencent.Name = "checkBox_ShowOcrTencent";
+            this.checkBox_ShowOcrTencent.Size = new System.Drawing.Size(84, 16);
+            this.checkBox_ShowOcrTencent.TabIndex = 13;
+            this.checkBox_ShowOcrTencent.Text = "腾讯-标准";
+            this.checkBox_ShowOcrTencent.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowOcrTencentAccurate
+            //
+            this.checkBox_ShowOcrTencentAccurate.AutoSize = true;
+            this.checkBox_ShowOcrTencentAccurate.Location = new System.Drawing.Point(270, 25);
+            this.checkBox_ShowOcrTencentAccurate.Name = "checkBox_ShowOcrTencentAccurate";
+            this.checkBox_ShowOcrTencentAccurate.Size = new System.Drawing.Size(84, 16);
+            this.checkBox_ShowOcrTencentAccurate.TabIndex = 14;
+            this.checkBox_ShowOcrTencentAccurate.Text = "腾讯-高精度";
+            this.checkBox_ShowOcrTencentAccurate.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowOcrBaimiao
+            //
+            this.checkBox_ShowOcrBaimiao.AutoSize = true;
+            this.checkBox_ShowOcrBaimiao.Location = new System.Drawing.Point(15, 55);
+            this.checkBox_ShowOcrBaimiao.Name = "checkBox_ShowOcrBaimiao";
+            this.checkBox_ShowOcrBaimiao.Size = new System.Drawing.Size(48, 16);
+            this.checkBox_ShowOcrBaimiao.TabIndex = 15;
+            this.checkBox_ShowOcrBaimiao.Text = "白描";
+            this.checkBox_ShowOcrBaimiao.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowOcrSougou
+            //
+            this.checkBox_ShowOcrSougou.AutoSize = true;
+            this.checkBox_ShowOcrSougou.Location = new System.Drawing.Point(100, 55);
+            this.checkBox_ShowOcrSougou.Name = "checkBox_ShowOcrSougou";
+            this.checkBox_ShowOcrSougou.Size = new System.Drawing.Size(48, 16);
+            this.checkBox_ShowOcrSougou.TabIndex = 16;
+            this.checkBox_ShowOcrSougou.Text = "搜狗";
+            this.checkBox_ShowOcrSougou.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowOcrYoudao
+            //
+            this.checkBox_ShowOcrYoudao.AutoSize = true;
+            this.checkBox_ShowOcrYoudao.Location = new System.Drawing.Point(185, 55);
+            this.checkBox_ShowOcrYoudao.Name = "checkBox_ShowOcrYoudao";
+            this.checkBox_ShowOcrYoudao.Size = new System.Drawing.Size(48, 16);
+            this.checkBox_ShowOcrYoudao.TabIndex = 17;
+            this.checkBox_ShowOcrYoudao.Text = "有道";
+            this.checkBox_ShowOcrYoudao.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowOcrWeChat
+            //
+            this.checkBox_ShowOcrWeChat.AutoSize = true;
+            this.checkBox_ShowOcrWeChat.Location = new System.Drawing.Point(270, 55);
+            this.checkBox_ShowOcrWeChat.Name = "checkBox_ShowOcrWeChat";
+            this.checkBox_ShowOcrWeChat.Size = new System.Drawing.Size(48, 16);
+            this.checkBox_ShowOcrWeChat.TabIndex = 18;
+            this.checkBox_ShowOcrWeChat.Text = "微信";
+            this.checkBox_ShowOcrWeChat.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowOcrMathfuntion
+            //
+            this.checkBox_ShowOcrMathfuntion.AutoSize = true;
+            this.checkBox_ShowOcrMathfuntion.Location = new System.Drawing.Point(15, 85);
+            this.checkBox_ShowOcrMathfuntion.Name = "checkBox_ShowOcrMathfuntion";
+            this.checkBox_ShowOcrMathfuntion.Size = new System.Drawing.Size(48, 16);
+            this.checkBox_ShowOcrMathfuntion.TabIndex = 19;
+            this.checkBox_ShowOcrMathfuntion.Text = "公式";
+            this.checkBox_ShowOcrMathfuntion.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowOcrTable
+            //
+            this.checkBox_ShowOcrTable.AutoSize = true;
+            this.checkBox_ShowOcrTable.Location = new System.Drawing.Point(100, 85);
+            this.checkBox_ShowOcrTable.Name = "checkBox_ShowOcrTable";
+            this.checkBox_ShowOcrTable.Size = new System.Drawing.Size(48, 16);
+            this.checkBox_ShowOcrTable.TabIndex = 20;
+            this.checkBox_ShowOcrTable.Text = "表格";
+            this.checkBox_ShowOcrTable.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowOcrShupai
+            //
+            this.checkBox_ShowOcrShupai.AutoSize = true;
+            this.checkBox_ShowOcrShupai.Location = new System.Drawing.Point(185, 85);
+            this.checkBox_ShowOcrShupai.Name = "checkBox_ShowOcrShupai";
+            this.checkBox_ShowOcrShupai.Size = new System.Drawing.Size(48, 16);
+            this.checkBox_ShowOcrShupai.TabIndex = 21;
+            this.checkBox_ShowOcrShupai.Text = "竖排";
+            this.checkBox_ShowOcrShupai.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowOcrTableBaidu
+            //
+            this.checkBox_ShowOcrTableBaidu.AutoSize = true;
+            this.checkBox_ShowOcrTableBaidu.Location = new System.Drawing.Point(15, 115);
+            this.checkBox_ShowOcrTableBaidu.Name = "checkBox_ShowOcrTableBaidu";
+            this.checkBox_ShowOcrTableBaidu.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_ShowOcrTableBaidu.TabIndex = 22;
+            this.checkBox_ShowOcrTableBaidu.Text = "百度表格";
+            this.checkBox_ShowOcrTableBaidu.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowOcrTableAli
+            //
+            this.checkBox_ShowOcrTableAli.AutoSize = true;
+            this.checkBox_ShowOcrTableAli.Location = new System.Drawing.Point(100, 115);
+            this.checkBox_ShowOcrTableAli.Name = "checkBox_ShowOcrTableAli";
+            this.checkBox_ShowOcrTableAli.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_ShowOcrTableAli.TabIndex = 23;
+            this.checkBox_ShowOcrTableAli.Text = "阿里表格";
+            this.checkBox_ShowOcrTableAli.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowOcrShupaiLR
+            //
+            this.checkBox_ShowOcrShupaiLR.AutoSize = true;
+            this.checkBox_ShowOcrShupaiLR.Location = new System.Drawing.Point(270, 85);
+            this.checkBox_ShowOcrShupaiLR.Name = "checkBox_ShowOcrShupaiLR";
+            this.checkBox_ShowOcrShupaiLR.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_ShowOcrShupaiLR.TabIndex = 24;
+            this.checkBox_ShowOcrShupaiLR.Text = "从左向右";
+            this.checkBox_ShowOcrShupaiLR.UseVisualStyleBackColor = true;
+            //
+            // checkBox_ShowOcrShupaiRL
+            //
+            this.checkBox_ShowOcrShupaiRL.AutoSize = true;
+            this.checkBox_ShowOcrShupaiRL.Location = new System.Drawing.Point(185, 115);
+            this.checkBox_ShowOcrShupaiRL.Name = "checkBox_ShowOcrShupaiRL";
+            this.checkBox_ShowOcrShupaiRL.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_ShowOcrShupaiRL.TabIndex = 25;
+            this.checkBox_ShowOcrShupaiRL.Text = "从右向左";
+            this.checkBox_ShowOcrShupaiRL.UseVisualStyleBackColor = true;
             // Page_代理
             // 
             this.Page_代理.BackColor = System.Drawing.Color.White;
@@ -2309,6 +2667,7 @@
             this.tab_标签.Controls.Add(this.Page_快捷键);
             this.tab_标签.Controls.Add(this.Page_密钥);
             this.tab_标签.Controls.Add(this.Page_翻译接口);
+            this.tab_标签.Controls.Add(this.Page_显示的接口);
             this.tab_标签.Controls.Add(this.Page_代理);
             this.tab_标签.Controls.Add(this.Page_更新);
             this.tab_标签.Controls.Add(this.Page_反馈);
@@ -2623,6 +2982,11 @@
             this.Text = "设置";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Page_显示的接口.ResumeLayout(false);
+            this.groupBox_翻译接口.ResumeLayout(false);
+            this.groupBox_翻译接口.PerformLayout();
+            this.groupBox_Ocr.ResumeLayout(false);
+            this.groupBox_Ocr.PerformLayout();
             this.Page_代理.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -2759,6 +3123,36 @@
             this.ResumeLayout(false);
 
         }
+
+        private System.Windows.Forms.TabPage Page_显示的接口;
+        private System.Windows.Forms.GroupBox groupBox_翻译接口;
+        private System.Windows.Forms.GroupBox groupBox_Ocr;
+        private System.Windows.Forms.CheckBox checkBox_ShowGoogle;
+        private System.Windows.Forms.CheckBox checkBox_ShowBaidu;
+        private System.Windows.Forms.CheckBox checkBox_ShowTencent;
+        private System.Windows.Forms.CheckBox checkBox_ShowBing;
+        private System.Windows.Forms.CheckBox checkBox_ShowBing2;
+        private System.Windows.Forms.CheckBox checkBox_ShowMicrosoft;
+        private System.Windows.Forms.CheckBox checkBox_ShowYandex;
+        private System.Windows.Forms.CheckBox checkBox_ShowTencentInteractive;
+        private System.Windows.Forms.CheckBox checkBox_ShowCaiyun;
+        private System.Windows.Forms.CheckBox checkBox_ShowVolcano;
+        private System.Windows.Forms.CheckBox checkBox_ShowCaiyun2;
+        private System.Windows.Forms.CheckBox checkBox_ShowOcrBaidu;
+        private System.Windows.Forms.CheckBox checkBox_ShowOcrBaiduAccurate;
+        private System.Windows.Forms.CheckBox checkBox_ShowOcrTencent;
+        private System.Windows.Forms.CheckBox checkBox_ShowOcrTencentAccurate;
+        private System.Windows.Forms.CheckBox checkBox_ShowOcrBaimiao;
+        private System.Windows.Forms.CheckBox checkBox_ShowOcrSougou;
+        private System.Windows.Forms.CheckBox checkBox_ShowOcrYoudao;
+        private System.Windows.Forms.CheckBox checkBox_ShowOcrWeChat;
+        private System.Windows.Forms.CheckBox checkBox_ShowOcrMathfuntion;
+        private System.Windows.Forms.CheckBox checkBox_ShowOcrTable;
+        private System.Windows.Forms.CheckBox checkBox_ShowOcrShupai;
+        private System.Windows.Forms.CheckBox checkBox_ShowOcrTableBaidu;
+        private System.Windows.Forms.CheckBox checkBox_ShowOcrTableAli;
+        private System.Windows.Forms.CheckBox checkBox_ShowOcrShupaiLR;
+        private System.Windows.Forms.CheckBox checkBox_ShowOcrShupaiRL;
 
         private global::System.ComponentModel.IContainer components;
         private global::System.Windows.Forms.TabPage Page_代理;

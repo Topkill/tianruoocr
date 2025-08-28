@@ -27,7 +27,7 @@ namespace TrOCR
 		Font = new Font(Font.Name, 9f / StaticValue.DpiFactor, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
 		InitializeComponent();
 	}
-
+		
 		public void readIniFile()
 		{
 			var value = IniHelper.GetValue("配置", "开机自启");
@@ -450,7 +450,75 @@ namespace TrOCR
 			textBox_Caiyun2_Target.Text = (caiyun2Target == "发生错误") ? "自动判断" : caiyun2Target;
 			var caiyun2Token = IniHelper.GetValue("Translate_Caiyun2", "Token");
 			textBox_Caiyun2_Token.Text = (caiyun2Token == "发生错误") ? "3975l6lr5pcbvidl6jl2" : caiyun2Token;
-		}
+
+			         Action<string, CheckBox, TabPage> setTranVisibility = (apiName, checkBox, tabPage) =>
+			         {
+			             string visibilityValue = IniHelper.GetValue("翻译接口显示", apiName);
+			             bool isVisible;
+			             if (apiName == "TencentInteractive" || apiName == "Caiyun" || apiName == "Volcano")
+			             {
+			                 isVisible = visibilityValue != "发生错误" && Convert.ToBoolean(visibilityValue);
+			             }
+			             else
+			             {
+			                 isVisible = visibilityValue == "发生错误" || Convert.ToBoolean(visibilityValue);
+			             }
+			             checkBox.Checked = isVisible;
+			             if (!isVisible)
+			             {
+			                 tabControl_Trans.TabPages.Remove(tabPage);
+			             }
+			             IniHelper.SetValue("翻译接口显示", apiName, checkBox.Checked.ToString());
+			         };
+
+			         setTranVisibility("Google", checkBox_ShowGoogle, tabPage_Google);
+			         setTranVisibility("Baidu", checkBox_ShowBaidu, tabPage_Baidu);
+			         setTranVisibility("Tencent", checkBox_ShowTencent, tabPage_Tencent);
+			         setTranVisibility("Bing", checkBox_ShowBing, tabPage_Bing);
+			         setTranVisibility("Bing2", checkBox_ShowBing2, tabPage_Bing2);
+			         setTranVisibility("Microsoft", checkBox_ShowMicrosoft, tabPage_Microsoft);
+			         setTranVisibility("Yandex", checkBox_ShowYandex, tabPage_Yandex);
+			         setTranVisibility("TencentInteractive", checkBox_ShowTencentInteractive, tabPage_TencentInteractive);
+			         setTranVisibility("Caiyun", checkBox_ShowCaiyun, tabPage_Caiyun);
+			         setTranVisibility("Volcano", checkBox_ShowVolcano, tabPage_Volcano);
+			         setTranVisibility("Caiyun2", checkBox_ShowCaiyun2, tabPage_Caiyun2);
+
+			         Action<string, CheckBox, TabPage> setOcrVisibility = (apiName, checkBox, tabPage) =>
+			         {
+			             string visibilityValue = IniHelper.GetValue("Ocr接口显示", apiName);
+			             bool isVisible;
+			             if (apiName == "Baimiao")
+			             {
+			                 isVisible = visibilityValue != "发生错误" && Convert.ToBoolean(visibilityValue);
+			             }
+			             else
+			             {
+			                 isVisible = visibilityValue == "发生错误" || Convert.ToBoolean(visibilityValue);
+			             }
+			             checkBox.Checked = isVisible;
+			             if (!isVisible && tabPage != null)
+			             {
+			                 tabControl2.TabPages.Remove(tabPage);
+			             }
+			             IniHelper.SetValue("Ocr接口显示", apiName, checkBox.Checked.ToString());
+			         };
+
+			         setOcrVisibility("Baidu", checkBox_ShowOcrBaidu, inPage_百度接口);
+			         setOcrVisibility("BaiduAccurate", checkBox_ShowOcrBaiduAccurate, inPage_百度高精度接口);
+			         setOcrVisibility("Tencent", checkBox_ShowOcrTencent, inPage腾讯接口);
+			         setOcrVisibility("TencentAccurate", checkBox_ShowOcrTencentAccurate, inPage腾讯高精度接口);
+			         setOcrVisibility("Baimiao", checkBox_ShowOcrBaimiao, inPage白描接口);
+			         setOcrVisibility("Sougou", checkBox_ShowOcrSougou, null);
+			         setOcrVisibility("Youdao", checkBox_ShowOcrYoudao, null);
+			         setOcrVisibility("WeChat", checkBox_ShowOcrWeChat, null);
+			         setOcrVisibility("Mathfuntion", checkBox_ShowOcrMathfuntion, null);
+			         setOcrVisibility("Table", checkBox_ShowOcrTable, null);
+			         setOcrVisibility("Shupai", checkBox_ShowOcrShupai, null);
+			         setOcrVisibility("TableBaidu", checkBox_ShowOcrTableBaidu, null);
+			         setOcrVisibility("TableAli", checkBox_ShowOcrTableAli, null);
+			         setOcrVisibility("ShupaiLR", checkBox_ShowOcrShupaiLR, null);
+			         setOcrVisibility("ShupaiRL", checkBox_ShowOcrShupaiRL, null);
+			     }
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
@@ -1208,6 +1276,34 @@ namespace TrOCR
 			IniHelper.SetValue("Translate_Caiyun2", "Target", textBox_Caiyun2_Target.Text);
 			IniHelper.SetValue("Translate_Caiyun2", "Token", textBox_Caiyun2_Token.Text);
 
+			         IniHelper.SetValue("翻译接口显示", "Google", checkBox_ShowGoogle.Checked.ToString());
+			         IniHelper.SetValue("翻译接口显示", "Baidu", checkBox_ShowBaidu.Checked.ToString());
+			         IniHelper.SetValue("翻译接口显示", "Tencent", checkBox_ShowTencent.Checked.ToString());
+			         IniHelper.SetValue("翻译接口显示", "Bing", checkBox_ShowBing.Checked.ToString());
+			         IniHelper.SetValue("翻译接口显示", "Bing2", checkBox_ShowBing2.Checked.ToString());
+			         IniHelper.SetValue("翻译接口显示", "Microsoft", checkBox_ShowMicrosoft.Checked.ToString());
+			         IniHelper.SetValue("翻译接口显示", "Yandex", checkBox_ShowYandex.Checked.ToString());
+			         IniHelper.SetValue("翻译接口显示", "TencentInteractive", checkBox_ShowTencentInteractive.Checked.ToString());
+			         IniHelper.SetValue("翻译接口显示", "Caiyun", checkBox_ShowCaiyun.Checked.ToString());
+			         IniHelper.SetValue("翻译接口显示", "Volcano", checkBox_ShowVolcano.Checked.ToString());
+			         IniHelper.SetValue("翻译接口显示", "Caiyun2", checkBox_ShowCaiyun2.Checked.ToString());
+
+			         IniHelper.SetValue("Ocr接口显示", "Baidu", checkBox_ShowOcrBaidu.Checked.ToString());
+			         IniHelper.SetValue("Ocr接口显示", "BaiduAccurate", checkBox_ShowOcrBaiduAccurate.Checked.ToString());
+			         IniHelper.SetValue("Ocr接口显示", "Tencent", checkBox_ShowOcrTencent.Checked.ToString());
+			         IniHelper.SetValue("Ocr接口显示", "TencentAccurate", checkBox_ShowOcrTencentAccurate.Checked.ToString());
+			         IniHelper.SetValue("Ocr接口显示", "Baimiao", checkBox_ShowOcrBaimiao.Checked.ToString());
+			         IniHelper.SetValue("Ocr接口显示", "Sougou", checkBox_ShowOcrSougou.Checked.ToString());
+			         IniHelper.SetValue("Ocr接口显示", "Youdao", checkBox_ShowOcrYoudao.Checked.ToString());
+			         IniHelper.SetValue("Ocr接口显示", "WeChat", checkBox_ShowOcrWeChat.Checked.ToString());
+			         IniHelper.SetValue("Ocr接口显示", "Mathfuntion", checkBox_ShowOcrMathfuntion.Checked.ToString());
+			         IniHelper.SetValue("Ocr接口显示", "Table", checkBox_ShowOcrTable.Checked.ToString());
+			         IniHelper.SetValue("Ocr接口显示", "Shupai", checkBox_ShowOcrShupai.Checked.ToString());
+			         IniHelper.SetValue("Ocr接口显示", "TableBaidu", checkBox_ShowOcrTableBaidu.Checked.ToString());
+			         IniHelper.SetValue("Ocr接口显示", "TableAli", checkBox_ShowOcrTableAli.Checked.ToString());
+			         IniHelper.SetValue("Ocr接口显示", "ShupaiLR", checkBox_ShowOcrShupaiLR.Checked.ToString());
+			         IniHelper.SetValue("Ocr接口显示", "ShupaiRL", checkBox_ShowOcrShupaiRL.Checked.ToString());
+	
 			DialogResult = DialogResult.OK;
 		}
 
