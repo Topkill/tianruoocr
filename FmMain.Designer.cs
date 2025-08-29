@@ -1,9 +1,9 @@
-﻿namespace TrOCR
+namespace TrOCR
 {
-
+	// 主窗口类，负责OCR识别和翻译功能的主界面
 	public sealed partial class FmMain : global::System.Windows.Forms.Form
 	{
-		
+		// 释放资源
 		protected override void Dispose(bool disposing)
 		{
 			global::TrOCR.Helper.HelpWin32.ChangeClipboardChain(base.Handle, this.nextClipboardViewer);
@@ -14,76 +14,116 @@
 			base.Dispose(disposing);
 		}
 
+		// 初始化界面组件
 		private void InitializeComponent()
 		{
+			// 组件容器
 			this.components = new global::System.ComponentModel.Container();
 			global::System.ComponentModel.ComponentResourceManager componentResourceManager = new global::System.ComponentModel.ComponentResourceManager(typeof(global::TrOCR.FmMain));
+			
+			// 托盘图标控件
 			this.minico = new global::System.Windows.Forms.NotifyIcon(this.components);
+			
+			// 分隔符
 			this.toolStripSeparator1 = new global::System.Windows.Forms.ToolStripSeparator();
+			
+			// 工具栏菜单项
 			this.toolStrip = new global::System.Windows.Forms.ToolStripMenuItem();
+			
+			// 翻译接口菜单项
 			this.trans_input = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.trans_google = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.trans_baidu = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.trans_tencent = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.trans_bing = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.trans_bing2 = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.trans_microsoft = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.trans_yandex = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.trans_tencentinteractive = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.trans_caiyun = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.trans_volcano = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.trans_caiyun2 = new global::System.Windows.Forms.ToolStripMenuItem();
+			this.trans_google = new global::System.Windows.Forms.ToolStripMenuItem();       // 谷歌翻译
+			this.trans_baidu = new global::System.Windows.Forms.ToolStripMenuItem();        // 百度翻译
+			this.trans_tencent = new global::System.Windows.Forms.ToolStripMenuItem();      // 腾讯翻译
+			this.trans_bing = new global::System.Windows.Forms.ToolStripMenuItem();         // Bing翻译
+			this.trans_bing2 = new global::System.Windows.Forms.ToolStripMenuItem();        // Bing翻译2
+			this.trans_microsoft = new global::System.Windows.Forms.ToolStripMenuItem();    // Microsoft翻译
+			this.trans_yandex = new global::System.Windows.Forms.ToolStripMenuItem();       // Yandex翻译
+			this.trans_tencentinteractive = new global::System.Windows.Forms.ToolStripMenuItem(); // 腾讯交互翻译
+			this.trans_caiyun = new global::System.Windows.Forms.ToolStripMenuItem();       // 彩云小译
+			this.trans_volcano = new global::System.Windows.Forms.ToolStripMenuItem();      // 火山翻译
+			this.trans_caiyun2 = new global::System.Windows.Forms.ToolStripMenuItem();      // 彩云小译2
+			
+			// 表格OCR菜单项
 			this.baidu_table = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.ali_table = new global::System.Windows.Forms.ToolStripMenuItem();
 			this.ocr_table = new global::System.Windows.Forms.ToolStripMenuItem();
+			
+			// 主右键菜单
 			this.menu = new global::System.Windows.Forms.ContextMenuStrip();
 			this.menu.Renderer = new global::TrOCR.Helper.HelpRepaint.MenuItemRendererT();
-			this.ch_en = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.jap = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.kor = new global::System.Windows.Forms.ToolStripMenuItem();
+			
+			// 百度OCR语言选项
+			this.ch_en = new global::System.Windows.Forms.ToolStripMenuItem();              // 中英文混合
+			this.jap = new global::System.Windows.Forms.ToolStripMenuItem();                // 日语
+			this.kor = new global::System.Windows.Forms.ToolStripMenuItem();                // 韩语
+			
+			// 拼音转换菜单项
 			this.pinyin = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.customize_Proxy = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.null_Proxy = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.system_Proxy = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.Proxy = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.left_right = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.righ_left = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.Main_copy = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.Main_paste = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.Main_selectall = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.Main_jiekou = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.Main_exit = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.Main_change = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.zh_tra = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.tra_zh = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.str_Upper = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.Upper_str = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.speak = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.Trans_copy = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.Trans_paste = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.Trans_SelectAll = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.Trans_close = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.Trans_Voice = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.sougou = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.Mathfuntion = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.tencent = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.baidu = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.shupai = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.write = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.tencent_v = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.baidu_s = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.baidu_v = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.youdao = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.wechat = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.Chinese = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.English = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.Split = new global::System.Windows.Forms.ToolStripMenuItem();
-			this.Restore = new global::System.Windows.Forms.ToolStripMenuItem();
+			
+			// 代理设置菜单项
+			this.customize_Proxy = new global::System.Windows.Forms.ToolStripMenuItem();    // 自定义代理
+			this.null_Proxy = new global::System.Windows.Forms.ToolStripMenuItem();         // 不使用代理
+			this.system_Proxy = new global::System.Windows.Forms.ToolStripMenuItem();       // 系统代理
+			this.Proxy = new global::System.Windows.Forms.ToolStripMenuItem();              // 代理主菜单项
+			
+			// 竖排OCR菜单项
+			this.left_right = new global::System.Windows.Forms.ToolStripMenuItem();         // 从左向右
+			this.righ_left = new global::System.Windows.Forms.ToolStripMenuItem();          // 从右向左
+			
+			// 主菜单项
+			this.Main_copy = new global::System.Windows.Forms.ToolStripMenuItem();          // 复制
+			this.Main_paste = new global::System.Windows.Forms.ToolStripMenuItem();         // 粘贴
+			this.Main_selectall = new global::System.Windows.Forms.ToolStripMenuItem();     // 全选
+			this.Main_jiekou = new global::System.Windows.Forms.ToolStripMenuItem();        // 接口
+			this.Main_exit = new global::System.Windows.Forms.ToolStripMenuItem();          // 退出
+			this.Main_change = new global::System.Windows.Forms.ToolStripMenuItem();        // 转换
+			this.zh_tra = new global::System.Windows.Forms.ToolStripMenuItem();             // 简体转繁体
+			this.tra_zh = new global::System.Windows.Forms.ToolStripMenuItem();             // 繁体转简体
+			this.str_Upper = new global::System.Windows.Forms.ToolStripMenuItem();          // 英文大写
+			this.Upper_str = new global::System.Windows.Forms.ToolStripMenuItem();          // 英文小写
+			
+			// 语音菜单项
+			this.speak = new global::System.Windows.Forms.ToolStripMenuItem();              // 朗读
+			
+			// 翻译界面菜单项
+			this.Trans_copy = new global::System.Windows.Forms.ToolStripMenuItem();         // 复制
+			this.Trans_paste = new global::System.Windows.Forms.ToolStripMenuItem();        // 粘贴
+			this.Trans_SelectAll = new global::System.Windows.Forms.ToolStripMenuItem();    // 全选
+			this.Trans_close = new global::System.Windows.Forms.ToolStripMenuItem();        // 关闭
+			this.Trans_Voice = new global::System.Windows.Forms.ToolStripMenuItem();        // 朗读
+			
+			// OCR接口菜单项
+			this.sougou = new global::System.Windows.Forms.ToolStripMenuItem();             // 搜狗OCR
+			this.Mathfuntion = new global::System.Windows.Forms.ToolStripMenuItem();        // 数学公式OCR
+			this.tencent = new global::System.Windows.Forms.ToolStripMenuItem();            // 腾讯OCR
+			this.baidu = new global::System.Windows.Forms.ToolStripMenuItem();              // 百度OCR
+			this.shupai = new global::System.Windows.Forms.ToolStripMenuItem();             // 竖排OCR
+			this.write = new global::System.Windows.Forms.ToolStripMenuItem();              // 手写OCR
+			this.tencent_v = new global::System.Windows.Forms.ToolStripMenuItem();          // 腾讯VIP OCR
+			this.baidu_s = new global::System.Windows.Forms.ToolStripMenuItem();            // 百度搜索
+			this.baidu_v = new global::System.Windows.Forms.ToolStripMenuItem();            // 百度VIP OCR
+			this.youdao = new global::System.Windows.Forms.ToolStripMenuItem();             // 有道OCR
+			this.wechat = new global::System.Windows.Forms.ToolStripMenuItem();             // 微信OCR
+			
+			// 文本转换菜单项
+			this.Chinese = new global::System.Windows.Forms.ToolStripMenuItem();            // 中文
+			this.English = new global::System.Windows.Forms.ToolStripMenuItem();            // 英文
+			this.Split = new global::System.Windows.Forms.ToolStripMenuItem();              // 分割
+			this.Restore = new global::System.Windows.Forms.ToolStripMenuItem();            // 恢复
+			
+			// 翻译界面右键菜单
 			this.menu_copy = new global::System.Windows.Forms.ContextMenuStrip();
 			this.menu_copy.Renderer = new global::TrOCR.Helper.HelpRepaint.MenuItemRendererT();
+			
+			// 图片框控件
 			this.PictureBox1 = new global::System.Windows.Forms.PictureBox();
-			this.RichBoxBody = new global::TrOCR.AdvRichTextBox();
-			this.RichBoxBody_T = new global::TrOCR.AdvRichTextBox();
+			
+			// 富文本框控件
+			this.RichBoxBody = new global::TrOCR.AdvRichTextBox();                         // 主文本框
+			this.RichBoxBody_T = new global::TrOCR.AdvRichTextBox();                       // 翻译文本框
+			
+			// 托盘图标设置
 			this.minico.BalloonTipIcon = global::System.Windows.Forms.ToolTipIcon.Info;
 			this.minico.BalloonTipText = "最小化到任务栏";
 			this.minico.BalloonTipTitle = "提示";
@@ -91,9 +131,15 @@
 			this.minico.Text = "双击开始截图识别";
 			this.minico.Visible = true;
 			this.minico.MouseDoubleClick += new global::System.Windows.Forms.MouseEventHandler(this.tray_double_Click);
+			
+			// 字体基础尺寸
 			this.font_base.Width = 18f * this.F_factor;
 			this.font_base.Height = 17f * this.F_factor;
+			
+			// 翻译文本框初始状态
 			this.RichBoxBody_T.Visible = false;
+			
+			// 主文本框设置
 			this.RichBoxBody.Dock = global::System.Windows.Forms.DockStyle.Fill;
 			this.RichBoxBody.BorderStyle = global::System.Windows.Forms.BorderStyle.Fixed3D;
 			this.RichBoxBody.Location = new global::System.Drawing.Point(0, 0);
@@ -101,7 +147,11 @@
 			this.RichBoxBody.ImeMode = global::System.Windows.Forms.ImeMode.Inherit;
 			this.RichBoxBody.TabIndex = 200;
 			this.RichBoxBody.Text_flag = "天若幽心";
+			
+			// 翻译文本框设置
 			this.RichBoxBody_T.ImeMode = global::System.Windows.Forms.ImeMode.Inherit;
+			
+			// 翻译界面菜单项设置
 			this.Trans_copy.Text = "复制";
 			this.Trans_copy.Click += new global::System.EventHandler(this.Trans_copy_Click);
 			this.Trans_paste.Text = "粘贴";
@@ -112,6 +162,8 @@
 			this.Trans_close.Click += new global::System.EventHandler(this.Trans_close_Click);
 			this.Trans_Voice.Text = "朗读";
 			this.Trans_Voice.Click += new global::System.EventHandler(this.Trans_Voice_Click);
+			
+			// 翻译接口菜单项设置
 			this.trans_input.Text = "接口";
 			this.trans_input.Click += new global::System.EventHandler(this.Trans_SelectAll_Click);
 			this.trans_google.Text = "谷歌√";
@@ -136,6 +188,8 @@
 			this.trans_volcano.Click += new global::System.EventHandler(this.Trans_volcano_Click);
 			this.trans_caiyun2.Text = "彩云2";
 			this.trans_caiyun2.Click += new global::System.EventHandler(this.Trans_caiyun2_Click);
+			
+			// 翻译界面右键菜单设置
 			this.menu_copy.Items.AddRange(new global::System.Windows.Forms.ToolStripItem[]
 			{
 				this.Trans_copy,
@@ -145,6 +199,8 @@
 				this.trans_input,
 				this.Trans_close
 			});
+			
+			// 翻译接口菜单项设置
 			this.trans_input.DropDownItems.AddRange(new global::System.Windows.Forms.ToolStripItem[]
 			{
 				this.trans_google,
@@ -159,7 +215,11 @@
 				this.trans_volcano,
 				this.trans_caiyun2
 			});
+			
+			// 翻译界面右键菜单字体设置
 			this.menu_copy.Font = new global::System.Drawing.Font("微软雅黑", 9f / global::TrOCR.Helper.StaticValue.DpiFactor, global::System.Drawing.FontStyle.Regular);
+			
+			// 主菜单项设置
 			this.Main_copy.Text = "复制";
 			this.Main_copy.Click += new global::System.EventHandler(this.MainCopyClick);
 			this.Main_paste.Text = "粘贴";
@@ -174,6 +234,8 @@
 			this.Main_jiekou.Text = "接口";
 			this.Main_exit.Text = "退出";
 			this.Main_exit.Click += new global::System.EventHandler(this.trayExitClick);
+			
+			// 主右键菜单设置
 			this.menu.Items.AddRange(new global::System.Windows.Forms.ToolStripItem[]
 			{
 				this.Main_copy,
@@ -185,7 +247,11 @@
 				this.Main_jiekou,
 				this.Main_exit
 			});
+			
+			// 主右键菜单字体设置
 			this.menu.Font = new global::System.Drawing.Font("微软雅黑", 9f / global::TrOCR.Helper.StaticValue.DpiFactor, global::System.Drawing.FontStyle.Regular);
+			
+			// OCR接口菜单项设置
 			this.sougou.Text = "搜狗√";
 			this.sougou.Click += new global::System.EventHandler(this.OCR_sougou_Click);
 			this.Mathfuntion.Text = "公式";

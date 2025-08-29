@@ -1,9 +1,11 @@
 namespace TrOCR
 {
 
+    // 设置窗口类，用于管理OCR和翻译接口的各种配置选项
     public sealed partial class FmSetting : global::System.Windows.Forms.Form
     {
 
+        // 释放资源
         protected override void Dispose(bool disposing)
         {
             if (disposing && this.components != null)
@@ -13,9 +15,10 @@ namespace TrOCR
             base.Dispose(disposing);
         }
 
+        // 初始化设置界面组件
         private void InitializeComponent()
         {
-            //"翻译接口"设置页
+            // "翻译接口"设置页，包含各种翻译服务的配置选项
             this.Page_翻译接口 = new System.Windows.Forms.TabPage();
             this.tabControl_Trans = new System.Windows.Forms.TabControl();
             this.tabPage_Google = new System.Windows.Forms.TabPage();
@@ -25,88 +28,108 @@ namespace TrOCR
             this.textBox_Google_Target = new System.Windows.Forms.TextBox();
             this.groupBox_Google_Source = new System.Windows.Forms.GroupBox();
             this.textBox_Google_Source = new System.Windows.Forms.TextBox();
+            
+            // 百度翻译接口配置页
             this.tabPage_Baidu = new System.Windows.Forms.TabPage();
             this.groupBox_Baidu_Key = new System.Windows.Forms.GroupBox();
-            this.textBox_Baidu_SK = new System.Windows.Forms.TextBox();
+            this.textBox_Baidu_SK = new System.Windows.Forms.TextBox();          // 百度翻译密钥(Secret Key)
             this.label_Baidu_SK = new System.Windows.Forms.Label();
-            this.textBox_Baidu_AK = new System.Windows.Forms.TextBox();
+            this.textBox_Baidu_AK = new System.Windows.Forms.TextBox();          // 百度翻译应用ID(API Key)
             this.label_Baidu_AK = new System.Windows.Forms.Label();
             this.groupBox_Baidu_Target = new System.Windows.Forms.GroupBox();
-            this.textBox_Baidu_Target = new System.Windows.Forms.TextBox();
+            this.textBox_Baidu_Target = new System.Windows.Forms.TextBox();      // 百度翻译目标语言设置
             this.groupBox_Baidu_Source = new System.Windows.Forms.GroupBox();
-            this.textBox_Baidu_Source = new System.Windows.Forms.TextBox();
+            this.textBox_Baidu_Source = new System.Windows.Forms.TextBox();      // 百度翻译源语言设置
+            
+            // 腾讯翻译接口配置页
             this.tabPage_Tencent = new System.Windows.Forms.TabPage();
             this.groupBox_Tencent_Key = new System.Windows.Forms.GroupBox();
-            this.textBox_Tencent_SK = new System.Windows.Forms.TextBox();
+            this.textBox_Tencent_SK = new System.Windows.Forms.TextBox();        // 腾讯翻译密钥(Secret Key)
             this.label_Tencent_SK = new System.Windows.Forms.Label();
-            this.textBox_Tencent_AK = new System.Windows.Forms.TextBox();
+            this.textBox_Tencent_AK = new System.Windows.Forms.TextBox();        // 腾讯翻译密钥ID(SecretId)
             this.label_Tencent_AK = new System.Windows.Forms.Label();
             this.groupBox_Tencent_Target = new System.Windows.Forms.GroupBox();
-            this.textBox_Tencent_Target = new System.Windows.Forms.TextBox();
+            this.textBox_Tencent_Target = new System.Windows.Forms.TextBox();    // 腾讯翻译目标语言设置
             this.groupBox_Tencent_Source = new System.Windows.Forms.GroupBox();
-            this.textBox_Tencent_Source = new System.Windows.Forms.TextBox();
+            this.textBox_Tencent_Source = new System.Windows.Forms.TextBox();    // 腾讯翻译源语言设置
+            
+            // 必应翻译接口配置页
             this.tabPage_Bing = new System.Windows.Forms.TabPage();
             this.groupBox_Bing_Key = new System.Windows.Forms.GroupBox();
-            this.label_Bing_Key = new System.Windows.Forms.Label();
+            this.label_Bing_Key = new System.Windows.Forms.Label();              // Bing翻译无需密钥提示
             this.groupBox_Bing_Target = new System.Windows.Forms.GroupBox();
-            this.textBox_Bing_Target = new System.Windows.Forms.TextBox();
+            this.textBox_Bing_Target = new System.Windows.Forms.TextBox();       // Bing翻译目标语言设置
             this.groupBox_Bing_Source = new System.Windows.Forms.GroupBox();
-            this.textBox_Bing_Source = new System.Windows.Forms.TextBox();
+            this.textBox_Bing_Source = new System.Windows.Forms.TextBox();       // Bing翻译源语言设置
+            
+            // 必应翻译2接口配置页
             this.tabPage_Bing2 = new System.Windows.Forms.TabPage();
             this.groupBox_Bing2_Key = new System.Windows.Forms.GroupBox();
-            this.label_Bing2_Notice = new System.Windows.Forms.Label();
+            this.label_Bing2_Notice = new System.Windows.Forms.Label();          // Bing2翻译注意事项
             this.groupBox_Bing2_Target = new System.Windows.Forms.GroupBox();
-            this.textBox_Bing2_Target = new System.Windows.Forms.TextBox();
+            this.textBox_Bing2_Target = new System.Windows.Forms.TextBox();      // Bing2翻译目标语言设置
             this.groupBox_Bing2_Source = new System.Windows.Forms.GroupBox();
-            this.textBox_Bing2_Source = new System.Windows.Forms.TextBox();
+            this.textBox_Bing2_Source = new System.Windows.Forms.TextBox();      // Bing2翻译源语言设置
+            
+            // 微软翻译接口配置页
             this.tabPage_Microsoft = new System.Windows.Forms.TabPage();
             this.groupBox_Microsoft_Key = new System.Windows.Forms.GroupBox();
-            this.label_Microsoft_Key = new System.Windows.Forms.Label();
+            this.label_Microsoft_Key = new System.Windows.Forms.Label();         // 微软翻译无需密钥提示
             this.groupBox_Microsoft_Target = new System.Windows.Forms.GroupBox();
-            this.textBox_Microsoft_Target = new System.Windows.Forms.TextBox();
+            this.textBox_Microsoft_Target = new System.Windows.Forms.TextBox();  // 微软翻译目标语言设置
             this.groupBox_Microsoft_Source = new System.Windows.Forms.GroupBox();
-            this.textBox_Microsoft_Source = new System.Windows.Forms.TextBox();
+            this.textBox_Microsoft_Source = new System.Windows.Forms.TextBox();  // 微软翻译源语言设置
+            
+            // Yandex翻译接口配置页
             this.tabPage_Yandex = new System.Windows.Forms.TabPage();
             this.groupBox_Yandex_Key = new System.Windows.Forms.GroupBox();
-            this.label_Yandex_Key = new System.Windows.Forms.Label();
+            this.label_Yandex_Key = new System.Windows.Forms.Label();            // Yandex翻译无需密钥提示
             this.groupBox_Yandex_Target = new System.Windows.Forms.GroupBox();
-            this.textBox_Yandex_Target = new System.Windows.Forms.TextBox();
+            this.textBox_Yandex_Target = new System.Windows.Forms.TextBox();     // Yandex翻译目标语言设置
             this.groupBox_Yandex_Source = new System.Windows.Forms.GroupBox();
-            this.textBox_Yandex_Source = new System.Windows.Forms.TextBox();
+            this.textBox_Yandex_Source = new System.Windows.Forms.TextBox();     // Yandex翻译源语言设置
+            
+            // 腾讯交互翻译接口配置页
             this.tabPage_TencentInteractive = new System.Windows.Forms.TabPage();
             this.groupBox_TencentInteractive_Source = new System.Windows.Forms.GroupBox();
             this.groupBox_TencentInteractive_Target = new System.Windows.Forms.GroupBox();
             this.groupBox_TencentInteractive_Key = new System.Windows.Forms.GroupBox();
-            this.textBox_TencentInteractive_Source = new System.Windows.Forms.TextBox();
-            this.textBox_TencentInteractive_Target = new System.Windows.Forms.TextBox();
-            this.label_TencentInteractive_Key = new System.Windows.Forms.Label();
+            this.textBox_TencentInteractive_Source = new System.Windows.Forms.TextBox(); // 腾讯交互翻译源语言设置
+            this.textBox_TencentInteractive_Target = new System.Windows.Forms.TextBox(); // 腾讯交互翻译目标语言设置
+            this.label_TencentInteractive_Key = new System.Windows.Forms.Label();        // 腾讯交互翻译无需密钥提示
+            
+            // 彩云小译接口配置页
             this.tabPage_Caiyun = new System.Windows.Forms.TabPage();
             this.groupBox_Caiyun_Source = new System.Windows.Forms.GroupBox();
             this.groupBox_Caiyun_Target = new System.Windows.Forms.GroupBox();
             this.groupBox_Caiyun_Key = new System.Windows.Forms.GroupBox();
-            this.textBox_Caiyun_Source = new System.Windows.Forms.TextBox();
-            this.textBox_Caiyun_Target = new System.Windows.Forms.TextBox();
-            this.label_Caiyun_Key = new System.Windows.Forms.Label();
+            this.textBox_Caiyun_Source = new System.Windows.Forms.TextBox();     // 彩云小译源语言设置
+            this.textBox_Caiyun_Target = new System.Windows.Forms.TextBox();     // 彩云小译目标语言设置
+            this.label_Caiyun_Key = new System.Windows.Forms.Label();            // 彩云小译无需密钥提示
+            
+            // 火山翻译接口配置页
             this.tabPage_Volcano = new System.Windows.Forms.TabPage();
             this.groupBox_Volcano_Source = new System.Windows.Forms.GroupBox();
             this.groupBox_Volcano_Target = new System.Windows.Forms.GroupBox();
             this.groupBox_Volcano_Key = new System.Windows.Forms.GroupBox();
-            this.textBox_Volcano_Source = new System.Windows.Forms.TextBox();
-            this.textBox_Volcano_Target = new System.Windows.Forms.TextBox();
-            this.label_Volcano_Key = new System.Windows.Forms.Label();
+            this.textBox_Volcano_Source = new System.Windows.Forms.TextBox();    // 火山翻译源语言设置
+            this.textBox_Volcano_Target = new System.Windows.Forms.TextBox();    // 火山翻译目标语言设置
+            this.label_Volcano_Key = new System.Windows.Forms.Label();           // 火山翻译无需密钥提示
+            
+            // 彩云小译2接口配置页
             this.tabPage_Caiyun2 = new System.Windows.Forms.TabPage();
             this.groupBox_Caiyun2_Source = new System.Windows.Forms.GroupBox();
             this.groupBox_Caiyun2_Target = new System.Windows.Forms.GroupBox();
             this.groupBox_Caiyun2_Key = new System.Windows.Forms.GroupBox();
-            this.textBox_Caiyun2_Source = new System.Windows.Forms.TextBox();
-            this.textBox_Caiyun2_Target = new System.Windows.Forms.TextBox();
-            this.textBox_Caiyun2_Token = new System.Windows.Forms.TextBox();
+            this.textBox_Caiyun2_Source = new System.Windows.Forms.TextBox();    // 彩云小译2源语言设置
+            this.textBox_Caiyun2_Target = new System.Windows.Forms.TextBox();    // 彩云小译2目标语言设置
+            this.textBox_Caiyun2_Token = new System.Windows.Forms.TextBox();     // 彩云小译2 Token
             this.label_Caiyun2_Token = new System.Windows.Forms.Label();
 
             // 白描OCR接口控件
             this.inPage白描接口 = new System.Windows.Forms.TabPage();
-            this.BoxBaimiaoPassword = new System.Windows.Forms.TextBox();
-            this.BoxBaimiaoUsername = new System.Windows.Forms.TextBox();
+            this.BoxBaimiaoPassword = new System.Windows.Forms.TextBox();        // 白描OCR密码
+            this.BoxBaimiaoUsername = new System.Windows.Forms.TextBox();        // 白描OCR用户名
             this.label_BaimiaoPassword = new System.Windows.Forms.Label();
             this.label_BaimiaoUsername = new System.Windows.Forms.Label();
 
@@ -138,86 +161,100 @@ namespace TrOCR
             this.Page_显示的接口 = new System.Windows.Forms.TabPage();
             this.groupBox_翻译接口 = new System.Windows.Forms.GroupBox();
             this.groupBox_Ocr = new System.Windows.Forms.GroupBox();
-            this.checkBox_ShowOcrBaidu = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowOcrBaiduAccurate = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowOcrTencent = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowOcrTencentAccurate = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowOcrBaimiao = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowOcrSougou = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowOcrYoudao = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowOcrWeChat = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowOcrMathfuntion = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowOcrTable = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowOcrShupai = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowOcrTableBaidu = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowOcrTableAli = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowOcrShupaiLR = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowOcrShupaiRL = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowGoogle = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowBaidu = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowTencent = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowBing = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowBing2 = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowMicrosoft = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowYandex = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowTencentInteractive = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowCaiyun = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowVolcano = new System.Windows.Forms.CheckBox();
-            this.checkBox_ShowCaiyun2 = new System.Windows.Forms.CheckBox();
+            
+            // OCR接口显示控制复选框
+            this.checkBox_ShowOcrBaidu = new System.Windows.Forms.CheckBox();           // 百度OCR显示控制
+            this.checkBox_ShowOcrBaiduAccurate = new System.Windows.Forms.CheckBox();   // 百度高精度OCR显示控制
+            this.checkBox_ShowOcrTencent = new System.Windows.Forms.CheckBox();         // 腾讯OCR显示控制
+            this.checkBox_ShowOcrTencentAccurate = new System.Windows.Forms.CheckBox(); // 腾讯高精度OCR显示控制
+            this.checkBox_ShowOcrBaimiao = new System.Windows.Forms.CheckBox();         // 白描OCR显示控制
+            this.checkBox_ShowOcrSougou = new System.Windows.Forms.CheckBox();          // 搜狗OCR显示控制
+            this.checkBox_ShowOcrYoudao = new System.Windows.Forms.CheckBox();          // 有道OCR显示控制
+            this.checkBox_ShowOcrWeChat = new System.Windows.Forms.CheckBox();          // 微信OCR显示控制
+            this.checkBox_ShowOcrMathfuntion = new System.Windows.Forms.CheckBox();     // 数学公式OCR显示控制
+            this.checkBox_ShowOcrTable = new System.Windows.Forms.CheckBox();           // 表格OCR显示控制
+            this.checkBox_ShowOcrShupai = new System.Windows.Forms.CheckBox();          // 竖排OCR显示控制
+            this.checkBox_ShowOcrTableBaidu = new System.Windows.Forms.CheckBox();      // 百度表格OCR显示控制
+            this.checkBox_ShowOcrTableAli = new System.Windows.Forms.CheckBox();        // 阿里表格OCR显示控制
+            this.checkBox_ShowOcrShupaiLR = new System.Windows.Forms.CheckBox();        // 竖排从左到右OCR显示控制
+            this.checkBox_ShowOcrShupaiRL = new System.Windows.Forms.CheckBox();        // 竖排从右到左OCR显示控制
+            
+            // 翻译接口显示控制复选框
+            this.checkBox_ShowGoogle = new System.Windows.Forms.CheckBox();             // Google翻译显示控制
+            this.checkBox_ShowBaidu = new System.Windows.Forms.CheckBox();              // 百度翻译显示控制
+            this.checkBox_ShowTencent = new System.Windows.Forms.CheckBox();            // 腾讯翻译显示控制
+            this.checkBox_ShowBing = new System.Windows.Forms.CheckBox();               // 必应翻译显示控制
+            this.checkBox_ShowBing2 = new System.Windows.Forms.CheckBox();              // 必应翻译2显示控制
+            this.checkBox_ShowMicrosoft = new System.Windows.Forms.CheckBox();          // 微软翻译显示控制
+            this.checkBox_ShowYandex = new System.Windows.Forms.CheckBox();             // Yandex翻译显示控制
+            this.checkBox_ShowTencentInteractive = new System.Windows.Forms.CheckBox(); // 腾讯交互翻译显示控制
+            this.checkBox_ShowCaiyun = new System.Windows.Forms.CheckBox();             // 彩云小译显示控制
+            this.checkBox_ShowVolcano = new System.Windows.Forms.CheckBox();            // 火山翻译显示控制
+            this.checkBox_ShowCaiyun2 = new System.Windows.Forms.CheckBox();            // 彩云小译2显示控制
 
             //"关于"设置页
             this.Page_About = new System.Windows.Forms.TabPage();
-            this.label_VersionInfo = new System.Windows.Forms.Label();
-            this.label_AuthorInfo = new System.Windows.Forms.Label();
+            this.label_VersionInfo = new System.Windows.Forms.Label();                 // 版本信息显示标签
+            this.label_AuthorInfo = new System.Windows.Forms.Label();                  // 作者信息显示标签
+            
             //"代理"设置页
             this.Page_代理 = new System.Windows.Forms.TabPage();
             this.代理Button = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.chbox_代理服务器 = new System.Windows.Forms.CheckBox();
-            this.text_密码 = new System.Windows.Forms.TextBox();
-            this.text_端口 = new System.Windows.Forms.TextBox();
+            this.chbox_代理服务器 = new System.Windows.Forms.CheckBox();               // 代理服务器需要密码复选框
+            this.text_密码 = new System.Windows.Forms.TextBox();                       // 代理服务器密码输入框
+            this.text_端口 = new System.Windows.Forms.TextBox();                       // 代理服务器端口输入框
             this.label15 = new System.Windows.Forms.Label();
-            this.text_账号 = new System.Windows.Forms.TextBox();
-            this.text_服务器 = new System.Windows.Forms.TextBox();
+            this.text_账号 = new System.Windows.Forms.TextBox();                       // 代理服务器账号输入框
+            this.text_服务器 = new System.Windows.Forms.TextBox();                     // 代理服务器地址输入框
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.combox_代理 = new System.Windows.Forms.ComboBox();
+            this.combox_代理 = new System.Windows.Forms.ComboBox();                    // 代理类型选择下拉框
             this.label11 = new System.Windows.Forms.Label();
+            
             //"密钥"设置页
             this.Page_密钥 = new System.Windows.Forms.TabPage();
             this.百度_btn = new System.Windows.Forms.Button();
             this.密钥Button_apply = new System.Windows.Forms.Button();
             this.密钥Button = new System.Windows.Forms.Button();
             this.tabControl2 = new System.Windows.Forms.TabControl();
+            
+            // 百度OCR接口配置页
             this.inPage_百度接口 = new System.Windows.Forms.TabPage();
-            this.text_baidupassword = new System.Windows.Forms.TextBox();
-            this.text_baiduaccount = new System.Windows.Forms.TextBox();
+            this.text_baidupassword = new System.Windows.Forms.TextBox();              // 百度OCR密钥
+            this.text_baiduaccount = new System.Windows.Forms.TextBox();               // 百度OCR账号
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.comboBox_Baidu_Language = new System.Windows.Forms.ComboBox();
+            this.comboBox_Baidu_Language = new System.Windows.Forms.ComboBox();        // 百度OCR语言选择
             this.label_Baidu_Language = new System.Windows.Forms.Label();
+            
+            // 百度高精度OCR接口配置页
             this.inPage_百度高精度接口 = new System.Windows.Forms.TabPage();
-            this.text_baidu_accurate_secretkey = new System.Windows.Forms.TextBox();
-            this.text_baidu_accurate_apikey = new System.Windows.Forms.TextBox();
+            this.text_baidu_accurate_secretkey = new System.Windows.Forms.TextBox();   // 百度高精度OCR密钥
+            this.text_baidu_accurate_apikey = new System.Windows.Forms.TextBox();      // 百度高精度OCR API Key
             this.label_baidu_accurate_secretkey = new System.Windows.Forms.Label();
             this.label_baidu_accurate_apikey = new System.Windows.Forms.Label();
-            this.comboBox_Baidu_Accurate_Language = new System.Windows.Forms.ComboBox();
+            this.comboBox_Baidu_Accurate_Language = new System.Windows.Forms.ComboBox(); // 百度高精度OCR语言选择
             this.label_Baidu_Accurate_Language = new System.Windows.Forms.Label();
-            this.comboBox_Tencent_Language = new System.Windows.Forms.ComboBox();
-            this.label_Tencent_Language = new System.Windows.Forms.Label();
+            
+            // 腾讯OCR接口配置页
             this.inPage腾讯接口 = new System.Windows.Forms.TabPage();
-            this.inPage腾讯高精度接口 = new System.Windows.Forms.TabPage();
-            this.text_tencent_accurate_secretkey = new System.Windows.Forms.TextBox();
-            this.text_tencent_accurate_secretid = new System.Windows.Forms.TextBox();
-            this.label_tencent_accurate_secretkey = new System.Windows.Forms.Label();
-            this.label_tencent_accurate_secretid = new System.Windows.Forms.Label();
-            this.comboBox_Tencent_Accurate_Language = new System.Windows.Forms.ComboBox();
-            this.label_Tencent_Accurate_Language = new System.Windows.Forms.Label();
-            this.BoxTencentKey = new System.Windows.Forms.TextBox();
-            this.BoxTencentId = new System.Windows.Forms.TextBox();
+            this.BoxTencentKey = new System.Windows.Forms.TextBox();                   // 腾讯OCR密钥
+            this.BoxTencentId = new System.Windows.Forms.TextBox();                    // 腾讯OCR ID
             this.label17 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
+            this.comboBox_Tencent_Language = new System.Windows.Forms.ComboBox();       // 腾讯OCR语言选择
+            this.label_Tencent_Language = new System.Windows.Forms.Label();
+            
+            // 腾讯高精度OCR接口配置页
+            this.inPage腾讯高精度接口 = new System.Windows.Forms.TabPage();
+            this.text_tencent_accurate_secretkey = new System.Windows.Forms.TextBox(); // 腾讯高精度OCR密钥
+            this.text_tencent_accurate_secretid = new System.Windows.Forms.TextBox();  // 腾讯高精度OCR ID
+            this.label_tencent_accurate_secretkey = new System.Windows.Forms.Label();
+            this.label_tencent_accurate_secretid = new System.Windows.Forms.Label();
+            this.comboBox_Tencent_Accurate_Language = new System.Windows.Forms.ComboBox(); // 腾讯高精度OCR语言选择
+            this.label_Tencent_Accurate_Language = new System.Windows.Forms.Label();
             //"快捷键"设置页
             this.Page_快捷键 = new System.Windows.Forms.TabPage();
             this.快捷键Button = new System.Windows.Forms.Button();
