@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Permissions;
 
-[assembly: AssemblyVersion("6.0.0.0")]
+[assembly: AssemblyVersion("6.0.0.1")]
 [assembly: AssemblyConfiguration("")]
 [assembly: ComVisible(false)]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2022")]
@@ -16,7 +16,7 @@ using System.Security.Permissions;
 [assembly: AssemblyTitle("天若OCR文字识别v6")]
 [assembly: AssemblyDescription("topkill")]
 [assembly: CompilationRelaxations(8)]
-[assembly: AssemblyFileVersion("6.0.0.0")]
+[assembly: AssemblyFileVersion("6.0.0.1")]
 [assembly: AssemblyTrademark("")]
 [assembly: RuntimeCompatibility(WrapNonExceptionThrows = true)]
 [assembly: CLSCompliant(true)]

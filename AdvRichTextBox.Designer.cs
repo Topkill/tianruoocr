@@ -353,25 +353,8 @@ namespace TrOCR
             }
             set
             {
-                // 使用BeginUpdate/EndUpdate来避免重绘问题
-                this.richTextBox1.BeginUpdate();
-                try
-                {
-                    // // 只设置一次字体，避免重复设置导致的渲染问题
-                    // if (this.richTextBox1.Font.Name != "Times New Roman" ||
-                    //     this.richTextBox1.Font.Size != 16f * Program.Factor)
-                    // {
-                    //     this.richTextBox1.Font = new Font("Times New Roman", 16f * Program.Factor, GraphicsUnit.Pixel);
-                    // }
-                    this.richTextBox1.Text = value;
-                }
-                finally
-                {
-                    this.richTextBox1.EndUpdate();
-                    // 确保文本完全渲染
-                    this.richTextBox1.Invalidate();
-                    Application.DoEvents();
-                }
+                this.richTextBox1.Text = value;
+
             }
         }
 

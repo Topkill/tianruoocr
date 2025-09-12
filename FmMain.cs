@@ -3147,94 +3147,61 @@ namespace TrOCR
 		/// </summary>
 		public void Main_OCR_Thread_last()
 		{
-			image_screen.Dispose();
-			StaticValue.IsCapture = false;
-			var text = typeset_txt;
-			text = check_str(text);
-			split_txt = check_str(split_txt);
+		    // --- 步骤 1: 完成所有的数据准备工作 ---
+    		image_screen.Dispose();
+    		StaticValue.IsCapture = false;
+    		var text = typeset_txt;
+    		text = check_str(text);
+    		split_txt = check_str(split_txt);
 			// 如果文本没有标点符号，则使用拆分后的文本
-			if (!punctuation_has_punctuation(text))
-			{
-				text = split_txt;
-			}
+    		if (!punctuation_has_punctuation(text))
+    		{
+    		    text = split_txt;
+    		}
 			// 如果包含中文，则删除空格
-			if (contain_ch(text.Trim()))
-			{
-				text = Del_Space(text);
-			}
-			if (text != "")
-			{
-				// 直接设置Text属性，因为AdvRichTextBox.Text的setter已经优化
-				RichBoxBody.Text = text;
-			}
-			StaticValue.v_Split = split_txt;
+    		if (contain_ch(text.Trim()))
+    		{
+    		    text = Del_Space(text);
+    		}
+    
+    		StaticValue.v_Split = split_txt;
+
+    		// 用一个变量来存储最终要显示的文本
+    		string finalTextToShow = text;
 			// 处理文本拆分选项
-			if (bool.Parse(IniHelper.GetValue("工具栏", "拆分")) || set_split)
-			{
-				set_split = false;
-				RichBoxBody.Text = split_txt;
-			}
+    		if (bool.Parse(IniHelper.GetValue("工具栏", "拆分")) || set_split)
+    		{
+    		    set_split = false;
+    		    finalTextToShow = split_txt;
+    		}
 			// 处理文本合并选项
-			if (bool.Parse(IniHelper.GetValue("工具栏", "合并")) || set_merge)
+    		else if (bool.Parse(IniHelper.GetValue("工具栏", "合并")) || set_merge)
 			{
 				set_merge = false;
-				RichBoxBody.Text = text.Replace("\n", "").Replace("\r", "");
+				finalTextToShow = text.Replace("\n", "").Replace("\r", "");
 			}
-			// 计算识别耗时
-			var timeSpan = new TimeSpan(DateTime.Now.Ticks);
-			var timeSpan2 = timeSpan.Subtract(ts).Duration();
-			var str = string.Concat(new[]
-			{
-				timeSpan2.Seconds.ToString(),
-				".",
-				Convert.ToInt32(timeSpan2.TotalMilliseconds).ToString(),
-				"秒"
-			});
-			// 处理笔记相关功能
-			if (RichBoxBody.Text != null)
-			{
-				p_note(RichBoxBody.Text);
-				StaticValue.v_note = pubnote;
-				if (fmNote.Created)
-				{
-					fmNote.TextNote = "";
-				}
-			}
-			// 设置窗体是否置顶
-			if (StaticValue.v_topmost)
-			{
-				TopMost = true;
-			}
-			else
-			{
-				TopMost = false;
-			}
-			Text = "耗时：" + str;
-			minico.Visible = true;
-			// 处理竖排文字显示
-			if (interface_flag == "从右向左")
-			{
-				RichBoxBody.Text = shupai_Right_txt;
-			}
-			if (interface_flag == "从左向右")
-			{
-				RichBoxBody.Text = shupai_Left_txt;
-			}
-			// 处理粘贴板功能
-			if (IniHelper.GetValue("截图音效", "粘贴板") == "True")
-			{
-				Clipboard.SetDataObject(RichBoxBody.Text);
-			}
-			// 处理百度搜索功能
-			if (baidu_flags == "百度")
-			{
-				FormBorderStyle = FormBorderStyle.Sizable;
-				Size = new Size((int)font_base.Width * 23, (int)font_base.Height * 24);
-				Visible = false;
-				WindowState = FormWindowState.Minimized;
-				Show();
-				Process.Start("https://www.baidu.com/s?wd=" + RichBoxBody.Text);
-				baidu_flags = "";
+    
+    		// 计算耗时
+    		var timeSpan = new TimeSpan(DateTime.Now.Ticks);
+    		var timeSpan2 = timeSpan.Subtract(ts).Duration();
+    		var str = $"{timeSpan2.Seconds}.{Convert.ToInt32(timeSpan2.TotalMilliseconds)}秒";
+
+    		// 处理笔记相关功能
+    		if (!string.IsNullOrEmpty(finalTextToShow))
+    		{
+    		    p_note(finalTextToShow);
+    		    StaticValue.v_note = pubnote;
+    		    if (fmNote.Created)
+    		    {
+    		        fmNote.TextNote = "";
+    		    }
+    		}
+
+    		// 处理百度搜索和无弹窗模式 (这些模式会提前返回，不显示主窗口)
+    		if (baidu_flags == "百度")
+    		{
+    		    Process.Start("https://www.baidu.com/s?wd=" + finalTextToShow);
+    		    baidu_flags = "";
 				if (IniHelper.GetValue("快捷键", "翻译文本") != "请按下快捷键")
 				{
 					var value = IniHelper.GetValue("快捷键", "翻译文本");
@@ -3242,70 +3209,82 @@ namespace TrOCR
 					var text3 = "F9";
 					SetHotkey(text2, text3, value, 205);
 				}
-				HelpWin32.UnregisterHotKey(Handle, 222);
-				return;
-			}
+        		HelpWin32.UnregisterHotKey(Handle, 222);
+        		return;
+    		}
 			// 处理识别弹窗配置
-			if (IniHelper.GetValue("配置", "识别弹窗") == "False")
-			{
-				FormBorderStyle = FormBorderStyle.Sizable;
-				Size = new Size((int)font_base.Width * 23, (int)font_base.Height * 24);
-				Visible = false;
-				CommonHelper.ShowHelpMsg(RichBoxBody.Text == "***该区域未发现文本***" ? "无文本" : "已识别");
-				if (IniHelper.GetValue("快捷键", "翻译文本") != "请按下快捷键")
+    		if (IniHelper.GetValue("配置", "识别弹窗") == "False")
+    		{
+    		    if (finalTextToShow != "***该区域未发现文本***" && !string.IsNullOrWhiteSpace(finalTextToShow))
+    		    {
+    		        Clipboard.SetDataObject(finalTextToShow);
+    		        CommonHelper.ShowHelpMsg("已识别并复制");
+    		    }
+    		    else
+    		    {
+    		        CommonHelper.ShowHelpMsg("无文本");
+    		    }
+        		if (IniHelper.GetValue("快捷键", "翻译文本") != "请按下快捷键")
 				{
 					var value2 = IniHelper.GetValue("快捷键", "翻译文本");
 					var text4 = "None";
 					var text5 = "F9";
 					SetHotkey(text4, text5, value2, 205);
 				}
-				HelpWin32.UnregisterHotKey(Handle, 222);
-				return;
-			}
-			// 恢复窗体显示
-			FormBorderStyle = FormBorderStyle.Sizable;
-			Visible = true;
-			Show();
-			WindowState = FormWindowState.Normal;
-			Size = new Size(form_width, form_height);
-			HelpWin32.SetForegroundWindow(Handle);
-			StaticValue.v_googleTranslate_txt = RichBoxBody.Text;
-			// 处理自动翻译功能
-			if (bool.Parse(IniHelper.GetValue("工具栏", "翻译")))
-			{
-				try
-				{
-					auto_fla = "";
-					Invoke(new Translate(TransClick));
-				}
-				catch
-				{
-					//
-				}
-			}
-			// 处理文本检查功能
-			if (bool.Parse(IniHelper.GetValue("工具栏", "检查")))
-			{
-				try
-				{
-					RichBoxBody.Find = "";
-				}
-				catch
-				{
-					//
-				}
-			}
-			// 重新设置热键
-			if (IniHelper.GetValue("快捷键", "翻译文本") != "请按下快捷键")
-			{
-				var value3 = IniHelper.GetValue("快捷键", "翻译文本");
-				var text6 = "None";
-				var text7 = "F9";
-				SetHotkey(text6, text7, value3, 205);
-			}
-			HelpWin32.UnregisterHotKey(Handle, 222);
-			// 移除不必要的Refresh()调用，避免重复重绘
-			// RichBoxBody.Refresh();
+        		HelpWin32.UnregisterHotKey(Handle, 222);
+        		return;
+    		}
+
+    		// --- 步骤 2: 集中进行所有UI更新和状态变更 ---
+
+    		// a. 先让窗口框架稳定下来
+    		Text = "耗时：" + str;
+    		FormBorderStyle = FormBorderStyle.Sizable;
+    		Size = new Size(form_width, form_height);
+    		TopMost = (IniHelper.GetValue("工具栏", "顶置") == "True");
+    		Visible = true;
+    		Show();
+    		WindowState = FormWindowState.Normal;
+    		HelpWin32.SetForegroundWindow(Handle);
+
+    		// b. 在窗口稳定后，才填充文本内容
+    		RichBoxBody.Text = finalTextToShow;
+    
+    		// c. 处理竖排文本（如果需要）
+    		if (interface_flag == "从右向左") { RichBoxBody.Text = shupai_Right_txt; }
+    		if (interface_flag == "从左向右") { RichBoxBody.Text = shupai_Left_txt; }
+
+    		// d. 【关键】添加最终的刷新保障
+    		RichBoxBody.Refresh();
+    
+    		// --- 步骤 3: 触发后续的、依赖于UI的业务逻辑 ---
+
+    		StaticValue.v_googleTranslate_txt = RichBoxBody.Text;
+
+    		// 处理自动翻译功能 (使用 BeginInvoke 避免阻塞)
+    		if (bool.Parse(IniHelper.GetValue("工具栏", "翻译")))
+    		{
+    		    try
+    		    {
+    		        auto_fla = "";
+    		        BeginInvoke(new Translate(TransClick));
+    		    }
+    		    catch { }
+    		}
+
+    		// 处理文本检查功能
+    		if (bool.Parse(IniHelper.GetValue("工具栏", "检查")))
+    		{
+    		    try { RichBoxBody.Find = ""; } catch { }
+    		}
+
+    		// --- 步骤 4: 最后收尾 ---
+    		if (IniHelper.GetValue("快捷键", "翻译文本") != "请按下快捷键")
+    		{
+    		    var value3 = IniHelper.GetValue("快捷键", "翻译文本");
+    		    SetHotkey("None", "F9", value3, 205);
+    		}
+    		HelpWin32.UnregisterHotKey(Handle, 222);
 		}
 
 		/// <summary>
