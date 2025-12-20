@@ -375,6 +375,9 @@
     <Compile Include="Helper\PaddleOCR2Helper.cs" />
     <Compile Include="Helper\RapidOCRHelper.cs" />
     <Compile Include="Helper\TrOCRUtils.cs" />
+    <Compile Include="Models\TranslateInterfaceProfile.cs" />
+    <Compile Include="Models\OCRInterfaceProfile.cs" />
+    <Compile Include="Interfaces\ISettingControl.cs" />
     <Compile Include="Messageload.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -495,6 +498,7 @@
   </ItemGroup>
   <ItemGroup Condition="'$(Platform)' == 'x64'" />
   <ItemGroup>
+    <Folder Include="Controls\" />
     <Folder Include="DLL\x64\" />
     <Folder Include="PaddleOCR_data\win_x64\inference\ch_PP-OCRv4_det_infer\" />
     <Folder Include="PaddleOCR_data\win_x64\inference\ch_PP-OCRv4_rec_infer\" />
