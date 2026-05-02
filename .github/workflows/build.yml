@@ -44,6 +44,7 @@ jobs:
         # 1. 如果是手动运行且在 [文本框] 中输入了 tag_name, 优先使用它。
         # 2. 否则 (包括[推送标签]触发, 或手动运行[下拉菜单]选择), 使用 github.ref。
         ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.tag_name) || github.ref }}
+        fetch-depth: 0  # 0 表示拉取所有历史和标签
 
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
@@ -79,6 +80,7 @@ jobs:
       with:
         # <--- 关键修改 (同上) ---
         ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.tag_name) || github.ref }}
+        fetch-depth: 0   # 0 表示拉取所有历史和标签
 
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2

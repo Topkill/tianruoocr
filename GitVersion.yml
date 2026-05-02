@@ -1,0 +1,35 @@
+﻿# ContinuousDelivery 模式：
+# 1. 如果当前 commit 有 tag (如 6.0.0)，直接用 tag 版本。
+# 2. 如果没有 tag，根据距离上一个 tag 的 commit 数生成版本。
+mode: ContinuousDelivery
+# 告诉 GitVersion，Tag 前面没有 'v' (默认是识别 v 的)
+tag-prefix: ""
+
+# 配置分支策略
+branches:
+  # 自定义针对 feature/more 的规则
+  feature-more:
+    # 正则表达式匹配你的分支名，只要结尾是 feature/more 就认，不管前面带不带 origin/，方便github action，或者使用：# 修改正则：允许前面有 "origin/" 或者 "refs/heads/"：regex: (origin/|refs/heads/|^)feature/more$
+    regex: feature/more$
+    
+    # 防止默认给 feature 分支加上 "alpha" 或 "use-branch-name" 等后缀（产品版本）
+    # 如果你在 Tag 里已经写了 beta (如 6.0.0-beta)，GitVersion 会自动识别 Tag 中的 beta
+    tag: ''
+    
+    # 视为主线分支，保证版本号的连续性和权威性
+    is-mainline: true
+    # 必须指定源分支！
+    # 如果你的仓库默认分支叫 main，就只写 main；如果叫 master，就只写 master
+    # 把两个都写上，GitVersion 会自动识别存在的那个
+    source-branches: [ 'main']
+    increment: Patch
+
+  main:
+    regex: ^main$
+    mode: ContinuousDelivery #覆盖全局mode配置
+    tag: ''
+    is-mainline: true
+
+ignore:
+  sha: 
+    - 8ff4341c37b4c2b02dc09cfba79b09d1dbcd9673

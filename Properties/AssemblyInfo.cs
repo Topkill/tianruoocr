@@ -8,7 +8,7 @@ using System.Security.Permissions;
 
 //更新版本号：AssemblyVersion，AssemblyFileVersion，AssemblyInformationalVersion三者皆需要修改
 // 1. AssemblyVersion: 供 .NET 运行时 (CLR) 使用
-[assembly: AssemblyVersion("6.1.1.0")]
+//[assembly: AssemblyVersion("6.1.1.0")]
 [assembly: AssemblyConfiguration("")]
 [assembly: ComVisible(false)]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2022")]
@@ -19,9 +19,9 @@ using System.Security.Permissions;
 [assembly: AssemblyDescription("topkill")]
 [assembly: CompilationRelaxations(8)]
 // 2. AssemblyFileVersion: 供 Windows 文件系统使用
-[assembly: AssemblyFileVersion("6.1.1")]
+//[assembly: AssemblyFileVersion("6.1.1")]
 // 3. AssemblyInformationalVersion: 供程序逻辑和用户查看
-[assembly: AssemblyInformationalVersion("6.1.1")]
+//[assembly: AssemblyInformationalVersion("6.1.1")]
 [assembly: AssemblyTrademark("")]
 [assembly: RuntimeCompatibility(WrapNonExceptionThrows = true)]
 [assembly: CLSCompliant(true)]

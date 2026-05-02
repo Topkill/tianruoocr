@@ -3,6 +3,7 @@
   <!-- <Import Project="packages\Sdcb.PaddleInference.runtime.win64.openblas-noavx.3.1.0.54\build\net45\Sdcb.PaddleInference.runtime.win64.openblas-noavx.props" Condition="Exists('packages\Sdcb.PaddleInference.runtime.win64.openblas-noavx.3.1.0.54\build\net45\Sdcb.PaddleInference.runtime.win64.openblas-noavx.props') And '$(Platform)' == 'x64'" /> -->
   <!-- <Import Project="packages\OpenCvSharp4.runtime.win.4.11.0.20250507\build\net48\OpenCvSharp4.runtime.win.props" Condition="Exists('packages\OpenCvSharp4.runtime.win.4.11.0.20250507\build\net48\OpenCvSharp4.runtime.win.props') And '$(Platform)' == 'x64'" /> -->
   <!-- <Import Project="packages\Sdcb.PaddleInference.runtime.win64.mkl.3.1.0.54\build\net45\Sdcb.PaddleInference.runtime.win64.mkl.props" Condition="Exists('packages\Sdcb.PaddleInference.runtime.win64.mkl.3.1.0.54\build\net45\Sdcb.PaddleInference.runtime.win64.mkl.props') And '$(Platform)' == 'x64'" /> -->
+  <Import Project="packages\GitVersion.MsBuild.5.12.0\build\GitVersion.MsBuild.props" Condition="Exists('packages\GitVersion.MsBuild.5.12.0\build\GitVersion.MsBuild.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -441,6 +442,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="app.manifest" />
+    <None Include="GitVersion.yml" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -524,6 +526,8 @@
     <!-- <Error Condition="!Exists('packages\Sdcb.PaddleInference.runtime.win64.mkl.3.1.0.54\build\net45\Sdcb.PaddleInference.runtime.win64.mkl.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Sdcb.PaddleInference.runtime.win64.mkl.3.1.0.54\build\net45\Sdcb.PaddleInference.runtime.win64.mkl.props'))" /> -->
     <Error Condition="!Exists('packages\OpenCvSharp4.runtime.win.4.11.0.20250507\build\net48\OpenCvSharp4.runtime.win.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\OpenCvSharp4.runtime.win.4.11.0.20250507\build\net48\OpenCvSharp4.runtime.win.props'))" />
     <Error Condition="!Exists('packages\Sdcb.PaddleInference.runtime.win64.openblas-noavx.3.1.0.54\build\net45\Sdcb.PaddleInference.runtime.win64.openblas-noavx.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Sdcb.PaddleInference.runtime.win64.openblas-noavx.3.1.0.54\build\net45\Sdcb.PaddleInference.runtime.win64.openblas-noavx.props'))" />
+    <Error Condition="!Exists('packages\GitVersion.MsBuild.5.12.0\build\GitVersion.MsBuild.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\GitVersion.MsBuild.5.12.0\build\GitVersion.MsBuild.props'))" />
+    <Error Condition="!Exists('packages\GitVersion.MsBuild.5.12.0\build\GitVersion.MsBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\GitVersion.MsBuild.5.12.0\build\GitVersion.MsBuild.targets'))" />
   </Target>
   <!-- <Import Project="packages\PaddleOCRSharp.5.1.0\build\PaddleOCRSharp.targets" Condition="Exists('packages\PaddleOCRSharp.5.1.0\build\PaddleOCRSharp.targets') And '$(Platform)' == 'x64'" /> -->
   <Import Project="packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets" Condition="Exists('packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets')" />
@@ -568,4 +572,5 @@ move /Y "$(TargetDir)lib\Sdcb.*.xml" "$(TargetDir)"
 )
 </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="packages\GitVersion.MsBuild.5.12.0\build\GitVersion.MsBuild.targets" Condition="Exists('packages\GitVersion.MsBuild.5.12.0\build\GitVersion.MsBuild.targets')" />
 </Project>

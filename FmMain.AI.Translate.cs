@@ -345,6 +345,20 @@ namespace TrOCR
                             {
                                 // 二次检查（防止排队期间窗口被关）
                                 if (this.IsDisposed || this.RichBoxBody_T.IsDisposed) return;
+                                // ==================== 【修复开始】 ====================
+                                // 1. 预处理 token：如果是首字，去掉开头的换行和空格
+                                if (isFirstToken)
+                                {
+                                    // 如果整个 token 都是空白（比如 AI 先发了一个 "\n"），直接忽略，不进入初始化逻辑
+                                    if (string.IsNullOrWhiteSpace(token)) return;
+
+                                    // 去掉开头的空白
+                                    token = token.TrimStart();
+
+                                    // 如果 Trim 后没了，也忽略
+                                    if (string.IsNullOrEmpty(token)) return;
+                                }
+                                // ==================== 【修复结束】 ====================
                                 // --- 第一个字到达时的初始化 ---
                                 if (isFirstToken)
                                 {

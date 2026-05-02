@@ -322,6 +322,20 @@ namespace TrOCR
                             {
                                 // 二次检查（防止排队期间窗口被关）
                                 if (this.IsDisposed || this.RichBoxBody.IsDisposed) return;
+                                // ==================== 【修复开始】 ====================
+                                // 在处理 isFirstToken 逻辑之前，先处理 token 内容
+                                if (isFirstToken)
+                                {
+                                    // 1. 如果收到的第一个包纯粹是换行或空格，直接丢弃，继续等待下一个包
+                                    if (string.IsNullOrWhiteSpace(token)) return;
+
+                                    // 2. 如果包含内容但开头有换行（例如 "\n你好"），去掉开头的空白
+                                    token = token.TrimStart();
+
+                                    // 3. 再次检查 Trim 后是否为空，防止 token 只是空格的情况
+                                    if (string.IsNullOrEmpty(token)) return;
+                                }
+                                // ==================== 【修复结束】 ====================
                                 // ---如果是第一个字，执行“早产”逻辑---
                                 if (isFirstToken)
                                 {
@@ -392,6 +406,41 @@ namespace TrOCR
                 split_txt = typeset_txt;
             }
         }
+        /*
+         * 补充：发现一个没啥影响的小bug（ai翻译应该也有）：
+         * 流式输出有时候直接一瞬间出现结果，没有打字机过程，原因是ui线程：
+         * WinForms 的 UI 刷新机制是基于消息队列的。当你通过 Invoke 疯狂地向 UI 线程塞入 AppendText 指令时（比如 1 秒钟塞了 50 次），UI 线程会优先执行逻辑代码（修改 Text 属性），而把“重绘界面”（Paint）的任务往后排。结果就是：逻辑上文本已经一点点加上去了，但视觉上 UI 线程决定“攒一波大的”再绘制，导致你看到的是瞬间出来的结果。
+         * 这个bug不用修，如果想修：
+         * 可以使用一种节流刷新方案，对性能影响小，又不会导致每个打字都等1段时间，导致从打字到显示完结果的总时长变长变慢：
+         * // 在类成员变量里加一个记录时间的变量
+            private long lastUpdateTime = 0;
+
+            // ... 在 streamCallback 内部 ...
+
+            this.Invoke((MethodInvoker)delegate
+            {
+                // ... 前面的逻辑 ...
+
+                // ---追加文本---
+                this.RichBoxBody.richTextBox1.AppendText(token);
+
+                // 滚动到最后
+                this.RichBoxBody.richTextBox1.SelectionStart = this.RichBoxBody.Text.Length;
+                this.RichBoxBody.richTextBox1.ScrollToCaret();
+
+                // ==================== 【性能优化的流式刷新】 ====================
+                long now = DateTime.Now.Ticks / 10000; // 转换为毫秒
+    
+                // 如果距离上次刷新超过了 100ms，或者是第一个字，则强制刷新
+                if (now - lastUpdateTime > 100 || isFirstToken) // 注意：这里isFirstToken逻辑可能要在前面处理完后更新
+                {
+                    this.RichBoxBody.richTextBox1.Update();
+                    lastUpdateTime = now;
+                }
+                // 否则，就交给 Windows 自己决定什么时候画（通常会攒一波一起画）
+                // ==========================================================
+            });
+         */
         //下面是一种未来可选的优化方式，使用总路由方法，根据不同的 Type 调用不同的 接口实现，需要配合：
         /*类要实现Type字段
          * if (interface_flag == "CustomOpenAI")
