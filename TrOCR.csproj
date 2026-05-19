@@ -282,113 +282,171 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdvRichTextBox.Designer.cs">
+    <Compile Include="Controls\AdvRichTextBox.Designer.cs">
       <DependentUpon>AdvRichTextBox.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="AliTable.cs">
+    <Compile Include="Forms\Dialogs\AliTable.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AliTable.designer.cs">
+    <Compile Include="Forms\Dialogs\AliTable.designer.cs">
       <DependentUpon>AliTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helper\Models\CustomAITransProvider.cs" />
-    <Compile Include="Helper\Models\CustomAIProvider.cs" />
-    <Compile Include="FmFlags.cs">
+    <Compile Include="Models\CustomAITransProvider.cs" />
+    <Compile Include="Models\CustomAIProvider.cs" />
+    <Compile Include="Forms\Dialogs\Fmflags.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FmFlags.Designer.cs">
-      <DependentUpon>FmFlags.cs</DependentUpon>
+    <Compile Include="Forms\Dialogs\Fmflags.Designer.cs">
+      <DependentUpon>Fmflags.cs</DependentUpon>
     </Compile>
-    <Compile Include="FmHelp.cs">
+    <Compile Include="Forms\Dialogs\FmHelp.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FmHelp.Designer.cs">
+    <Compile Include="Forms\Dialogs\FmHelp.Designer.cs">
       <DependentUpon>FmHelp.cs</DependentUpon>
     </Compile>
-    <Compile Include="FmLoading.cs">
+    <Compile Include="Forms\Dialogs\Fmloading.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FmLoading.Designer.cs">
-      <DependentUpon>FmLoading.cs</DependentUpon>
+    <Compile Include="Forms\Dialogs\Fmloading.Designer.cs">
+      <DependentUpon>Fmloading.cs</DependentUpon>
     </Compile>
-    <Compile Include="FmLoadingExport.cs">
+    <Compile Include="Forms\Dialogs\FmLoadingExport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FmMain.Other.cs">
+    <Compile Include="Forms\Main\FmMain.ImageProcessing.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FmMain.AI.Translate.cs">
+    <Compile Include="Forms\Main\FmMain.TableOCR.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FmMain.AI.OCR.cs">
+    <Compile Include="Forms\Main\FmMain.TTS.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FmMain.cs">
+    <Compile Include="Forms\Main\FmMain.Tray.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FmMain.Designer.cs">
+    <Compile Include="Forms\Main\FmMain.AI.Translate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Main\FmMain.AI.OCR.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Main\FmMain.OCR.Core.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Main\FmMain.OCR.Engines.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Main\FmMain.OCR.MenuHandlers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Main\FmMain.Translation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Main\FmMain.TextProcessing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Main\FmMain.Clipboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Main\FmMain.Config.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Main\FmMain.Utilities.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Main\FmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Main\FmMain.Designer.cs">
       <DependentUpon>FmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="FmNote.cs">
+    <Compile Include="Forms\Dialogs\Fmnote.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FmNote.Designer.cs">
-      <DependentUpon>FmNote.cs</DependentUpon>
+    <Compile Include="Forms\Dialogs\Fmnote.Designer.cs">
+      <DependentUpon>Fmnote.cs</DependentUpon>
     </Compile>
-    <Compile Include="FmScreenPaste.cs">
+    <Compile Include="Forms\Dialogs\FmScreenPaste.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FmScreenPaste.Designer.cs">
+    <Compile Include="Forms\Dialogs\FmScreenPaste.Designer.cs">
       <DependentUpon>FmScreenPaste.cs</DependentUpon>
     </Compile>
-    <Compile Include="FmSetting.cs">
+    <Compile Include="Forms\Settings\FmSetting.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FmSetting.Designer.cs">
+    <Compile Include="Forms\Settings\FmSetting.Init.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Settings\FmSetting.AI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Settings\FmSetting.Save.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Settings\FmSetting.ApiKeys.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Settings\FmSetting.General.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Settings\FmSetting.OcrModel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Settings\FmSetting.WebDav.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Settings\FmSetting.Misc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Settings\FmSetting.Designer.cs">
       <DependentUpon>FmSetting.cs</DependentUpon>
     </Compile>
-    <Compile Include="FmTempTranslate.cs">
+    <Compile Include="Forms\Dialogs\FmTempTranslate.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FmTempTranslate.Designer.cs">
+    <Compile Include="Forms\Dialogs\FmTempTranslate.Designer.cs">
       <DependentUpon>FmTempTranslate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helper\BaiduTranslator2Helper.cs" />
-    <Compile Include="Helper\CommonHelper.cs" />
-    <Compile Include="Helper\ExcelHelper.cs" />
-    <Compile Include="Helper\HanzToPinyin.cs" />
-    <Compile Include="Helper\HelpRepaint.cs" />
-    <Compile Include="Helper\HelpWin32.cs" />
-    <Compile Include="Helper\HttpHelper.cs" />
-    <Compile Include="Helper\IniHelper.cs" />
-    <Compile Include="Helper\Models\AIModels.cs" />
-    <Compile Include="Helper\NetworkInitializer.cs" />
-    <Compile Include="Helper\OcrHelper.cs" />
-    <Compile Include="Helper\OpenAICompatibleTranslate.cs" />
-    <Compile Include="Helper\OpenAICompatibleHelper.cs" />
-    <Compile Include="Helper\Pangu.cs" />
-    <Compile Include="Helper\TranslateHelper.cs" />
-    <Compile Include="Helper\BingTranslator.cs" />
-    <Compile Include="Helper\BingTranslator2.cs" />
-    <Compile Include="Helper\TencentTranslator.cs" />
-    <Compile Include="Helper\CaiyunTranslator.cs" />
-    <Compile Include="Helper\VolcanoTranslator.cs" />
-    <Compile Include="Helper\CaiyunTranslator2.cs" />
-    <Compile Include="Helper\BaiduOcrHelper.cs" />
-    <Compile Include="Helper\TencentOcrHelper.cs" />
-    <Compile Include="Helper\PaddleOCRHelper.cs" />
-    <Compile Include="Helper\PaddleOCR2Helper.cs" />
-    <Compile Include="Helper\RapidOCRHelper.cs" />
-    <Compile Include="Helper\TrOCRUtils.cs" />
-    <Compile Include="Helper\WebDavHelper.cs" />
-    <Compile Include="Messageload.cs">
+    <Compile Include="Services\Translation\BaiduTranslator2Helper.cs" />
+    <Compile Include="Utilities\CommonHelper.cs" />
+    <Compile Include="Utilities\ExcelHelper.cs" />
+    <Compile Include="Utilities\HanzToPinyin.cs" />
+    <Compile Include="Utilities\HelpRepaint.cs" />
+    <Compile Include="Utilities\HelpWin32.cs" />
+    <Compile Include="Utilities\HttpHelper.cs" />
+    <Compile Include="Utilities\IniHelper.cs" />
+    <Compile Include="Models\AIModels.cs" />
+    <Compile Include="Utilities\NetworkInitializer.cs" />
+    <Compile Include="Services\OCR\OcrHelper.cs" />
+    <Compile Include="Services\Translation\OpenAICompatibleTranslate.cs" />
+    <Compile Include="Services\OCR\OpenAICompatibleHelper.cs" />
+    <Compile Include="Utilities\Pangu.cs" />
+    <Compile Include="Services\Translation\TranslateHelper.cs" />
+    <Compile Include="Services\Translation\BingTranslator.cs" />
+    <Compile Include="Services\Translation\BingTranslator2.cs" />
+    <Compile Include="Services\Translation\TencentTranslator.cs" />
+    <Compile Include="Services\Translation\CaiyunTranslator.cs" />
+    <Compile Include="Services\Translation\VolcanoTranslator.cs" />
+    <Compile Include="Services\Translation\CaiyunTranslator2.cs" />
+    <Compile Include="Services\OCR\BaiduOcrHelper.cs" />
+    <Compile Include="Services\OCR\TencentOcrHelper.cs" />
+    <Compile Include="Services\OCR\PaddleOCRHelper.cs" />
+    <Compile Include="Services\OCR\PaddleOCR2Helper.cs" />
+    <Compile Include="Services\OCR\RapidOCRHelper.cs" />
+    <Compile Include="Utilities\TrOCRUtils.cs" />
+    <Compile Include="Utilities\WebDavHelper.cs" />
+    <Compile Include="Forms\Dialogs\Messageload.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Messageload.Designer.cs">
+    <Compile Include="Forms\Dialogs\Messageload.Designer.cs">
       <DependentUpon>Messageload.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\UpdateChecker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -401,36 +459,37 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ReplaceForm.cs">
+    <Compile Include="Forms\Dialogs\ReplaceForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ReplaceForm.Designer.cs">
+    <Compile Include="Forms\Dialogs\ReplaceForm.Designer.cs">
       <DependentUpon>ReplaceForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RichTextBoxEx.cs">
+    <Compile Include="Controls\RichTextBoxEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Helper\StaticValue.cs" />
+    <Compile Include="Utilities\StaticValue.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AdvRichTextBox.resx">
+    <EmbeddedResource Include="Controls\AdvRichTextBox.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AdvRichTextBox.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LogicalName>TrOCR.AdvRichTextBox.resources</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="FmHelp.resx">
+    <EmbeddedResource Include="Forms\Dialogs\FmHelp.resx">
       <DependentUpon>FmHelp.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FmLoading.resx">
-      <DependentUpon>FmLoading.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Dialogs\Fmloading.resx">
+      <DependentUpon>Fmloading.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FmMain.resx">
+    <EmbeddedResource Include="Forms\Main\FmMain.resx">
       <DependentUpon>FmMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FmSetting.resx">
+    <EmbeddedResource Include="Forms\Settings\FmSetting.resx">
       <DependentUpon>FmSetting.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FmTempTranslate.resx">
+    <EmbeddedResource Include="Forms\Dialogs\FmTempTranslate.resx">
       <DependentUpon>FmTempTranslate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

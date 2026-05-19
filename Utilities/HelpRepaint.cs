@@ -647,62 +647,6 @@ namespace TrOCR.Helper
 			public Color menuItemBorderColor;
 		}
 
-		[Description("ToolStripItem that allows selecting a color from a color picker control.")]
-		[DefaultEvent("SelectedColorChanged")]
-		[ToolboxBitmap(typeof(ToolStripColorPicker), "ToolStripColorPicker")]
-		[DefaultProperty("Color")]
-		[ToolboxItem(false)]
-		public class ToolStripColorPicker : ToolStripButton
-		{
-
-			public Point GetOpenPoint()
-			{
-				var flag = Owner == null;
-				var flag2 = flag;
-				var flag3 = flag2;
-				var flag4 = flag3;
-				var flag5 = flag4;
-				var flag6 = flag5;
-				var flag7 = flag6;
-				var flag8 = flag7;
-				var flag9 = flag8;
-				var flag10 = flag9;
-				Point result;
-				if (flag10)
-				{
-					result = new Point(5, 5);
-				}
-				else
-				{
-					var num = 0;
-					foreach (var obj in Parent.Items)
-					{
-						var toolStripItem = (ToolStripItem)obj;
-						var flag11 = toolStripItem == this;
-						var flag12 = flag11;
-						var flag13 = flag12;
-						var flag14 = flag13;
-						var flag15 = flag14;
-						var flag16 = flag15;
-						var flag17 = flag16;
-						var flag18 = flag17;
-						var flag19 = flag18;
-						var flag20 = flag19;
-						if (flag20)
-						{
-							break;
-						}
-						num += toolStripItem.Width;
-					}
-					result = new Point(num, -4);
-				}
-				return result;
-			}
-
-
-			public Point GetPoint => GetOpenPoint();
-        }
-
 		public class ToolStripEx : ToolStrip
 		{
 
@@ -1037,21 +981,6 @@ namespace TrOCR.Helper
 				base.OnVisibleChanged(e);
 			}
 
-			public DialogResult ShowDialog(Control control)
-			{
-				return ShowDialog(control, 0, control.Height);
-			}
-
-			public DialogResult ShowDialog(Control control, int offsetX, int offsetY)
-			{
-				return ShowDialog(control, new Point(offsetX, offsetY));
-			}
-
-			public DialogResult ShowDialog(Control control, Point offset)
-			{
-				return ShowDialogInternal(control, offset);
-			}
-
 			public DialogResult ShowDialog(ToolStripItem item)
 			{
 				return ShowDialog(item, 0, item.Height + 4);
@@ -1065,36 +994,6 @@ namespace TrOCR.Helper
 			public DialogResult ShowDialog(ToolStripItem item, Point offset)
 			{
 				return ShowDialogInternal(item, offset);
-			}
-
-			public void Show(Control control)
-			{
-				Show(control, 0, control.Height);
-			}
-
-			public void Show(Control control, int offsetX, int offsetY)
-			{
-				Show(control, new Point(offsetX, offsetY));
-			}
-
-			public void Show(Control control, Point offset)
-			{
-				ShowInternal(control, offset);
-			}
-
-			public void Show(ToolStripItem item)
-			{
-				Show(item, 0, item.Height);
-			}
-
-			public void Show(ToolStripItem item, int offsetX, int offsetY)
-			{
-				Show(item, new Point(offsetX, offsetY));
-			}
-
-			public void Show(ToolStripItem item, Point offset)
-			{
-				ShowInternal(item, offset);
 			}
 
 			public DialogResult ShowDialogInternal(Component controlOrItem, Point offset)
@@ -1484,44 +1383,6 @@ namespace TrOCR.Helper
 
 		public class AdvRichTextBox : RichTextBox
 		{
-
-			public void BeginUpdate()
-			{
-				updating++;
-				var flag = updating <= 1;
-				var flag2 = flag;
-				var flag3 = flag2;
-				var flag4 = flag3;
-				var flag5 = flag4;
-				var flag6 = flag5;
-				var flag7 = flag6;
-				var flag8 = flag7;
-				var flag9 = flag8;
-				if (flag9)
-				{
-					oldEventMask = SendMessage(new HandleRef(this, Handle), 1073, 0, 0);
-					SendMessage(new HandleRef(this, Handle), 11, 0, 0);
-				}
-			}
-
-			public void EndUpdate()
-			{
-				updating--;
-				var flag = updating <= 0;
-				var flag2 = flag;
-				var flag3 = flag2;
-				var flag4 = flag3;
-				var flag5 = flag4;
-				var flag6 = flag5;
-				var flag7 = flag6;
-				var flag8 = flag7;
-				var flag9 = flag8;
-				if (flag9)
-				{
-					SendMessage(new HandleRef(this, Handle), 11, 1, 0);
-					SendMessage(new HandleRef(this, Handle), 1073, 0, oldEventMask);
-				}
-			}
 
 
 			public new TextAlign SelectionAlignment

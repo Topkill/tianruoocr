@@ -15,3 +15,18 @@
 .codebuddy
 paddleOCR实现版本
 gitversion.json
+
+# IDE user settings
+*.csproj.user
+*.DotSettings.user
+*.csproj.DotSettings
+
+# NuGet binary (use global install or setup-nuget action)
+nuget.exe
+
+# Serena LSP cache
+.serena/
+
+# Claude AI documentation (local-only)
+CLAUDE.md
+**/CLAUDE.md

@@ -15,8 +15,6 @@ namespace TrOCR.Helper
         private static readonly HttpClient HttpClient;
         private static readonly string AuthUrl = "https://edge.microsoft.com/translate/auth";
         private static readonly string TranslateUrl = "https://api-edge.cognitive.microsofttranslator.com/translate";
-        private static readonly string DetectUrl = "https://api-edge.cognitive.microsofttranslator.com/detect";
-        
         // 语言映射表
         private static readonly Dictionary<string, string> LanguageMap = new Dictionary<string, string>
         {
@@ -216,95 +214,6 @@ namespace TrOCR.Helper
         }
 
         /// <summary>
-        /// 检测语言
-        /// </summary>
-        public static async Task<string> DetectLanguageAsync(string text)
-        {
-            if (string.IsNullOrWhiteSpace(text))
-                return "en";
-
-            try
-            {
-                string token = null;
-                for (int i = 0; i < 3; i++) // 最多尝试3次
-                {
-                    // 获取认证Token
-                    token = await GetAuthTokenAsync().ConfigureAwait(false);
-                    if (!string.IsNullOrEmpty(token))
-                    {
-                        break; // 成功获取Token，跳出循环
-                    }
-                    if (i < 2) // 如果不是最后一次尝试，则等待
-                    {
-                        await Task.Delay(200).ConfigureAwait(false);
-                    }
-                }
-        
-                if (string.IsNullOrEmpty(token))
-                {
-                    return "en";
-                }
-
-                // 构建请求URL
-                var url = $"{DetectUrl}?api-version=3.0";
-
-                using (var request = new HttpRequestMessage(HttpMethod.Post, url))
-                {
-                    // 设置请求头
-                    request.Headers.TryAddWithoutValidation("Accept", "*/*");
-                    request.Headers.TryAddWithoutValidation("Accept-Language", "zh-TW,zh;q=0.9,ja;q=0.8,zh-CN;q=0.7,en-US;q=0.6,en;q=0.5");
-                    request.Headers.TryAddWithoutValidation("Authorization", $"Bearer {token}");
-                    request.Headers.TryAddWithoutValidation("Cache-Control", "no-cache");
-                    request.Headers.TryAddWithoutValidation("Pragma", "no-cache");
-                    request.Headers.TryAddWithoutValidation("Sec-Ch-Ua", "\"Microsoft Edge\";v=\"113\", \"Chromium\";v=\"113\", \"Not-A.Brand\";v=\"24\"");
-                    request.Headers.TryAddWithoutValidation("Sec-Ch-Ua-Mobile", "?0");
-                    request.Headers.TryAddWithoutValidation("Sec-Ch-Ua-Platform", "\"Windows\"");
-                    request.Headers.TryAddWithoutValidation("Sec-Fetch-Dest", "empty");
-                    request.Headers.TryAddWithoutValidation("Sec-Fetch-Mode", "cors");
-                    request.Headers.TryAddWithoutValidation("Sec-Fetch-Site", "cross-site");
-                    request.Headers.TryAddWithoutValidation("Referer", "https://appsumo.com/");
-                    request.Headers.TryAddWithoutValidation("Referrer-Policy", "strict-origin-when-cross-origin");
-                    request.Headers.TryAddWithoutValidation("User-Agent",
-                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42");
-
-                    // 设置请求体
-                    var bodyArray = new[] { new { Text = text } };
-                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(bodyArray);
-                    // request.Content = new StringContent(json, Encoding.UTF8, "application/json");
-                    request.Content = new StringContent(json, Encoding.UTF8, "application/json");
-
-
-                    using (var response = await HttpClient.SendAsync(request).ConfigureAwait(false))
-                    {
-                        if (response.IsSuccessStatusCode)
-                        {
-                            var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            var result = JArray.Parse(responseString);
-
-                            if (result.Count > 0 && result[0]["language"] != null)
-                            {
-                                var detectedLang = result[0]["language"].ToString();
-
-                                // 转换为我们的语言代码格式
-                                if (LanguageMap.ContainsKey(detectedLang))
-                                {
-                                    return LanguageMap[detectedLang];
-                                }
-                                return detectedLang;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"语言检测失败: {ex.Message}");
-            }
-
-            return "en";
-        }
-
-        /// <summary>
         /// 将我们的语言代码转换为Microsoft的格式
         /// </summary>
         private static string ConvertToMicrosoftLangCode(string langCode)
@@ -322,22 +231,5 @@ namespace TrOCR.Helper
             return langCode;
         }
 
-        /// <summary>
-        /// 将Microsoft的语言代码转换为我们的格式
-        /// </summary>
-        private static string ConvertFromMicrosoftLangCode(string langCode)
-        {
-            if (string.IsNullOrEmpty(langCode))
-            {
-                return "auto";
-            }
-
-            if (LanguageMap.ContainsKey(langCode))
-            {
-                return LanguageMap[langCode];
-            }
-
-            return langCode;
-        }
     }
 }

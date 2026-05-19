@@ -819,113 +819,17 @@ namespace TrOCR.Helper
         }
 
         /// <summary>
-        /// 处理表格识别结果
+        /// 将列索引转换为Excel风格的列名 (0->A, 1->B, ...)
         /// </summary>
-        private static string ProcessTableResult(JObject json, bool returnExcel)
+        private static string GetColumnName(int columnIndex)
         {
-            try
+            string columnName = "";
+            while (columnIndex >= 0)
             {
-                // 如果请求返回Excel文件
-                if (returnExcel && json["excel_file"] != null)
-                {
-                    string excelBase64 = json["excel_file"].ToString();
-                    return $"Excel文件(Base64): {excelBase64}";
-                }
-
-                // 处理表格数据
-                var tablesResult = json["tables_result"] as JArray;
-                if (tablesResult == null || tablesResult.Count == 0)
-                {
-                    return "***该区域未发现表格***";
-                }
-
-                StringBuilder result = new StringBuilder();
-                int tableIndex = 1;
-
-                foreach (var table in tablesResult)
-                {
-                    if (tablesResult.Count > 1)
-                    {
-                        result.AppendLine($"=== 表格 {tableIndex} ===");
-                    }
-
-                    // 生成完整的HTML表格（包含header、body、footer）
-                    string completeHtmlTable = ProcessCompleteTable(table);
-                    result.AppendLine(completeHtmlTable);
-
-                    tableIndex++;
-                }
-
-                return result.ToString().TrimEnd();
+                columnName = (char)('A' + (columnIndex % 26)) + columnName;
+                columnIndex = columnIndex / 26 - 1;
             }
-            catch (Exception ex)
-            {
-                return $"处理表格识别结果时发生异常: {ex.Message}";
-            }
-        }
-
-        /// <summary>
-        /// 处理完整表格（包含header、body、footer），生成Excel兼容的HTML格式
-        /// </summary>
-        private static string ProcessCompleteTable(JToken table)
-        {
-            try
-            {
-                StringBuilder result = new StringBuilder();
-                
-                // 处理表头
-                var header = table["header"] as JArray;
-                // if (header != null && header.Count > 0)
-                // {
-                //     result.AppendLine("【表头】");
-                //     foreach (var headerItem in header)
-                //     {
-                //         if (headerItem["words"] != null)
-                //         {
-                //             result.AppendLine($"  {headerItem["words"]}");
-                //         }
-                //     }
-                //     result.AppendLine();
-                // }
-
-                // 处理表格主体
-                var body = table["body"] as JArray;
-                if (body != null && body.Count > 0)
-                {
-                    // result.AppendLine("【表格内容】");
-                    
-                    // 使用改进的表格处理方法
-                    string tableContent = ProcessTableBodyWithSpan(body);
-                    // result.AppendLine(tableContent);
-                    // result.AppendLine();
-                }
-
-                // 处理表尾
-                var footer = table["footer"] as JArray;
-                // if (footer != null && footer.Count > 0)
-                // {
-                //     result.AppendLine("【表尾】");
-                //     foreach (var footerItem in footer)
-                //     {
-                //         if (footerItem["words"] != null)
-                //         {
-                //             result.AppendLine($"  {footerItem["words"]}");
-                //         }
-                //     }
-                //     result.AppendLine();
-                // }
-
-                // 生成完整的HTML表格（包含所有部分）
-                // result.AppendLine("完整HTML表格（可直接粘贴到Excel）：");
-                string completeHtml = GenerateCompleteHtmlTable(header, body, footer);
-                result.AppendLine(completeHtml);
-
-                return result.ToString().TrimEnd();
-            }
-            catch (Exception ex)
-            {
-                return $"处理完整表格时发生异常: {ex.Message}";
-            }
+            return columnName;
         }
 
         /// <summary>
@@ -936,7 +840,6 @@ namespace TrOCR.Helper
             StringBuilder htmlTable = new StringBuilder();
             htmlTable.AppendLine("<table border='1' style='border-collapse: collapse;'>");
 
-            // 首先确定表格的列数
             int maxCol = 0;
             if (body != null && body.Count > 0)
             {
@@ -947,21 +850,18 @@ namespace TrOCR.Helper
                 }
             }
 
-            // 添加表头
             if (header != null && header.Count > 0)
             {
                 htmlTable.AppendLine("  <thead>");
                 htmlTable.AppendLine("    <tr>");
-                
+
                 if (header.Count == 1)
                 {
-                    // 如果只有一个表头项，跨越所有列
                     string headerText = System.Web.HttpUtility.HtmlEncode(header[0]["words"]?.ToString() ?? "");
                     htmlTable.AppendLine($"      <th colspan='{maxCol}' style='background-color: #f0f0f0; font-weight: bold; text-align: center;'>{headerText}</th>");
                 }
                 else
                 {
-                    // 如果有多个表头项，按列分布
                     foreach (var headerItem in header)
                     {
                         if (headerItem["words"] != null)
@@ -971,17 +871,15 @@ namespace TrOCR.Helper
                         }
                     }
                 }
-                
+
                 htmlTable.AppendLine("    </tr>");
                 htmlTable.AppendLine("  </thead>");
             }
 
-            // 添加表格主体
             if (body != null && body.Count > 0)
             {
                 htmlTable.AppendLine("  <tbody>");
-                
-                // 解析body数据并生成表格行
+
                 var cells = new List<CellInfo>();
                 int maxRow = 0;
 
@@ -999,31 +897,25 @@ namespace TrOCR.Helper
                     cells.Add(cellInfo);
                     maxRow = Math.Max(maxRow, cellInfo.RowEnd);
                 }
-                Debug.WriteLine($"2222一共{cells.Count}个单元格");
 
-                // 创建表格矩阵来跟踪已处理的单元格
                 var processedCells = new bool[maxRow, maxCol];
-                
+
                 for (int row = 0; row < maxRow; row++)
                 {
                     htmlTable.AppendLine("    <tr>");
-                    
+
                     for (int col = 0; col < maxCol; col++)
                     {
-                        // 如果这个位置已经被跨度单元格占用，跳过
                         if (processedCells[row, col])
                             continue;
-                            
-                        // 查找当前位置的单元格信息
+
                         var cellInfo = cells.FirstOrDefault(c => c.RowStart == row && c.ColStart == col);
-                        
+
                         if (cellInfo != null)
                         {
-                            // 计算跨度
                             int rowSpan = cellInfo.RowEnd - cellInfo.RowStart;
                             int colSpan = cellInfo.ColEnd - cellInfo.ColStart;
-                            
-                            // 标记所有被这个单元格占用的位置
+
                             for (int r = cellInfo.RowStart; r < cellInfo.RowEnd; r++)
                             {
                                 for (int c = cellInfo.ColStart; c < cellInfo.ColEnd; c++)
@@ -1031,60 +923,51 @@ namespace TrOCR.Helper
                                     processedCells[r, c] = true;
                                 }
                             }
-                            
-                            // 生成单元格HTML
+
                             string cellContent = cellInfo.Words;
                             string encodedContent = System.Web.HttpUtility.HtmlEncode(cellContent);
 
-                            // ↓↓↓ 核心修正：在这里判断内容是否为空 ↓↓↓
                             if (string.IsNullOrEmpty(encodedContent))
                             {
-                                
                                 encodedContent = "";
                             }
                             else
                             {
-                                // 如果有内容，才处理换行符
                                 encodedContent = encodedContent.Replace("\n", "&#10;");
                             }
-                            // ↑↑↑ 核心修正结束 ↑↑↑
+
                             string cellHtml = "      <td";
                             if (rowSpan > 1) cellHtml += $" rowspan='{rowSpan}'";
                             if (colSpan > 1) cellHtml += $" colspan='{colSpan}'";
-                            // cellHtml += $">{System.Web.HttpUtility.HtmlEncode(cellContent).Replace("\n", "&#10;")}</td>";
                             cellHtml += $">{encodedContent}</td>";
-                            
+
                             htmlTable.AppendLine(cellHtml);
                         }
                         else
                         {
-                            // 空单元格
                             htmlTable.AppendLine("      <td></td>");
                             processedCells[row, col] = true;
                         }
                     }
-                    
+
                     htmlTable.AppendLine("    </tr>");
                 }
-                
+
                 htmlTable.AppendLine("  </tbody>");
             }
 
-            // 添加表尾
             if (footer != null && footer.Count > 0)
             {
                 htmlTable.AppendLine("  <tfoot>");
                 htmlTable.AppendLine("    <tr>");
-                
+
                 if (footer.Count == 1)
                 {
-                    // 如果只有一个表尾项，跨越所有列
                     string footerText = System.Web.HttpUtility.HtmlEncode(footer[0]["words"]?.ToString() ?? "");
                     htmlTable.AppendLine($"      <td colspan='{maxCol}' style='background-color: #f9f9f9; font-style: italic; text-align: center;'>{footerText}</td>");
                 }
                 else
                 {
-                    // 如果有多个表尾项，按列分布
                     foreach (var footerItem in footer)
                     {
                         if (footerItem["words"] != null)
@@ -1094,202 +977,13 @@ namespace TrOCR.Helper
                         }
                     }
                 }
-                
+
                 htmlTable.AppendLine("    </tr>");
                 htmlTable.AppendLine("  </tfoot>");
             }
 
             htmlTable.AppendLine("</table>");
             return htmlTable.ToString();
-        }
-
-        /// <summary>
-        /// 处理表格主体，支持单元格跨度，生成Excel兼容的HTML格式
-        /// </summary>
-        private static string ProcessTableBodyWithSpan(JArray body)
-        {
-            try
-            {
-                // 定义单元格信息类
-                var cells = new List<CellInfo>();
-                int maxRow = 0, maxCol = 0;
-
-                // 解析所有单元格信息
-                foreach (var cell in body)
-                {
-                    var cellInfo = new CellInfo
-                    {
-                        RowStart = cell["row_start"]?.ToObject<int>() ?? 0,
-                        RowEnd = cell["row_end"]?.ToObject<int>() ?? 0,
-                        ColStart = cell["col_start"]?.ToObject<int>() ?? 0,
-                        ColEnd = cell["col_end"]?.ToObject<int>() ?? 0,
-                        Words = cell["words"]?.ToString() ?? ""
-                    };
-
-                    cells.Add(cellInfo);
-                    maxRow = Math.Max(maxRow, cellInfo.RowEnd);
-                    maxCol = Math.Max(maxCol, cellInfo.ColEnd);
-                }
-
-                // 生成HTML表格格式（Excel兼容）
-                StringBuilder htmlTable = new StringBuilder();
-                htmlTable.AppendLine("<table border='1' style='border-collapse: collapse;'>");
-
-                Debug.WriteLine($"3333一共{cells.Count}个单元格");
-
-                // 创建表格矩阵来跟踪已处理的单元格
-                var processedCells = new bool[maxRow, maxCol];
-                
-                for (int row = 0; row < maxRow; row++)
-                {
-                    htmlTable.AppendLine("  <tr>");
-                    
-                    for (int col = 0; col < maxCol; col++)
-                    {
-                        // 如果这个位置已经被跨度单元格占用，跳过
-                        if (processedCells[row, col])
-                            continue;
-                            
-                        // 查找当前位置的单元格信息
-                        var cellInfo = cells.FirstOrDefault(c => c.RowStart == row && c.ColStart == col);
-                        
-                        if (cellInfo != null)
-                        {
-                            // 计算跨度：end是下一个位置的索引，所以跨度 = end - start
-                            int rowSpan = cellInfo.RowEnd - cellInfo.RowStart;
-                            int colSpan = cellInfo.ColEnd - cellInfo.ColStart;
-                            
-                            // 标记所有被这个单元格占用的位置
-                            for (int r = cellInfo.RowStart; r < cellInfo.RowEnd; r++)
-                            {
-                                for (int c = cellInfo.ColStart; c < cellInfo.ColEnd; c++)
-                                {
-                                    processedCells[r, c] = true;
-                                }
-                            }
-                            
-                            // 生成单元格HTML，保留换行符
-                            string cellContent = cellInfo.Words;
-                            string encodedContent = System.Web.HttpUtility.HtmlEncode(cellContent);
-
-                            // ↓↓↓ 核心修正：在这里判断内容是否为空 ↓↓↓
-                            if (string.IsNullOrEmpty(encodedContent))
-                            {
-                                
-                                encodedContent = "";
-                            }
-                            else
-                            {
-                                // 如果有内容，才处理换行符
-                                encodedContent = encodedContent.Replace("\n", "&#10;");
-                            }
-                            // ↑↑↑ 核心修正结束 ↑↑↑
-                            string cellHtml = "    <td";
-                            if (rowSpan > 1) cellHtml += $" rowspan='{rowSpan}'";
-                            if (colSpan > 1) cellHtml += $" colspan='{colSpan}'";
-                            // cellHtml += $">{System.Web.HttpUtility.HtmlEncode(cellContent)}</td>";
-                            cellHtml += $">{encodedContent}</td>";
-
-                            
-                            htmlTable.AppendLine(cellHtml);
-                        }
-                        else
-                        {
-                            // 空单元格
-                            htmlTable.AppendLine("    <td></td>");
-                            processedCells[row, col] = true;
-                        }
-                    }
-                    
-                    htmlTable.AppendLine("  </tr>");
-                }
-                
-                htmlTable.AppendLine("</table>");
-
-                // 构建最终结果
-                StringBuilder result = new StringBuilder();
-                
-                // 添加跨度信息说明
-                // result.AppendLine("单元格跨度信息：");
-                foreach (var cellInfo in cells.Where(c => !string.IsNullOrWhiteSpace(c.Words)))
-                {
-                    int rowSpan = cellInfo.RowEnd - cellInfo.RowStart;
-                    int colSpan = cellInfo.ColEnd - cellInfo.ColStart;
-                    
-                    if (rowSpan > 1 || colSpan > 1)
-                    {
-                        // 将多行文本转换为单行显示，用空格替换换行符
-                        string displayText = cellInfo.Words.Replace("\n", " ");
-                        string spanInfo = $"  \"{displayText}\" 位置: ({cellInfo.RowStart + 1},{GetColumnName(cellInfo.ColStart)})";
-                        if (rowSpan > 1 && colSpan > 1)
-                        {
-                            spanInfo += $" 跨度: {rowSpan}行×{colSpan}列";
-                        }
-                        else if (rowSpan > 1)
-                        {
-                            spanInfo += $" 跨度: {rowSpan}行";
-                        }
-                        else if (colSpan > 1)
-                        {
-                            spanInfo += $" 跨度: {colSpan}列";
-                        }
-                        // result.AppendLine(spanInfo);
-                    }
-                }
-                // result.AppendLine();
-                
-                // 添加HTML表格
-                // result.AppendLine("Excel兼容表格（可直接粘贴到Excel）：");
-                // result.AppendLine(htmlTable.ToString());
-                
-                // 添加制表符分隔的数据（作为备选方案）
-                // result.AppendLine();
-                // result.AppendLine("制表符分隔数据：");
-                
-                // 重新创建矩阵用于制表符输出
-                var tableMatrix = new string[maxRow, maxCol];
-                foreach (var cellInfo in cells)
-                {
-                    tableMatrix[cellInfo.RowStart, cellInfo.ColStart] = cellInfo.Words;
-                }
-                
-                for (int row = 0; row < maxRow; row++)
-                {
-                    var rowData = new List<string>();
-                    for (int col = 0; col < maxCol; col++)
-                    {
-                        string cellValue = tableMatrix[row, col] ?? "";
-                        rowData.Add(cellValue);
-                    }
-                    
-                    // 只输出有内容的行
-                    bool hasContent = rowData.Any(cell => !string.IsNullOrWhiteSpace(cell));
-                    if (hasContent)
-                    {
-                        result.AppendLine(string.Join("\t", rowData));
-                    }
-                }
-
-                return result.ToString().TrimEnd();
-            }
-            catch (Exception ex)
-            {
-                return $"处理表格跨度时发生异常: {ex.Message}";
-            }
-        }
-
-        /// <summary>
-        /// 将列索引转换为Excel风格的列名 (0->A, 1->B, ...)
-        /// </summary>
-        private static string GetColumnName(int columnIndex)
-        {
-            string columnName = "";
-            while (columnIndex >= 0)
-            {
-                columnName = (char)('A' + (columnIndex % 26)) + columnName;
-                columnIndex = columnIndex / 26 - 1;
-            }
-            return columnName;
         }
 
         /// <summary>

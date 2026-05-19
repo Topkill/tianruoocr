@@ -363,10 +363,5 @@ namespace Pangu.Net
             }
             return result;
         }
-
-        public static bool HasProperSpacing(string text)
-        {
-            return SpacingText(text) == text;
-        }
     }
 }

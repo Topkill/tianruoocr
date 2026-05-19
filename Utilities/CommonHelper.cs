@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Net;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 using Microsoft.Win32;
-using Newtonsoft.Json.Linq;
 
 // ReSharper disable StringLiteralTypo
 
@@ -25,7 +21,6 @@ namespace TrOCR.Helper
             fmFlags.DrawStr(msg, durationMs); // 调用 FmFlags 中带时长的版本
         }
 
-        
         public static void ShowHelpMsg(string msg)
         {
             ShowHelpMsg(msg, 600u); // 默认 600 毫秒
@@ -52,25 +47,6 @@ namespace TrOCR.Helper
                 var fs = File.Create(Path.Combine(path, DateTime.Now.ToString("yyyy_MM_dd") + ".log"));
                 fs.Write(Encoding.Default.GetBytes(str), 0, Encoding.Default.GetBytes(str).Length);
                 fs.Close();
-            }
-        }
-
-        public static string GetHtmlContent(string url, int userAgent = 0, Dictionary<string, string> headers = null)
-        {
-            try
-            {
-                var httpItem = new HttpItem
-                {
-                    Url = url,
-                    Timeout = 15000
-                };
-                SetUserAgent(httpItem, userAgent, headers);
-                return DefaultHttpHelper.GetHtml(httpItem).Html;
-            }
-            catch (Exception ex)
-            {
-                AddLog(ex.ToString());
-                return null;
             }
         }
 
@@ -252,69 +228,10 @@ namespace TrOCR.Helper
             }
         }
 
-        public static string Md5(byte[] input)
-        {
-            using (var md5 = MD5.Create())
-            {
-                var output = md5.ComputeHash(input);
-                return BitConverter.ToString(output).Replace("-", "").ToLower();
-            }
-        }
-
-        public static string Sha1(string str)
-        {
-            using (var sha1 = SHA1.Create())
-            {
-                var bytes = Encoding.UTF8.GetBytes(str);
-                var output = sha1.ComputeHash(bytes);
-                return BitConverter.ToString(output).Replace("-", "").ToLower();
-            }
-        }
         public static long GetTimeSpan(bool isMills = false)
         {
             var startTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             return Convert.ToInt64((DateTime.UtcNow.Ticks - startTime.Ticks) / (isMills ? 10000 : 10000000));
-        }
-
-        public static DateTime UnixTimestampToDateTime(long timestamp)
-        {
-            var start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            return start.AddSeconds(timestamp);
-        }
-
-        public static string UnicodeToString(string input)
-        {
-            var matches = Regex.Matches(input, @"\\u([0-9a-f]{4})");
-            foreach (Match match in matches)
-            {
-                var str = (char)int.Parse(match.Groups[1].Value, NumberStyles.HexNumber);
-                input = input.Replace(match.Value, str.ToString());
-            }
-            return input;
-        }
-
-        public static string DecodeBase64(Encoding encode, string result)
-        {
-            return encode.GetString(Convert.FromBase64String(result));
-        }
-
-        public static string EncodeBase64(Encoding encode, string source)
-        {
-            return Convert.ToBase64String(encode.GetBytes(source));
-        }
-
-        public static string HtmlDecode(this string html)
-        {
-            return WebUtility.HtmlDecode(html);
-        }
-
-        public static bool CompareStr(string s1, string s2)
-        {
-            s1 = s1.ToLower();
-            s2 = s2.ToLower();
-            s1 = Regex.Replace(s1, "\\W+", "");
-            s2 = Regex.Replace(s2, "\\W+", "");
-            return s1 == s2;
         }
 
         [DllImport("user32.dll")]
@@ -359,32 +276,5 @@ namespace TrOCR.Helper
             return new string(array);
         }
 
-        public static string LangDetect(string text)
-        {
-            var mt = Regex.Match(text, "[.。，,！!?？]");
-            if (mt.Success)
-            {
-                text = text.Substring(0, mt.Index);
-            }
-            var url = "https://fanyi.baidu.com/langdetect?query=" + text;
-            var html = GetHtmlContent(url);
-            if (string.IsNullOrEmpty(html))
-            {
-                return "zh";
-            }
-            return JObject.Parse(html)["lan"].Value<string>();
-        }
-
-        public static string GetResponseHtml(HttpWebRequest httpWebRequest)
-        {
-            var responseStream = ((HttpWebResponse)httpWebRequest.GetResponse()).GetResponseStream();
-            if (responseStream != null)
-            {
-                var value = new StreamReader(responseStream, Encoding.GetEncoding("utf-8")).ReadToEnd();
-                responseStream.Close();
-                return value;
-            }
-            return "";
-        }
     }
 }
