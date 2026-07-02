@@ -359,9 +359,6 @@
     <Content Include="Data\screenshot.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\update.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="Data\pinyin.txt" />
   </ItemGroup>
   <Target Name="ShowMyPaths" BeforeTargets="Build">
