@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,6 +26,13 @@ namespace TrOCR
         /// </summary>
         public static float Factor = 1.0f;
 
+        private static void ConfigureDefaultUiCulture()
+        {
+            var zhCnCulture = CultureInfo.GetCultureInfo("zh-CN");
+            Thread.CurrentThread.CurrentUICulture = zhCnCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = zhCnCulture;
+        }
+
         /// <summary>
         /// 应用程序入口点
         /// </summary>
@@ -34,6 +42,8 @@ namespace TrOCR
         {
             try
             {
+                ConfigureDefaultUiCulture();
+
                 // 设置应用程序视觉样式，放在main函数一开始，try之前也行，会更符合惯例，懒得改了。
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);

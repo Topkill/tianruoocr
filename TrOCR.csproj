@@ -94,12 +94,6 @@
     <!-- <Reference Include="pangu.cs, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\PanguSpacing.1.1.6\lib\netstandard2.0\pangu.cs.dll</HintPath>
     </Reference> -->
-    <Reference Include="ShareX.HelpersLib">
-      <HintPath>DLL\ShareX\ShareX.HelpersLib.dll</HintPath>
-    </Reference>
-    <Reference Include="ShareX.ScreenCaptureLib">
-      <HintPath>DLL\ShareX\ShareX.ScreenCaptureLib.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -119,9 +113,6 @@
     <!-- <Reference Include="System.Xml.Serialization" />
     <Reference Include="System.Xml.XmlSerializer" /> -->
     <Reference Include="WindowsBase" />
-    <Reference Include="zxing">
-      <HintPath>DLL\zxing.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
@@ -286,6 +277,10 @@
     <Compile Include="Services\OCR\PaddleOCRHelper.cs" />
     <Compile Include="Services\OCR\PaddleOCR2Helper.cs" />
     <Compile Include="Services\OCR\RapidOCRHelper.cs" />
+    <Compile Include="Services\ScreenCapture\ScreenCaptureResult.cs" />
+    <Compile Include="Services\ScreenCapture\ScreenCaptureRequest.cs" />
+    <Compile Include="Services\ScreenCapture\IScreenCaptureService.cs" />
+    <Compile Include="Services\ScreenCapture\ShareXScreenCaptureService.cs" />
     <Compile Include="Utilities\TrOCRUtils.cs" />
     <Compile Include="Utilities\WebDavHelper.cs" />
     <Compile Include="Forms\Dialogs\Messageload.cs">
@@ -295,6 +290,7 @@
       <DependentUpon>Messageload.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\UpdateChecker.cs" />
+    <Compile Include="Utilities\DependencyDiagnostics.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -363,10 +359,7 @@
     <Content Include="Data\screenshot.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\update.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="DLL\pinyin.txt" />
+    <None Include="Data\pinyin.txt" />
   </ItemGroup>
   <Target Name="ShowMyPaths" BeforeTargets="Build">
     <Message Text="诊断信息：Solution Directory (解决方案根目录) 的真实路径是 ==&gt; $(SolutionDir)" Importance="high" />
@@ -377,6 +370,12 @@
     </PackageReference>
     <PackageReference Include="Emgu.CV.Bitmap">
       <Version>4.5.5.4823</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="ZXing.Net">
+      <Version>0.16.11</Version>
     </PackageReference>
     <PackageReference Include="GitVersion.MsBuild">
       <Version>5.12.0</Version>
@@ -389,35 +388,30 @@
     <PackageReference Include="Ookii.Dialogs.WinForms">
       <Version>4.0.0</Version>
     </PackageReference>
+    <!-- 离线 OCR native 资产由外置数据包提供，无条件排除 build/native 防止 .props 注入大体积 DLL -->
     <PackageReference Include="OpenCvSharp4.runtime.win">
       <Version>4.11.0.20250507</Version>
-      <ExcludeAssets Condition="'$(Platform)' == 'x64'">native;build;buildTransitive</ExcludeAssets>
-      <ExcludeAssets Condition="'$(Platform)' == 'x86'">native;build;buildTransitive</ExcludeAssets>
+      <ExcludeAssets>native;build;buildTransitive</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="PaddleOCRSharp">
       <Version>5.1.0</Version>
-      <ExcludeAssets Condition="'$(Platform)' == 'x86'">runtime;native;build;buildTransitive</ExcludeAssets>
-      <ExcludeAssets Condition="'$(Platform)' == 'x64'">native;build;buildTransitive</ExcludeAssets>
+      <ExcludeAssets>native;build;buildTransitive</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="Sdcb.PaddleInference.runtime.win64.mkl">
       <Version>3.1.0.54</Version>
-      <ExcludeAssets Condition="'$(Platform)' == 'x86'">runtime;native;build;buildTransitive</ExcludeAssets>
-      <ExcludeAssets Condition="'$(Platform)' == 'x64'">native;build;buildTransitive</ExcludeAssets>
+      <ExcludeAssets>native;build;buildTransitive</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="Sdcb.PaddleInference.runtime.win64.openblas-noavx">
       <Version>3.1.0.54</Version>
-      <ExcludeAssets Condition="'$(Platform)' == 'x86'">runtime;native;build;buildTransitive</ExcludeAssets>
-      <ExcludeAssets Condition="'$(Platform)' == 'x64'">native;build;buildTransitive</ExcludeAssets>
+      <ExcludeAssets>native;build;buildTransitive</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="Sdcb.PaddleOCR">
       <Version>3.0.1</Version>
-      <ExcludeAssets Condition="'$(Platform)' == 'x86'">runtime;native;build;buildTransitive</ExcludeAssets>
-      <ExcludeAssets Condition="'$(Platform)' == 'x64'">native;build;buildTransitive</ExcludeAssets>
+      <ExcludeAssets>native;build;buildTransitive</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="Sdcb.PaddleOCR.Models.Online">
       <Version>3.0.1</Version>
-      <ExcludeAssets Condition="'$(Platform)' == 'x86'">runtime;native;build;buildTransitive</ExcludeAssets>
-      <ExcludeAssets Condition="'$(Platform)' == 'x64'">native;build;buildTransitive</ExcludeAssets>
+      <ExcludeAssets>native;build;buildTransitive</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="System.Drawing.Common">
       <Version>9.0.9</Version>
@@ -472,4 +466,41 @@
     )
     </PostBuildEvent>
   </PropertyGroup>
+  <!-- ShareX 构建配置说明：
+       通过 sln 构建时，MSBuild 的 AssignProjectConfiguration 会向 SDK-style ProjectReference
+       添加 GlobalPropertiesToRemove=Configuration;Platform，导致 SetConfiguration/AdditionalProperties
+       设置的值被移除。因此 ShareX 子项目的 Configuration 由其 Directory.Build.props 兜底设定
+       （空值时默认 Release），而非依赖此处的 ProjectReference 元数据传递。 -->
+  <ItemGroup>
+    <ProjectReference Include="external\ShareX\ShareX.HelpersLib\ShareX.HelpersLib.csproj">
+      <Name>ShareX.HelpersLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="external\ShareX\ShareX.ImageEffectsLib\ShareX.ImageEffectsLib.csproj">
+      <Name>ShareX.ImageEffectsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="external\ShareX\ShareX.MediaLib\ShareX.MediaLib.csproj">
+      <Name>ShareX.MediaLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="external\ShareX\ShareX.ScreenCaptureLib\ShareX.ScreenCaptureLib.csproj">
+      <Name>ShareX.ScreenCaptureLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <!-- ShareX 简体中文 satellite resource 保留：
+       高级截图使用 ShareX.ScreenCaptureLib 的标注 UI，需要 zh-CN 资源显示中文。
+       主程序集在 PostBuild 中移动到 lib，因此 zh-CN satellite assemblies 也移动到 lib\zh-CN。
+       其他文化资源继续删除，避免输出体积回退。 -->
+  <Target Name="KeepOnlyShareXZhCnSatelliteResourcesInOutput" AfterTargets="PostBuildEvent">
+    <ItemGroup>
+      <ShareXZhCnSatelliteResourceFiles Include="$(TargetDir)zh-CN\ShareX.*.resources.dll" />
+      <ShareXSatelliteResourceFilesToDelete Include="$(TargetDir)**\ShareX.*.resources.dll"
+                                             Exclude="$(TargetDir)zh-CN\ShareX.*.resources.dll;$(TargetDir)lib\zh-CN\ShareX.*.resources.dll" />
+    </ItemGroup>
+    <MakeDir Directories="$(TargetDir)lib\zh-CN" Condition="'@(ShareXZhCnSatelliteResourceFiles)' != ''" />
+    <Copy SourceFiles="@(ShareXZhCnSatelliteResourceFiles)"
+          DestinationFolder="$(TargetDir)lib\zh-CN\"
+          SkipUnchangedFiles="true" />
+    <Delete Files="@(ShareXZhCnSatelliteResourceFiles)" />
+    <Delete Files="@(ShareXSatelliteResourceFilesToDelete)" />
+    <Exec Command="for /d %%d in (&quot;$(TargetDir)*&quot;) do (dir /b &quot;%%d&quot; | findstr . &gt;nul || rd &quot;%%d&quot;)" IgnoreExitCode="true" />
+  </Target>
 </Project>

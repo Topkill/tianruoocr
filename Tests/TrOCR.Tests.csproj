@@ -10,6 +10,8 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
     <PackageReference Include="NUnit" Version="3.14.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="ZXing.Net" Version="0.16.11" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +23,9 @@
     <Compile Include="..\Utilities\ImageHelper.cs" Link="Production\Utilities\ImageHelper.cs" />
     <Compile Include="..\Utilities\OwnedImage.cs" Link="Production\Utilities\OwnedImage.cs" />
     <Compile Include="..\Utilities\ClipboardHelper.cs" Link="Production\Utilities\ClipboardHelper.cs" />
+    <Compile Include="..\Utilities\DependencyDiagnostics.cs" Link="Production\Utilities\DependencyDiagnostics.cs" />
+    <Compile Include="..\Services\ScreenCapture\ScreenCaptureResult.cs" Link="Production\Services\ScreenCapture\ScreenCaptureResult.cs" />
+    <Compile Include="..\Services\ScreenCapture\ScreenCaptureRequest.cs" Link="Production\Services\ScreenCapture\ScreenCaptureRequest.cs" />
     <Compile Include="..\Forms\Dialogs\FmScreenPaste.cs" Link="Production\Forms\Dialogs\FmScreenPaste.cs" />
     <Compile Include="..\Forms\Dialogs\FmScreenPaste.Designer.cs" Link="Production\Forms\Dialogs\FmScreenPaste.Designer.cs" />
   </ItemGroup>

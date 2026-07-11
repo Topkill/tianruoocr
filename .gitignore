@@ -37,3 +37,10 @@ AGENTS.md
 # Test project build artifacts
 Tests/bin/
 Tests/obj/
+
+# reference project code used only for research/audit
+references/*
+
+# build-time external source dependencies
+external/*
+!external/ShareX/
