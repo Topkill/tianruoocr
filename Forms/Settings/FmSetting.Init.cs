@@ -942,78 +942,14 @@ namespace TrOCR
 			var caiyun2Token = IniHelper.GetValue("Translate_Caiyun2", "Token");
 			textBox_Caiyun2_Token.Text = (caiyun2Token == "发生错误") ? "3975l6lr5pcbvidl6jl2" : caiyun2Token;
 
-			// 设置页的翻译接口可见性
-			Action<string, CheckBox, TabPage> setTranVisibility = (apiName, checkBox, tabPage) =>
+			// 设置页的接口可见性（翻译 + OCR 统一由元数据表驱动）
+			BuildInterfaceEntries();
+			foreach (var entry in _interfaceEntries)
 			{
-				string visibilityValue = IniHelper.GetValue("翻译接口显示", apiName);
-				bool isVisible;
-				if (apiName == "TencentInteractive" || apiName == "Caiyun" || apiName == "Volcano" || apiName == "Baidu2")
-				{
-					isVisible = visibilityValue != "发生错误" && Convert.ToBoolean(visibilityValue);
-				}
-				else
-				{
-					isVisible = visibilityValue == "发生错误" || Convert.ToBoolean(visibilityValue);
-				}
-				checkBox.Checked = isVisible;
-				if (!isVisible)
-				{
-					tabControl_Trans.TabPages.Remove(tabPage);
-				}
-			};
-
-			setTranVisibility("Google", checkBox_ShowGoogle, tabPage_Google);
-			setTranVisibility("Baidu", checkBox_ShowBaidu, tabPage_Baidu);
-			setTranVisibility("Tencent", checkBox_ShowTencent, tabPage_Tencent);
-			setTranVisibility("Bing", checkBox_ShowBing, tabPage_Bing);
-			setTranVisibility("Bing2", checkBox_ShowBing2, tabPage_Bing2);
-			setTranVisibility("Microsoft", checkBox_ShowMicrosoft, tabPage_Microsoft);
-			setTranVisibility("Yandex", checkBox_ShowYandex, tabPage_Yandex);
-			setTranVisibility("TencentInteractive", checkBox_ShowTencentInteractive, tabPage_TencentInteractive);
-			setTranVisibility("Caiyun", checkBox_ShowCaiyun, tabPage_Caiyun);
-			setTranVisibility("Volcano", checkBox_ShowVolcano, tabPage_Volcano);
-			setTranVisibility("Caiyun2", checkBox_ShowCaiyun2, tabPage_Caiyun2);
-			setTranVisibility("Baidu2", checkBox_ShowBaidu2, tabPage_Baidu2);
-
-			// 设置页的OCR接口可见性
-			Action<string, CheckBox, TabPage> setOcrVisibility = (apiName, checkBox, tabPage) =>
-			{
-				string visibilityValue = IniHelper.GetValue("Ocr接口显示", apiName);
-				bool isVisible;
-				if (apiName == "Baimiao")
-				{
-					isVisible = visibilityValue != "发生错误" && Convert.ToBoolean(visibilityValue);
-				}
-				else
-				{
-					isVisible = visibilityValue == "发生错误" || Convert.ToBoolean(visibilityValue);
-				}
-				checkBox.Checked = isVisible;
-				if (!isVisible && tabPage != null)
-				{
-					tabControl2.TabPages.Remove(tabPage);
-				}
-			};
-			//此处百度和腾讯的接口隐藏后移除密钥设置页的标签页功能已失效，暂时就这样吧
-			setOcrVisibility("Baidu", checkBox_ShowOcrBaidu, inPage_百度接口);
-			setOcrVisibility("BaiduAccurate", checkBox_ShowOcrBaiduAccurate, inPage_百度高精度接口);
-			setOcrVisibility("Tencent", checkBox_ShowOcrTencent, inPage_腾讯接口);
-			setOcrVisibility("TencentAccurate", checkBox_ShowOcrTencentAccurate, inPage_腾讯高精度接口);
-			setOcrVisibility("Baimiao", checkBox_ShowOcrBaimiao, tabPage_白描接口);
-			setOcrVisibility("Sougou", checkBox_ShowOcrSougou, null);
-			setOcrVisibility("Youdao", checkBox_ShowOcrYoudao, null);
-			setOcrVisibility("WeChat", checkBox_ShowOcrWeChat, null);
-			setOcrVisibility("Mathfuntion", checkBox_ShowOcrMathfuntion, null);
-			setOcrVisibility("Table", checkBox_ShowOcrTable, null);
-			setOcrVisibility("Shupai", checkBox_ShowOcrShupai, null);
-			setOcrVisibility("TableBaidu", checkBox_ShowOcrTableBaidu, null);
-			setOcrVisibility("TableAli", checkBox_ShowOcrTableAli, null);
-			setOcrVisibility("ShupaiLR", checkBox_ShowOcrShupaiLR, null);
-			setOcrVisibility("ShupaiRL", checkBox_ShowOcrShupaiRL, null);
-			setOcrVisibility("TencentTable", checkBox_ShowOcrTableTencent, null);
-			setOcrVisibility("PaddleOCR", checkBox_ShowOcrPaddleOCR, inPage_PaddleOCR);
-			setOcrVisibility("PaddleOCR2", checkBox_ShowOcrPaddleOCR2, inPage_PaddleOCR2);
-			setOcrVisibility("RapidOCR", checkBox_ShowOcrRapidOCR, inPage_RapidOCR);
+				string visibilityValue = IniHelper.GetValue(entry.Section, entry.Key);
+				entry.CheckBox.Checked = InterfaceVisibility.ResolveInitialVisibility(visibilityValue, entry.DefaultVisible);
+			}
+			RefreshInterfaceTabPages();
 
 			// 读取OCR模型配置
 			ReadOcrModelConfigs();
@@ -1136,37 +1072,10 @@ namespace TrOCR
 			AdjustPageSize(tab_标签, EventArgs.Empty);
 
 			// 为所有接口可见性复选框附加事件处理程序
-			checkBox_ShowOcrBaidu.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowOcrBaiduAccurate.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowOcrTencent.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowOcrTencentAccurate.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowOcrBaimiao.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowOcrSougou.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowOcrYoudao.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowOcrWeChat.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowOcrMathfuntion.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowOcrTable.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowOcrShupai.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowOcrTableBaidu.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowOcrTableAli.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowOcrShupaiLR.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowOcrShupaiRL.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowOcrTableTencent.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowOcrPaddleOCR.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowOcrPaddleOCR2.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowOcrRapidOCR.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowGoogle.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowBaidu.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowTencent.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowBing.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowBing2.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowMicrosoft.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowYandex.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowTencentInteractive.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowCaiyun.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowVolcano.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowCaiyun2.CheckedChanged += ApiVisibility_CheckedChanged;
-			checkBox_ShowBaidu2.CheckedChanged += ApiVisibility_CheckedChanged;
+			foreach (var entry in _interfaceEntries)
+			{
+				entry.CheckBox.CheckedChanged += ApiVisibility_CheckedChanged;
+			}
 
 			// 为OCR模型配置按钮添加事件处理程序
 			// PaddleOCR事件

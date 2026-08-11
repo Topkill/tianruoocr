@@ -239,6 +239,10 @@
     <Compile Include="Forms\Settings\FmSetting.Misc.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\Settings\FmSetting.InterfaceVisibility.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Settings\InterfaceVisibility.cs" />
     <Compile Include="Forms\Settings\FmSetting.Designer.cs">
       <DependentUpon>FmSetting.cs</DependentUpon>
     </Compile>
