@@ -13,8 +13,7 @@ namespace TrOCR.Helper
     public static class BingTranslator2
     {
         private static readonly HttpClient HttpClient;
-        private static readonly string AuthUrl = "https://edge.microsoft.com/translate/auth";
-        private static readonly string TranslateUrl = "https://api-edge.cognitive.microsofttranslator.com/translate";
+        private static readonly string TranslateUrl = "https://edge.microsoft.com/translate/translatetext";
         // 语言映射表
         private static readonly Dictionary<string, string> LanguageMap = new Dictionary<string, string>
         {
@@ -91,36 +90,6 @@ namespace TrOCR.Helper
         }
 
         /// <summary>
-        /// 获取认证Token
-        /// </summary>
-        private static async Task<string> GetAuthTokenAsync()
-        {
-            try
-            {
-                using (var request = new HttpRequestMessage(HttpMethod.Get, AuthUrl))
-                {
-                    request.Headers.TryAddWithoutValidation("User-Agent",
-                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42");
-
-                    request.Headers.TryAddWithoutValidation("Accept", "*/*");
-
-                    using (var response = await HttpClient.SendAsync(request).ConfigureAwait(false))
-                    {
-                        if (response.IsSuccessStatusCode)
-                        {
-                            return await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"获取Token失败: {ex.Message}");
-            }
-            return null;
-        }
-
-        /// <summary>
         /// 构造 translatetext 端点请求体：JSON 字符串数组 ["text"]。
         /// 新端点要求字符串数组，旧端点的对象数组 [{Text:""}] 已被拒绝(400)。
         /// </summary>
@@ -130,32 +99,28 @@ namespace TrOCR.Helper
         }
 
         /// <summary>
-        /// 解析 translatetext 端点响应，返回译文文本；任何异常或非预期结构返回空串。
+        /// 解析 translatetext 端点响应，返回译文文本；translations 缺失/为空返回空串。
         /// 响应结构与旧 Azure v3 同构：[{"translations":[{"text":"...","to":"..."}]}]。
+        /// 畸形 JSON（非预期 body）抛 JArray 解析异常，由调用方 TranslateAsync 的 catch
+        /// 统一处理为「翻译失败: …」——与迁移前内联解析语义一致，保留可诊断性。
         /// </summary>
         public static string ParseResponse(string json)
         {
-            try
+            var result = JArray.Parse(json);
+            if (result.Count > 0 && result[0]["translations"] != null)
             {
-                var result = JArray.Parse(json);
-                if (result.Count > 0 && result[0]["translations"] != null)
+                var translations = result[0]["translations"] as JArray;
+                if (translations != null && translations.Count > 0)
                 {
-                    var translations = result[0]["translations"] as JArray;
-                    if (translations != null && translations.Count > 0)
-                    {
-                        return translations[0]["text"]?.ToString()?.Trim() ?? string.Empty;
-                    }
+                    return translations[0]["text"]?.ToString()?.Trim() ?? string.Empty;
                 }
-            }
-            catch
-            {
-                // 解析失败返回空串，由调用方作失败处理（与原内联解析的容错语义一致）
             }
             return string.Empty;
         }
 
         /// <summary>
-        /// 翻译文本
+        /// 翻译文本（使用 Microsoft Edge translatetext 免鉴权端点）。
+        /// 错误以字符串形式返回（与项目其它翻译 provider 一致），调用方原样显示。
         /// </summary>
         public static async Task<string> TranslateAsync(string text, string fromLanguage, string toLanguage)
         {
@@ -164,78 +129,27 @@ namespace TrOCR.Helper
 
             try
             {
-                string token = null;
-                for (int i = 0; i < 3; i++) // 最多尝试3次
-                {
-                    // 获取认证Token
-                    token = await GetAuthTokenAsync().ConfigureAwait(false);
-                    if (!string.IsNullOrEmpty(token))
-                    {
-                        break; // 成功获取Token，跳出循环
-                    }
-                    if (i < 2) // 如果不是最后一次尝试，则等待
-                    {
-                        await Task.Delay(200).ConfigureAwait(false);
-                    }
-                }
-                
-                if (string.IsNullOrEmpty(token))
-                {
-                    return "获取认证Token失败";
-                }
-
-                // 转换语言代码
+                // 转换语言代码：auto/空 → "" 触发服务端自动检测
                 var from = ConvertToMicrosoftLangCode(fromLanguage);
                 var to = ConvertToMicrosoftLangCode(toLanguage);
 
-                // 构建请求URL
-                var url = $"{TranslateUrl}?api-version=3.0&from={from}&to={to}&includeSentenceLength=true";
+                // 新免鉴权端点：无需 token；query 参数 from(空=自动检测)/to/isEnterpriseClient
+                var url = $"{TranslateUrl}?from={from}&to={to}&isEnterpriseClient=false";
 
                 using (var request = new HttpRequestMessage(HttpMethod.Post, url))
                 {
-                    // 设置请求头
-                    request.Headers.TryAddWithoutValidation("Accept", "*/*");
-                    request.Headers.TryAddWithoutValidation("Accept-Language", "zh-TW,zh;q=0.9,ja;q=0.8,zh-CN;q=0.7,en-US;q=0.6,en;q=0.5");
-                    request.Headers.TryAddWithoutValidation("Authorization", $"Bearer {token}");
-                    request.Headers.TryAddWithoutValidation("Cache-Control", "no-cache");
-                    request.Headers.TryAddWithoutValidation("Pragma", "no-cache");
-                    request.Headers.TryAddWithoutValidation("Sec-Ch-Ua", "\"Microsoft Edge\";v=\"113\", \"Chromium\";v=\"113\", \"Not-A.Brand\";v=\"24\"");
-                    request.Headers.TryAddWithoutValidation("Sec-Ch-Ua-Mobile", "?0");
-                    request.Headers.TryAddWithoutValidation("Sec-Ch-Ua-Platform", "\"Windows\"");
-                    request.Headers.TryAddWithoutValidation("Sec-Fetch-Dest", "empty");
-                    request.Headers.TryAddWithoutValidation("Sec-Fetch-Mode", "cors");
-                    request.Headers.TryAddWithoutValidation("Sec-Fetch-Site", "cross-site");
-                    request.Headers.TryAddWithoutValidation("Referer", "https://appsumo.com/");
-                    request.Headers.TryAddWithoutValidation("Referrer-Policy", "strict-origin-when-cross-origin");
-                    request.Headers.TryAddWithoutValidation("User-Agent",
-                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42");
-
-                    // 设置请求体
-                    var bodyArray = new[] { new { Text = text } };
-                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(bodyArray);
-                    // request.Content = new StringContent(json, Encoding.UTF8, "application/json");
-                    request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+                    // body 为字符串数组 ["text"]（新端点要求）；Content-Type 由 StringContent 自动带。
+                    // User-Agent 由静态构造函数的全局 DefaultRequestHeaders 兜底，无需 request 级重复。
+                    request.Content = new StringContent(BuildRequestBody(text), Encoding.UTF8, "application/json");
 
                     using (var response = await HttpClient.SendAsync(request).ConfigureAwait(false))
                     {
                         if (response.IsSuccessStatusCode)
                         {
                             var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            var result = JArray.Parse(responseString);
-
-                            if (result.Count > 0 && result[0]["translations"] != null)
-                            {
-                                var translations = result[0]["translations"] as JArray;
-                                if (translations != null && translations.Count > 0)
-                                {
-                                    return translations[0]["text"]?.ToString()?.Trim() ?? string.Empty;
-                                }
-                            }
+                            return ParseResponse(responseString);
                         }
-                        else
-                        {
-                            return $"翻译请求失败: HTTP {response.StatusCode}";
-                        }
+                        return $"翻译请求失败: HTTP {response.StatusCode}";
                     }
                 }
             }
@@ -243,8 +157,6 @@ namespace TrOCR.Helper
             {
                 return $"翻译失败: {ex.Message}";
             }
-
-            return string.Empty;
         }
 
         /// <summary>
