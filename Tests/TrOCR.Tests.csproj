@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 
@@ -28,5 +29,6 @@
     <Compile Include="..\Services\ScreenCapture\ScreenCaptureRequest.cs" Link="Production\Services\ScreenCapture\ScreenCaptureRequest.cs" />
     <Compile Include="..\Forms\Dialogs\FmScreenPaste.cs" Link="Production\Forms\Dialogs\FmScreenPaste.cs" />
     <Compile Include="..\Forms\Dialogs\FmScreenPaste.Designer.cs" Link="Production\Forms\Dialogs\FmScreenPaste.Designer.cs" />
+    <Compile Include="..\Services\Translation\BingTranslator2.cs" Link="Production\Services\Translation\BingTranslator2.cs" />
   </ItemGroup>
 </Project>

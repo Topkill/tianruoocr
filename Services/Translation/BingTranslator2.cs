@@ -121,6 +121,40 @@ namespace TrOCR.Helper
         }
 
         /// <summary>
+        /// 构造 translatetext 端点请求体：JSON 字符串数组 ["text"]。
+        /// 新端点要求字符串数组，旧端点的对象数组 [{Text:""}] 已被拒绝(400)。
+        /// </summary>
+        public static string BuildRequestBody(string text)
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(new[] { text });
+        }
+
+        /// <summary>
+        /// 解析 translatetext 端点响应，返回译文文本；任何异常或非预期结构返回空串。
+        /// 响应结构与旧 Azure v3 同构：[{"translations":[{"text":"...","to":"..."}]}]。
+        /// </summary>
+        public static string ParseResponse(string json)
+        {
+            try
+            {
+                var result = JArray.Parse(json);
+                if (result.Count > 0 && result[0]["translations"] != null)
+                {
+                    var translations = result[0]["translations"] as JArray;
+                    if (translations != null && translations.Count > 0)
+                    {
+                        return translations[0]["text"]?.ToString()?.Trim() ?? string.Empty;
+                    }
+                }
+            }
+            catch
+            {
+                // 解析失败返回空串，由调用方作失败处理（与原内联解析的容错语义一致）
+            }
+            return string.Empty;
+        }
+
+        /// <summary>
         /// 翻译文本
         /// </summary>
         public static async Task<string> TranslateAsync(string text, string fromLanguage, string toLanguage)
