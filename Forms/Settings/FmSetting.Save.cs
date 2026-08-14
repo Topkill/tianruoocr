@@ -193,40 +193,14 @@ namespace TrOCR
             IniHelper.SetValue("Translate_Caiyun2", "Target", textBox_Caiyun2_Target.Text);
             IniHelper.SetValue("Translate_Caiyun2", "Token", textBox_Caiyun2_Token.Text);
 
-            // 保存翻译接口显示设置
-            IniHelper.SetValue("翻译接口显示", "Google", checkBox_ShowGoogle.Checked.ToString());
-            IniHelper.SetValue("翻译接口显示", "Baidu", checkBox_ShowBaidu.Checked.ToString());
-            IniHelper.SetValue("翻译接口显示", "Tencent", checkBox_ShowTencent.Checked.ToString());
-            IniHelper.SetValue("翻译接口显示", "Bing", checkBox_ShowBing.Checked.ToString());
-            IniHelper.SetValue("翻译接口显示", "Bing2", checkBox_ShowBing2.Checked.ToString());
-            IniHelper.SetValue("翻译接口显示", "Microsoft", checkBox_ShowMicrosoft.Checked.ToString());
-            IniHelper.SetValue("翻译接口显示", "Yandex", checkBox_ShowYandex.Checked.ToString());
-            IniHelper.SetValue("翻译接口显示", "TencentInteractive", checkBox_ShowTencentInteractive.Checked.ToString());
-            IniHelper.SetValue("翻译接口显示", "Caiyun", checkBox_ShowCaiyun.Checked.ToString());
-            IniHelper.SetValue("翻译接口显示", "Volcano", checkBox_ShowVolcano.Checked.ToString());
-            IniHelper.SetValue("翻译接口显示", "Caiyun2", checkBox_ShowCaiyun2.Checked.ToString());
-            IniHelper.SetValue("翻译接口显示", "Baidu2", checkBox_ShowBaidu2.Checked.ToString());
-
-            // 保存OCR接口显示设置
-            IniHelper.SetValue("Ocr接口显示", "Baidu", checkBox_ShowOcrBaidu.Checked.ToString());
-            IniHelper.SetValue("Ocr接口显示", "BaiduAccurate", checkBox_ShowOcrBaiduAccurate.Checked.ToString());
-            IniHelper.SetValue("Ocr接口显示", "Tencent", checkBox_ShowOcrTencent.Checked.ToString());
-            IniHelper.SetValue("Ocr接口显示", "TencentAccurate", checkBox_ShowOcrTencentAccurate.Checked.ToString());
-            IniHelper.SetValue("Ocr接口显示", "Baimiao", checkBox_ShowOcrBaimiao.Checked.ToString());
-            IniHelper.SetValue("Ocr接口显示", "Sougou", checkBox_ShowOcrSougou.Checked.ToString());
-            IniHelper.SetValue("Ocr接口显示", "Youdao", checkBox_ShowOcrYoudao.Checked.ToString());
-            IniHelper.SetValue("Ocr接口显示", "WeChat", checkBox_ShowOcrWeChat.Checked.ToString());
-            IniHelper.SetValue("Ocr接口显示", "Mathfuntion", checkBox_ShowOcrMathfuntion.Checked.ToString());
-            IniHelper.SetValue("Ocr接口显示", "Table", checkBox_ShowOcrTable.Checked.ToString());
-            IniHelper.SetValue("Ocr接口显示", "Shupai", checkBox_ShowOcrShupai.Checked.ToString());
-            IniHelper.SetValue("Ocr接口显示", "TableBaidu", checkBox_ShowOcrTableBaidu.Checked.ToString());
-            IniHelper.SetValue("Ocr接口显示", "TableAli", checkBox_ShowOcrTableAli.Checked.ToString());
-            IniHelper.SetValue("Ocr接口显示", "ShupaiLR", checkBox_ShowOcrShupaiLR.Checked.ToString());
-            IniHelper.SetValue("Ocr接口显示", "ShupaiRL", checkBox_ShowOcrShupaiRL.Checked.ToString());
-            IniHelper.SetValue("Ocr接口显示", "TencentTable", checkBox_ShowOcrTableTencent.Checked.ToString());
-            IniHelper.SetValue("Ocr接口显示", "PaddleOCR", checkBox_ShowOcrPaddleOCR.Checked.ToString());
-            IniHelper.SetValue("Ocr接口显示", "PaddleOCR2", checkBox_ShowOcrPaddleOCR2.Checked.ToString());
-            IniHelper.SetValue("Ocr接口显示", "RapidOCR", checkBox_ShowOcrRapidOCR.Checked.ToString());
+            // 保存接口显示设置（翻译 + OCR）
+            if (_interfaceEntries != null)
+            {
+                foreach (var entry in _interfaceEntries)
+                {
+                    IniHelper.SetValue(entry.Section, entry.Key, entry.CheckBox.Checked.ToString());
+                }
+            }
 
             // 保存OCR模型配置
             // PaddleOCR配置

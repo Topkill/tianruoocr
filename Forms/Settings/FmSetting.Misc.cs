@@ -342,59 +342,38 @@ namespace TrOCR
 		/// </summary>
 		private void ApiVisibility_CheckedChanged(object sender, EventArgs e)
 		{
-		 CheckBox checkBox = sender as CheckBox;
-		 if (checkBox == null || checkBox.Checked)
-		 {
-		  return; // 只在取消勾选时处理
-		 }
+			CheckBox checkBox = sender as CheckBox;
+			if (checkBox == null) return;
 
-		 string currentOcrApi = IniHelper.GetValue("配置", "接口");
-		 string currentTranslateApi = IniHelper.GetValue("配置", "翻译接口");
+			if (_interfaceEntries == null) return;
 
-		 bool isInUse = false;
+			// 使用中检查只在取消勾选时做（勾选是恢复显示，无需保护）
+			if (!checkBox.Checked)
+			{
+				foreach (var entry in _interfaceEntries)
+				{
+					if (!ReferenceEquals(entry.CheckBox, checkBox)) continue;
 
-		 // OCR API 检查
-		 if (checkBox == checkBox_ShowOcrBaidu && (new[] { "中英", "日语", "韩语" }).Contains(currentOcrApi)) isInUse = true;
-		 else if (checkBox == checkBox_ShowOcrBaiduAccurate && currentOcrApi == "百度-高精度") isInUse = true;
-		 else if (checkBox == checkBox_ShowOcrTencent && currentOcrApi == "腾讯") isInUse = true;
-		 else if (checkBox == checkBox_ShowOcrTencentAccurate && currentOcrApi == "腾讯-高精度") isInUse = true;
-		 else if (checkBox == checkBox_ShowOcrBaimiao && currentOcrApi == "白描") isInUse = true;
-		 else if (checkBox == checkBox_ShowOcrSougou && currentOcrApi == "搜狗") isInUse = true;
-		 else if (checkBox == checkBox_ShowOcrYoudao && currentOcrApi == "有道") isInUse = true;
-		 else if (checkBox == checkBox_ShowOcrWeChat && currentOcrApi == "微信") isInUse = true;
-		 else if (checkBox == checkBox_ShowOcrMathfuntion && currentOcrApi == "公式") isInUse = true;
-		 else if (checkBox == checkBox_ShowOcrTable && (new[] { "百度表格", "阿里表格" }).Contains(currentOcrApi)) isInUse = true;
-		 else if (checkBox == checkBox_ShowOcrShupai && (new[] { "从左向右", "从右向左" }).Contains(currentOcrApi)) isInUse = true;
-		 else if (checkBox == checkBox_ShowOcrTableBaidu && currentOcrApi == "百度表格") isInUse = true;
-		 else if (checkBox == checkBox_ShowOcrTableAli && currentOcrApi == "阿里表格") isInUse = true;
-		 else if (checkBox == checkBox_ShowOcrTableTencent && currentOcrApi == "腾讯表格") isInUse = true;
-		 else if (checkBox == checkBox_ShowOcrShupaiLR && currentOcrApi == "从左向右") isInUse = true;
-		 else if (checkBox == checkBox_ShowOcrShupaiRL && currentOcrApi == "从右向左") isInUse = true;
-		 else if (checkBox == checkBox_ShowOcrPaddleOCR && currentOcrApi == "PaddleOCR") isInUse = true;
-		 else if (checkBox == checkBox_ShowOcrPaddleOCR2 && currentOcrApi == "PaddleOCR2") isInUse = true;
-		 else if (checkBox == checkBox_ShowOcrRapidOCR && currentOcrApi == "RapidOCR") isInUse = true;
-			// 翻译 API 检查
-			else if (checkBox == checkBox_ShowGoogle && currentTranslateApi == "谷歌") isInUse = true;
-			else if (checkBox == checkBox_ShowBaidu && currentTranslateApi == "百度") isInUse = true;
-			else if (checkBox == checkBox_ShowTencent && currentTranslateApi == "腾讯") isInUse = true;
-			else if (checkBox == checkBox_ShowBing && currentTranslateApi == "Bing") isInUse = true;
-			else if (checkBox == checkBox_ShowBing2 && currentTranslateApi == "Bing2") isInUse = true;
-			else if (checkBox == checkBox_ShowMicrosoft && currentTranslateApi == "Microsoft") isInUse = true;
-			else if (checkBox == checkBox_ShowYandex && currentTranslateApi == "Yandex") isInUse = true;
-			else if (checkBox == checkBox_ShowTencentInteractive && currentTranslateApi == "腾讯交互翻译") isInUse = true;
-			else if (checkBox == checkBox_ShowCaiyun && currentTranslateApi == "彩云小译") isInUse = true;
-			else if (checkBox == checkBox_ShowVolcano && currentTranslateApi == "火山翻译") isInUse = true;
-			else if (checkBox == checkBox_ShowCaiyun2 && currentTranslateApi == "彩云小译2") isInUse = true;
-			else if (checkBox == checkBox_ShowBaidu2 && currentTranslateApi == "百度2") isInUse = true;
-		//如果接口正在使用，弹出提示
-		 if (isInUse)
-		 {
-		  MessageBox.Show("该接口正在使用中，不能隐藏。", "提示", MessageBoxButtons.OK, MessageBoxIcon.None);
-		  // 重新勾选复选框，并临时移除事件处理程序以避免无限循环
-		  checkBox.CheckedChanged -= ApiVisibility_CheckedChanged;
-		  checkBox.Checked = true;
-		  checkBox.CheckedChanged += ApiVisibility_CheckedChanged;
-		 }
+					// 使用中检查：命中"当前接口"任一匹配值则阻止隐藏
+					if (entry.InUseValues != null && entry.InUseValues.Length > 0)
+					{
+						string currentApi = IniHelper.GetValue("配置", entry.InUseSource);
+						if (Array.IndexOf(entry.InUseValues, currentApi) >= 0)
+						{
+							MessageBox.Show("该接口正在使用中，不能隐藏。", "提示", MessageBoxButtons.OK, MessageBoxIcon.None);
+							// 重新勾选复选框，临时移除事件处理程序以避免无限循环
+							checkBox.CheckedChanged -= ApiVisibility_CheckedChanged;
+							checkBox.Checked = true;
+							checkBox.CheckedChanged += ApiVisibility_CheckedChanged;
+							return; // 强制勾回，不刷新
+						}
+					}
+					break; // 命中触发者且未在用，跳出检查，落到下方刷新
+				}
+			}
+
+			// 同步显隐到对应 tab（勾选恢复 / 取消勾选移除，均实时刷新）
+			RefreshInterfaceTabPages();
 		}
     }
 }
