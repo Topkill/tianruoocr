@@ -31,12 +31,16 @@ nuget.exe
 CLAUDE.md
 **/CLAUDE.md
 .claude/
-
 AGENTS.md
+.scratch/
+.spec-workflow/
 
 # Test project build artifacts
 Tests/bin/
 Tests/obj/
+
+# outdated backups
+/MigrationBackup
 
 # reference project code used only for research/audit
 references/*
