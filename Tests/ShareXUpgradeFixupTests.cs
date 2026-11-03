@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 
 namespace TrOCR.Tests
@@ -232,12 +233,104 @@ namespace TrOCR.Tests
             Assert.That(methodBody, Does.Contain("CultureInfo.DefaultThreadCurrentUICulture = zhCnCulture;"));
         }
 
+        /// <summary>
+        /// 验证高级截图（Annotation）窗口的 Space 窄拦截调用位于天若门控
+        /// （isTianruoShortcut 判据行）之后、上游通用 switch (e.KeyData) 之前。
+        /// </summary>
+        [Test]
+        public void RegionCaptureFormKeyDown_AnnotationSpaceIntercept_OrderedAfterTianruoGateBeforeUpstreamSwitch()
+        {
+            var source = ReadRegionCaptureFormSource();
+            var keyDownBody = ExtractMethodBody(source, "internal void RegionCaptureForm_KeyDown");
+
+            var gateIndex = keyDownBody.IndexOf("bool isTianruoShortcut = imageGet && IsTianruoShortcut(e.KeyData);", StringComparison.Ordinal);
+            var interceptIndex = keyDownBody.IndexOf("HandleAnnotationSpace();", StringComparison.Ordinal);
+            var upstreamSwitchIndex = keyDownBody.IndexOf("switch (e.KeyData)", StringComparison.Ordinal);
+
+            Assert.That(gateIndex, Is.GreaterThanOrEqualTo(0), "天若门控判据行应存在于 KeyDown 中。");
+            Assert.That(upstreamSwitchIndex, Is.GreaterThanOrEqualTo(0), "上游通用 switch 应存在于 KeyDown 中。");
+            Assert.That(interceptIndex, Is.GreaterThanOrEqualTo(0), "缺少标注窗口 Space 拦截调用 HandleAnnotationSpace()。");
+            Assert.That(interceptIndex, Is.GreaterThan(gateIndex), "Space 拦截应位于天若门控之后。");
+            Assert.That(interceptIndex, Is.LessThan(upstreamSwitchIndex), "Space 拦截应位于上游通用 switch 之前。");
+        }
+
+        /// <summary>
+        /// 验证标注窗口 Space 拦截调用以 IsAnnotationMode 为生效判据且携带 Keys.Space 判据，
+        /// 不使用 IsEditorMode（Annotation 模式下恒为 false 的术语盲区）。
+        /// </summary>
+        [Test]
+        public void RegionCaptureFormKeyDown_AnnotationSpaceIntercept_GatedByIsAnnotationModeNotIsEditorMode()
+        {
+            var source = ReadRegionCaptureFormSource();
+            var interceptLine = ExtractLineContaining(source, "HandleAnnotationSpace();");
+
+            Assert.That(interceptLine, Does.Contain("IsAnnotationMode"), "拦截调用应以 IsAnnotationMode 为生效判据。");
+            Assert.That(interceptLine, Does.Contain("Keys.Space"), "拦截调用应针对 Space 键。");
+            Assert.That(interceptLine, Does.Not.Contain("IsEditorMode"), "不得以 IsEditorMode 作为判据（Annotation 下恒为 false）。");
+        }
+
+        /// <summary>
+        /// 验证 HandleAnnotationSpace 的形状无效/非框选工具路径为吞键 no-op：
+        /// 方法体内只允许有效路径唯一一次 CloseWindow(RegionResult.Region)，
+        /// 无效路径不产生任何关窗调用（绝不回退全屏行为）。
+        /// </summary>
+        [Test]
+        public void HandleAnnotationSpace_InvalidShapePath_DoesNotCallCloseWindow()
+        {
+            var source = ReadRegionCaptureFormSource();
+            var methodBody = ExtractMethodBody(source, "private void HandleAnnotationSpace");
+
+            Assert.That(methodBody, Does.Contain("CloseWindow(RegionResult.Region)"));
+            Assert.That(
+                Regex.Matches(methodBody, "CloseWindow").Count,
+                Is.EqualTo(1),
+                "形状无效路径不得产生任何 CloseWindow 调用（方法体内只允许有效路径的一次 Region 关窗）。");
+        }
+
+        /// <summary>
+        /// 围栏契约：上游通用 switch 中 Space→CloseWindow(RegionResult.Fullscreen) 的 case 原样保留，
+        /// 且标注窗口拦截位于其之前，使上游全屏行为对 Annotation 窗口不可达（普通截图仍由天若层先行拦截）。
+        /// </summary>
+        [Test]
+        public void RegionCaptureFormKeyDown_UpstreamSpaceFullscreenCase_PreservedBehindAnnotationIntercept()
+        {
+            var source = ReadRegionCaptureFormSource();
+            var keyDownBody = ExtractMethodBody(source, "internal void RegionCaptureForm_KeyDown");
+
+            var spaceCaseIndex = keyDownBody.IndexOf("case Keys.Space:", StringComparison.Ordinal);
+            Assert.That(spaceCaseIndex, Is.GreaterThanOrEqualTo(0), "上游 switch 中的 case Keys.Space: 应原样保留。");
+
+            var fullscreenCallIndex = keyDownBody.IndexOf("CloseWindow(RegionResult.Fullscreen)", spaceCaseIndex, StringComparison.Ordinal);
+            Assert.That(fullscreenCallIndex, Is.GreaterThan(spaceCaseIndex), "case Keys.Space: 分支应保留 CloseWindow(RegionResult.Fullscreen)。");
+
+            var interceptIndex = keyDownBody.IndexOf("HandleAnnotationSpace();", StringComparison.Ordinal);
+            Assert.That(interceptIndex, Is.GreaterThanOrEqualTo(0), "缺少标注窗口 Space 拦截调用 HandleAnnotationSpace()。");
+            Assert.That(interceptIndex, Is.LessThan(spaceCaseIndex), "标注窗口拦截应先于上游 Space case，使全屏行为对 Annotation 窗口不可达。");
+        }
+
+        private static string ExtractLineContaining(string source, string token)
+        {
+            var line = source
+                .Split('\n')
+                .FirstOrDefault(candidate => candidate.Contains(token));
+
+            if (line == null)
+                Assert.Fail("Line containing token not found: " + token);
+
+            return line;
+        }
+
         private static string ReadRepositoryText(params string[] relativeParts)
         {
             var parts = new string[relativeParts.Length + 1];
             parts[0] = FindRepositoryRoot();
             Array.Copy(relativeParts, 0, parts, 1, relativeParts.Length);
             return File.ReadAllText(Path.Combine(parts));
+        }
+
+        private static string ReadRegionCaptureFormSource()
+        {
+            return ReadRepositoryText("external", "ShareX", "ShareX.ScreenCaptureLib", "Forms", "RegionCaptureForm.cs");
         }
 
         private static string ToRepositoryRelativePath(string root, string path)
